@@ -141,13 +141,13 @@ Wiki citations + OHLCV-derived facts (e.g., volume comparison) compose 9-section
 
 ## Implementation Phases
 
-| # | Phase | Milestone | Description | Status |
-|---|-------|-----------|-------------|--------|
-| 1 | Market data MCP | M4 | OHLCV server with Binance public API | pending |
-| 2 | Chart renderer MCP | M4 | OHLCV → PNG via `mplfinance` | pending (depends on #1) |
-| 3 | Spread chart MCP | M4 | Ratio OHLCV + spread chart render | pending (depends on #1; parallel with #2) |
-| 4 | Skill integration | M4 | Update SKILL.md + agents/openai.yaml to use MCP | pending (depends on #1, #2, #3) |
-| 5 | E2E validation Phase B | M4 (or #13 Phase B) | 3 MCP-driven prompts validated | pending (depends on #4) |
+| # | Phase | Milestone | Description | Status | Plan |
+|---|-------|-----------|-------------|--------|------|
+| 1 | Market data MCP | M4 | OHLCV server with Binance public API | in-progress | [PRPs/plans/market-data-mcp-ohlcv.plan.md](../../../PRPs/plans/market-data-mcp-ohlcv.plan.md) |
+| 2 | Chart renderer MCP | M4 | OHLCV → PNG via `mplfinance` | pending (depends on #1) | |
+| 3 | Spread chart MCP | M4 | Ratio OHLCV + spread chart render | pending (depends on #1; parallel with #2) | |
+| 4 | Skill integration | M4 | Update SKILL.md + agents/openai.yaml to use MCP | pending (depends on #1, #2, #3) | |
+| 5 | E2E validation Phase B | M4 (or #13 Phase B) | 3 MCP-driven prompts validated | pending (depends on #4) | |
 
 ### Phase Details
 
