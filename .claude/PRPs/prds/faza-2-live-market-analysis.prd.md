@@ -143,7 +143,7 @@ Wiki citations + OHLCV-derived facts (e.g., volume comparison) compose 9-section
 
 | # | Phase | Milestone | Description | Status | Plan |
 |---|-------|-----------|-------------|--------|------|
-| 1 | Market data MCP | M4 | OHLCV server with Binance public API | in-progress | [PRPs/plans/market-data-mcp-ohlcv.plan.md](../../../PRPs/plans/market-data-mcp-ohlcv.plan.md) |
+| 1 | Market data MCP | M4 | OHLCV server with Binance public API | complete | [PRPs/plans/completed/market-data-mcp-ohlcv.plan.md](../../../PRPs/plans/completed/market-data-mcp-ohlcv.plan.md) |
 | 2 | Chart renderer MCP | M4 | OHLCV → PNG via `mplfinance` | pending (depends on #1) | |
 | 3 | Spread chart MCP | M4 | Ratio OHLCV + spread chart render | pending (depends on #1; parallel with #2) | |
 | 4 | Skill integration | M4 | Update SKILL.md + agents/openai.yaml to use MCP | pending (depends on #1, #2, #3) | |
