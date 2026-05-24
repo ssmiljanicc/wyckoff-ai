@@ -1,0 +1,298 @@
+# CLAUDE.md — Wyckoff AI Wiki Schema
+
+This file is the domain schema for the llm-wiki knowledge base at `knowledge/wiki/`. It tells any LLM (Claude, Codex, others) maintaining the wiki **how to behave as a disciplined Wyckoff wiki maintainer** — folder layout, vocabulary, provenance rules, and ingest priorities.
+
+Generic wiki mechanics (init, ingest, query, lint, image ingest) live in the universal llm-wiki runbook at `~/.agent-runbooks/llm-wiki.md`. This file does NOT duplicate those — it only encodes Wyckoff-specific decisions on top of the runbook.
+
+**When in doubt:** read the runbook for *how to operate*, read this file for *what counts as right for Wyckoff*.
+
+---
+
+## 1. Three-Layer Architecture (Wyckoff instantiation)
+
+```
+Raw Sources          ← raw/ (book pages, Fraser articles+images, crypto archive posts+images)
+     ↓
+The Wiki             ← knowledge/wiki/ (LLM-maintained markdown — this is where ingest writes)
+     ↓
+Schema (this file)   ← CLAUDE.md (domain conventions, vocabulary, priorities)
+```
+
+**Raw sources are immutable.** Once `raw/bruce_fraser/`, `raw/crypto_archive/`, and `raw/book/` are populated by issues [#2](https://github.com/ssmiljanicc/wyckoff-ai/issues/2), [#3](https://github.com/ssmiljanicc/wyckoff-ai/issues/3), [#4](https://github.com/ssmiljanicc/wyckoff-ai/issues/4), and image captions are added by [#5](https://github.com/ssmiljanicc/wyckoff-ai/issues/5), the LLM never modifies them.
+
+**The wiki compounds.** Every ingest, query answer, and reusable scenario can become a wiki page that future passes link to.
+
+---
+
+## 2. Wiki folder layout (Wyckoff-specific — overrides runbook default)
+
+```
+knowledge/wiki/
+  README.md         ← project-specific wiki rules (short)
+  index.md          ← navigation: every page listed under its folder
+  log.md            ← chronological append-only operations log
+
+  concepts/         ← Wyckoff laws, principles, methodology, phase semantics
+  events/           ← named events (PS, SC, AR, ST, spring, upthrust, SOS, SOW, JAC, BUEC, FTI, LPS, LPSY...)
+  structures/       ← full structure templates (accumulation, distribution, re-accumulation, redistribution) and schematics
+  crypto/           ← crypto-specific adaptations (rotation, intermarket, BTC roles, spread charts, low-liquidity behavior)
+  scenarios/        ← scenario templates, playbook entries, output contracts
+  sources/          ← one page per source: book chapter, Fraser article, crypto archive volume
+  questions/        ← filed query answers — the compounding layer (created during query operations)
+  health/           ← lint reports (created during lint operations)
+```
+
+**Do not create new top-level folders without updating this schema first.** If a concept doesn't fit, file it under the closest folder and flag the question in `log.md`.
+
+---
+
+## 3. Required pages (domain vocabulary)
+
+These pages **must exist** in the finished wiki. Treat their absence as a lint failure. Each must cite at least one raw source.
+
+### concepts/ (laws and methodology)
+
+- `concepts/three-laws.md` (supply-demand, cause-effect, effort-result — plus links to each)
+- `concepts/supply-and-demand.md`
+- `concepts/cause-and-effect.md`
+- `concepts/effort-and-result.md`
+- `concepts/market-cycle.md` (accumulation → markup → distribution → markdown)
+- `concepts/buying-selling-neutral-position.md`
+- `concepts/waves-and-fractals.md`
+- `concepts/trend-assessment.md` (speed, projection, depth, channels)
+- `concepts/significant-bar.md`
+- `concepts/reversal-of-movement.md`
+- `concepts/action-test-confirmation.md`
+- `concepts/labeling-is-last-step.md`
+- `concepts/random-vs-purposeful-range.md`
+- `concepts/path-of-least-resistance.md`
+- `concepts/principle-in-the-principle.md`
+- `concepts/phase-a.md`, `concepts/phase-b.md`, `concepts/phase-c.md`, `concepts/phase-d.md`, `concepts/phase-e.md`
+- `concepts/three-stages-of-uptrend.md` (value/absorption/speculation)
+- `concepts/stride-of-trend.md`
+- `concepts/creek-and-ice.md`
+- `concepts/point-and-figure-counting.md`
+
+### events/ (named events — each on own page)
+
+Stop events (Phase A):
+- `events/preliminary-support.md` (PS / PSY)
+- `events/selling-climax.md` (SC) and `events/buying-climax.md` (BC)
+- `events/automatic-rally.md` (AR) and `events/automatic-reaction.md`
+- `events/secondary-test.md` (ST)
+- `events/st-as-msos.md` and `events/st-as-msow.md`
+
+Test events (Phase C):
+- `events/spring.md`
+- `events/upthrust-after-distribution.md` (UTAD)
+- `events/upthrust.md` (UT)
+- `events/no-shake-phase-c.md`
+
+Trend events (Phase D / E):
+- `events/sign-of-strength.md` (SOS)
+- `events/sign-of-weakness.md` (SOW)
+- `events/jump-across-the-creek.md` (JAC)
+- `events/back-up-to-the-edge-of-the-creek.md` (BUEC)
+- `events/fall-through-the-ice.md` (FTI)
+- `events/last-point-of-support.md` (LPS)
+- `events/last-point-of-supply.md` (LPSY)
+- `events/failed-signal.md` (covers failed spring, failed upthrust, failed short trigger)
+
+Modifiers / archive-specific:
+- `events/feather.md` (Fraser/archive-specific)
+- `events/hinge.md`
+- `events/flat-reaction.md`
+
+### structures/
+
+- `structures/accumulation.md` (schematic 1, schematic 2 — link from here)
+- `structures/distribution.md` (schematic 1, schematic 2)
+- `structures/reaccumulation.md`
+- `structures/redistribution.md`
+- `structures/trading-range.md` (general — boundaries, time, midpoint)
+
+### crypto/
+
+- `crypto/intermarket-gate.md` (S&P / Nasdaq dependency)
+- `crypto/bitcoin-leader-vs-funding-source.md`
+- `crypto/rotation-hierarchy.md` (BTC → large caps → mid → low → themes)
+- `crypto/spread-charts.md` (ETHBTC, LINKBTC — detection only, execute on USD/perp)
+- `crypto/comparative-strength.md` (in-gear ranking)
+- `crypto/low-liquidity-tolerance.md`
+- `crypto/bitcoin-as-source-of-funding.md`
+- `crypto/risk-off-refuge-hierarchy.md` (Tether → BTC → alts ordering)
+- `crypto/three-stages-of-uptrend-in-crypto.md`
+- `crypto/halving-and-catalysts.md`
+- `crypto/thematic-indexes.md` (DeFi, exchange tokens, etc.)
+- `crypto/historical-analogs.md` (1987, 1998, 2017 China ban, etc.)
+
+### scenarios/
+
+- `scenarios/playbook-master.md` (top-level scenario tree)
+- `scenarios/output-contract.md` (what an analysis answer looks like — to be aligned with PRD-02)
+- `scenarios/accumulation-phase-c-entry.md`
+- `scenarios/distribution-phase-c-entry.md`
+- `scenarios/phase-d-breakout-test.md`
+- `scenarios/no-shake-foothold.md`
+- `scenarios/crypto-rotation-watch.md`
+
+### sources/
+
+One per logical source unit:
+- `sources/book/` — one page per chapter (~27 entries expected)
+- `sources/crypto_archive/` — one page per volume (46 entries, ~12 marked WIKI_GAP for paywall)
+- `sources/bruce_fraser/` — grouped by theme (not 243 separate pages — group similar articles, ~30–50 pages total)
+
+---
+
+## 4. Ingest priority order
+
+When ingesting raw sources into the wiki, follow this priority unless a specific batch is requested:
+
+1. **Book** (`raw/book/`) — defines vocabulary and structure for everything else. Batch by chapter range:
+   - Chapters 1–13 (core framework)
+   - Chapters 14–25 (events, phases)
+   - Chapters 26–27 (trade execution, P&F)
+2. **Crypto Archive** (`raw/crypto_archive/`) — applies the framework to crypto. Batch by date range:
+   - Vol 14–28 (2020: post-crash repair, margin behavior)
+   - Vol 29–59 (2020–2021: DeFi, rotation, terminal Bitcoin)
+3. **Bruce Fraser** (`raw/bruce_fraser/`) — context, P&F, and relative strength. Batch by theme:
+   - Context and phase reading (~40 articles)
+   - Point & Figure (~30 articles)
+   - Relative strength and campaign logic (~40 articles)
+   - Remaining (~130 articles)
+
+Rationale: the book is the canonical taxonomy. Ingesting it first means crypto and Fraser pages can link back to existing concept pages instead of redefining terms.
+
+---
+
+## 5. Provenance conventions
+
+**Every substantive claim in a wiki page must cite a raw source** in the page's frontmatter `sources:` field. The format:
+
+```yaml
+---
+title: "Spring"
+type: event
+status: active
+updated: 2026-05-24
+sources:
+  - path: raw/book/pages/page_142.md
+    note: "primary definition"
+  - path: raw/book/pages/page_143.md
+    note: "test sequence after spring"
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-27.md
+    note: "crypto-specific example: BTC March 2020 spring"
+---
+```
+
+**Within page body**, cite inline using markdown links for high-density claims:
+
+```md
+A spring is a downside shake that probes below trading-range support
+([book p.142](../../raw/book/pages/page_142.md)) and is followed by a
+test that prints lower volume than the spring itself.
+```
+
+**Synthesis claims** (cross-source generalizations not stated verbatim in any one source) must be marked:
+
+```md
+> **Synthesis:** Across the book chapter on Phase C and crypto archive
+> vol 27, springs in low-liquidity assets often print climactic tails
+> that the book does not emphasize.
+> Sources: [[book chapter 17]], [[crypto vol 27]], [[crypto vol 28]]
+```
+
+**Wiki-internal links** use Obsidian-style `[[event name]]` for backlinks between pages (the LLM and human reader both benefit).
+
+---
+
+## 6. Image alt-text convention
+
+When [#5](https://github.com/ssmiljanicc/wyckoff-ai/issues/5) (Vision caption pass) writes alt text into raw source `.md` files, the format is:
+
+```md
+![Accumulation schematic showing SC, AR, and spring at support](images/page_047_fig_1.png)
+```
+
+When ingesting into the wiki:
+- Copy the alt text verbatim into the wiki page's image reference
+- If the source image is reused across multiple wiki pages, the alt text is the same
+- If an image has no alt text yet (caption pass not run), add `<!-- TODO: Vision caption -->` next to the reference and log it in the wiki page's `## Open Questions` section
+
+---
+
+## 7. WIKI_GAP marker
+
+When ingest cannot complete a page because of a missing source (paywalled crypto post, missing book figure, unclear concept), insert `WIKI_GAP` markers:
+
+```md
+## Spring in Low-Liquidity Markets
+
+WIKI_GAP — `raw/crypto_archive/posts/wyckoff-crypto-report-vol-52.md` is
+paywalled (`status: paywalled` in manifest). Only the introductory
+sentence was scraped; the spring example referenced in the public excerpt
+cannot be verified.
+
+The book covers springs in general ([book ch.17](../../raw/book/sources/book-ch17.md))
+but does not specifically address low-liquidity tails.
+```
+
+The lint pass (operation: `lint`) reports all `WIKI_GAP` markers in `health/`.
+
+**Do not silently leave a section incomplete.** If you can't fill it, mark it.
+
+---
+
+## 8. Cross-reference conventions (what links to what)
+
+A well-formed event page (e.g. `events/spring.md`) should link:
+
+- **Up:** to the containing structure (`structures/accumulation.md`) and phase (`concepts/phase-c.md`)
+- **Sideways:** to related events (`events/upthrust.md` as the bearish counterpart, `events/secondary-test.md` for the test sequence)
+- **Down:** to scenarios that hinge on it (`scenarios/accumulation-phase-c-entry.md`)
+- **Crypto application:** if relevant, to a `crypto/` page (`crypto/low-liquidity-tolerance.md`)
+- **Provenance:** to the raw source pages cited
+
+A page with zero outbound links is suspicious — flag in lint.
+
+---
+
+## 9. Style and tone
+
+- **Precise, not flowery.** Wyckoff vocabulary is technical; prefer the specific term over a metaphor.
+- **Comparative, not absolute.** "Faster than the prior impulse" beats "fast." This is core Wyckoff methodology.
+- **Distinguish source-stated from synthesis.** Mark synthesis explicitly per §5.
+- **Avoid premature labels.** Per concept `labeling-is-last-step` — read price/volume first, label second.
+- **No trade calls.** The wiki is knowledge, not a signal feed. Scenarios describe what *would* count as evidence; they don't say "buy here."
+
+---
+
+## 10. Out of scope for the wiki
+
+Things the wiki does **not** contain:
+
+- **Live market data** — that lives in MCP servers ([#9](https://github.com/ssmiljanicc/wyckoff-ai/issues/9)–[#12](https://github.com/ssmiljanicc/wyckoff-ai/issues/12))
+- **The skill itself** — `skills/wyckoff-trader-skill/SKILL.md` is the runtime contract; the wiki is its knowledge base
+- **Project planning** — that lives in `prds/` and GitHub issues
+- **Trading rules** — the wiki describes Wyckoff phenomenology; it doesn't prescribe trades
+
+If you find yourself writing something in one of these categories, file it in the right place (memory, an issue, the skill, the PRD).
+
+---
+
+## 11. Quick reference
+
+| Want to... | Go to |
+|---|---|
+| Understand how ingest works | `~/.agent-runbooks/llm-wiki.md` |
+| Add a new source to the wiki | runbook §"Operation: Ingest" + this file §4 |
+| Decide where a new page goes | this file §2 + §3 |
+| Cite a source correctly | this file §5 |
+| Mark a missing or paywalled source | this file §7 |
+| Verify the wiki is healthy | runbook §"Operation: Lint" + this file §3 (required pages list) |
+
+---
+
+**Schema version:** 1.0 (2026-05-24, created with [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
+**Next revision trigger:** PRD-02 (trading use) lands — may add/refine `scenarios/` and `crypto/` structure based on real query patterns.
