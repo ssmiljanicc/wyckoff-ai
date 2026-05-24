@@ -158,6 +158,7 @@ venv/
 # Raw data — large/commercial sources never committed
 raw/book/*.pdf
 raw/book/*.PDF
+raw/bruce_fraser/images/
 
 # OS
 .DS_Store
