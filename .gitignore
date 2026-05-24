@@ -141,3 +141,27 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# --- Python / wyckoff-ai ---
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.uv/
+*.egg-info/
+
+# uv lockfile is committed (uv.lock)
+
+# Raw data — large/commercial sources never committed
+raw/book/*.pdf
+raw/book/*.PDF
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+*.swp
