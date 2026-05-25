@@ -1,10 +1,73 @@
-# CLAUDE.md — Wyckoff AI Wiki Schema
+# CLAUDE.md — Wyckoff AI Project Instructions and Wiki Schema
 
-This file is the domain schema for the llm-wiki knowledge base at `knowledge/wiki/`. It tells any LLM (Claude, Codex, others) maintaining the wiki **how to behave as a disciplined Wyckoff wiki maintainer** — folder layout, vocabulary, provenance rules, and ingest priorities.
+This file is **two things in one**:
+
+1. **Project-level instructions** for Claude and other LLM agents working on this repo (communication style, language, review process — see §0 below)
+2. **Domain schema** for the llm-wiki knowledge base at `knowledge/wiki/` (folder layout, vocabulary, provenance rules — see §1 onward)
 
 Generic wiki mechanics (init, ingest, query, lint, image ingest) live in the universal llm-wiki runbook at `~/.agent-runbooks/llm-wiki.md`. This file does NOT duplicate those — it only encodes Wyckoff-specific decisions on top of the runbook.
 
 **When in doubt:** read the runbook for *how to operate*, read this file for *what counts as right for Wyckoff*.
+
+---
+
+## 0. Project communication and process rules
+
+### 0.1 Default language: Serbian
+
+Sve odgovore korisniku, svi commit komentari koji se obraćaju ljudskom čitaocu, svi GitHub issue body-jevi i komentari, svi PRD-ovi i planski dokumenti se pišu na **srpskom jeziku** kao default.
+
+**Kada se koristi engleski (izuzeci):**
+- Tehnički termini bez prirodnog srpskog ekvivalenta (npr. `OHLCV`, `regression`, `embedding`)
+- Imena fajlova, putanja, koda, varijabli, ID-eva
+- Originalni naslovi izvora (knjige, članka)
+- Kratke citacije iz koda ili dokumentacije
+- Strukturirani identifikatori (issue brojevi, milestone imena tipa `M5: Trading Simulation MCP` — ovi se zadržavaju jer su key-evi u GitHub API-ju)
+
+**Pravilo za engleske termine u srpskom tekstu:**
+
+Kada se pojavi engleski tehnički termin prvi put u dokumentu/odgovoru, **napiši ga u zagradi sa srpskim prevodom i kratkim objašnjenjem**. Primer:
+
+> "Koristićemo **embedding** (utiskivanje — vektorska predstava objekta u prostoru velike dimenzije) za similarity search."
+
+Ne moraš opet objašnjavati taj termin u istom dokumentu jednom kad je uveden. Ali u novom dokumentu/sesiji, ponovi objašnjenje.
+
+**Šta se zadržava na engleskom uvek:**
+- Kod, file paths, configuration syntax
+- Wiki content (`knowledge/wiki/`) — pošto su izvori (knjiga, Fraser, crypto arhiva) na engleskom, wiki ostaje na engleskom radi provenance konzistentnosti
+- Pull request titles i body-jevi koji se čitaju od upstream maintainer-a (`naiemk/wyckoff-ai`)
+- Skill-specific output contract (SKILL.md output strukture)
+
+### 0.2 Code review pre merge-a
+
+Pre nego što se PR merge-uje u main, sledeća disciplina je obavezna:
+
+| PR scope | Review obavezan |
+|---|---|
+| Sirovi data scripts (extract, scrape, download) | Lagani — pregled koda + validacionih komandi |
+| MCP serveri | Lagani — pregled tool definicija + testova |
+| Skill (`SKILL.md`, wiki ingest output, agent runtime logic) | Duboki — `prp-review-agents` ili manuelni multi-aspect pregled |
+| Schema (`/CLAUDE.md`, `/CLAUDE.md` §3) | Duboki — diskusija sa user-om |
+| Edukativni dokumenti, PRD-ovi | Pregled jezika i strukture (po default-u srpski sa engleskim terminima) |
+
+**Anti-pattern:** merge bez review-a jer se "deluje OK po opisu". Bar jedan sanity-check (pročitaj script body, proveri test rezultat) je obavezan.
+
+### 0.3 GitHub issue convention
+
+- **Naslov:** engleski (radi git/search kompatibilnosti i konzistentnosti)
+- **Body:** srpski (per §0.1)
+- **Labele:** uvek `phase:1/2/3`, `model:opus/sonnet`, plus content tipa (`skill`, `data`, `infrastructure`, `wiki`, `idea`)
+- **Milestone:** uvek prikačen (M1–M6)
+
+Kada se issue zatvara komentarom, srpski.
+
+### 0.4 Kild i model selection
+
+- **Kild + Codex YOLO:** za mehaničke skripte, MCP servere, scraping, ekstrakciju, ML feature engineering. Pattern već dokumentovan.
+- **Claude Opus sesija (interaktivna):** za #7 wiki ingest, #8 SKILL.md rebuild, sva work koja zahteva domain nuance i syntheses preko izvora.
+- **Claude Sonnet kild:** opciono za prelaz između (npr. validation skripti koje treba malu Wyckoff svesnost ali ne dubok rasudak)
+
+Vidi `model:opus` / `model:sonnet` labelu na svakom issue-u.
 
 ---
 
