@@ -1,0 +1,1787 @@
+[
+  {
+    "image_path": "raw/book/images/page_001_fig_1.png",
+    "page_number": 1,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 983999,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_009_fig_1.png",
+    "page_number": 9,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 183.0,
+      "left": 222.75,
+      "right": 389.25,
+      "bottom": 404.25
+    },
+    "format": "png",
+    "size_bytes": 295776,
+    "width_px": 334,
+    "height_px": 443
+  },
+  {
+    "image_path": "raw/book/images/page_011_fig_1.png",
+    "page_number": 11,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 18044,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_012_fig_1.png",
+    "page_number": 12,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 527.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 701.25
+    },
+    "format": "png",
+    "size_bytes": 127281,
+    "width_px": 594,
+    "height_px": 349
+  },
+  {
+    "image_path": "raw/book/images/page_014_fig_1.png",
+    "page_number": 14,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 396.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 543.75
+    },
+    "format": "png",
+    "size_bytes": 109126,
+    "width_px": 594,
+    "height_px": 296
+  },
+  {
+    "image_path": "raw/book/images/page_017_fig_1.png",
+    "page_number": 17,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 351.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 521.25
+    },
+    "format": "png",
+    "size_bytes": 109543,
+    "width_px": 594,
+    "height_px": 340
+  },
+  {
+    "image_path": "raw/book/images/page_019_fig_1.png",
+    "page_number": 19,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 246.0
+    },
+    "format": "png",
+    "size_bytes": 124244,
+    "width_px": 594,
+    "height_px": 348
+  },
+  {
+    "image_path": "raw/book/images/page_021_fig_1.png",
+    "page_number": 21,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 201.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 345.75
+    },
+    "format": "png",
+    "size_bytes": 95519,
+    "width_px": 594,
+    "height_px": 290
+  },
+  {
+    "image_path": "raw/book/images/page_022_fig_1.png",
+    "page_number": 22,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 297.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 435.75
+    },
+    "format": "png",
+    "size_bytes": 79009,
+    "width_px": 594,
+    "height_px": 278
+  },
+  {
+    "image_path": "raw/book/images/page_023_fig_1.png",
+    "page_number": 23,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 398.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 542.25
+    },
+    "format": "png",
+    "size_bytes": 90055,
+    "width_px": 594,
+    "height_px": 289
+  },
+  {
+    "image_path": "raw/book/images/page_025_fig_1.png",
+    "page_number": 25,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 403.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 578.25
+    },
+    "format": "png",
+    "size_bytes": 87818,
+    "width_px": 594,
+    "height_px": 350
+  },
+  {
+    "image_path": "raw/book/images/page_026_fig_1.png",
+    "page_number": 26,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 201.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 340.5
+    },
+    "format": "png",
+    "size_bytes": 81932,
+    "width_px": 594,
+    "height_px": 279
+  },
+  {
+    "image_path": "raw/book/images/page_027_fig_1.png",
+    "page_number": 27,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 159.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 312.75
+    },
+    "format": "png",
+    "size_bytes": 74128,
+    "width_px": 594,
+    "height_px": 307
+  },
+  {
+    "image_path": "raw/book/images/page_028_fig_1.png",
+    "page_number": 28,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 191.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 348.75
+    },
+    "format": "png",
+    "size_bytes": 125381,
+    "width_px": 594,
+    "height_px": 316
+  },
+  {
+    "image_path": "raw/book/images/page_029_fig_1.png",
+    "page_number": 29,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 561.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 714.0
+    },
+    "format": "png",
+    "size_bytes": 94208,
+    "width_px": 594,
+    "height_px": 306
+  },
+  {
+    "image_path": "raw/book/images/page_031_fig_1.png",
+    "page_number": 31,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 309.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 460.5
+    },
+    "format": "png",
+    "size_bytes": 92564,
+    "width_px": 594,
+    "height_px": 302
+  },
+  {
+    "image_path": "raw/book/images/page_032_fig_1.png",
+    "page_number": 32,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 15786,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_033_fig_1.png",
+    "page_number": 33,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 246.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 421.5
+    },
+    "format": "png",
+    "size_bytes": 113760,
+    "width_px": 594,
+    "height_px": 351
+  },
+  {
+    "image_path": "raw/book/images/page_038_fig_1.png",
+    "page_number": 38,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 132.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 350.25
+    },
+    "format": "png",
+    "size_bytes": 161941,
+    "width_px": 594,
+    "height_px": 437
+  },
+  {
+    "image_path": "raw/book/images/page_040_fig_1.png",
+    "page_number": 40,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 417.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 622.5
+    },
+    "format": "png",
+    "size_bytes": 159043,
+    "width_px": 594,
+    "height_px": 411
+  },
+  {
+    "image_path": "raw/book/images/page_042_fig_1.png",
+    "page_number": 42,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 228.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 450.0
+    },
+    "format": "png",
+    "size_bytes": 174141,
+    "width_px": 594,
+    "height_px": 444
+  },
+  {
+    "image_path": "raw/book/images/page_044_fig_1.png",
+    "page_number": 44,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 298.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 514.5
+    },
+    "format": "png",
+    "size_bytes": 164467,
+    "width_px": 594,
+    "height_px": 432
+  },
+  {
+    "image_path": "raw/book/images/page_046_fig_1.png",
+    "page_number": 46,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 20497,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_048_fig_1.png",
+    "page_number": 48,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 328.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 624.0
+    },
+    "format": "png",
+    "size_bytes": 190390,
+    "width_px": 594,
+    "height_px": 591
+  },
+  {
+    "image_path": "raw/book/images/page_051_fig_1.png",
+    "page_number": 51,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 343.5
+    },
+    "format": "png",
+    "size_bytes": 189861,
+    "width_px": 594,
+    "height_px": 543
+  },
+  {
+    "image_path": "raw/book/images/page_052_fig_1.png",
+    "page_number": 52,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 103.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 479.25
+    },
+    "format": "png",
+    "size_bytes": 246562,
+    "width_px": 594,
+    "height_px": 752
+  },
+  {
+    "image_path": "raw/book/images/page_053_fig_1.png",
+    "page_number": 53,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 297.0,
+      "left": 182.25,
+      "right": 429.75,
+      "bottom": 491.25
+    },
+    "format": "png",
+    "size_bytes": 44186,
+    "width_px": 496,
+    "height_px": 389
+  },
+  {
+    "image_path": "raw/book/images/page_054_fig_1.png",
+    "page_number": 54,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 392.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 532.5
+    },
+    "format": "png",
+    "size_bytes": 95867,
+    "width_px": 594,
+    "height_px": 281
+  },
+  {
+    "image_path": "raw/book/images/page_057_fig_1.png",
+    "page_number": 57,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 309.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 592.5
+    },
+    "format": "png",
+    "size_bytes": 391817,
+    "width_px": 594,
+    "height_px": 566
+  },
+  {
+    "image_path": "raw/book/images/page_059_fig_1.png",
+    "page_number": 59,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 457.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 597.75
+    },
+    "format": "png",
+    "size_bytes": 69236,
+    "width_px": 594,
+    "height_px": 281
+  },
+  {
+    "image_path": "raw/book/images/page_063_fig_1.png",
+    "page_number": 63,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 278.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 436.5
+    },
+    "format": "png",
+    "size_bytes": 186255,
+    "width_px": 594,
+    "height_px": 317
+  },
+  {
+    "image_path": "raw/book/images/page_064_fig_1.png",
+    "page_number": 64,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 428.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 684.0
+    },
+    "format": "png",
+    "size_bytes": 80157,
+    "width_px": 594,
+    "height_px": 512
+  },
+  {
+    "image_path": "raw/book/images/page_065_fig_1.png",
+    "page_number": 65,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 336.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 546.75
+    },
+    "format": "png",
+    "size_bytes": 94904,
+    "width_px": 594,
+    "height_px": 422
+  },
+  {
+    "image_path": "raw/book/images/page_066_fig_1.png",
+    "page_number": 66,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 301.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 485.25
+    },
+    "format": "png",
+    "size_bytes": 115463,
+    "width_px": 594,
+    "height_px": 368
+  },
+  {
+    "image_path": "raw/book/images/page_067_fig_1.png",
+    "page_number": 67,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 122.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 312.75
+    },
+    "format": "png",
+    "size_bytes": 162760,
+    "width_px": 594,
+    "height_px": 382
+  },
+  {
+    "image_path": "raw/book/images/page_068_fig_1.png",
+    "page_number": 68,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 455.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 633.0
+    },
+    "format": "png",
+    "size_bytes": 107832,
+    "width_px": 594,
+    "height_px": 356
+  },
+  {
+    "image_path": "raw/book/images/page_072_fig_1.png",
+    "page_number": 72,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 195.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 396.75
+    },
+    "format": "png",
+    "size_bytes": 172621,
+    "width_px": 594,
+    "height_px": 403
+  },
+  {
+    "image_path": "raw/book/images/page_077_fig_1.png",
+    "page_number": 77,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 195.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 400.5
+    },
+    "format": "png",
+    "size_bytes": 167752,
+    "width_px": 594,
+    "height_px": 410
+  },
+  {
+    "image_path": "raw/book/images/page_080_fig_1.png",
+    "page_number": 80,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 195.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 400.5
+    },
+    "format": "png",
+    "size_bytes": 176311,
+    "width_px": 594,
+    "height_px": 410
+  },
+  {
+    "image_path": "raw/book/images/page_085_fig_1.png",
+    "page_number": 85,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 18841,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_086_fig_1.png",
+    "page_number": 86,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 195.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 392.25
+    },
+    "format": "png",
+    "size_bytes": 193897,
+    "width_px": 594,
+    "height_px": 394
+  },
+  {
+    "image_path": "raw/book/images/page_094_fig_1.png",
+    "page_number": 94,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 288.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 489.75
+    },
+    "format": "png",
+    "size_bytes": 80817,
+    "width_px": 594,
+    "height_px": 403
+  },
+  {
+    "image_path": "raw/book/images/page_095_fig_1.png",
+    "page_number": 95,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 278.25
+    },
+    "format": "png",
+    "size_bytes": 82853,
+    "width_px": 594,
+    "height_px": 413
+  },
+  {
+    "image_path": "raw/book/images/page_098_fig_1.png",
+    "page_number": 98,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 420.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 618.0
+    },
+    "format": "png",
+    "size_bytes": 143492,
+    "width_px": 594,
+    "height_px": 395
+  },
+  {
+    "image_path": "raw/book/images/page_100_fig_1.png",
+    "page_number": 100,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 297.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 482.25
+    },
+    "format": "png",
+    "size_bytes": 86931,
+    "width_px": 594,
+    "height_px": 371
+  },
+  {
+    "image_path": "raw/book/images/page_106_fig_1.png",
+    "page_number": 106,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 353.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 567.0
+    },
+    "format": "png",
+    "size_bytes": 173234,
+    "width_px": 594,
+    "height_px": 428
+  },
+  {
+    "image_path": "raw/book/images/page_108_fig_1.png",
+    "page_number": 108,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 272.25
+    },
+    "format": "png",
+    "size_bytes": 148053,
+    "width_px": 594,
+    "height_px": 401
+  },
+  {
+    "image_path": "raw/book/images/page_109_fig_1.png",
+    "page_number": 109,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 297.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 497.25
+    },
+    "format": "png",
+    "size_bytes": 157931,
+    "width_px": 594,
+    "height_px": 401
+  },
+  {
+    "image_path": "raw/book/images/page_111_fig_1.png",
+    "page_number": 111,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 159.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 358.5
+    },
+    "format": "png",
+    "size_bytes": 141749,
+    "width_px": 594,
+    "height_px": 398
+  },
+  {
+    "image_path": "raw/book/images/page_117_fig_1.png",
+    "page_number": 117,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 251.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 453.0
+    },
+    "format": "png",
+    "size_bytes": 147925,
+    "width_px": 594,
+    "height_px": 404
+  },
+  {
+    "image_path": "raw/book/images/page_119_fig_1.png",
+    "page_number": 119,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 297.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 490.5
+    },
+    "format": "png",
+    "size_bytes": 151680,
+    "width_px": 594,
+    "height_px": 387
+  },
+  {
+    "image_path": "raw/book/images/page_121_fig_1.png",
+    "page_number": 121,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 375.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 573.75
+    },
+    "format": "png",
+    "size_bytes": 147469,
+    "width_px": 594,
+    "height_px": 398
+  },
+  {
+    "image_path": "raw/book/images/page_122_fig_1.png",
+    "page_number": 122,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 228.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 408.0
+    },
+    "format": "png",
+    "size_bytes": 91506,
+    "width_px": 594,
+    "height_px": 359
+  },
+  {
+    "image_path": "raw/book/images/page_123_fig_1.png",
+    "page_number": 123,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 451.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 631.5
+    },
+    "format": "png",
+    "size_bytes": 88289,
+    "width_px": 594,
+    "height_px": 360
+  },
+  {
+    "image_path": "raw/book/images/page_126_fig_1.png",
+    "page_number": 126,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 503.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 660.75
+    },
+    "format": "png",
+    "size_bytes": 102994,
+    "width_px": 594,
+    "height_px": 316
+  },
+  {
+    "image_path": "raw/book/images/page_128_fig_1.png",
+    "page_number": 128,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 141.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 336.75
+    },
+    "format": "png",
+    "size_bytes": 101189,
+    "width_px": 594,
+    "height_px": 392
+  },
+  {
+    "image_path": "raw/book/images/page_132_fig_1.png",
+    "page_number": 132,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 357.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 563.25
+    },
+    "format": "png",
+    "size_bytes": 123742,
+    "width_px": 594,
+    "height_px": 412
+  },
+  {
+    "image_path": "raw/book/images/page_133_fig_1.png",
+    "page_number": 133,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 276.75
+    },
+    "format": "png",
+    "size_bytes": 125261,
+    "width_px": 594,
+    "height_px": 410
+  },
+  {
+    "image_path": "raw/book/images/page_137_fig_1.png",
+    "page_number": 137,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 259.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 471.0
+    },
+    "format": "png",
+    "size_bytes": 116615,
+    "width_px": 594,
+    "height_px": 423
+  },
+  {
+    "image_path": "raw/book/images/page_145_fig_1.png",
+    "page_number": 145,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 273.0
+    },
+    "format": "png",
+    "size_bytes": 129241,
+    "width_px": 594,
+    "height_px": 402
+  },
+  {
+    "image_path": "raw/book/images/page_146_fig_1.png",
+    "page_number": 146,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 228.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 430.5
+    },
+    "format": "png",
+    "size_bytes": 130350,
+    "width_px": 594,
+    "height_px": 405
+  },
+  {
+    "image_path": "raw/book/images/page_147_fig_1.png",
+    "page_number": 147,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 228.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 434.25
+    },
+    "format": "png",
+    "size_bytes": 120826,
+    "width_px": 594,
+    "height_px": 413
+  },
+  {
+    "image_path": "raw/book/images/page_148_fig_1.png",
+    "page_number": 148,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 132.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 336.0
+    },
+    "format": "png",
+    "size_bytes": 84298,
+    "width_px": 594,
+    "height_px": 408
+  },
+  {
+    "image_path": "raw/book/images/page_150_fig_1.png",
+    "page_number": 150,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 278.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 476.25
+    },
+    "format": "png",
+    "size_bytes": 146103,
+    "width_px": 594,
+    "height_px": 397
+  },
+  {
+    "image_path": "raw/book/images/page_151_fig_1.png",
+    "page_number": 151,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 384.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 579.0
+    },
+    "format": "png",
+    "size_bytes": 90839,
+    "width_px": 594,
+    "height_px": 389
+  },
+  {
+    "image_path": "raw/book/images/page_154_fig_1.png",
+    "page_number": 154,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 364.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 570.75
+    },
+    "format": "png",
+    "size_bytes": 149202,
+    "width_px": 594,
+    "height_px": 413
+  },
+  {
+    "image_path": "raw/book/images/page_156_fig_1.png",
+    "page_number": 156,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 279.0
+    },
+    "format": "png",
+    "size_bytes": 86074,
+    "width_px": 594,
+    "height_px": 414
+  },
+  {
+    "image_path": "raw/book/images/page_157_fig_1.png",
+    "page_number": 157,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 274.5
+    },
+    "format": "png",
+    "size_bytes": 131990,
+    "width_px": 594,
+    "height_px": 405
+  },
+  {
+    "image_path": "raw/book/images/page_158_fig_1.png",
+    "page_number": 158,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 267.0
+    },
+    "format": "png",
+    "size_bytes": 93791,
+    "width_px": 594,
+    "height_px": 390
+  },
+  {
+    "image_path": "raw/book/images/page_159_fig_1.png",
+    "page_number": 159,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 282.75
+    },
+    "format": "png",
+    "size_bytes": 116401,
+    "width_px": 594,
+    "height_px": 422
+  },
+  {
+    "image_path": "raw/book/images/page_161_fig_1.png",
+    "page_number": 161,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 403.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 581.25
+    },
+    "format": "png",
+    "size_bytes": 92017,
+    "width_px": 594,
+    "height_px": 356
+  },
+  {
+    "image_path": "raw/book/images/page_163_fig_1.png",
+    "page_number": 163,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 8970,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_164_fig_1.png",
+    "page_number": 164,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 347.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 551.25
+    },
+    "format": "png",
+    "size_bytes": 163464,
+    "width_px": 594,
+    "height_px": 409
+  },
+  {
+    "image_path": "raw/book/images/page_165_fig_1.png",
+    "page_number": 165,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 347.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 552.75
+    },
+    "format": "png",
+    "size_bytes": 130860,
+    "width_px": 594,
+    "height_px": 412
+  },
+  {
+    "image_path": "raw/book/images/page_167_fig_1.png",
+    "page_number": 167,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 295.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 501.0
+    },
+    "format": "png",
+    "size_bytes": 154808,
+    "width_px": 594,
+    "height_px": 411
+  },
+  {
+    "image_path": "raw/book/images/page_169_fig_1.png",
+    "page_number": 169,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 256.5
+    },
+    "format": "png",
+    "size_bytes": 139803,
+    "width_px": 594,
+    "height_px": 369
+  },
+  {
+    "image_path": "raw/book/images/page_170_fig_1.png",
+    "page_number": 170,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 278.25
+    },
+    "format": "png",
+    "size_bytes": 119053,
+    "width_px": 594,
+    "height_px": 413
+  },
+  {
+    "image_path": "raw/book/images/page_171_fig_1.png",
+    "page_number": 171,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 277.5
+    },
+    "format": "png",
+    "size_bytes": 128732,
+    "width_px": 594,
+    "height_px": 411
+  },
+  {
+    "image_path": "raw/book/images/page_173_fig_1.png",
+    "page_number": 173,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 238.5
+    },
+    "format": "png",
+    "size_bytes": 91452,
+    "width_px": 594,
+    "height_px": 333
+  },
+  {
+    "image_path": "raw/book/images/page_174_fig_1.png",
+    "page_number": 174,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 219.75
+    },
+    "format": "png",
+    "size_bytes": 76156,
+    "width_px": 594,
+    "height_px": 296
+  },
+  {
+    "image_path": "raw/book/images/page_176_fig_1.png",
+    "page_number": 176,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 315.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 511.5
+    },
+    "format": "png",
+    "size_bytes": 165186,
+    "width_px": 594,
+    "height_px": 392
+  },
+  {
+    "image_path": "raw/book/images/page_178_fig_1.png",
+    "page_number": 178,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 270.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 468.0
+    },
+    "format": "png",
+    "size_bytes": 136380,
+    "width_px": 594,
+    "height_px": 395
+  },
+  {
+    "image_path": "raw/book/images/page_180_fig_1.png",
+    "page_number": 180,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 310.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 495.0
+    },
+    "format": "png",
+    "size_bytes": 90097,
+    "width_px": 594,
+    "height_px": 369
+  },
+  {
+    "image_path": "raw/book/images/page_182_fig_1.png",
+    "page_number": 182,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 323.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 508.5
+    },
+    "format": "png",
+    "size_bytes": 94938,
+    "width_px": 594,
+    "height_px": 371
+  },
+  {
+    "image_path": "raw/book/images/page_184_fig_1.png",
+    "page_number": 184,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 319.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 512.25
+    },
+    "format": "png",
+    "size_bytes": 105398,
+    "width_px": 594,
+    "height_px": 386
+  },
+  {
+    "image_path": "raw/book/images/page_186_fig_1.png",
+    "page_number": 186,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 373.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 563.25
+    },
+    "format": "png",
+    "size_bytes": 109769,
+    "width_px": 594,
+    "height_px": 380
+  },
+  {
+    "image_path": "raw/book/images/page_189_fig_1.png",
+    "page_number": 189,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 373.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 562.5
+    },
+    "format": "png",
+    "size_bytes": 116779,
+    "width_px": 594,
+    "height_px": 378
+  },
+  {
+    "image_path": "raw/book/images/page_192_fig_1.png",
+    "page_number": 192,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 278.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 433.5
+    },
+    "format": "png",
+    "size_bytes": 89388,
+    "width_px": 594,
+    "height_px": 311
+  },
+  {
+    "image_path": "raw/book/images/page_195_fig_1.png",
+    "page_number": 195,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 103.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 276.75
+    },
+    "format": "png",
+    "size_bytes": 119439,
+    "width_px": 594,
+    "height_px": 347
+  },
+  {
+    "image_path": "raw/book/images/page_196_fig_1.png",
+    "page_number": 196,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 441.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 604.5
+    },
+    "format": "png",
+    "size_bytes": 83045,
+    "width_px": 594,
+    "height_px": 327
+  },
+  {
+    "image_path": "raw/book/images/page_197_fig_1.png",
+    "page_number": 197,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 41769,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_199_fig_1.png",
+    "page_number": 199,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 347.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 537.0
+    },
+    "format": "png",
+    "size_bytes": 91794,
+    "width_px": 594,
+    "height_px": 380
+  },
+  {
+    "image_path": "raw/book/images/page_202_fig_1.png",
+    "page_number": 202,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 250.5
+    },
+    "format": "png",
+    "size_bytes": 93366,
+    "width_px": 594,
+    "height_px": 357
+  },
+  {
+    "image_path": "raw/book/images/page_204_fig_1.png",
+    "page_number": 204,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 511.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 687.75
+    },
+    "format": "png",
+    "size_bytes": 95571,
+    "width_px": 594,
+    "height_px": 353
+  },
+  {
+    "image_path": "raw/book/images/page_207_fig_1.png",
+    "page_number": 207,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 248.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 368.25
+    },
+    "format": "png",
+    "size_bytes": 130766,
+    "width_px": 594,
+    "height_px": 241
+  },
+  {
+    "image_path": "raw/book/images/page_209_fig_1.png",
+    "page_number": 209,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 416.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 560.25
+    },
+    "format": "png",
+    "size_bytes": 74792,
+    "width_px": 594,
+    "height_px": 289
+  },
+  {
+    "image_path": "raw/book/images/page_210_fig_1.png",
+    "page_number": 210,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 423.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 630.0
+    },
+    "format": "png",
+    "size_bytes": 68319,
+    "width_px": 594,
+    "height_px": 413
+  },
+  {
+    "image_path": "raw/book/images/page_212_fig_1.png",
+    "page_number": 212,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 272.25
+    },
+    "format": "png",
+    "size_bytes": 61940,
+    "width_px": 594,
+    "height_px": 401
+  },
+  {
+    "image_path": "raw/book/images/page_213_fig_1.png",
+    "page_number": 213,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 32066,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_215_fig_1.png",
+    "page_number": 215,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 363.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 558.75
+    },
+    "format": "png",
+    "size_bytes": 44302,
+    "width_px": 594,
+    "height_px": 391
+  },
+  {
+    "image_path": "raw/book/images/page_216_fig_1.png",
+    "page_number": 216,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 153.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 347.25
+    },
+    "format": "png",
+    "size_bytes": 45421,
+    "width_px": 594,
+    "height_px": 389
+  },
+  {
+    "image_path": "raw/book/images/page_217_fig_1.png",
+    "page_number": 217,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 191.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 391.5
+    },
+    "format": "png",
+    "size_bytes": 86893,
+    "width_px": 594,
+    "height_px": 401
+  },
+  {
+    "image_path": "raw/book/images/page_218_fig_1.png",
+    "page_number": 218,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 72.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 303.0
+    },
+    "format": "png",
+    "size_bytes": 113686,
+    "width_px": 594,
+    "height_px": 462
+  },
+  {
+    "image_path": "raw/book/images/page_218_fig_2.png",
+    "page_number": 218,
+    "figure_index": 2,
+    "position_in_page": {
+      "top": 470.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 660.0
+    },
+    "format": "png",
+    "size_bytes": 125284,
+    "width_px": 594,
+    "height_px": 380
+  },
+  {
+    "image_path": "raw/book/images/page_219_fig_1.png",
+    "page_number": 219,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 0.0,
+      "left": 0.0,
+      "right": 612.0,
+      "bottom": 792.0
+    },
+    "format": "png",
+    "size_bytes": 18304,
+    "width_px": 1224,
+    "height_px": 1584
+  },
+  {
+    "image_path": "raw/book/images/page_220_fig_1.png",
+    "page_number": 220,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 175.5,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 380.25
+    },
+    "format": "png",
+    "size_bytes": 110529,
+    "width_px": 594,
+    "height_px": 410
+  },
+  {
+    "image_path": "raw/book/images/page_222_fig_1.png",
+    "page_number": 222,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 228.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 433.5
+    },
+    "format": "png",
+    "size_bytes": 92097,
+    "width_px": 594,
+    "height_px": 411
+  },
+  {
+    "image_path": "raw/book/images/page_223_fig_1.png",
+    "page_number": 223,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 153.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 349.5
+    },
+    "format": "png",
+    "size_bytes": 102357,
+    "width_px": 594,
+    "height_px": 393
+  },
+  {
+    "image_path": "raw/book/images/page_224_fig_1.png",
+    "page_number": 224,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 132.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 315.0
+    },
+    "format": "png",
+    "size_bytes": 122698,
+    "width_px": 594,
+    "height_px": 366
+  },
+  {
+    "image_path": "raw/book/images/page_228_fig_1.png",
+    "page_number": 228,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 159.75,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 319.5
+    },
+    "format": "png",
+    "size_bytes": 120689,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_229_fig_1.png",
+    "page_number": 229,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 302.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 462.0
+    },
+    "format": "png",
+    "size_bytes": 141576,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_231_fig_1.png",
+    "page_number": 231,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 302.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 462.0
+    },
+    "format": "png",
+    "size_bytes": 170978,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_233_fig_1.png",
+    "page_number": 233,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 302.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 462.0
+    },
+    "format": "png",
+    "size_bytes": 193915,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_235_fig_1.png",
+    "page_number": 235,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 302.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 462.0
+    },
+    "format": "png",
+    "size_bytes": 166774,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_237_fig_1.png",
+    "page_number": 237,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 302.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 462.0
+    },
+    "format": "png",
+    "size_bytes": 170393,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_239_fig_1.png",
+    "page_number": 239,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 302.25,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 461.25
+    },
+    "format": "png",
+    "size_bytes": 162931,
+    "width_px": 594,
+    "height_px": 319
+  },
+  {
+    "image_path": "raw/book/images/page_241_fig_1.png",
+    "page_number": 241,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 330.0,
+      "left": 157.5,
+      "right": 454.5,
+      "bottom": 489.75
+    },
+    "format": "png",
+    "size_bytes": 189878,
+    "width_px": 594,
+    "height_px": 320
+  },
+  {
+    "image_path": "raw/book/images/page_246_fig_1.png",
+    "page_number": 246,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 209.25,
+      "left": 216.75,
+      "right": 395.25,
+      "bottom": 409.5
+    },
+    "format": "png",
+    "size_bytes": 240729,
+    "width_px": 358,
+    "height_px": 401
+  },
+  {
+    "image_path": "raw/book/images/page_247_fig_1.png",
+    "page_number": 247,
+    "figure_index": 1,
+    "position_in_page": {
+      "top": 245.25,
+      "left": 202.5,
+      "right": 409.5,
+      "bottom": 555.75
+    },
+    "format": "png",
+    "size_bytes": 363702,
+    "width_px": 414,
+    "height_px": 622
+  }
+]
