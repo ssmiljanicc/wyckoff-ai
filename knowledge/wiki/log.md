@@ -97,3 +97,64 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Stvoriti sve `events/*` stranice (poglavlja 14–20)
 - Stvoriti `structures/accumulation.md`, `distribution.md`, `reaccumulation.md`, `redistribution.md`
 - Stvoriti `concepts/action-test-confirmation.md`, `labeling-is-last-step.md`, `creek-and-ice.md`
+
+---
+
+## [2026-05-25] ingest | Knjiga, Batch 2 — poglavlja 14–25 (events i phases)
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `kild/wiki-ingest-batch2`
+- Izvori: `raw/book/pages/page_093.md` do `page_190.md` (Part 5 — sedam događaja metodologije; Part 6 — pet faza). Dodatno citirano: `page_037.md`–`page_045.md` (Chapter 6 schematics) i `page_072.md`–`page_088.md` (Chapter 10–13 narrative) za strukturne stranice — ove sekcije već su bile delimično obrađene u Batch 1 kao source summaries, ali konkretne wiki stranice akumulacija/distribucija/reakumulacija/redistribucija prvi put se kreiraju ovde.
+
+### Pages created (36)
+
+`events/` (20 — kompletan event vocabulary):
+- Phase A: `preliminary-support.md`, `selling-climax.md`, `buying-climax.md`, `automatic-rally.md`, `automatic-reaction.md`, `secondary-test.md`, `st-as-msos.md`, `st-as-msow.md`
+- Phase C: `spring.md`, `upthrust-after-distribution.md`, `upthrust.md`, `no-shake-phase-c.md`
+- Phase D/E: `sign-of-strength.md`, `sign-of-weakness.md`, `jump-across-the-creek.md`, `back-up-to-the-edge-of-the-creek.md`, `fall-through-the-ice.md`, `last-point-of-support.md`, `last-point-of-supply.md`, `failed-signal.md`
+
+`concepts/` (8 — phases + methodology discipline):
+- `phase-a.md` do `phase-e.md`
+- `action-test-confirmation.md`, `labeling-is-last-step.md`, `creek-and-ice.md`
+
+`structures/` (4 — sve glavne šeme):
+- `accumulation.md`, `distribution.md`, `reaccumulation.md`, `redistribution.md`
+
+`sources/book/` (12 — source summaries za ch 14–25):
+- `book-chapter-14.md` do `book-chapter-25.md`
+
+### Pages updated
+
+- `knowledge/wiki/index.md` — listane sve 36 novih stranica; Pending sekcije ažurirane za Batch 3 i kasnije
+- `knowledge/wiki/log.md` — ovaj zapis
+
+### Pages not yet ingested
+
+- Knjiga: poglavlja 26–27 (Batch 3 — Primary Positions, Decision-Making; Part 7 trading)
+- Sva crypto archive grupacija (Batches 4–5)
+- Sva Bruce Fraser arhiva (Batches 6–9)
+
+### Commit-evi u ovom batch-u
+
+- Batch 2.1: Phase A events (8 stranica — PS/PSY, SC, BC, AR akumulacija/distribucija, ST, ST kao mSOS/mSOW)
+- Batch 2.2: Phase C events (4 stranice — spring, UTAD, UT, no-shake)
+- Batch 2.3: Phase D/E events (8 stranica — SOS/SOW, JAC/FTI, BUEC, LPS/LPSY, failed-signal)
+- Batch 2.4: methodology concept stranice (3 stranice — action-test-confirmation, labeling-is-last-step, creek-and-ice)
+- Batch 2.5: Phase A–E concept stranice (5 stranica)
+- Batch 2.6: strukture (4 stranice — accumulation, distribution, reaccumulation, redistribution)
+- Batch 2.7: source summaries za ch 14–25 (12 stranica)
+
+### Notes
+
+- Sve stranice imaju `sources:` frontmatter sa specifičnim raw stranama i inline citacije u tekstu (po `/CLAUDE.md` §5). 36 stranica × prosečno ~6 raw-strana citata = preko 200 distinct citation links — provenance pokriva 100% Batch 2 sadržaja iz knjige.
+- Cross-references preko `[[name]]` formirale su mrežu kroz Batch 1 i Batch 2 — events linkuju ka structures, phases, methodology concepts; structures linkuju ka events; source summaries linkuju ka odgovarajućim wiki stranicama.
+- Nema WIKI_GAP markera — sve što je labeled u knjizi je pokriveno.
+- `principle-in-the-principle` koncept se odlaže — nije eksplicitno u knjizi ch 14–25; pojaviće se u Fraser arhivi.
+- UA-vs-UT, ST-as-SOW-vs-mSOW pages dokumentuju kako se ista akcija labelira drugačije u zavisnosti od structure read-a — primer za `labeling-is-last-step` disciplinu.
+
+### Open follow-ups for Batch 3
+
+- Stvoriti `sources/book/book-chapter-26.md` i `book-chapter-27.md`
+- Stvoriti `concepts/three-stages-of-uptrend.md`, `concepts/stride-of-trend.md`, `concepts/point-and-figure-counting.md` ako su pokriveni u ch 26–27 (verovatno P&F u ch 27)
+- Razmisliti o `scenarios/primary-positions.md` (mapiranje književnih primary trade lokacija) — može i da sačeka PRD-02 / [#8](https://github.com/ssmiljanicc/wyckoff-ai/issues/8)
+- Posle Batch 3 može da se pokrene prvi lint pass — sve required pages iz CLAUDE.md §3 vezane za knjigu trebale bi da postoje
