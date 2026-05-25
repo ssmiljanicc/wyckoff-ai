@@ -3,27 +3,37 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Pages:** 0 of ~70 expected
+**Last updated:** 2026-05-25 (Batch 1 — book chapters 1–13)
+**Pages:** 25 of ~70 expected
 
 ---
 
 ## concepts/
 
-*(empty — populates from book ingest, batches 1–2)*
+Active pages (12 of ~24 expected):
 
-Expected pages (see `/CLAUDE.md` §3 for full list):
-- three-laws, supply-and-demand, cause-and-effect, effort-and-result
-- market-cycle, buying-selling-neutral-position
-- waves-and-fractals, trend-assessment, significant-bar, reversal-of-movement
-- action-test-confirmation, labeling-is-last-step
-- random-vs-purposeful-range, path-of-least-resistance, principle-in-the-principle
+- [three-laws](concepts/three-laws.md) — umbrella for the three fundamental laws
+- [supply-and-demand](concepts/supply-and-demand.md) — first law; passive vs aggressive orders
+- [cause-and-effect](concepts/cause-and-effect.md) — second law; proportionality and P&F counting
+- [effort-and-result](concepts/effort-and-result.md) — third law; harmony / divergence
+- [market-cycle](concepts/market-cycle.md) — accumulation → markup → distribution → markdown
+- [buying-selling-neutral-position](concepts/buying-selling-neutral-position.md) — three-way market stance
+- [waves-and-fractals](concepts/waves-and-fractals.md) — the comparative unit of analysis
+- [trend-assessment](concepts/trend-assessment.md) — speed, projection, depth, channels
+- [significant-bar](concepts/significant-bar.md) — bar-level intent (sourced from ch 27)
+- [reversal-of-movement](concepts/reversal-of-movement.md) — when control changes hands
+- [random-vs-purposeful-range](concepts/random-vs-purposeful-range.md) — when to ignore a range
+- [path-of-least-resistance](concepts/path-of-least-resistance.md) — verified, not assumed
+
+Pending (populates in Batches 2–3):
+- action-test-confirmation, labeling-is-last-step, principle-in-the-principle
 - phase-a, phase-b, phase-c, phase-d, phase-e
 - three-stages-of-uptrend, stride-of-trend, creek-and-ice
 - point-and-figure-counting
 
 ## events/
 
-*(empty — populates from book ingest, batch 2)*
+*(empty — populates from book ingest, Batch 2)*
 
 Expected pages:
 - Phase A: preliminary-support, selling-climax, buying-climax, automatic-rally, automatic-reaction, secondary-test, st-as-msos, st-as-msow
@@ -34,14 +44,16 @@ Expected pages:
 
 ## structures/
 
-*(empty — populates from book ingest, batches 1–2)*
+Active pages (1 of 5):
 
-Expected pages:
-- accumulation, distribution, reaccumulation, redistribution, trading-range
+- [trading-range](structures/trading-range.md) — generic range (boundaries, time, midpoint, character)
+
+Pending (Batch 2):
+- accumulation, distribution, reaccumulation, redistribution
 
 ## crypto/
 
-*(empty — populates from crypto archive ingest, batches 4–5)*
+*(empty — populates from crypto archive ingest, Batches 4–5)*
 
 Expected pages:
 - intermarket-gate, bitcoin-leader-vs-funding-source, rotation-hierarchy
@@ -61,12 +73,27 @@ Expected pages:
 
 ## sources/
 
-*(empty — populates per-source during ingest)*
+Active pages (13 of ~70 expected):
 
-Subfolders:
-- `sources/book/` — one page per chapter (~27 pages)
-- `sources/crypto_archive/` — one page per volume (46 pages; ~12 marked WIKI_GAP)
-- `sources/bruce_fraser/` — thematic groupings (~30–50 pages, not 243 separate)
+`sources/book/` — one page per chapter:
+- [book-chapter-01](sources/book/book-chapter-01.md) — Waves
+- [book-chapter-02](sources/book/book-chapter-02.md) — The Price Cycle
+- [book-chapter-03](sources/book/book-chapter-03.md) — Trends
+- [book-chapter-04](sources/book/book-chapter-04.md) — Assessing Trends
+- [book-chapter-05](sources/book/book-chapter-05.md) — Trading Ranges
+- [book-chapter-06](sources/book/book-chapter-06.md) — Wyckoff Methodology Structures
+- [book-chapter-07](sources/book/book-chapter-07.md) — Supply and Demand
+- [book-chapter-08](sources/book/book-chapter-08.md) — Cause and Effect
+- [book-chapter-09](sources/book/book-chapter-09.md) — Effort and Result
+- [book-chapter-10](sources/book/book-chapter-10.md) — Accumulation
+- [book-chapter-11](sources/book/book-chapter-11.md) — Reaccumulation
+- [book-chapter-12](sources/book/book-chapter-12.md) — Distribution
+- [book-chapter-13](sources/book/book-chapter-13.md) — Redistribution
+
+Pending:
+- `sources/book/` chapters 14–27 (Batches 2–3)
+- `sources/crypto_archive/` — one page per volume (46 entries; Batches 4–5)
+- `sources/bruce_fraser/` — thematic groupings (~30–50 pages; Batches 6–9)
 
 ## questions/
 
