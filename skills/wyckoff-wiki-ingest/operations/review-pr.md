@@ -70,15 +70,20 @@ Posle merge-a:
   ```
 - Označi issue komentar ili checkbox na #7
 
-## Korak 5 (opciono): Deep review
+## Korak 5: Semantic spot-check
 
-Ako batch ima novi domen (npr. crypto archive prvi put, ili novu vrstu Wyckoff sadržaja koju Batch 1/2 nisu pokrili), mehanički review nije dovoljan. Opciono pokreni:
+Mehanički review hvata strukturalne probleme. Semantic spot-check hvata lošu sintezu, redefinisanje pojmova, i površne cross-linkove. Pun protokol u [`semantic-spot-check.md`](semantic-spot-check.md).
 
-- Manuelni spot-check 3–5 nasumičnih stranica:
-  - Da li ima dubinu sinteze ili je samo parafraza izvora?
-  - Da li koristi tačan Wyckoff vokabular (ne tržišni žargon)?
-  - Da li cross-references vode na semantički povezane stranice (ne random)?
-- Ova provera ide u Opus session (ne u Codex review kild) — traži dubok judgment.
+**Obavezno za:** **Batch 2** i **Batch 3** (kalibracija kvaliteta).
+
+**Posle Batch 3** — pokreni ako je bar jedan trigger ispunjen:
+1. Batch uvodi novi izvor tipa (npr. Fraser prvi put, crypto archive prvi put)
+2. Batch dodaje ≥3 nove definicione stranice (`concepts/`, `events/`, `structures/`)
+3. Reviewer ima konkretnu sumnju ("ovo deluje kao parafraza", "ovo redefiniše pojam")
+
+Ako nijedan trigger nije ispunjen i mehanički review je pass → merge bez spot-check-a.
+
+**Ko izvršava:** Opus sesija (ne Codex/Sonnet) — traži Wyckoff domain judgment.
 
 ## Output contract review-a
 

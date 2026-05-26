@@ -109,6 +109,28 @@ tail -50 knowledge/wiki/log.md
 
 ---
 
+## 3.5 Unknown term protocol
+
+Cross-batch awareness iz §3 pokriva slučaj "termin se pojavi u sirovom izvoru". Ovaj odeljak pokriva drugi slučaj: **agent piše sintezu i poseže za pojmom koji nije u trenutnom raw izvoru.**
+
+**Pravilo (strogo):** agent **ne sme** uvesti termin iz svog training data ako termin **nije** ni u trenutnom raw izvoru ni u postojećem wiki-u.
+
+Algoritam kada se u sintezi javi takav termin:
+
+1. **Proveri raw izvor** — da li je termin doslovno ili parafrazirano u jednom od `sources:` fajlova iz frontmatter-a?
+   - DA → koristi termin, citiraj inline link na taj raw fajl
+2. **Proveri postojeći wiki** — `grep -rn "<termin>" knowledge/wiki/` ili `cat knowledge/wiki/index.md`
+   - DA → linkuj `[[name]]`, ne redefiniši
+3. **Nije ni u izvoru ni u wiki-u** → **NE PIŠI termin**. Dve opcije:
+   - **(a) Reformuliši sintezu** na vokabular koji raw izvor zaista koristi (preferirano)
+   - **(b) `WIKI_GAP` marker** + entry u `log.md` ako je termin standardni Wyckoff pojam koji bi trebalo da postoji ali ga nijedan izvor u ovom batch-u ne pokriva
+
+**Anti-pattern:** "agent zna da je `creek` standardni Wyckoff pojam iz training data, ali knjiga ga ne pominje u trenutnom poglavlju i wiki još nema stranicu" → ne sme se ubaciti definicija oslonjena na training data. Ili reformuliši, ili stavi WIKI_GAP.
+
+Razlog: provenance disciplina (CLAUDE.md §5) zahteva da svaka tvrdnja u wiki-u bude cite-ovana protiv izvora. Training data nije citativan izvor.
+
+---
+
 ## 4. Output contract za batch
 
 Svaki batch završava sa:

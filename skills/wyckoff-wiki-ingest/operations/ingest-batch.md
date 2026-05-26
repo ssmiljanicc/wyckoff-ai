@@ -30,6 +30,8 @@ Identifikuj svoj batch broj i source range. Issue #7 ima konkretnu listu stranic
 
 ## Korak 4: Pisanje wiki stranica
 
+**Pre nego što uvedeš ijedan Wyckoff termin u sintezu, vidi SKILL.md §3.5 (Unknown term protocol):** termin mora biti ili u trenutnom raw izvoru, ili u postojećem wiki-u. Nema improvizacije iz training data — ili reformuliši, ili stavi `WIKI_GAP`.
+
 ### Frontmatter shape (obavezno za svaku stranicu)
 ```yaml
 ---
