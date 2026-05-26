@@ -337,7 +337,7 @@ If you find yourself writing something in one of these categories, file it in th
 | Understand how ingest works (generic) | `~/.agent-runbooks/llm-wiki.md` |
 | Run a #7 batch ingest or PR review | [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) |
 | Decide where a new page goes | this file §2 + §3 |
-| Cite a source correctly | this file §5 + skill §2 (path depth) |
+| Cite a source correctly | this file §5 + runbook §2 (path depth) |
 | Mark a missing or paywalled source | this file §7 |
 | Verify the wiki is healthy | runbook §"Operation: Lint" + this file §3 (required pages list) |
 

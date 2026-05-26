@@ -55,22 +55,7 @@ git push  # u kild-u
 uv run skills/wyckoff-wiki-ingest/scripts/review_pr.py <PR_NUMBER>
 ```
 
-## Korak 4: Merge
-
-Tek kada review prolazi:
-```bash
-gh pr merge <PR_NUMBER> --repo ssmiljanicc/wyckoff-ai --squash --delete-branch
-```
-
-Posle merge-a:
-- `git checkout main && git pull --ff-only`
-- Validate ceo wiki još jednom:
-  ```bash
-  uv run skills/wyckoff-wiki-ingest/scripts/validate_links.py
-  ```
-- Označi issue komentar ili checkbox na #7
-
-## Korak 5: Semantic spot-check
+## Korak 4: Semantic spot-check
 
 Mehanički review hvata strukturalne probleme. Semantic spot-check hvata lošu sintezu, redefinisanje pojmova, citation misattribution-e (link razrešava ali na pogrešan sadržaj), i površne cross-linkove. Pun protokol u [`semantic-spot-check.md`](semantic-spot-check.md).
 
@@ -86,6 +71,21 @@ Ako nijedan trigger nije ispunjen i mehanički review je pass → merge bez spot
 **Ko izvršava:** Opus sesija (ne Codex/Sonnet) — traži Wyckoff domain judgment i poređenje sa raw izvorima.
 
 **Veza sa runbook-om:** spot-check verifikuje da je pisac batch-a sledio runbook §3.5 (Unknown claim) i §3.6 (Citation verification). Ako je sledio, spot-check je brz; ako nije, ovde se nalazi.
+
+## Korak 5: Merge
+
+Tek kada mehanički review prolazi i semantic spot-check nije blokirao merge:
+```bash
+gh pr merge <PR_NUMBER> --repo ssmiljanicc/wyckoff-ai --squash --delete-branch
+```
+
+Posle merge-a:
+- `git checkout main && git pull --ff-only`
+- Validate ceo wiki još jednom:
+  ```bash
+  uv run skills/wyckoff-wiki-ingest/scripts/validate_links.py
+  ```
+- Označi issue komentar ili checkbox na #7
 
 ## Output contract review-a
 
