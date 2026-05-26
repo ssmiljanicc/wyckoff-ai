@@ -117,8 +117,17 @@ def check_inline_links(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
 
 
 def check_cross_references(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
-    # Build set of existing wiki page slugs
-    all_pages = {p.stem for p in (wt / "knowledge" / "wiki").rglob("*.md")}
+    wiki_root = wt / "knowledge" / "wiki"
+    # Build lookup accepting both [[spring]] and [[events/spring]] forms
+    all_slugs: set[str] = set()
+    for p in wiki_root.rglob("*.md"):
+        all_slugs.add(p.stem)
+        try:
+            folder_slug = "/".join(p.relative_to(wiki_root).with_suffix("").parts)
+            all_slugs.add(folder_slug)
+        except ValueError:
+            pass
+
     issues = []
     for f in files:
         rel = f.relative_to(wt)
@@ -127,7 +136,7 @@ def check_cross_references(files: list[Path], wt: Path) -> tuple[bool, list[str]
         text = f.read_text(encoding="utf-8")
         for m in WIKILINK_RE.finditer(text):
             target_slug = m.group(1).strip().replace(" ", "-").lower()
-            if target_slug not in all_pages:
+            if target_slug not in all_slugs:
                 issues.append(f"{rel}: [[{m.group(1)}]] → stranica ne postoji")
     return len(issues) == 0, issues
 

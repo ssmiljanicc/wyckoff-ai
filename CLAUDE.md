@@ -241,15 +241,7 @@ sources:
 ---
 ```
 
-**Within page body**, cite inline using markdown links for high-density claims. The link path is **relative from the page's actual depth in `knowledge/wiki/`** — not a fixed string. A page in `knowledge/wiki/events/` is 3 levels deep, so its links use `../../../raw/...`; a page in `knowledge/wiki/sources/book/` is 4 levels deep, so its links use `../../../../raw/...`.
-
-```md
-A spring is a downside shake that probes below trading-range support
-([book p.142](../../../raw/book/pages/page_142.md)) and is followed by a
-test that prints lower volume than the spring itself.
-```
-
-For the full depth table and an automated validator, see [`skills/wyckoff-wiki-ingest/SKILL.md`](skills/wyckoff-wiki-ingest/SKILL.md) §2 and run `uv run skills/wyckoff-wiki-ingest/scripts/validate_links.py` before commit.
+**Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`skills/wyckoff-wiki-ingest/SKILL.md`](skills/wyckoff-wiki-ingest/SKILL.md) §2.
 
 **Synthesis claims** (cross-source generalizations not stated verbatim in any one source) must be marked:
 
@@ -291,7 +283,7 @@ paywalled (`status: paywalled` in manifest). Only the introductory
 sentence was scraped; the spring example referenced in the public excerpt
 cannot be verified.
 
-The book covers springs in general ([book ch.17](../../../raw/book/sources/book-ch17.md))
+The book covers springs in general (`raw/book/pages/page_XXX.md` — the relevant chapter)
 but does not specifically address low-liquidity tails.
 ```
 

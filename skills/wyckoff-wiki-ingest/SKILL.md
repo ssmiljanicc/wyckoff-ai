@@ -116,7 +116,7 @@ Svaki batch završava sa:
 ### 4.1 Commit grupe
 Svaka logička grupa stranica = jedan commit. Primer iz Batch 2:
 - `Wiki Batch 3.1: Phase X events` (X events grupisanih)
-- `Wiki Batch 3.2: Y concepts` 
+- `Wiki Batch 3.2: Y concepts`
 - `Wiki Batch 3.3: source summaries za poglavlja A-B`
 - `Wiki Batch 3: ažurira index.md i log.md za batch 3`
 
