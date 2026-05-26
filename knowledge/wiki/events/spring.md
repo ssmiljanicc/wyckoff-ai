@@ -17,6 +17,8 @@ sources:
   - path: raw/book/pages/page_139.md
     note: "shaking functions — expel breakout traders, fearful, smart-early"
   - path: raw/book/pages/page_141.md
+    note: "diagnostics — UA/mSOW signal and price re-entry as shake-vs-effective-break indicators"
+  - path: raw/book/pages/page_142.md
     note: "labeling discipline — spring/UTAD only if it causes the break of the range"
   - path: raw/book/pages/page_143.md
     note: "spring origin — Robert G. Evans, refinement of Wyckoff's Terminal Shakeout"
@@ -191,7 +193,7 @@ initiating positions.
 ### Labeling Discipline
 
 The book is strict
-([book p.141](../../../raw/book/pages/page_141.md)):
+([book p.142](../../../raw/book/pages/page_142.md)):
 
 > "Spring must necessarily cause the range to break up. Anything other
 > than this should not be labeled as Spring. It will simply be a test."

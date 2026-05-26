@@ -185,7 +185,12 @@ The "high volatility throughout" cue is **one of the most important
 diagnostic contrasts** the methodology provides. A range that stays
 volatile is much more likely to be distribution than accumulation.
 
-### Common Trading Mistakes The Book Flags
+### Common Trading Mistakes (synthesis)
+
+> **Synthesis:** Failure modes implicit in the methodology — not direct
+> book claims. Each mistake corresponds to a structural feature cited
+> elsewhere on this page (LPSY, Phase A direction ambiguity, no-shake
+> variant). Sources: [[book-chapter-06]], [[book-chapter-12]].
 
 - **Shorting the SOW, not the LPSY.** Same as the accumulation
   mistake but mirrored — chasing the breakdown.

@@ -190,7 +190,12 @@ profile** and contrast directly with the [[distribution]] profile
 (high volatility throughout, wider down bars, decreasing H&L late
 stage).
 
-### Common Trading Mistakes The Book Flags
+### Common Trading Mistakes (synthesis)
+
+> **Synthesis:** Failure modes implicit in the methodology — not direct
+> book claims. Each mistake corresponds to a structural feature cited
+> elsewhere on this page (LPS, Phase A direction ambiguity, no-shake
+> variant). Sources: [[book-chapter-06]], [[book-chapter-10]].
 
 - **Buying the SOS, not the LPS.** Chasing the break instead of
   waiting for the corrective wave. See
