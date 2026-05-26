@@ -33,15 +33,15 @@ Chapter 27's reversal-of-movement concept.
 
 - Price does not move between two points in a straight line — it moves
   in waves of different sizes
-  ([p.12](../../../raw/book/pages/page_012.md)).
+  ([p.12](../../../../raw/book/pages/page_012.md)).
 - Waves are fractal — lower-grade waves are part of intermediate-grade
   waves, which are part of higher-grade waves
-  ([p.12](../../../raw/book/pages/page_012.md)).
+  ([p.12](../../../../raw/book/pages/page_012.md)).
 - Reading the trend comes from comparing **duration, speed, and range**
   between successive waves
-  ([p.12](../../../raw/book/pages/page_012.md)).
+  ([p.12](../../../../raw/book/pages/page_012.md)).
 - Wave analysis is a readout of "relative changes between supply and
-  demand" ([p.13](../../../raw/book/pages/page_013.md)).
+  demand" ([p.13](../../../../raw/book/pages/page_013.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

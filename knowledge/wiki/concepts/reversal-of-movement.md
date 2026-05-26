@@ -18,14 +18,14 @@ sources:
 
 The **reversal-of-movement** concept is the book's discipline for declaring
 that control of the market has actually changed hands — not just that price
-made a counter-move ([book p.210](../../raw/book/pages/page_210.md)).
+made a counter-move ([book p.210](../../../raw/book/pages/page_210.md)).
 
 The rule is: market control is anchored to the **last [[significant-bar]]**
 of the current move. Control is considered reversed only when an
 **opposing significant bar breaks** that last significant bar — meaning a
 significant bar of inverse intentionality whose close goes beyond the
 opposing extreme of the bar that previously marked control
-([book p.210](../../raw/book/pages/page_210.md)).
+([book p.210](../../../raw/book/pages/page_210.md)).
 
 This prevents premature top-calling and bottom-calling, which the book
 treats as one of the most common errors in tape reading.
@@ -38,12 +38,12 @@ If price is in the middle of a rising move and is currently above a
 significant bullish bar, buyers have control. As new significant bullish
 bars appear, control shifts to those newer bars (the anchor moves up).
 Mirror for a falling move
-([book p.210](../../raw/book/pages/page_210.md)).
+([book p.210](../../../raw/book/pages/page_210.md)).
 
 ### The Reversal Rule
 
 To declare the end of a move
-([book p.211](../../raw/book/pages/page_211.md)):
+([book p.211](../../../raw/book/pages/page_211.md)):
 
 - **End of rising move** — a downward reversal bar must close **below the
   low** of the last rising significant bar that marked buyers' control.
@@ -57,7 +57,7 @@ opposing direction (wide range, proportional volume, committed close).
 
 The book stresses that this concept applies at every change of character
 inside a Wyckoff structure
-([book p.211](../../raw/book/pages/page_211.md)):
+([book p.211](../../../raw/book/pages/page_211.md)):
 
 - After the Selling Climax, an upward reversal bar marks the
   [[events/automatic-rally]] starting.

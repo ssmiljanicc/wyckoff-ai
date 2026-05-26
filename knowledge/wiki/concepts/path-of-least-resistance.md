@@ -23,12 +23,12 @@ sources:
 ## Summary
 
 A trend is "simply the line of least resistance as the price moves from
-one point to another" ([book p.17](../../raw/book/pages/page_017.md)).
+one point to another" ([book p.17](../../../raw/book/pages/page_017.md)).
 The methodology's central operational claim is that large operators
 **will not initiate** the trend phase until they have **verified** that
 the path of least resistance is genuinely free of opposing interest
-([book p.14](../../raw/book/pages/page_014.md),
-[p.34](../../raw/book/pages/page_034.md)).
+([book p.14](../../../raw/book/pages/page_014.md),
+[p.34](../../../raw/book/pages/page_034.md)).
 
 The path of least resistance is not assumed from hope or opinion — it is
 **verified**, and the methodology's events (shakes, tests) exist
@@ -42,7 +42,7 @@ The book emphasizes that until professionals have proven that the road is
 free (absence of sellers for an upward move, absence of buyers for a
 downward move), they will not initiate the movement — they will run test
 maneuvers "again and again"
-([book p.14](../../raw/book/pages/page_014.md)). Conversely, if the
+([book p.14](../../../raw/book/pages/page_014.md)). Conversely, if the
 opposing interest is overwhelming, the path of least resistance is the
 other way and the price at that point can only go that other way.
 
@@ -52,14 +52,14 @@ The accumulation chapter is explicit: professionals verify the upward
 path by **initiating downward movements to check the tracking** — looking
 for absence of volume on the move down as evidence of exhausted supply.
 "An absence of volume at this point would suggest a lack of interest in
-reaching lower prices" ([book p.75](../../raw/book/pages/page_075.md)).
+reaching lower prices" ([book p.75](../../../raw/book/pages/page_075.md)).
 This is why more than one shake can appear inside a range — each is a
 test of opposing-side commitment.
 
 The distribution chapter mirrors this: professionals send upward probes
 into resistance to check for demand follow-through; absence of volume
 suggests exhausted demand
-([book p.83](../../raw/book/pages/page_083.md)).
+([book p.83](../../../raw/book/pages/page_083.md)).
 
 ### When Path-Verification Fails
 
@@ -72,7 +72,7 @@ resistance language only makes sense inside a purposeful range.
 ### The Two Outputs Of Verification
 
 Once verification completes successfully
-([book p.35](../../raw/book/pages/page_035.md)):
+([book p.35](../../../raw/book/pages/page_035.md)):
 
 - Upward path verified → markup phase begins, with the breakout often
   followed by a [[events/back-up-to-the-edge-of-the-creek|BUEC]]

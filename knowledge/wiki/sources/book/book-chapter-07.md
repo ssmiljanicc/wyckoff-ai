@@ -40,21 +40,21 @@ mechanism alongside aggressive participation.
 ## Key Claims
 
 - "There is always the same number of buyers and sellers" in any matched
-  market ([p.47](../../../raw/book/pages/page_047.md)).
+  market ([p.47](../../../../raw/book/pages/page_047.md)).
 - Passive limit orders are supply and demand in the technical sense;
   market orders are sellers and buyers
-  ([p.48](../../../raw/book/pages/page_048.md)).
+  ([p.48](../../../../raw/book/pages/page_048.md)).
 - Passive orders can stop a movement but cannot create one — only
   initiative moves price
-  ([p.49](../../../raw/book/pages/page_049.md)).
+  ([p.49](../../../../raw/book/pages/page_049.md)).
 - Upward movement = aggressive buyers OR short stop-loss executions;
   downward = aggressive sellers OR long stop-loss executions
-  ([p.50–51](../../../raw/book/pages/page_050.md)).
+  ([p.50–51](../../../../raw/book/pages/page_050.md)).
 - **Lack of interest** is a second mechanism: absence of supply can let
   price walk up on minimal demand
-  ([p.52](../../../raw/book/pages/page_052.md)).
+  ([p.52](../../../../raw/book/pages/page_052.md)).
 - Price and volume are the two readable outputs of the auction
-  ([p.53](../../../raw/book/pages/page_053.md)).
+  ([p.53](../../../../raw/book/pages/page_053.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

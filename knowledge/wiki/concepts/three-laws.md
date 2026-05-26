@@ -23,9 +23,9 @@ sources:
 The Wyckoff Method rests on three fundamental laws that govern price behavior:
 the **law of supply and demand**, the **law of cause and effect**, and the
 **law of effort and result**. They are listed together as the methodology's
-basic foundations ([book p.36](../../raw/book/pages/page_036.md)) and each
+basic foundations ([book p.36](../../../raw/book/pages/page_036.md)) and each
 gets its own chapter in Part 3 of the book
-([book p.46](../../raw/book/pages/page_046.md)).
+([book p.46](../../../raw/book/pages/page_046.md)).
 
 Every other Wyckoff concept — phases, events, structures, trade location — is
 an application of one or more of these three laws to a specific situation.
@@ -38,13 +38,13 @@ result.
 - **[[supply-and-demand]]** — what makes price actually move: aggressive
   market orders consuming the opposite side's passive book, not a naive
   headcount of "more buyers than sellers"
-  ([book p.47](../../raw/book/pages/page_047.md)).
+  ([book p.47](../../../raw/book/pages/page_047.md)).
 - **[[cause-and-effect]]** — trends do not come from nowhere; they are
   prepared by lateral cause-building, and the effect is proportional to the
-  cause ([book p.55](../../raw/book/pages/page_055.md)).
+  cause ([book p.55](../../../raw/book/pages/page_055.md)).
 - **[[effort-and-result]]** — volume is effort, price progress is result;
   harmony confirms a move, divergence warns of absorption or exhaustion
-  ([book p.61](../../raw/book/pages/page_061.md)).
+  ([book p.61](../../../raw/book/pages/page_061.md)).
 
 The three laws are not independent. Cause-building happens through
 supply/demand absorption; effort/result is the moment-by-moment readout of

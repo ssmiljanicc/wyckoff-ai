@@ -13,7 +13,7 @@ sources:
 ## Summary
 
 The book frames market stance in three explicit categories
-([book p.16](../../raw/book/pages/page_016.md)):
+([book p.16](../../../raw/book/pages/page_016.md)):
 
 - **Buying position** — when the price is in accumulation or uptrend
 - **Selling position** — when the price is in distribution or downtrend
@@ -30,7 +30,7 @@ classification tied directly to where the market is in its
 
 - It is **defensive first**: knowing you are in a buying position prevents
   you from taking short trades against a verified bullish campaign, and
-  vice versa ([book p.15](../../raw/book/pages/page_015.md)).
+  vice versa ([book p.15](../../../raw/book/pages/page_015.md)).
 - It is **conditional on cycle position**, not on the last candle. A red
   bar inside an accumulation range does not put the market into a selling
   position; only a verified distribution structure does.

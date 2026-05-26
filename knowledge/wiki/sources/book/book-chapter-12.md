@@ -43,23 +43,23 @@ pages). Batch 1 captures the path-of-least-resistance content.
 
 - Distribution is a lateral movement that stops an uptrend; professionals
   build a sell position to profit at lower prices
-  ([p.80](../../../raw/book/pages/page_080.md)).
+  ([p.80](../../../../raw/book/pages/page_080.md)).
 - Aggressive sell orders all at once would slip the price; the operator
   must absorb demand gradually
-  ([p.81](../../../raw/book/pages/page_081.md)).
+  ([p.81](../../../../raw/book/pages/page_081.md)).
 - The upthrust is the central handling manoeuvre but **does not always
   occur** — the no-shake variant is also valid
-  ([p.82](../../../raw/book/pages/page_082.md)).
+  ([p.82](../../../../raw/book/pages/page_082.md)).
 - The operator generates extreme-strength environment / bullish news to
   attract late buyers — the counterparty for their sales
-  ([p.82](../../../raw/book/pages/page_082.md)).
+  ([p.82](../../../../raw/book/pages/page_082.md)).
 - Path of least resistance is verified by upward probes; absence of
   volume = exhausted demand
-  ([p.83](../../../raw/book/pages/page_083.md)).
+  ([p.83](../../../../raw/book/pages/page_083.md)).
 - Common characteristics: **high volume and volatility throughout**;
   tests of the low zone without volume; upward shakes to prior highs;
   wider/smoother down bars than up bars; decreasing H&L in the late
-  stage ([p.84](../../../raw/book/pages/page_084.md)).
+  stage ([p.84](../../../../raw/book/pages/page_084.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 1)
 

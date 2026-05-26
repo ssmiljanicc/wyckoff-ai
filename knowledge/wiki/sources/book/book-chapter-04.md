@@ -53,25 +53,25 @@ too soon and were not drawn correctly).
 
 - "The best way to assess current strength/weakness is to compare it
   with previously developed movements"
-  ([p.20](../../../raw/book/pages/page_020.md)). All trend assessment is
+  ([p.20](../../../../raw/book/pages/page_020.md)). All trend assessment is
   comparative.
 - Weakness is not by itself a reversal — only a sign of loss of strength
-  ([p.20](../../../raw/book/pages/page_020.md)).
+  ([p.20](../../../../raw/book/pages/page_020.md)).
 - Three comparative axes: **speed** (angle of advance),
   **projection** (impulse distance), **depth** (reaction distance)
-  ([p.21–23](../../../raw/book/pages/page_021.md)).
+  ([p.21–23](../../../../raw/book/pages/page_021.md)).
 - Lines must be drawn with judgment, not on every minor move; the more
   touches a line has, the more validity
-  ([p.24](../../../raw/book/pages/page_024.md)).
+  ([p.24](../../../../raw/book/pages/page_024.md)).
 - A trend line break is not by itself a reversal; **how** it breaks
-  matters ([p.27](../../../raw/book/pages/page_027.md)).
+  matters ([p.27](../../../../raw/book/pages/page_027.md)).
 - Overbought / oversold conditions appear when price penetrates the
   outer (channel) lines
-  ([p.28–29](../../../raw/book/pages/page_028.md)).
+  ([p.28–29](../../../../raw/book/pages/page_028.md)).
 - Inverted lines bootstrap a channel when no clear trend exists yet
-  ([p.30](../../../raw/book/pages/page_030.md)); converging lines apply
+  ([p.30](../../../../raw/book/pages/page_030.md)); converging lines apply
   when standard channels fail
-  ([p.31–32](../../../raw/book/pages/page_031.md)).
+  ([p.31–32](../../../../raw/book/pages/page_031.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

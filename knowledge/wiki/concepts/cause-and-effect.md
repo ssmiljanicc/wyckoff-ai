@@ -27,11 +27,11 @@ sources:
 A trend does not arise from nowhere. Before there can be a trend (the
 effect), a cause must first be built — typically during a lateral price
 phase in which stock changes hands between informed and uninformed
-participants ([book p.54](../../raw/book/pages/page_054.md)).
+participants ([book p.54](../../../raw/book/pages/page_054.md)).
 
 The book's central proportionality claim: **the effect is in direct
 proportion to the cause**
-([book p.55](../../raw/book/pages/page_055.md)). The longer the time spent
+([book p.55](../../../raw/book/pages/page_055.md)). The longer the time spent
 building cause inside a range, the further the subsequent trend tends to
 travel.
 
@@ -42,7 +42,7 @@ travel.
 During range conditions the operator quietly absorbs stock (or distributes
 it), gradually expelling other participants until the path on which price
 will be directed is free of resistance
-([book p.54–55](../../raw/book/pages/page_054.md)). The lateral phase is not
+([book p.54–55](../../../raw/book/pages/page_054.md)). The lateral phase is not
 "price doing nothing" — it is where the campaign happens.
 
 ### Climax As An Exception
@@ -50,23 +50,23 @@ will be directed is free of resistance
 Not every cause is built by a long range. Climactic moves can also do the
 work: the large operator uses the climax candle itself to
 accumulate/distribute the inventory needed, then launches the move from
-there ([book p.56](../../raw/book/pages/page_056.md)). When the range is
+there ([book p.56](../../../raw/book/pages/page_056.md)). When the range is
 short and a climax was extreme, the cause may already be sufficient.
 
 ### Not Every Range Is A Cause
 
 The book is explicit: "not all ranges are accumulation or distribution
-processes" ([book p.56](../../raw/book/pages/page_056.md)). Some are pure
+processes" ([book p.56](../../../raw/book/pages/page_056.md)). Some are pure
 balance — random fluctuation with no motivating cause behind them. This is
 the lead-in to [[random-vs-purposeful-range]].
 
 ### Quantifying Cause: Point And Figure
 
 Wyckoff's classical tool for translating cause into an effect target is the
-point-and-figure chart ([book p.57](../../raw/book/pages/page_057.md)). The
+point-and-figure chart ([book p.57](../../../raw/book/pages/page_057.md)). The
 count is taken from right to left, between the two levels where the
 controlling force first and last appeared
-([book p.57–58](../../raw/book/pages/page_057.md)):
+([book p.57–58](../../../raw/book/pages/page_057.md)):
 
 - **Accumulation count:** from the LPS back to the PS or SC.
 - **Distribution count:** from the LPSY back to the PSY or BC.
@@ -77,11 +77,11 @@ controlling force first and last appeared
 Multiply box count by box value; add to the LPS/LPSY price for the classic
 projection, to the structure extreme for a moderate one, and divide the
 range into phases for a conservative one
-([book p.58](../../raw/book/pages/page_058.md)).
+([book p.58](../../../raw/book/pages/page_058.md)).
 
 The book notes that P&F has subjectivity problems in modern markets and that
 many traders prefer projection tools like Fibonacci or harmonic ranges
-([book p.59](../../raw/book/pages/page_059.md)) — useful, but the underlying
+([book p.59](../../../raw/book/pages/page_059.md)) — useful, but the underlying
 law (proportionality of cause to effect) is what matters.
 
 ## Why It Matters For Wyckoff Reading
@@ -94,7 +94,7 @@ law (proportionality of cause to effect) is what matters.
   count the cause, then size the expected effect.
 - Reaccumulation/redistribution variants count differently because the cause
   is shorter — the prior trend has done part of the work already
-  ([book p.58](../../raw/book/pages/page_058.md)).
+  ([book p.58](../../../raw/book/pages/page_058.md)).
 
 ## Links
 

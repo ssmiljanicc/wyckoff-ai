@@ -21,7 +21,7 @@ sources:
 A trading range is "a lateral movement of the price preceded by a [trend]
 movement" — a zone of relative balance between supply and demand where
 previous movement has been stopped
-([book p.33](../../raw/book/pages/page_033.md)). The book states that the
+([book p.33](../../../raw/book/pages/page_033.md)). The book states that the
 market spends **most of its time** in this condition, which is why ranges
 are treated as the primary unit of analysis.
 
@@ -38,20 +38,20 @@ and ingest in Batch 2.
 - **Two ends.** A range needs two reference points to define a channel —
   one on the upper boundary, one on the lower. Until those boundaries
   exist, there is no range, only an in-progress reaction
-  ([book p.34](../../raw/book/pages/page_034.md)).
+  ([book p.34](../../../raw/book/pages/page_034.md)).
 - **Time.** The range must consume time, because cause must be built
-  before effect can appear ([book p.34](../../raw/book/pages/page_034.md))
+  before effect can appear ([book p.34](../../../raw/book/pages/page_034.md))
   — see [[cause-and-effect]]. A purposeful range is incomplete by
   definition until enough time has passed for the operator's campaign to
   finish.
 - **Boundaries over midpoint.** The book emphasizes that "the key is in
   the ends. When these are broken, they can offer excellent trading
-  opportunities" ([book p.34](../../raw/book/pages/page_034.md)). The
+  opportunities" ([book p.34](../../../raw/book/pages/page_034.md)). The
   midpoint of the range is not a structural feature.
 
 ### Three Possible Reads Of A Sideways Market
 
-From the same page ([book p.34](../../raw/book/pages/page_034.md)):
+From the same page ([book p.34](../../../raw/book/pages/page_034.md)):
 
 1. **Accumulation** — preparing an upward movement
 2. **Distribution** — preparing a downward movement
@@ -65,7 +65,7 @@ apply — the correct stance is neutral.
 ### The Decisive Move
 
 The breakout that ends a range cannot occur until two conditions both
-hold ([book p.34–35](../../raw/book/pages/page_034.md)):
+hold ([book p.34–35](../../../raw/book/pages/page_034.md)):
 
 1. A clear imbalance between supply and demand has been generated inside
    the range (the cause is complete).
@@ -79,7 +79,7 @@ both conditions hold, the range continues.
 ### Flexibility Of Structure
 
 The book is explicit that price will not develop two identical structures
-([book p.37](../../raw/book/pages/page_037.md)), so the methodology is
+([book p.37](../../../raw/book/pages/page_037.md)), so the methodology is
 designed to be flexible. The **fixed elements** are the events and
 phases; the structures are templates that combine those fixed elements
 in particular sequences, but the trader should not expect any specific
@@ -91,7 +91,7 @@ basic accumulation #1 and #2 (and the matching distribution variants).
 The book treats the inside of the range as where the best
 risk/reward setups live: "the ranges within it present optimum trading
 opportunities with a very favourable risk/reward potential"
-([book p.33](../../raw/book/pages/page_033.md)). Trend-following inside
+([book p.33](../../../raw/book/pages/page_033.md)). Trend-following inside
 the markup or markdown phase loses some of the move, so positioning at
 the Phase-C or Phase-D area of a verified range captures more of the
 campaign.

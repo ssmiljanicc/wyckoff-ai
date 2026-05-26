@@ -18,13 +18,13 @@ sources:
 
 The first claim the book makes about market structure is that **price does
 not move in straight lines; it moves in waves of different sizes**
-([book p.12](../../raw/book/pages/page_012.md)). Wyckoff and the early
+([book p.12](../../../raw/book/pages/page_012.md)). Wyckoff and the early
 tape readers studied the relationship between the up and down waves as the
 primary signal.
 
 Waves are **fractal**: lower-grade waves are part of intermediate-grade
 waves, which are part of higher-grade waves
-([book p.12](../../raw/book/pages/page_012.md)). Each uptrend and
+([book p.12](../../../raw/book/pages/page_012.md)). Each uptrend and
 downtrend is made of numerous minor up and down waves. When one ends,
 another begins in the opposite direction.
 
@@ -34,10 +34,10 @@ another begins in the opposite direction.
 
 By comparing successive waves on three axes — **duration, speed, and range**
 — the trader infers whether supply or demand has the upper hand
-([book p.12](../../raw/book/pages/page_012.md)). The book is explicit:
+([book p.12](../../../raw/book/pages/page_012.md)). The book is explicit:
 wave analysis is a readout of "the relative changes between supply and
 demand" and helps judge the relative strength or weakness of buyers and
-sellers as a move progresses ([book p.13](../../raw/book/pages/page_013.md)).
+sellers as a move progresses ([book p.13](../../../raw/book/pages/page_013.md)).
 
 ### Comparison, Not Absolutes
 
@@ -54,13 +54,13 @@ technique applies to a 5-minute leg, a daily impulse, or a multi-month
 campaign — only the timeframe changes. This is what justifies multi-
 timeframe analysis in the methodology: each timeframe is its own wave
 grade, and they can contradict each other
-([book p.16](../../raw/book/pages/page_016.md)).
+([book p.16](../../../raw/book/pages/page_016.md)).
 
 ### Operational Tool: Weis Wave Volume
 
 The book recommends David Weis's wave-volume technique as the operational
 form of wave reading
-([book p.67](../../raw/book/pages/page_067.md)) — measure total volume on
+([book p.67](../../../raw/book/pages/page_067.md)) — measure total volume on
 each wave (up and down), compare current wave to prior waves in the same
 direction and to the opposing wave. This is the primary input to
 [[effort-and-result]] at the wave scale.

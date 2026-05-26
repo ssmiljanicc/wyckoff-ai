@@ -43,24 +43,24 @@ the chapter's path-of-least-resistance content.
 
 - Accumulation is a lateral movement preceded by a downtrend in which
   big traders absorb stock to sell higher
-  ([p.72](../../../raw/book/pages/page_072.md)).
+  ([p.72](../../../../raw/book/pages/page_072.md)).
 - Stock control transfers from weak hands to strong hands during the
   decline; the structure is the **final** absorption
-  ([p.73](../../../raw/book/pages/page_073.md)).
+  ([p.73](../../../../raw/book/pages/page_073.md)).
 - The spring is the central handling manoeuvre but **does not always
   occur** — the no-shake variant is equally valid
-  ([p.74](../../../raw/book/pages/page_074.md)).
+  ([p.74](../../../../raw/book/pages/page_074.md)).
 - The operator generates a flat, boring environment to discourage weak
   hands from holding long
-  ([p.74](../../../raw/book/pages/page_074.md)).
+  ([p.74](../../../../raw/book/pages/page_074.md)).
 - The path of least resistance is verified through tests — downward
   probes looking for absence of volume = exhausted supply
-  ([p.75](../../../raw/book/pages/page_075.md)). This is why more than
+  ([p.75](../../../../raw/book/pages/page_075.md)). This is why more than
   one shake can appear in a range.
 - Common characteristics: declining volume and volatility as the range
   develops; tests of the high zone without volume; springs to prior
   lows; wider/smoother up bars than down bars; rising H&L in the late
-  stage ([p.76](../../../raw/book/pages/page_076.md)).
+  stage ([p.76](../../../../raw/book/pages/page_076.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 1)
 

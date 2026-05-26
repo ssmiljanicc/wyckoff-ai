@@ -34,18 +34,18 @@ justification for the whole methodology.
 ## Key Claims
 
 - The market spends most of its time in ranges, so they are extremely
-  important ([p.33](../../../raw/book/pages/page_033.md)).
+  important ([p.33](../../../../raw/book/pages/page_033.md)).
 - Inside the range, opportunities have favourable risk/reward; chasing
   the trend post-breakout loses part of the move
-  ([p.33](../../../raw/book/pages/page_033.md)).
+  ([p.33](../../../../raw/book/pages/page_033.md)).
 - A sideways market admits three reads: accumulation, distribution, or
   random fluctuation — random ranges should be ignored
-  ([p.34](../../../raw/book/pages/page_034.md)).
+  ([p.34](../../../../raw/book/pages/page_034.md)).
 - A range needs two boundary points; the **key is in the ends**, not the
-  midpoint ([p.34](../../../raw/book/pages/page_034.md)).
+  midpoint ([p.34](../../../../raw/book/pages/page_034.md)).
 - The decisive breakout cannot happen until (a) supply/demand imbalance
   is generated and (b) the path of least resistance is verified
-  ([p.34–35](../../../raw/book/pages/page_034.md)).
+  ([p.34–35](../../../../raw/book/pages/page_034.md)).
 
 ## Wiki Pages Sourced From This Chapter
 
