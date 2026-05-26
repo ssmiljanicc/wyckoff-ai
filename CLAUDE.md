@@ -210,7 +210,7 @@ One per logical source unit:
 
 ## 4. Ingest workflow
 
-Active batch ingest for [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) is operated through the temporary skill [`skills/wyckoff-wiki-ingest/`](skills/wyckoff-wiki-ingest/SKILL.md). That skill contains:
+Active batch ingest for [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) is operated through the temporary skill `wyckoff-wiki-ingest`. The canonical protocol lives in the neutral runbook [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md); tanki Claude i Codex wrapper-i u [`.claude/skills/wyckoff-wiki-ingest/`](.claude/skills/wyckoff-wiki-ingest/SKILL.md) i [`.agents/skills/wyckoff-wiki-ingest/`](.agents/skills/wyckoff-wiki-ingest/SKILL.md) load-uju runbook. That skill contains:
 
 - The batch priority order (book → crypto archive → Fraser) with concrete chapter/volume ranges
 - The cross-batch awareness protocol (read existing wiki before redefining)
@@ -241,7 +241,7 @@ sources:
 ---
 ```
 
-**Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`skills/wyckoff-wiki-ingest/SKILL.md`](skills/wyckoff-wiki-ingest/SKILL.md) §2.
+**Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) §2.
 
 **Synthesis claims** (cross-source generalizations not stated verbatim in any one source) must be marked:
 
@@ -335,7 +335,7 @@ If you find yourself writing something in one of these categories, file it in th
 | Want to... | Go to |
 |---|---|
 | Understand how ingest works (generic) | `~/.agent-runbooks/llm-wiki.md` |
-| Run a #7 batch ingest or PR review | [`skills/wyckoff-wiki-ingest/SKILL.md`](skills/wyckoff-wiki-ingest/SKILL.md) |
+| Run a #7 batch ingest or PR review | [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) |
 | Decide where a new page goes | this file §2 + §3 |
 | Cite a source correctly | this file §5 + skill §2 (path depth) |
 | Mark a missing or paywalled source | this file §7 |

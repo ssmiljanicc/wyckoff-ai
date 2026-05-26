@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wyckoff Wiki Ingest"
+  short_description: "Batched ingest sirovih izvora u knowledge/wiki/ (Issue #7)"
+  default_prompt: "Use $wyckoff-wiki-ingest <batch-number> | review-pr <PR> | spot-check <PR>. Default action: pročitaj runbook + operations/ingest-batch.md za batch broj koji je prosleđen."
+policy:
+  allow_implicit_invocation: false
