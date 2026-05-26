@@ -55,9 +55,26 @@ git push  # u kild-u
 uv run skills/wyckoff-wiki-ingest/scripts/review_pr.py <PR_NUMBER>
 ```
 
-## Korak 4: Merge
+## Korak 4: Semantic spot-check
 
-Tek kada review prolazi:
+Mehanički review hvata strukturalne probleme. Semantic spot-check hvata lošu sintezu, redefinisanje pojmova, citation misattribution-e (link razrešava ali na pogrešan sadržaj), i površne cross-linkove. Pun protokol u [`semantic-spot-check.md`](semantic-spot-check.md).
+
+**Obavezno za:** **Batch 2** i **Batch 3** (kalibracija kvaliteta).
+
+**Posle Batch 3** — pokreni ako je bar jedan trigger ispunjen:
+1. Batch uvodi novi izvor tipa (npr. Fraser prvi put, crypto archive prvi put)
+2. Batch dodaje ≥3 nove definicione stranice (`concepts/`, `events/`, `structures/`)
+3. Reviewer ima konkretnu sumnju ("ovo deluje kao parafraza", "ovo redefiniše pojam")
+
+Ako nijedan trigger nije ispunjen i mehanički review je pass → merge bez spot-check-a.
+
+**Ko izvršava:** Opus sesija (ne Codex/Sonnet) — traži Wyckoff domain judgment i poređenje sa raw izvorima.
+
+**Veza sa runbook-om:** spot-check verifikuje da je pisac batch-a sledio runbook §3.5 (Unknown claim) i §3.6 (Citation verification). Ako je sledio, spot-check je brz; ako nije, ovde se nalazi.
+
+## Korak 5: Merge
+
+Tek kada mehanički review prolazi i semantic spot-check nije blokirao merge:
 ```bash
 gh pr merge <PR_NUMBER> --repo ssmiljanicc/wyckoff-ai --squash --delete-branch
 ```
@@ -69,16 +86,6 @@ Posle merge-a:
   uv run skills/wyckoff-wiki-ingest/scripts/validate_links.py
   ```
 - Označi issue komentar ili checkbox na #7
-
-## Korak 5 (opciono): Deep review
-
-Ako batch ima novi domen (npr. crypto archive prvi put, ili novu vrstu Wyckoff sadržaja koju Batch 1/2 nisu pokrili), mehanički review nije dovoljan. Opciono pokreni:
-
-- Manuelni spot-check 3–5 nasumičnih stranica:
-  - Da li ima dubinu sinteze ili je samo parafraza izvora?
-  - Da li koristi tačan Wyckoff vokabular (ne tržišni žargon)?
-  - Da li cross-references vode na semantički povezane stranice (ne random)?
-- Ova provera ide u Opus session (ne u Codex review kild) — traži dubok judgment.
 
 ## Output contract review-a
 
