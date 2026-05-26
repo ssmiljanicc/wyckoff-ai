@@ -60,17 +60,22 @@ def cleanup_worktree(wt: Path) -> None:
         shutil.rmtree(wt, ignore_errors=True)
 
 
-def new_files_in_pr(wt: Path, pr_number: int) -> list[Path]:
+def files_in_pr(wt: Path, pr_number: int) -> tuple[list[Path], list[Path]]:
+    """Return (added_files, modified_files) for wiki .md files in the PR."""
     diff = subprocess.run(
         ["git", "diff", "--name-status", f"origin/main...refs/remotes/origin/pr/{pr_number}", "--", "knowledge/wiki"],
         cwd=REPO_ROOT, capture_output=True, text=True, check=True,
     ).stdout
-    new = []
+    added, modified = [], []
     for line in diff.splitlines():
         parts = line.split("\t")
-        if len(parts) >= 2 and parts[0] in ("A", "M") and parts[1].endswith(".md"):
-            new.append(wt / parts[1])
-    return new
+        if len(parts) >= 2 and parts[1].endswith(".md"):
+            p = wt / parts[1]
+            if parts[0] == "A":
+                added.append(p)
+            elif parts[0] == "M":
+                modified.append(p)
+    return added, modified
 
 
 def check_frontmatter(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
@@ -141,10 +146,18 @@ def check_cross_references(files: list[Path], wt: Path) -> tuple[bool, list[str]
     return len(issues) == 0, issues
 
 
-def check_index_log_update(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
+def check_index_log_update(added_files: list[Path], all_files: list[Path], wt: Path) -> tuple[bool, list[str]]:
+    # Only require index/log update when the PR adds NEW wiki content pages
+    new_content = [
+        f for f in added_files
+        if f.name not in ("index.md", "log.md", "README.md")
+        and "knowledge/wiki" in str(f)
+    ]
+    if not new_content:
+        return True, []
     issues = []
-    index_changed = any(f.name == "index.md" for f in files)
-    log_changed = any(f.name == "log.md" for f in files)
+    index_changed = any(f.name == "index.md" for f in all_files)
+    log_changed = any(f.name == "log.md" for f in all_files)
     if not index_changed:
         issues.append("knowledge/wiki/index.md nije izmenjen u PR-u")
     if not log_changed:
@@ -200,30 +213,35 @@ def main() -> int:
 
     wt = setup_worktree(args.pr_number)
     try:
-        files = new_files_in_pr(wt, args.pr_number)
-        if not files:
+        added, modified = files_in_pr(wt, args.pr_number)
+        all_files = added + modified
+        if not all_files:
             print(f"PR #{args.pr_number}: nema izmenjenih .md fajlova u knowledge/wiki/")
             return 0
 
-        print(f"PR #{args.pr_number}: review {len(files)} izmenjenih fajlova\n")
+        print(f"PR #{args.pr_number}: {len(added)} novih + {len(modified)} izmenjenih fajlova\n")
 
         results = []
-        fm_pass, fm_issues = check_frontmatter(files, wt)
+        # Frontmatter/style/gaps: samo novi fajlovi (dodati, ne modifikovani)
+        fm_pass, fm_issues = check_frontmatter(added, wt)
         results.append(("Provenance frontmatter", fm_pass, fm_issues))
 
-        link_pass, link_issues = check_inline_links(files, wt)
+        # Inline links: i novi i modifikovani (fix mora biti tačan u oba)
+        link_pass, link_issues = check_inline_links(all_files, wt)
         results.append(("Inline citation links", link_pass, link_issues))
 
-        xref_pass, xref_issues = check_cross_references(files, wt)
+        # Cross-references: samo novi fajlovi (forward-refs u postojećim su OK)
+        xref_pass, xref_issues = check_cross_references(added, wt)
         results.append(("Cross-references [[name]]", xref_pass, xref_issues))
 
-        idx_pass, idx_issues = check_index_log_update(files, wt)
+        # Index/log: obavezno samo ako postoje novi content fajlovi
+        idx_pass, idx_issues = check_index_log_update(added, all_files, wt)
         results.append(("Index/log update", idx_pass, idx_issues))
 
-        style_pass, style_issues = check_style(files, wt)
+        style_pass, style_issues = check_style(added, wt)
         results.append(("Style consistency", style_pass, style_issues))
 
-        gap_pass, gap_issues = check_wiki_gap(files, wt)
+        gap_pass, gap_issues = check_wiki_gap(all_files, wt)
         results.append(("WIKI_GAP markeri (info)", gap_pass, gap_issues))
 
         for name, p, issues in results:
