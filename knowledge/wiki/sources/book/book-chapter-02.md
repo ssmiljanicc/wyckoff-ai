@@ -33,19 +33,19 @@ frame and can be in different stages simultaneously.
 ## Key Claims
 
 - Markets have **only two basic conditions**: trends and trading ranges
-  ([p.14](../../../raw/book/pages/page_014.md)).
+  ([p.14](../../../../raw/book/pages/page_014.md)).
 - Trends move via waves; accumulation/distribution build cause inside
-  ranges ([p.14](../../../raw/book/pages/page_014.md)).
+  ranges ([p.14](../../../../raw/book/pages/page_014.md)).
 - The trend phase is "about the path of least resistance" — professionals
   verify the path before initiating
-  ([p.14](../../../raw/book/pages/page_014.md)).
+  ([p.14](../../../../raw/book/pages/page_014.md)).
 - Reaccumulation and redistribution are continuation pauses, not fresh
-  cycles ([p.15](../../../raw/book/pages/page_015.md)).
+  cycles ([p.15](../../../../raw/book/pages/page_015.md)).
 - Buying position = accumulation or uptrend; selling position =
   distribution or downtrend; neutral position = no campaign
-  ([p.16](../../../raw/book/pages/page_016.md)).
+  ([p.16](../../../../raw/book/pages/page_016.md)).
 - A complete cycle (all four stages) occurs in all time frames
-  ([p.16](../../../raw/book/pages/page_016.md)).
+  ([p.16](../../../../raw/book/pages/page_016.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

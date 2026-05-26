@@ -41,26 +41,26 @@ position.
 ## Key Claims
 
 - "Something cannot happen out of nowhere"
-  ([p.54](../../../raw/book/pages/page_054.md)).
+  ([p.54](../../../../raw/book/pages/page_054.md)).
 - Effect is in direct proportion to cause — longer ranges produce
-  longer trends ([p.55](../../../raw/book/pages/page_055.md)).
+  longer trends ([p.55](../../../../raw/book/pages/page_055.md)).
 - Climax events can substitute for an extended range — the operator
   uses the climax to build position
-  ([p.56](../../../raw/book/pages/page_056.md)).
+  ([p.56](../../../../raw/book/pages/page_056.md)).
 - Not all ranges are accumulation/distribution — some have no
   motivating cause
-  ([p.56](../../../raw/book/pages/page_056.md)).
+  ([p.56](../../../../raw/book/pages/page_056.md)).
 - Point-and-figure counts cause horizontally:
   accumulation count from LPS back to PS/SC; distribution count from
   LPSY back to PSY/BC; reaccumulation from LPS to AR; redistribution
-  from LPS to AR ([p.57–58](../../../raw/book/pages/page_057.md)).
+  from LPS to AR ([p.57–58](../../../../raw/book/pages/page_057.md)).
 - Three projection grades from P&F: **classic** (extend from LPS/LPSY),
   **moderate** (extend from structure extreme), **conservative**
   (divide range into phases)
-  ([p.58](../../../raw/book/pages/page_058.md)).
+  ([p.58](../../../../raw/book/pages/page_058.md)).
 - The author notes P&F has subjectivity problems in modern markets and
   many traders prefer projection tools like Fibonacci or harmonic
-  patterns ([p.59](../../../raw/book/pages/page_059.md)).
+  patterns ([p.59](../../../../raw/book/pages/page_059.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

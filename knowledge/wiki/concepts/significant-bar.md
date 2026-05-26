@@ -18,7 +18,7 @@ sources:
 
 The **significant bar** is the book's chapter-27 concept for identifying
 short-term institutional intent at the moment a turn or breakout is
-attempted ([book p.208](../../raw/book/pages/page_208.md)). It is the
+attempted ([book p.208](../../../raw/book/pages/page_208.md)). It is the
 shortest-timeframe expression of [[effort-and-result]] in harmony: a bar
 where the price action and the volume action both commit, in the same
 direction, through a relevant level.
@@ -26,14 +26,14 @@ direction, through a relevant level.
 A bar with these characteristics "denotes intent and will generally be
 associated with institutional presence," so the expectation is that price
 will continue in that direction
-([book p.209](../../raw/book/pages/page_209.md)).
+([book p.209](../../../raw/book/pages/page_209.md)).
 
 ## Key Points
 
 ### The Four Characteristics
 
 A significant bar has all four
-([book p.209](../../raw/book/pages/page_209.md)):
+([book p.209](../../../raw/book/pages/page_209.md)):
 
 1. **Range** — relatively wider range than prior bars.
 2. **Volume** — operated volume proportional to that wider range (i.e.
@@ -46,13 +46,13 @@ A significant bar has all four
 
 Examples of bars that often qualify: SOSbar (Sign of Strength bar) and
 SOWbar (Sign of Weakness bar)
-([book p.208](../../raw/book/pages/page_208.md)).
+([book p.208](../../../raw/book/pages/page_208.md)).
 
 ### Composite Significant Bar
 
 If the price does not develop a clean single significant bar, two normal
 bars can be combined and read using the same four characteristics
-([book p.210](../../raw/book/pages/page_210.md)). This is useful in
+([book p.210](../../../raw/book/pages/page_210.md)). This is useful in
 markets that print many small bars (intraday crypto, futures sessions)
 where a single-bar reading would miss intent that is spread across two.
 
@@ -68,7 +68,7 @@ designed to filter that case out before reading intent.
 - The significant bar is the entry-timing instrument. Once a structure has
   been read and a level identified, the significant bar tells you that
   institutional commitment has appeared at that level
-  ([book p.208](../../raw/book/pages/page_208.md)).
+  ([book p.208](../../../raw/book/pages/page_208.md)).
 - It is also the **reference point** for [[reversal-of-movement]] — the
   last significant bar in the current move marks current control; an
   opposing significant bar that breaks it marks the reversal.

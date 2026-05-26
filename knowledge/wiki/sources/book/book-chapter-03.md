@@ -33,18 +33,18 @@ by establishing that trend direction alone is not enough; the trend's
 ## Key Claims
 
 - The trend is "simply the line of least resistance"
-  ([p.17](../../../raw/book/pages/page_017.md)).
+  ([p.17](../../../../raw/book/pages/page_017.md)).
 - Pivot points (where a trend's resistance is either exceeded or turns
   the price) are "critical moments and provide excellent locations to
-  trade" ([p.17](../../../raw/book/pages/page_017.md)).
+  trade" ([p.17](../../../../raw/book/pages/page_017.md)).
 - Three trend types by direction (rising / falling / sideways) and three
   by duration (long / medium / short term, nested inside each other)
-  ([p.17–18](../../../raw/book/pages/page_017.md)).
+  ([p.17–18](../../../../raw/book/pages/page_017.md)).
 - Beginners should start with long-term trading until consistent success
-  ([p.18](../../../raw/book/pages/page_018.md)).
+  ([p.18](../../../../raw/book/pages/page_018.md)).
 - Bull markets are driven by greed; bear markets by fear; both lead to
   overbought/oversold extremes
-  ([p.19](../../../raw/book/pages/page_019.md)).
+  ([p.19](../../../../raw/book/pages/page_019.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

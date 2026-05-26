@@ -39,18 +39,18 @@ duration claim.
 
 - Reaccumulation = accumulation mechanically; only difference is the
   initial trend direction
-  ([p.77](../../../raw/book/pages/page_077.md)).
+  ([p.77](../../../../raw/book/pages/page_077.md)).
 - During an uptrend, control gradually shifts from strong to weak hands;
   reaccumulation rebuilds strong-hand control
-  ([p.78](../../../raw/book/pages/page_078.md)).
+  ([p.78](../../../../raw/book/pages/page_078.md)).
 - Structure duration is influenced by the strong/weak hand mix: if value
   is still mostly in strong hands, the structure is shorter; if mostly
   in weak hands, it must be longer
-  ([p.78](../../../raw/book/pages/page_078.md)).
+  ([p.78](../../../../raw/book/pages/page_078.md)).
 - Reaccumulation and distribution both start after the stop of an
   upward move — disambiguating them is "one of the most compromising
   situations that any Wyckoff trader will encounter"
-  ([p.79](../../../raw/book/pages/page_079.md)).
+  ([p.79](../../../../raw/book/pages/page_079.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 1)
 

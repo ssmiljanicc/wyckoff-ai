@@ -50,18 +50,18 @@ ice for distribution support.
 ## Key Claims
 
 - Markets are alive; using fixed patterns to read context is a mistake
-  ([p.37](../../../raw/book/pages/page_037.md)).
+  ([p.37](../../../../raw/book/pages/page_037.md)).
 - The methodology's **fixed elements are the events and the phases**;
   the structures are templates
-  ([p.37](../../../raw/book/pages/page_037.md)).
+  ([p.37](../../../../raw/book/pages/page_037.md)).
 - Two variants of each structure exist — one with a terminal shake
   (spring / UTAD), one without
-  ([p.40–41](../../../raw/book/pages/page_040.md),
-  [p.44–45](../../../raw/book/pages/page_044.md)).
+  ([p.40–41](../../../../raw/book/pages/page_040.md),
+  [p.44–45](../../../../raw/book/pages/page_044.md)).
 - In the no-shake variants, the primary trade opportunity moves to the
   Phase-D breakout test ([[events/back-up-to-the-edge-of-the-creek|BUEC]]
   for accumulation, [[events/last-point-of-supply|LPSY]] for
-  distribution) ([p.41, 45](../../../raw/book/pages/page_041.md)).
+  distribution) ([p.41, 45](../../../../raw/book/pages/page_041.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 1)
 

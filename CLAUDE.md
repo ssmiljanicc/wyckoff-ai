@@ -208,24 +208,16 @@ One per logical source unit:
 
 ---
 
-## 4. Ingest priority order
+## 4. Ingest workflow
 
-When ingesting raw sources into the wiki, follow this priority unless a specific batch is requested:
+Active batch ingest for [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) is operated through the temporary skill [`skills/wyckoff-wiki-ingest/`](skills/wyckoff-wiki-ingest/SKILL.md). That skill contains:
 
-1. **Book** (`raw/book/`) — defines vocabulary and structure for everything else. Batch by chapter range:
-   - Chapters 1–13 (core framework)
-   - Chapters 14–25 (events, phases)
-   - Chapters 26–27 (trade execution, P&F)
-2. **Crypto Archive** (`raw/crypto_archive/`) — applies the framework to crypto. Batch by date range:
-   - Vol 14–28 (2020: post-crash repair, margin behavior)
-   - Vol 29–59 (2020–2021: DeFi, rotation, terminal Bitcoin)
-3. **Bruce Fraser** (`raw/bruce_fraser/`) — context, P&F, and relative strength. Batch by theme:
-   - Context and phase reading (~40 articles)
-   - Point & Figure (~30 articles)
-   - Relative strength and campaign logic (~40 articles)
-   - Remaining (~130 articles)
+- The batch priority order (book → crypto archive → Fraser) with concrete chapter/volume ranges
+- The cross-batch awareness protocol (read existing wiki before redefining)
+- Validation scripts (`validate_links.py`, `fix_inline_links.py`, `review_pr.py`)
+- Per-batch output contract and PR template
 
-Rationale: the book is the canonical taxonomy. Ingesting it first means crypto and Fraser pages can link back to existing concept pages instead of redefining terms.
+The skill is deleted once #7 is complete (Batch 9 merged). This file then continues to govern ad-hoc wiki updates via §2, §3, §5–§9.
 
 ---
 
@@ -249,13 +241,7 @@ sources:
 ---
 ```
 
-**Within page body**, cite inline using markdown links for high-density claims:
-
-```md
-A spring is a downside shake that probes below trading-range support
-([book p.142](../../raw/book/pages/page_142.md)) and is followed by a
-test that prints lower volume than the spring itself.
-```
+**Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`skills/wyckoff-wiki-ingest/SKILL.md`](skills/wyckoff-wiki-ingest/SKILL.md) §2.
 
 **Synthesis claims** (cross-source generalizations not stated verbatim in any one source) must be marked:
 
@@ -297,7 +283,7 @@ paywalled (`status: paywalled` in manifest). Only the introductory
 sentence was scraped; the spring example referenced in the public excerpt
 cannot be verified.
 
-The book covers springs in general ([book ch.17](../../raw/book/sources/book-ch17.md))
+The book covers springs in general (`raw/book/pages/page_XXX.md` — the relevant chapter)
 but does not specifically address low-liquidity tails.
 ```
 
@@ -348,10 +334,10 @@ If you find yourself writing something in one of these categories, file it in th
 
 | Want to... | Go to |
 |---|---|
-| Understand how ingest works | `~/.agent-runbooks/llm-wiki.md` |
-| Add a new source to the wiki | runbook §"Operation: Ingest" + this file §4 |
+| Understand how ingest works (generic) | `~/.agent-runbooks/llm-wiki.md` |
+| Run a #7 batch ingest or PR review | [`skills/wyckoff-wiki-ingest/SKILL.md`](skills/wyckoff-wiki-ingest/SKILL.md) |
 | Decide where a new page goes | this file §2 + §3 |
-| Cite a source correctly | this file §5 |
+| Cite a source correctly | this file §5 + skill §2 (path depth) |
 | Mark a missing or paywalled source | this file §7 |
 | Verify the wiki is healthy | runbook §"Operation: Lint" + this file §3 (required pages list) |
 

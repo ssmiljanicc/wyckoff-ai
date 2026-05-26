@@ -47,25 +47,25 @@ reading at the level of effort.
 ## Key Claims
 
 - Effort = volume; result = price progress
-  ([p.61](../../../raw/book/pages/page_061.md)).
+  ([p.61](../../../../raw/book/pages/page_061.md)).
 - A significant volume spike indicates the presence of professional
   money with the aim of producing a movement (continuation or turn)
-  ([p.62](../../../raw/book/pages/page_062.md)).
+  ([p.62](../../../../raw/book/pages/page_062.md)).
 - Harmony confirms continuation; divergence warns of absorption /
-  exhaustion ([p.62](../../../raw/book/pages/page_062.md)).
+  exhaustion ([p.62](../../../../raw/book/pages/page_062.md)).
 - Proportionality holds: larger effort with harmony → longer move;
   larger divergence → larger eventual turn
-  ([p.62](../../../raw/book/pages/page_062.md)).
+  ([p.62](../../../../raw/book/pages/page_062.md)).
 - Five reading scales: single bar, next bar, movement, wave, key levels
-  ([p.63–68](../../../raw/book/pages/page_063.md)).
+  ([p.63–68](../../../../raw/book/pages/page_063.md)).
 - Weis wave-volume sums volume per wave — useful for comparing impulses
-  ([p.67](../../../raw/book/pages/page_067.md)).
+  ([p.67](../../../../raw/book/pages/page_067.md)).
 - A volume spike at the end of a long trend with small price advance is
   a terminating climax — likely a [[events/selling-climax]] or
-  [[events/buying-climax]] ([p.69](../../../raw/book/pages/page_069.md)).
+  [[events/buying-climax]] ([p.69](../../../../raw/book/pages/page_069.md)).
 - Turns can also come from **lack of interest** — small volume on a
   floor or ceiling indicates the dominant side has exhausted itself
-  ([p.69–70](../../../raw/book/pages/page_069.md)).
+  ([p.69–70](../../../../raw/book/pages/page_069.md)).
 
 ## Wiki Pages Sourced From This Chapter
 

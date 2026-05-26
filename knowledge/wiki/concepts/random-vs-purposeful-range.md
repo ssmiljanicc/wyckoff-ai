@@ -17,11 +17,11 @@ sources:
 Not every sideways market is an accumulation or distribution structure.
 The book is explicit that random fluctuations should be **ignored**,
 because there is probably no professional interest behind that market
-([book p.34](../../raw/book/pages/page_034.md)). And from the cause-and-
+([book p.34](../../../raw/book/pages/page_034.md)). And from the cause-and-
 effect chapter: "not all ranges are accumulation or distribution
 processes. This point is very important" — there will be structures that
 are simply price fluctuations with no motivating cause
-([book p.56](../../raw/book/pages/page_056.md)).
+([book p.56](../../../raw/book/pages/page_056.md)).
 
 A **purposeful range** carries professional intent. A **random range** is
 balance without intent and should be left alone.
@@ -32,7 +32,7 @@ balance without intent and should be left alone.
 
 If no clear trend is visible, the book says the price is in a range
 context with three possible interpretations
-([book p.34](../../raw/book/pages/page_034.md)):
+([book p.34](../../../raw/book/pages/page_034.md)):
 
 1. **Accumulation** — preparing an upward movement
 2. **Distribution** — preparing a downward movement
@@ -54,8 +54,8 @@ intent to confirm them. This is the connection to
 
 A range is more likely to be purposeful when it shows the characteristics
 the book lists for accumulation or distribution
-([book p.76](../../raw/book/pages/page_076.md),
-[p.84](../../raw/book/pages/page_084.md)):
+([book p.76](../../../raw/book/pages/page_076.md),
+[p.84](../../../raw/book/pages/page_084.md)):
 
 - Decreasing volume and volatility as the range develops (accumulation)
   or sustained high volume and volatility (distribution)
