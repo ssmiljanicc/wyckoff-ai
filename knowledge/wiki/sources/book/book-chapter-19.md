@@ -117,5 +117,5 @@ contributions.
 - [[book-chapter-18]] (Shaking — the Phase C precursor)
 - [[book-chapter-20]] (Confirmation — the next event)
 - [[book-chapter-24]] (Phase D — the phase this chapter populates)
-- [[book-chapter-27]] (Decision-Making — Batch 3; the
+- `book-chapter-27` (Decision-Making — Batch 3; the
   [[significant-bar|significant-bar]] discipline)
