@@ -68,7 +68,7 @@ position.
 - [[three-laws]] (umbrella)
 - [[random-vs-purposeful-range]] (the "not every range is a campaign"
   claim)
-- [[point-and-figure-counting]] (Batch 3 — chapter seeds this page)
+- [[point-and-figure-counting]] (primary counting rules)
 
 ## Related Chapters
 
