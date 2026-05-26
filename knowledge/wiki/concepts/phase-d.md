@@ -19,13 +19,13 @@ sources:
 **Phase D** is the **fourth** structural phase of a Wyckoff range. Its
 function: develop the **trend within the range** — the move from the
 Phase C low (in accumulation) up to and through the Creek
-([book p.186](../../raw/book/pages/page_186.md)).
+([book p.186](../../../raw/book/pages/page_186.md)).
 
 Phase D begins after the **end of the Phase C shake test** and ends
 after the **confirmation event** completes.
 
 The events of Phase D are
-([book p.186](../../raw/book/pages/page_186.md)):
+([book p.186](../../../raw/book/pages/page_186.md)):
 
 - [[sign-of-strength|Sign of Strength (SOS)]] /
   [[jump-across-the-creek|Jump Across the Creek (JAC)]] — the bullish
@@ -44,7 +44,7 @@ The events of Phase D are
 ### The Three Phase D Scenarios
 
 The book enumerates three possible Phase D outcomes
-([book p.187](../../raw/book/pages/page_187.md)):
+([book p.187](../../../raw/book/pages/page_187.md)):
 
 1. **Clean break + confirmation.** Price breaks the Creek (or Ice)
    with ease, the confirmation test prints with narrow ranges and
@@ -82,7 +82,7 @@ See [[creek-and-ice]] for the full discussion.
 ### Confirmation Is What Ends Phase D
 
 Phase D ends when the confirmation event completes
-([book p.188](../../raw/book/pages/page_188.md)):
+([book p.188](../../../raw/book/pages/page_188.md)):
 
 - The break has happened.
 - The test has held outside the range (no re-entry).
@@ -111,7 +111,7 @@ accumulation) or LPSY (in distribution). The trader can:
 - Wait for the next attempt at the boundary.
 
 This is the operator "running back to jump the river" — see the book's
-language at [book p.187](../../raw/book/pages/page_187.md).
+language at [book p.187](../../../raw/book/pages/page_187.md).
 
 ## Why It Matters For Wyckoff Reading
 

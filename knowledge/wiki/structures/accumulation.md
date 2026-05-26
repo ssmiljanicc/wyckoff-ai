@@ -33,7 +33,7 @@ sources:
 An **accumulation** structure is a lateral movement preceded by a
 bearish trend in which large traders absorb available stock from weak
 hands in order to sell it at higher prices in a subsequent uptrend
-([book p.72](../../raw/book/pages/page_072.md)).
+([book p.72](../../../raw/book/pages/page_072.md)).
 
 It is one of the two purposeful range types (the other being
 [[distribution]]). The defining feature is the **direction of stock
@@ -41,7 +41,7 @@ flow**: from weak hands to strong hands during the range, producing
 the cause for the subsequent markup.
 
 The book presents two schematic variants
-([book p.38, p.40](../../raw/book/pages/page_038.md)):
+([book p.38, p.40](../../../raw/book/pages/page_038.md)):
 
 - **Basic Accumulation Structure #1** — with a terminal
   [[events/spring|spring]] in Phase C.
@@ -57,7 +57,7 @@ this page covers what is specific to the accumulation read.
 
 During the prior downtrend, control of stock gradually transfers from
 strong hands to weak hands as price falls
-([book p.72–73](../../raw/book/pages/page_072.md)). The accumulation
+([book p.72–73](../../../raw/book/pages/page_072.md)). The accumulation
 range is where the **final** absorption happens — the operator buys
 the remaining floating supply at favourable prices.
 
@@ -84,7 +84,7 @@ The textbook accumulation, mapped to the five phases.
 
 The first **CHoCh (Change of Character)** runs from the SC low to the
 top of the AR — the transition from downtrend to range
-([book p.38](../../raw/book/pages/page_038.md)).
+([book p.38](../../../raw/book/pages/page_038.md)).
 
 **[[concepts/phase-b|Phase B — Cause-building]]:**
 
@@ -123,7 +123,7 @@ and lows.
 ### Schematic #2 — No-Shake Variant
 
 In Accumulation #2 the Phase C shake **does not reach the lows of the
-structure** ([book p.40–41](../../raw/book/pages/page_040.md)). The
+structure** ([book p.40–41](../../../raw/book/pages/page_040.md)). The
 book gives the rationale:
 
 > "The objective of the price is to visit this liquidity zone but the
@@ -141,7 +141,7 @@ Operational consequences:
   also lost as a discrete entry.
 - **The only clean entry is the [[events/back-up-to-the-edge-of-the-creek|BUEC]]**
   — the confirmation test after the upward break
-  ([book p.41](../../raw/book/pages/page_041.md)).
+  ([book p.41](../../../raw/book/pages/page_041.md)).
 
 See [[events/no-shake-phase-c|no-shake-phase-c]] for the no-shake
 methodology in detail.
@@ -149,13 +149,13 @@ methodology in detail.
 ### The Handling Maneuver — Why The Range Behaves This Way
 
 During accumulation the operator creates an **environment of extreme
-weakness** ([book p.74](../../raw/book/pages/page_074.md)):
+weakness** ([book p.74](../../../raw/book/pages/page_074.md)):
 
 - Bad news flow encourages weak-hand selling.
 - A flat, boring market discourages long holders from staying long.
 - The spring (when present) serves a **triple function**: hit stops of
   longs, induce shorting by trend-followers, profit from the subsequent
-  markup ([book p.74](../../raw/book/pages/page_074.md)).
+  markup ([book p.74](../../../raw/book/pages/page_074.md)).
 
 The book is explicit: "while it is true that this shaking event is an
 action that adds strength to the bullish scenario, it is also true that
@@ -168,11 +168,11 @@ The operator does not start the markup until the
 verified upward — accomplished by repeated tests that probe for
 absence of opposite-side participation. This is why a single range can
 contain multiple shakes / tests
-([book p.75](../../raw/book/pages/page_075.md)).
+([book p.75](../../../raw/book/pages/page_075.md)).
 
 ### Common Characteristics
 
-From [book p.76](../../raw/book/pages/page_076.md):
+From [book p.76](../../../raw/book/pages/page_076.md):
 
 - **Decreasing volume and volatility** as the range develops — less
   stock available means smaller fluctuations.

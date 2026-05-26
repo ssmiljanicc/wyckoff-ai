@@ -21,7 +21,7 @@ sources:
 **Jump Across the Creek (JAC)** is the metaphorical label for the
 **upward break of the [[concepts/creek-and-ice|Creek]]** — the resistance
 zone of an accumulation range
-([book p.167](../../raw/book/pages/page_167.md)). The book uses JAC and
+([book p.167](../../../raw/book/pages/page_167.md)). The book uses JAC and
 [[sign-of-strength|SOS]] effectively as **synonyms** when describing
 event #6:
 
@@ -29,7 +29,7 @@ event #6:
 > (SOS) or Jump Across the Creek (JAC), the reverse movement confirming
 > the rupture is labeled as Last Point of Support (LPS) or Back Up to
 > the Edge of the Creek (BUEC)."
-> ([book p.167](../../raw/book/pages/page_167.md))
+> ([book p.167](../../../raw/book/pages/page_167.md))
 
 The metaphor: the Creek is the river of resistance in the range; the
 JAC is the trader jumping across it. The follow-up is the
@@ -44,7 +44,7 @@ The distribution mirror is [[fall-through-the-ice|Fall Through The Ice
 ### JAC vs SOS — Same Action, Different Vocabulary
 
 The book treats SOS and JAC as alternate names for the same event
-([book p.167](../../raw/book/pages/page_167.md)):
+([book p.167](../../../raw/book/pages/page_167.md)):
 
 - **SOS (Sign of Strength)** is the **descriptive** label — it names
   the cause (strength of demand) and the diagnostic appearance

@@ -27,22 +27,22 @@ sources:
 The **Automatic Rally (AR)** is event #3 of the methodology in an
 accumulation structure. It is the upward move that develops after the
 end of the [[selling-climax]] and acts as the **first signal of buyer
-interest** ([book p.117](../../raw/book/pages/page_117.md)).
+interest** ([book p.117](../../../raw/book/pages/page_117.md)).
 
 The AR confirms that the SC was a genuine climax and sets the **upper
-limit of the trading range** ([book p.115](../../raw/book/pages/page_115.md)).
+limit of the trading range** ([book p.115](../../../raw/book/pages/page_115.md)).
 In distribution the mirror event is the [[automatic-reaction]].
 
 This is the first **Change of Character (CHoCH)** in the structure —
 the market exits a trending state and enters a range
-([book p.112](../../raw/book/pages/page_112.md)).
+([book p.112](../../../raw/book/pages/page_112.md)).
 
 ## Key Points
 
 ### Why The Automatic Rally Occurs
 
 Three forces converge at the end of the SC to produce the bounce
-([book p.118](../../raw/book/pages/page_118.md)):
+([book p.118](../../../raw/book/pages/page_118.md)):
 
 - **Exhaustion of supply** — aggressive sellers stop entering the
   market.
@@ -58,19 +58,19 @@ itself, which is what ends the move.
 
 The AR starts with the volume of the climactic event still elevated and
 **decreases** as the move progresses
-([book p.114](../../raw/book/pages/page_114.md)). Price ranges follow:
+([book p.114](../../../raw/book/pages/page_114.md)). Price ranges follow:
 wide trend bars at the start, narrowing toward the top. The drying of
 volume signals exhaustion of buyer interest and marks the end of the AR.
 
 There are no mechanical rules for where this stop occurs — it is a
 judgment call about when narrowing-of-ranges and volume-decrease have
 gone far enough that the next move is likely to be a reaction
-([book p.114](../../raw/book/pages/page_114.md)).
+([book p.114](../../../raw/book/pages/page_114.md)).
 
 ### Distance Is A Diagnostic
 
 The **size of the AR** carries information about which side is in
-control ([book p.113](../../raw/book/pages/page_113.md)):
+control ([book p.113](../../../raw/book/pages/page_113.md)):
 
 - **Large AR** (e.g. 100 points where prior impulses averaged 50) →
   strong-bottom signal, accumulation more likely.
@@ -87,10 +87,10 @@ statement holds for distribution — a weak AR (here the
 
 1. **Defines the upper limit of the range.** The high of the AR is the
    first resistance zone — new selling is expected on subsequent visits
-   ([book p.115](../../raw/book/pages/page_115.md)).
+   ([book p.115](../../../raw/book/pages/page_115.md)).
 2. **Identifies the genuine climax.** The SC is often unclear in real
    time; the AR retroactively confirms which prior low was the genuine
-   climactic event ([book p.115](../../raw/book/pages/page_115.md)).
+   climactic event ([book p.115](../../../raw/book/pages/page_115.md)).
 3. **Provides market context.** Once SC and AR are identified, the
    trader has a map — the next expected event is the
    [[secondary-test]] of the SC low.
@@ -100,7 +100,7 @@ statement holds for distribution — a weak AR (here the
 Once the AR is in progress, the trader can drop to a lower timeframe
 and look for a **minor distribution structure** that will end the AR
 and produce the bearish reversal toward the ST
-([book p.116](../../raw/book/pages/page_116.md)).
+([book p.116](../../../raw/book/pages/page_116.md)).
 
 This is the methodology being applied **fractally** — see
 [[concepts/waves-and-fractals]].
@@ -110,7 +110,7 @@ This is the methodology being applied **fractally** — see
 If a trader took a high-risk scalp at the SC expecting a bounce, the AR
 is the **exit**. The position must not be held through the range —
 direction (accumulation vs redistribution) is not yet known
-([book p.115](../../raw/book/pages/page_115.md)).
+([book p.115](../../../raw/book/pages/page_115.md)).
 
 ## Why It Matters For Wyckoff Reading
 

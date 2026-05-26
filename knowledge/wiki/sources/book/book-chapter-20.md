@@ -43,65 +43,65 @@ Pages: `raw/book/pages/page_167.md`–`page_177.md`.
 ## Why It Matters
 
 The chapter formalizes the methodology's **preferred entry location**
-([p.171](../../../raw/book/pages/page_171.md)): the confirmation event
+([p.171](../../../../raw/book/pages/page_171.md)): the confirmation event
 out of range. The book is explicit that this was **Richard Wyckoff's
 own preferred entry**.
 
 It catalogs **three types of LPS / LPSY by location**
-([p.174, p.176](../../../raw/book/pages/page_174.md)): after a shake,
+([p.174, p.176](../../../../raw/book/pages/page_174.md)): after a shake,
 within the range, and out of range. This taxonomy lets a trader
 identify which LPS / LPSY they are looking at and trade accordingly.
 
 The **sell-the-LPSY / not-the-SOW** and **buy-the-LPS / not-the-SOS**
 disciplines are stated here unambiguously
-([p.174](../../../raw/book/pages/page_174.md)) — the rule that
+([p.174](../../../../raw/book/pages/page_174.md)) — the rule that
 separates Wyckoff trading from break-chasing.
 
 ## Key Claims
 
 - The breakout is "potential" until confirmed by its test
-  ([p.167](../../../raw/book/pages/page_167.md)).
+  ([p.167](../../../../raw/book/pages/page_167.md)).
 - Naming: SOS / JAC + LPS / BUEC in accumulation; SOW + LPSY / FTI in
-  distribution ([p.167](../../../raw/book/pages/page_167.md)).
+  distribution ([p.167](../../../../raw/book/pages/page_167.md)).
 - The book treats **SOS and JAC as synonyms**, and **LPS and BUEC as
   synonyms** when LPS is the out-of-range confirmation event
-  ([p.167](../../../raw/book/pages/page_167.md)).
+  ([p.167](../../../../raw/book/pages/page_167.md)).
 - FTI label is "less well known" — most modern Wyckoff writing uses
   LPSY for this event
-  ([p.168](../../../raw/book/pages/page_168.md)).
-- **Confirmation criteria** ([p.168](../../../raw/book/pages/page_168.md)):
+  ([p.168](../../../../raw/book/pages/page_168.md)).
+- **Confirmation criteria** ([p.168](../../../../raw/book/pages/page_168.md)):
   significant distance, narrow / interlaced / low-volume test
   candles, price does NOT re-enter the range.
-- **Wave structure** ([p.169](../../../raw/book/pages/page_169.md)):
+- **Wave structure** ([p.169](../../../../raw/book/pages/page_169.md)):
   impulsive moves show intentionality; corrective moves denote lack
   of interest — natural trend wave structure.
-- **Warning signal** ([p.170](../../../raw/book/pages/page_170.md)):
+- **Warning signal** ([p.170](../../../../raw/book/pages/page_170.md)):
   wide-range high-volume retest cancels the break; price likely
   re-enters the range.
-- **Operational opportunity** ([p.171](../../../raw/book/pages/page_171.md)):
+- **Operational opportunity** ([p.171](../../../../raw/book/pages/page_171.md)):
   preferred entry of the methodology — structural anchor for stop,
   full price action visible, structural cause not yet unfolded.
-- **Entry trigger** ([p.172](../../../raw/book/pages/page_172.md)):
+- **Entry trigger** ([p.172](../../../../raw/book/pages/page_172.md)):
   SOS Bar / SOW Bar; market order, stop-buy at break, or limit order
   at a specific level. Stop under LPS / above LPSY.
 - **Quantification** of the trigger
-  ([p.172–173](../../../raw/book/pages/page_172.md)): discretionary
+  ([p.172–173](../../../../raw/book/pages/page_172.md)): discretionary
   judgment can be partially objectified with bar patterns, moving
   averages, volume tools (POC, VAH, VAL, VWAP, Delta).
 - **LPS three types by location**
-  ([p.174](../../../raw/book/pages/page_174.md)): after shake (Spring
+  ([p.174](../../../../raw/book/pages/page_174.md)): after shake (Spring
   test), within range (higher low before SOS), out of range (BUEC +
   Phase E pullbacks).
 - LPS price sometimes coincides with PS price
-  ([p.175](../../../raw/book/pages/page_175.md)).
+  ([p.175](../../../../raw/book/pages/page_175.md)).
 - **LPSY three types by location** (mirror)
-  ([p.176](../../../raw/book/pages/page_176.md)).
-- **LPSY character** ([p.177](../../../raw/book/pages/page_177.md)):
+  ([p.176](../../../../raw/book/pages/page_176.md)).
+- **LPSY character** ([p.177](../../../../raw/book/pages/page_177.md)):
   narrow ranges, ideally low volume. High volume warning — could be
   aggressive shorting (bearish) or latent buying pressure (potential
   failed signal).
 - LPSY price sometimes coincides with PSY price
-  ([p.177](../../../raw/book/pages/page_177.md)).
+  ([p.177](../../../../raw/book/pages/page_177.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

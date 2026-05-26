@@ -38,42 +38,42 @@ Pages: `raw/book/pages/page_112.md`–`page_120.md`.
 
 This chapter introduces the **Change of Character (CHoCh)** concept
 explicitly for the first time
-([p.112](../../../raw/book/pages/page_112.md)). The first CHoCh marks
+([p.112](../../../../raw/book/pages/page_112.md)). The first CHoCh marks
 the transition from trend to range and is the first **affirmative**
 signal that the prior trend has ended.
 
 It also introduces the **distance-of-AR diagnostic** — one of the
 earliest accumulation-vs-redistribution clues available
-([p.113](../../../raw/book/pages/page_113.md)). A weak / intertwined
+([p.113](../../../../raw/book/pages/page_113.md)). A weak / intertwined
 AR with no volume peak undermines the "stop the trend" thesis and
 shifts probability toward continuation-structure reads.
 
 ## Key Claims
 
 - The reaction confirms the climax and produces the first **CHoCh**
-  ([p.112](../../../raw/book/pages/page_112.md)).
+  ([p.112](../../../../raw/book/pages/page_112.md)).
 - The AR is the **first affirmative signal** the prior trend has
   changed — PS and SC are stop attempts; the AR is buyers actually
-  moving price ([p.117](../../../raw/book/pages/page_117.md)).
-- Three forces produce the AR ([p.118](../../../raw/book/pages/page_118.md)):
+  moving price ([p.117](../../../../raw/book/pages/page_117.md)).
+- Three forces produce the AR ([p.118](../../../../raw/book/pages/page_118.md)):
   exhaustion of opposite-side aggression, short / length covering,
   new entries on the favored side.
 - **Anatomy:** climactic volume at start, decreasing into the end;
   wide trend bars narrowing toward the top
-  ([p.114](../../../raw/book/pages/page_114.md)).
-- **Distance is a diagnostic** ([p.113](../../../raw/book/pages/page_113.md)):
+  ([p.114](../../../../raw/book/pages/page_114.md)).
+- **Distance is a diagnostic** ([p.113](../../../../raw/book/pages/page_113.md)):
   large AR → strong bottom / top; small intertwined AR with no volume
   → market not in balance; weak AR + ST exceeding range limits =
   redistribution / reaccumulation likely.
-- **Three structural uses** ([p.115](../../../raw/book/pages/page_115.md)):
+- **Three structural uses** ([p.115](../../../../raw/book/pages/page_115.md)):
   defines the opposite range limit, retroactively identifies the
   genuine climax, provides market context for the next event (ST).
 - Operational implication: drop the timeframe and look for a minor
   reversal structure to ride the AR
-  ([p.116](../../../raw/book/pages/page_116.md)).
+  ([p.116](../../../../raw/book/pages/page_116.md)).
 - Scalp from the climax should be **closed at the AR**, not held
   through the range — direction is not yet known
-  ([p.115](../../../raw/book/pages/page_115.md)).
+  ([p.115](../../../../raw/book/pages/page_115.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

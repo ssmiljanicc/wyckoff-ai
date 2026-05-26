@@ -61,75 +61,75 @@ Pages: `raw/book/pages/page_134.md`–`page_153.md`.
 
 The book calls the shake "the key event all Wyckoff traders are
 waiting for" — no other event "adds greater strength to the analysis"
-([p.134](../../../raw/book/pages/page_134.md)). Phase C is the
+([p.134](../../../../raw/book/pages/page_134.md)). Phase C is the
 operational heart of the methodology, and this chapter contains its
 full vocabulary.
 
 It also names the **zero-sum game mechanic** explicitly
-([p.135](../../../raw/book/pages/page_135.md)) and gives the
+([p.135](../../../../raw/book/pages/page_135.md)) and gives the
 algorithmic-counterparty insight at
-[p.140](../../../raw/book/pages/page_140.md) — the explanation for why
+[p.140](../../../../raw/book/pages/page_140.md) — the explanation for why
 shakes often print with substantial volume even in markets where the
 operator is patient.
 
 The **labeling discipline** is sharpest here: a downward probe is
 **only** a Spring if it produces the subsequent range break; otherwise
 it is "just a test"
-([p.141](../../../raw/book/pages/page_141.md)). Same for UTAD.
+([p.141](../../../../raw/book/pages/page_141.md)). Same for UTAD.
 
 ## Key Claims
 
 - Two preconditions for a potential shake: trend stop (Phase A) and
-  cause built (Phase B) ([p.134](../../../raw/book/pages/page_134.md)).
+  cause built (Phase B) ([p.134](../../../../raw/book/pages/page_134.md)).
 - **Zero-sum game**: every trade requires a counterparty. The shake is
   necessary because without it, the operator cannot find the
   liquidity to position
-  ([p.135–136](../../../raw/book/pages/page_135.md)).
+  ([p.135–136](../../../../raw/book/pages/page_135.md)).
 - **Three graphical variants**: one candle (hammer), 2+ candles, minor
-  structure ([p.137–138](../../../raw/book/pages/page_137.md)). Faster
+  structure ([p.137–138](../../../../raw/book/pages/page_137.md)). Faster
   reversal = greater strength.
 - **Three counterparty pools** absorbed by the shake
-  ([p.139–140](../../../raw/book/pages/page_139.md)): breakout
+  ([p.139–140](../../../../raw/book/pages/page_139.md)): breakout
   traders (manual + algorithmic), fearful capitulators,
   smart-but-early.
 - Algorithmic momentum strategies are a **major** liquidity pool —
   they are the reason shakes often come with volume
-  ([p.140](../../../raw/book/pages/page_140.md)).
-- **Labeling discipline** ([p.141](../../../raw/book/pages/page_141.md)):
+  ([p.140](../../../../raw/book/pages/page_140.md)).
+- **Labeling discipline** ([p.141](../../../../raw/book/pages/page_141.md)):
   Spring / UTAD label requires the move to cause the eventual range
   break.
 - **Post-break re-entry rule**
-  ([p.142](../../../raw/book/pages/page_142.md)): if price quickly
+  ([p.142](../../../../raw/book/pages/page_142.md)): if price quickly
   re-enters the range after the break, the move is a shake (not a
   real break).
-- **Spring origin** ([p.143](../../../raw/book/pages/page_143.md)):
+- **Spring origin** ([p.143](../../../../raw/book/pages/page_143.md)):
   refined from Wyckoff's Terminal Shakeout by Robert G. Evans.
 - **Three Spring types**
-  ([p.144–147](../../../raw/book/pages/page_144.md)):
+  ([p.144–147](../../../../raw/book/pages/page_144.md)):
   - **Spring #1 / Terminal Shakeout** — strong supply, deep
     penetration, requires demand to drive recovery.
   - **Spring #2** — moderate supply, floating offer; requires tests.
   - **Spring #3** — supply exhaustion, directly tradable without
     separate test.
 - **Ordinary Shakeout** is the Phase C variant in reaccumulation
-  ([p.148](../../../raw/book/pages/page_148.md)) — same function as
+  ([p.148](../../../../raw/book/pages/page_148.md)) — same function as
   Spring but in a continuation rather than a turn.
-- **Spring test criteria** ([p.149](../../../raw/book/pages/page_149.md)):
+- **Spring test criteria** ([p.149](../../../../raw/book/pages/page_149.md)):
   narrowing ranges, decreasing volume, holds above spring low.
 - **UTAD** is theoretically a UT, but labeled UTAD when it occurs in
   Phase C after distribution has happened
-  ([p.150](../../../raw/book/pages/page_150.md)).
+  ([p.150](../../../../raw/book/pages/page_150.md)).
 - **Minor UTAD** — shake of local highs within the range, may also be
-  labeled LPSY ([p.151](../../../raw/book/pages/page_151.md)).
+  labeled LPSY ([p.151](../../../../raw/book/pages/page_151.md)).
 - **UTAD test** sometimes absent — if supply is overwhelming, the SOW
   develops immediately
-  ([p.152](../../../raw/book/pages/page_152.md)).
+  ([p.152](../../../../raw/book/pages/page_152.md)).
 - **Terminal Upthrust** — extreme UT variant (high volume or deep
   penetration). **Ordinary Upthrust** — Phase C variant in
-  redistribution ([p.153](../../../raw/book/pages/page_153.md)).
+  redistribution ([p.153](../../../../raw/book/pages/page_153.md)).
 - **Spring vs UTAD diagnostics from Phase B**: UA / mSOS in Phase B
   favors Spring; mSOW favors UTAD
-  ([p.141](../../../raw/book/pages/page_141.md)).
+  ([p.141](../../../../raw/book/pages/page_141.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

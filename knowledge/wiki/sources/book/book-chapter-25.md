@@ -28,27 +28,27 @@ short because the trend-evaluation tools live elsewhere (chapters 1,
 
 The chapter's load-bearing claim is the **explicit confirmation
 threshold for Phase E entry**
-([p.190](../../../raw/book/pages/page_190.md)): only after the
+([p.190](../../../../raw/book/pages/page_190.md)): only after the
 successful break + confirmation does the trader implement trend tools.
 Until then, structural analysis remains primary.
 
 ## Key Claims
 
 - Phase E starts after the **confirmation event**
-  ([p.189](../../../raw/book/pages/page_189.md)).
+  ([p.189](../../../../raw/book/pages/page_189.md)).
 - One side has **absolute control** of the market; trade only in that
-  direction ([p.189](../../../raw/book/pages/page_189.md)).
+  direction ([p.189](../../../../raw/book/pages/page_189.md)).
 - Phase E consists of **impulsive + reactive movements**: SOS / SOW
-  and LPS / LPSY ([p.189](../../../raw/book/pages/page_189.md)).
+  and LPS / LPSY ([p.189](../../../../raw/book/pages/page_189.md)).
 - Price abandons the structure and begins a trend as the **effect**
   of the cause built during Phase B
-  ([p.189–190](../../../raw/book/pages/page_189.md)).
+  ([p.189–190](../../../../raw/book/pages/page_189.md)).
 - Successful break + confirmation is the great warning that
   professionals are positioned in that direction
-  ([p.190](../../../raw/book/pages/page_190.md)).
+  ([p.190](../../../../raw/book/pages/page_190.md)).
 - From this point, **implement all trend-evaluation tools** — see
   [[concepts/trend-assessment]]
-  ([p.190](../../../raw/book/pages/page_190.md)).
+  ([p.190](../../../../raw/book/pages/page_190.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

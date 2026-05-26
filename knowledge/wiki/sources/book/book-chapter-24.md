@@ -25,7 +25,7 @@ Pages: `raw/book/pages/page_186.md`–`page_188.md`.
 ## Why It Matters
 
 This chapter is the source of the **three-Phase-D-scenarios** framework
-([p.187](../../../raw/book/pages/page_187.md)) — the load-bearing
+([p.187](../../../../raw/book/pages/page_187.md)) — the load-bearing
 mental model for how a Phase D attempt can actually play out:
 
 1. Clean break + confirmation → Phase E begins.
@@ -44,14 +44,14 @@ more discreet absorption campaign — see [[events/failed-signal]].
 
 - Phase D begins after the Phase C shake test and ends when the
   confirmation event completes
-  ([p.186](../../../raw/book/pages/page_186.md)).
+  ([p.186](../../../../raw/book/pages/page_186.md)).
 - Phase D events: **SOS/JAC + LPS/BUEC** in accumulation; **SOW +
   LPSY/FTI** in distribution
-  ([p.186](../../../raw/book/pages/page_186.md)).
+  ([p.186](../../../../raw/book/pages/page_186.md)).
 - The Creek / Ice is the **last barrier** that must be overcome to
   conclude one side has final control
-  ([p.186](../../../raw/book/pages/page_186.md)).
-- **Three scenarios** ([p.186–187](../../../raw/book/pages/page_187.md)):
+  ([p.186](../../../../raw/book/pages/page_186.md)).
+- **Three scenarios** ([p.186–187](../../../../raw/book/pages/page_187.md)):
   1. Clean break with wide candles, increased volume, easy
      displacement → confirmation completes → Phase E.
   2. **Too much opposition at the boundary** → price falls back to
@@ -64,7 +64,7 @@ more discreet absorption campaign — see [[events/failed-signal]].
      campaign — see [[events/failed-signal]].
 - Phase D ends with the confirmation event holding outside the range
   on low-interest candles
-  ([p.188](../../../raw/book/pages/page_188.md)).
+  ([p.188](../../../../raw/book/pages/page_188.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

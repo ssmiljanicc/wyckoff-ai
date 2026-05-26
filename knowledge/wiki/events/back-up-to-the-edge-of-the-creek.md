@@ -27,17 +27,17 @@ sources:
 **Back Up to the Edge of the Creek (BUEC)** is the **confirmation
 event** (event #7) of an accumulation structure — the pullback after the
 upward breakout that retests the broken [[concepts/creek-and-ice|Creek]]
-from above ([book p.167](../../raw/book/pages/page_167.md)). It is the
+from above ([book p.167](../../../raw/book/pages/page_167.md)). It is the
 **preferred entry location** of the methodology and was Richard
 Wyckoff's preferred entry zone
-([book p.171](../../raw/book/pages/page_171.md)).
+([book p.171](../../../raw/book/pages/page_171.md)).
 
 BUEC is the **geographic** name (returning to the edge of the river
 just crossed); [[last-point-of-support|LPS]] is the
 **function/order-flow** name (the last point where the support of
 demand appears before the next markup). When the LPS occurs **out of
 range** as the confirmation of the SOS / JAC, the two labels refer to
-the same event ([book p.167](../../raw/book/pages/page_167.md)).
+the same event ([book p.167](../../../raw/book/pages/page_167.md)).
 
 The distribution mirror is [[fall-through-the-ice|Fall Through The Ice
 (FTI)]] / [[last-point-of-supply|LPSY]].
@@ -47,7 +47,7 @@ The distribution mirror is [[fall-through-the-ice|Fall Through The Ice
 ### What A Valid BUEC Looks Like
 
 Three cues, in order of importance
-([book p.168](../../raw/book/pages/page_168.md)):
+([book p.168](../../../raw/book/pages/page_168.md)):
 
 1. **Price does not re-enter the range.** The most reliable signal.
    The retest probes the Creek from above and holds.
@@ -63,7 +63,7 @@ the broken Creek.
 ### What Invalidates A BUEC
 
 A retest with **wide price ranges and high volume**
-([book p.170](../../raw/book/pages/page_170.md)) cancels the bullish
+([book p.170](../../../raw/book/pages/page_170.md)) cancels the bullish
 read:
 
 > "A corrective move with wide price ranges and high volume cancels
@@ -81,7 +81,7 @@ If price re-enters the range during the retest, the "SOS" was an
 ### Why BUEC Is The Preferred Entry
 
 Three reasons
-([book p.171](../../raw/book/pages/page_171.md)):
+([book p.171](../../../raw/book/pages/page_171.md)):
 
 - The trader has the **entire price action on the left** — Phase A, B,
   C visible — providing a high-quality structural read.
@@ -97,7 +97,7 @@ already happened.
 ### The Entry Trigger — SOS Bar
 
 The entry is typically taken on a [[sign-of-strength|SOS Bar]] —
-([book p.172](../../raw/book/pages/page_172.md)):
+([book p.172](../../../raw/book/pages/page_172.md)):
 
 - Market order on the SOS bar.
 - Stop-buy order at the break of the SOS bar.
@@ -109,7 +109,7 @@ Stop loss: under the BUEC low and the broken Creek (or under the
 ### Natural Wave Structure
 
 The book frames the BUEC as the natural corrective wave after an
-impulsive move ([book p.169](../../raw/book/pages/page_169.md)):
+impulsive move ([book p.169](../../../raw/book/pages/page_169.md)):
 
 > "This is the natural action for all movements that make up a trend:
 > impulsive movements that show intentionality and corrective movements
@@ -122,7 +122,7 @@ In wave terms, the SOS is the impulse, the BUEC is the correction. See
 
 The BUEC price sometimes coincides with the original
 [[preliminary-support|Preliminary Support]] level
-([book p.175](../../raw/book/pages/page_175.md)) — the operator
+([book p.175](../../../raw/book/pages/page_175.md)) — the operator
 returns to the same price area where the absorption originally began.
 This is one of several "price magnet" effects discussed in the book's
 Part 7 (Trading), which Batch 3 will cover.

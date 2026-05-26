@@ -30,7 +30,7 @@ sources:
 
 The **Upthrust After Distribution (UTAD)** is the Phase C shake in
 distribution and redistribution structures
-([book p.150](../../raw/book/pages/page_150.md)). It is an upward false
+([book p.150](../../../raw/book/pages/page_150.md)). It is an upward false
 break above the [[trading-range]] resistance whose purpose is to test
 buyers' ability to take prices higher and capture liquidity above the
 prior highs before the bearish trend begins.
@@ -40,7 +40,7 @@ notes the UTAD is "theoretically an [[upthrust|Upthrust (UT)]]" but
 when it occurs in Phase C — regardless of whether Phase B contained
 earlier upthrusts — it is labeled UTAD because **the distribution
 process has already happened**
-([book p.150](../../raw/book/pages/page_150.md)).
+([book p.150](../../../raw/book/pages/page_150.md)).
 
 ## Key Points
 
@@ -49,7 +49,7 @@ process has already happened**
 It is a **false break of resistance** that exits the
 [[structures/distribution|distribution]] (or
 [[structures/redistribution|redistribution]]) range
-([book p.136](../../raw/book/pages/page_136.md)). The big trader
+([book p.136](../../../raw/book/pages/page_136.md)). The big trader
 absorbs the liquidity triggered by the false breakout:
 
 - Breakout-buying retail and algorithmic strategies entering long on
@@ -60,11 +60,11 @@ absorbs the liquidity triggered by the false breakout:
 
 The volume observed is **moderate to strong**, evidencing the quantity
 of crossing orders at the key zone
-([book p.150](../../raw/book/pages/page_150.md)).
+([book p.150](../../../raw/book/pages/page_150.md)).
 
 ### Preconditions
 
-Same as [[spring]] ([book p.134](../../raw/book/pages/page_134.md)):
+Same as [[spring]] ([book p.134](../../../raw/book/pages/page_134.md)):
 
 1. Phase A has stopped the previous uptrend.
 2. Phase B has built the cause (the distribution period during which
@@ -76,7 +76,7 @@ the uptrend.
 ### Three Graphical Variants
 
 Same family as the spring
-([book p.137–138](../../raw/book/pages/page_137.md)):
+([book p.137–138](../../../raw/book/pages/page_137.md)):
 
 1. **One candle** — inverted hammer / shooting star with a long upper
    wick.
@@ -89,7 +89,7 @@ Same family as the spring
 
 When the shake does not reach the structural high but takes out local
 highs within the range, the event is a **minor UTAD**
-([book p.151](../../raw/book/pages/page_151.md)). The book notes:
+([book p.151](../../../raw/book/pages/page_151.md)). The book notes:
 
 - This denotes **greater seller control** — sellers did not even allow
   price to reach the full resistance before stepping in aggressively.
@@ -103,7 +103,7 @@ highs within the range, the event is a **minor UTAD**
 ### Terminal Upthrust & Ordinary Upthrust
 
 The book describes two variants by intensity / location
-([book p.153](../../raw/book/pages/page_153.md)):
+([book p.153](../../../raw/book/pages/page_153.md)):
 
 - **Terminal Upthrust** — like a [[spring|Terminal Shakeout]] on the
   upside. Same character as a normal UTAD but **more severe scope**:
@@ -116,12 +116,12 @@ The book describes two variants by intensity / location
   [[structures/redistribution]] and is described as "a very interesting
   opportunity to go short since we would be trading in favor of the
   last distribution"
-  ([book p.153](../../raw/book/pages/page_153.md)).
+  ([book p.153](../../../raw/book/pages/page_153.md)).
 
 ### The UTAD Test
 
 A test of the UTAD does not always appear
-([book p.152](../../raw/book/pages/page_152.md)). When the supply
+([book p.152](../../../raw/book/pages/page_152.md)). When the supply
 entering at the UTAD is overwhelming, the bearish move develops
 immediately as a [[sign-of-weakness]] without a clean retest.
 
@@ -141,7 +141,7 @@ successful tests) before selling.
 ### Labeling Discipline
 
 The book is strict
-([book p.141](../../raw/book/pages/page_141.md)):
+([book p.141](../../../raw/book/pages/page_141.md)):
 
 > "A UTAD is the shaking event of the highs of the structure but it
 > should also cause the bearish break and the beginning of the trend
@@ -157,7 +157,7 @@ structure, it is by definition not a UTAD — it is a Phase B test (a
 
 Two clues raise the probability that an upside probe is a UTAD (not a
 real bullish break)
-([book p.141–142](../../raw/book/pages/page_141.md)):
+([book p.141–142](../../../raw/book/pages/page_141.md)):
 
 1. **Phase B contained a mSOW** — the lower-end test denoted seller
    strength, so the upper-end probe is more likely a fake-out (see

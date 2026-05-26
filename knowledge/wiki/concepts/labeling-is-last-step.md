@@ -36,11 +36,11 @@ statements:
 
 > "We must train ourselves to anticipate the possible outcome of the
 > event and be prepared to take action on our behalf quickly and
-> decisively." — [book p.149](../../raw/book/pages/page_149.md)
+> decisively." — [book p.149](../../../raw/book/pages/page_149.md)
 
 > "In any case … the labels are not important. We have to think in
 > functional terms and what really interests us is to know what is
-> happening." — [book p.185](../../raw/book/pages/page_185.md)
+> happening." — [book p.185](../../../raw/book/pages/page_185.md)
 
 ## Key Points
 
@@ -52,14 +52,14 @@ played out to outline it. Therefore:
 
 - A potential PS only becomes **the** PS when the four Phase A events
   complete (PS → SC → AR → ST)
-  ([book p.99](../../raw/book/pages/page_099.md)).
+  ([book p.99](../../../raw/book/pages/page_099.md)).
 - A potential SC only becomes the SC when the AR and ST confirm the
-  range ([book p.105](../../raw/book/pages/page_105.md)).
+  range ([book p.105](../../../raw/book/pages/page_105.md)).
 - A potential spring only becomes **the** spring when the SOS that
   breaks the range follows
-  ([book p.141](../../raw/book/pages/page_141.md)).
+  ([book p.141](../../../raw/book/pages/page_141.md)).
 - A potential SOS only becomes the SOS when the BUEC/LPS confirms it
-  ([book p.158](../../raw/book/pages/page_158.md)) — otherwise it is
+  ([book p.158](../../../raw/book/pages/page_158.md)) — otherwise it is
   an [[upthrust|Upthrust]].
 
 This is not a special rule for some events — it is the underlying
@@ -85,7 +85,7 @@ and **revise as the structure develops**.
 ### Functional Thinking Over Label Adherence
 
 The book argues for thinking in **functional** terms rather than
-**event** terms ([book p.125, p.185](../../raw/book/pages/page_125.md)):
+**event** terms ([book p.125, p.185](../../../raw/book/pages/page_125.md)):
 
 - The function is: "where in the range is this happening, in what
   phase, with what volume signature".
@@ -98,7 +98,7 @@ two-step springs, etc.
 
 The recurring example: **UA vs UT** is the same action; the label
 depends only on which structural read (accumulation vs distribution) is
-favored ([book p.127](../../raw/book/pages/page_127.md)). The function
+favored ([book p.127](../../../raw/book/pages/page_127.md)). The function
 is identical; the label disambiguates by structural context.
 
 ### The "ST in B" Fallback
@@ -106,7 +106,7 @@ is identical; the label disambiguates by structural context.
 The book's explicit recommendation when direction is unknown in real
 time is to use the **neutral label "ST in B"** rather than committing
 to a UA / mSOS or a UT / mSOW
-([book p.128](../../raw/book/pages/page_128.md)). This is the
+([book p.128](../../../raw/book/pages/page_128.md)). This is the
 discipline in action: keep the label maximally informative without
 overclaiming.
 

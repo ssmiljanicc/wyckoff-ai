@@ -46,18 +46,18 @@ Pages: `raw/book/pages/page_154.md`–`page_166.md`.
 ## Why It Matters
 
 This chapter introduces the **second CHoCh**
-([p.155](../../../raw/book/pages/page_155.md)) — the transition from
+([p.155](../../../../raw/book/pages/page_155.md)) — the transition from
 range to trend. It also formalizes the **"don't trade the break,
 trade the confirmation"** discipline that runs through Chapters 19
-and 20 ([p.159](../../../raw/book/pages/page_159.md)).
+and 20 ([p.159](../../../../raw/book/pages/page_159.md)).
 
 The chapter introduces the **SOS Bar / SOW Bar** entry trigger
-concept ([p.162–163, p.166](../../../raw/book/pages/page_162.md)) —
+concept ([p.162–163, p.166](../../../../raw/book/pages/page_162.md)) —
 the bar-level signature of institutional buying / selling that the
 [[significant-bar]] concept (already in Batch 1) abstracts.
 
 The **breakout-without-volume** scenario
-([p.156–157](../../../raw/book/pages/page_156.md)) is a critical
+([p.156–157](../../../../raw/book/pages/page_156.md)) is a critical
 practical case: when Phase B has absorbed enough supply / demand, the
 breakout can occur on quiet bars. This contradicts the popular "must
 have volume" rule and is one of the methodology's clearer practical
@@ -66,38 +66,38 @@ contributions.
 ## Key Claims
 
 - After the Phase C test, the breakout develops in the path of least
-  resistance ([p.154](../../../raw/book/pages/page_154.md)).
+  resistance ([p.154](../../../../raw/book/pages/page_154.md)).
 - Second CHoCh: from Phase C low to top of SOS
-  ([p.155](../../../raw/book/pages/page_155.md)).
+  ([p.155](../../../../raw/book/pages/page_155.md)).
 - **Wide ranges, increased volume** is the typical appearance, but
   not strictly required
-  ([p.155–156](../../../raw/book/pages/page_155.md)).
+  ([p.155–156](../../../../raw/book/pages/page_155.md)).
 - **Breakout without volume** scenario
-  ([p.157](../../../raw/book/pages/page_157.md)): when floating supply
+  ([p.157](../../../../raw/book/pages/page_157.md)): when floating supply
   is low, narrow-range mid-volume candles can produce a clean break.
 - **Four diagnostic cues for genuine break**
-  ([p.158–159](../../../raw/book/pages/page_158.md)):
+  ([p.158–159](../../../../raw/book/pages/page_158.md)):
   1. Price does NOT immediately re-enter the range — most reliable.
   2. Subsequent candles look "unintentional" (narrow, intertwined,
      low volume).
   3. Significant distance from the structure.
   4. Wide range with increased volume on the break itself.
 - **Breakout is NOT an entry opportunity**
-  ([p.159](../../../raw/book/pages/page_159.md)) — too many crossing
+  ([p.159](../../../../raw/book/pages/page_159.md)) — too many crossing
   orders; market control can flip. Entry waits for the confirmation
   test.
-- SOS originates from Phase C low ([p.160](../../../raw/book/pages/page_160.md)).
+- SOS originates from Phase C low ([p.160](../../../../raw/book/pages/page_160.md)).
   If price fails to stay above, the move is an Upthrust (UT).
-- **SOS quality** ([p.161](../../../raw/book/pages/page_161.md)):
+- **SOS quality** ([p.161](../../../../raw/book/pages/page_161.md)):
   ease of movement, reaches midpoint, regression stays above the
   Spring low.
 - **minor SOS** — move with SOS characteristics that fails to break
-  the structure ([p.162](../../../raw/book/pages/page_162.md)).
+  the structure ([p.162](../../../../raw/book/pages/page_162.md)).
 - **SOS Bar / SOW Bar** as entry triggers
-  ([p.162–163, p.166](../../../raw/book/pages/page_162.md)) — wide
+  ([p.162–163, p.166](../../../../raw/book/pages/page_162.md)) — wide
   trend bar with close at extreme and increased volume.
 - MSOW is the bearish mirror — strong bearish move from Phase C high
-  through the Ice ([p.164](../../../raw/book/pages/page_164.md)). May
+  through the Ice ([p.164](../../../../raw/book/pages/page_164.md)). May
   be the second, third or fourth attempt before success.
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)

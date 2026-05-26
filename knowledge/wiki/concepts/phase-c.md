@@ -17,13 +17,13 @@ sources:
 **Phase C** is the **third** structural phase of a Wyckoff range. Its
 function: the operator **verifies** that the path of least resistance
 is in their favor by testing the level of interest from the opposite
-side ([book p.184](../../raw/book/pages/page_184.md)).
+side ([book p.184](../../../raw/book/pages/page_184.md)).
 
 Phase C begins with the **start of the shake event** and ends after
 the **shake test**.
 
 The events of Phase C are
-([book p.184](../../raw/book/pages/page_184.md)):
+([book p.184](../../../raw/book/pages/page_184.md)):
 
 - [[spring|Spring / Shakeout]] — downward shake in accumulation /
   reaccumulation
@@ -39,7 +39,7 @@ The shake is **not** a position-building event — by Phase C, the
 operator's position is already largely filled (Phase B did that). The
 shake's purpose is to **verify** that no significant remaining
 participation will fight the eventual trend move
-([book p.184](../../raw/book/pages/page_184.md)):
+([book p.184](../../../raw/book/pages/page_184.md)):
 
 - Push price through the structural boundary in the **opposite**
   direction of the expected trend.
@@ -61,7 +61,7 @@ action.
    participation. Two options follow:
    - The operator **abandons the campaign** — price continues in the
      direction of the original trend (rare but explicitly named in the
-     book ([book p.185](../../raw/book/pages/page_185.md))).
+     book ([book p.185](../../../raw/book/pages/page_185.md))).
    - **Phase B extends** — more tests inside the range until the
      remaining supply / demand is absorbed. A new Phase C attempt
      follows later.
@@ -73,7 +73,7 @@ action.
 ### Shake May Not Sweep The Extremes
 
 The book is explicit
-([book p.185](../../raw/book/pages/page_185.md)):
+([book p.185](../../../raw/book/pages/page_185.md)):
 
 > "A very important aspect to bear in mind that can happen at this
 > stage is that the shaking event will not necessarily sweep the
@@ -113,7 +113,7 @@ clean.
 ### Preconditions
 
 For Phase C to be meaningful, two things must have happened
-([book p.134](../../raw/book/pages/page_134.md)):
+([book p.134](../../../raw/book/pages/page_134.md)):
 
 1. **Phase A** — the previous trend has stopped.
 2. **Phase B** — a significant cause has been built (absorption

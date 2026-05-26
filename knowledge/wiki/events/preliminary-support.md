@@ -28,21 +28,21 @@ sources:
 structure: the initial large-trader entry that stops the previous bearish
 trend. **Preliminary Supply (PSY)** is the same event in distribution —
 the first significant supply that stops the previous bullish trend
-([book p.93](../../raw/book/pages/page_093.md)).
+([book p.93](../../../raw/book/pages/page_093.md)).
 
 PS / PSY is event #1 of Phase A. Together with the climax
 ([[selling-climax]] / [[buying-climax]]), the reaction
 ([[automatic-rally]] / [[automatic-reaction]]) and the
 [[secondary-test]] it produces the change of character that moves the
 market from a trend environment to a lateralization environment
-([book p.93](../../raw/book/pages/page_093.md)).
+([book p.93](../../../raw/book/pages/page_093.md)).
 
 ## Key Points
 
 ### How It Appears On The Graph
 
 There is **no single canonical bar shape** for PS / PSY
-([book p.94](../../raw/book/pages/page_094.md)). All of the following
+([book p.94](../../../raw/book/pages/page_094.md)). All of the following
 denote the same thing — the first relevant entry of large traders:
 
 - A wide-range bar with a clear volume spike (the textbook image).
@@ -56,14 +56,14 @@ behind this: after a prolonged move, a large trend bar with a peak of
 volume is read as evidence of the **opposite** sentiment — a bearish
 trend bar with high volume after a long decline is a sign of
 professional buying, not capitulation continuation
-([book p.94](../../raw/book/pages/page_094.md)).
+([book p.94](../../../raw/book/pages/page_094.md)).
 
 ### Why It Happens — Order-Flow Counterparty
 
 For someone to buy, someone must be selling. At the PS bar, the buyers
 are big traders who judge the price has reached value; the sellers are
 weak hands divided into three profiles
-([book p.95–96](../../raw/book/pages/page_095.md)):
+([book p.95–96](../../../raw/book/pages/page_095.md)):
 
 - **The greedy** — late shorts entering on the move, afraid of missing
   continuation.
@@ -78,7 +78,7 @@ PS / PSY is a smaller-magnitude version of the same dynamic.
 ### Potential vs Confirmed PS / PSY
 
 A bearish trend "does not stop at once"
-([book p.98](../../raw/book/pages/page_098.md)). Numerous attempts to
+([book p.98](../../../raw/book/pages/page_098.md)). Numerous attempts to
 stop the fall will appear before the successful one. The book is
 explicit:
 
@@ -88,7 +88,7 @@ explicit:
 - Confirmation arrives only when the four Phase A events
   ([[preliminary-support]] → [[selling-climax]] → [[automatic-rally]] →
   [[secondary-test]]) have all completed and the character change is
-  established ([book p.99](../../raw/book/pages/page_099.md)).
+  established ([book p.99](../../../raw/book/pages/page_099.md)).
 
 This is a recurring discipline of the methodology — see
 [[labeling-is-last-step]].
@@ -98,18 +98,18 @@ This is a recurring discipline of the methodology — see
 The more potential PS attempts that appear, the more likely the eventual
 SC will print **without** a high-volume spike — the absorption was done
 during the chain of preliminary stops, leaving little floating supply
-for a final climax ([book p.98](../../raw/book/pages/page_098.md)).
+for a final climax ([book p.98](../../../raw/book/pages/page_098.md)).
 This is the **Selling Exhaustion** path discussed in
 [[selling-climax]] — the SC by exhaustion, not by climactic volume.
 
 The symmetric statement holds for distribution: repeated PSY at higher
 and higher levels foreshadows a Buying Exhaustion top rather than a
-Buying Climax with volume ([book p.100](../../raw/book/pages/page_100.md)).
+Buying Climax with volume ([book p.100](../../../raw/book/pages/page_100.md)).
 
 ### Operational Uses
 
 Two practical conclusions follow from correctly identifying PS / PSY
-([book p.97](../../raw/book/pages/page_097.md)):
+([book p.97](../../../raw/book/pages/page_097.md)):
 
 1. **Stop trading in favor of the prior trend.** The structure has not
    yet been confirmed as rotation or continuation, but the stop attempt
@@ -123,7 +123,7 @@ risk is asymmetric the wrong way around.
 ### V-Turn Caveat
 
 The book notes that markets sometimes turn in a hypodermic V, with no
-extended absorption phase ([book p.98](../../raw/book/pages/page_098.md)).
+extended absorption phase ([book p.98](../../../raw/book/pages/page_098.md)).
 In a V-turn there is effectively no PS chain — only one stop attempt,
 which is also the climax. This is the rare case; the standard structural
 read is to expect repeated PS attempts.

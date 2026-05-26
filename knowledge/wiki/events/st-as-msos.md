@@ -19,14 +19,14 @@ sources:
 When a Phase B test probes the **upper end** of an accumulation range,
 the book labels it **Upthrust Action (UA)** or — if price holds above
 resistance briefly before reverting — **minor Sign Of Strength (mSOS)**
-([book p.127](../../raw/book/pages/page_127.md)). Both labels describe
+([book p.127](../../../raw/book/pages/page_127.md)). Both labels describe
 the same family of behavior: a Secondary Test that occurs in Phase B at
 the upper boundary of the structure and denotes background strength.
 
 The distribution-side analogue is the [[upthrust|Upthrust (UT)]]. The
 **only** difference between UA and UT is the structure context — UA
 when accumulation is favored, UT when distribution is favored
-([book p.127](../../raw/book/pages/page_127.md)).
+([book p.127](../../../raw/book/pages/page_127.md)).
 
 ## Key Points
 
@@ -35,7 +35,7 @@ when accumulation is favored, UT when distribution is favored
 The price pushes through the previous high established in Phase A
 (typically the [[automatic-rally]] high), but does not move far before
 **re-entering the range**, leaving a slight shake
-([book p.126](../../raw/book/pages/page_126.md)).
+([book p.126](../../../raw/book/pages/page_126.md)).
 
 Read at face value, this is a strength signal: price could not have
 penetrated resistance without aggressive buyers being present.
@@ -44,10 +44,10 @@ penetrated resistance without aggressive buyers being present.
 
 - **Upthrust Action (UA)** — the standard label. Price probes above
   resistance and reverses promptly back into the range
-  ([book p.127](../../raw/book/pages/page_127.md)).
+  ([book p.127](../../../raw/book/pages/page_127.md)).
 - **minor Sign Of Strength (mSOS)** — used when, after the UA push,
   the price **remains above resistance for some time** before falling
-  back ([book p.127](../../raw/book/pages/page_127.md)). The brief hold
+  back ([book p.127](../../../raw/book/pages/page_127.md)). The brief hold
   above resistance is read as additional strength — buyers were able
   to defend the level even if the breakout failed.
 
@@ -58,7 +58,7 @@ reversal), mSOS at the other end (delayed reversal with hold).
 
 A clear UA in Phase B is one of the **strongest pre-Phase-C clues**
 that the structure is accumulation rather than redistribution
-([book p.139](../../raw/book/pages/page_139.md)):
+([book p.139](../../../raw/book/pages/page_139.md)):
 
 - Buyers were able to push price through resistance — supply is not
   aggressive enough to defend the high.
@@ -75,7 +75,7 @@ disambiguation is appropriate — see
 
 When direction is genuinely unknown in real time, label the event
 ambiguously as **"ST in B"** and revise later
-([book p.128](../../raw/book/pages/page_128.md)).
+([book p.128](../../../raw/book/pages/page_128.md)).
 
 ### Subsequent Test
 

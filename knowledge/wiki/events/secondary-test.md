@@ -27,14 +27,14 @@ sources:
 The **Secondary Test (ST)** is event #4 — the fourth and final event of
 Phase A. It tests the climax to confirm the change of character: the ST
 **ends Phase A and begins Phase B**, the cause-building phase
-([book p.121](../../raw/book/pages/page_121.md)).
+([book p.121](../../../raw/book/pages/page_121.md)).
 
 For the ST to be valid, the test movement must develop with **narrowing
 price ranges** and **lower volume than the climax**
-([book p.123](../../raw/book/pages/page_123.md)). It is the moment when
+([book p.123](../../../raw/book/pages/page_123.md)). It is the moment when
 the market confirms that aggressive supply (in accumulation) or demand
 (in distribution) has actually abandoned the side that drove the prior
-trend ([book p.122](../../raw/book/pages/page_122.md)).
+trend ([book p.122](../../../raw/book/pages/page_122.md)).
 
 In accumulation it tests the [[selling-climax]] low. In distribution it
 tests the [[buying-climax]] high.
@@ -48,7 +48,7 @@ B" below — and separately uses "test" as a generic VSA action.
 ### What A Valid ST Looks Like
 
 Two features in order of importance
-([book p.123–124](../../raw/book/pages/page_123.md)):
+([book p.123–124](../../../raw/book/pages/page_123.md)):
 
 1. **Decreased volume** relative to the climax. Volume is activity;
    reduced activity after a climactic event is the cleanest signal of
@@ -61,7 +61,7 @@ Two features in order of importance
 Some Wyckoff authors require the ST to stay **above the SC low** (or
 **below the BC high** for distribution). The book treats this as a
 guideline, not a rule
-([book p.123](../../raw/book/pages/page_123.md)):
+([book p.123](../../../raw/book/pages/page_123.md)):
 
 - ST above the SC midpoint of the range → **buyer-side imbalance** is
   reasonable to infer.
@@ -75,7 +75,7 @@ more important than the price location.
 ### Functional Implication — A Range Now Exists
 
 Once the ST has printed, the trader knows the market is in a **range
-context**, not a trend ([book p.122](../../raw/book/pages/page_122.md)).
+context**, not a trend ([book p.122](../../../raw/book/pages/page_122.md)).
 Operational implications:
 
 - Trade by **fading the ends**: at the upper end, look for reversal
@@ -92,13 +92,13 @@ methodology to range-internal moves.
 The "official" Wyckoff Secondary Test sits in Phase A. But the same
 behavior — a probe of one end of the range with narrowing ranges and
 lower volume — recurs throughout **Phase B**
-([book p.125](../../raw/book/pages/page_125.md)). These tests have
+([book p.125](../../../raw/book/pages/page_125.md)). These tests have
 specific labels depending on which side is being tested and which
 structure is favored:
 
 - **Upper-end test in accumulation** → **Upthrust Action (UA)** — slight
   shake of the high, drops back in, suggests buyer absorption
-  ([book p.126–127](../../raw/book/pages/page_126.md)). If the price
+  ([book p.126–127](../../../raw/book/pages/page_126.md)). If the price
   stays above resistance briefly before falling, it can be labeled
   **minor Sign of Strength (mSOS)**.
 - **Upper-end test in distribution** → **[[upthrust|Upthrust (UT)]]**.
@@ -107,18 +107,18 @@ structure is favored:
 - **Lower-end test in accumulation** → **ST as Sign of Weakness (ST as
   SOW)** — see [[st-as-msos|ST as mSOS / SOW]]. The book also notes the
   pure label **"ST in B"** is acceptable when direction is unknown
-  ([book p.128](../../raw/book/pages/page_128.md)).
+  ([book p.128](../../../raw/book/pages/page_128.md)).
 - **Lower-end test in distribution** → **minor Sign Of Weakness
   (mSOW)** — see [[st-as-msow]].
 
 The book's pragmatic suggestion: in real time, label ambiguously
 ("**ST in B**") and disambiguate retroactively
-([book p.128](../../raw/book/pages/page_128.md)).
+([book p.128](../../../raw/book/pages/page_128.md)).
 
 ### The Generic Test (VSA) vs The Secondary Test
 
 The methodology and VSA both use the word "test". They are not the same
-thing ([book p.133](../../raw/book/pages/page_133.md)):
+thing ([book p.133](../../../raw/book/pages/page_133.md)):
 
 - **Secondary Test (Wyckoff)** — a **specific structural event** with a
   named phase position (Phase A).
@@ -132,7 +132,7 @@ checkpoint; the VSA test is a tactical re-entry / no-demand signal.
 
 ### Where Generic Tests Appear (Practical Locations)
 
-The book ([book p.130](../../raw/book/pages/page_130.md)) catalogs three
+The book ([book p.130](../../../raw/book/pages/page_130.md)) catalogs three
 high-value test locations:
 
 1. **Test after shock** — the [[spring]] test or [[upthrust]] test in
@@ -147,7 +147,7 @@ high-value test locations:
 ### Test Bar Appearance — VSA Vocabulary
 
 The bar that constitutes a valid test is called
-([book p.131–132](../../raw/book/pages/page_131.md)):
+([book p.131–132](../../../raw/book/pages/page_131.md)):
 
 - **No Supply** — bearish narrow-range bar with lower volume than the
   prior two bars, found in **bullish environments** (e.g. spring test,

@@ -22,7 +22,7 @@ sources:
 The single difference is the **prior trend direction**: distribution
 starts after a stop of an upward move; redistribution starts after a
 stop of a downward move
-([book p.86](../../raw/book/pages/page_086.md)).
+([book p.86](../../../raw/book/pages/page_086.md)).
 
 It is a pause within an existing bearish trend, after which the
 markdown resumes. Multiple redistributions can occur within a single
@@ -34,7 +34,7 @@ down.
 ### Why Redistribution Happens
 
 Same logic as [[reaccumulation]], mirrored
-([book p.87–88](../../raw/book/pages/page_087.md)):
+([book p.87–88](../../../raw/book/pages/page_087.md)):
 
 - At the start of a downtrend, short positions are largely in strong
   hands (professionals who entered at the top).
@@ -50,7 +50,7 @@ redistribution refreshes the cause for further markdown.
 ### Operator Behavior During Redistribution
 
 A distinguishing operational note
-([book p.87](../../raw/book/pages/page_087.md)):
+([book p.87](../../../raw/book/pages/page_087.md)):
 
 > "During the periods of redistribution, the great professional who is
 > already short returns to sell around the top of the range and
@@ -68,7 +68,7 @@ size on the short side.
 ### Duration Is Influenced By Strong/Weak Hand Mix
 
 Same property as reaccumulation
-([book p.88](../../raw/book/pages/page_088.md)):
+([book p.88](../../../raw/book/pages/page_088.md)):
 
 - **Stock mostly in strong hands at the start of redistribution** →
   **shorter** duration.
@@ -81,7 +81,7 @@ Redistribution uses the **identical event vocabulary** as
 The schematics #1 (with shake) and #2 (no-shake) apply equally.
 
 The Phase C shake variant specific to redistribution is the
-**Ordinary Upthrust** ([book p.153](../../raw/book/pages/page_153.md)):
+**Ordinary Upthrust** ([book p.153](../../../raw/book/pages/page_153.md)):
 
 > "Like the Ordinary Shakeout, it is a shakeout with little preparation
 > during the development of the downward trend movement. It is a very
@@ -95,7 +95,7 @@ extensive Phase A/B preparation.
 ### The Disambiguation Problem — Redistribution vs Accumulation
 
 The mirror of the reaccumulation-vs-distribution problem
-([book p.87](../../raw/book/pages/page_087.md)):
+([book p.87](../../../raw/book/pages/page_087.md)):
 
 > "This type of structure starts the same as the accumulation ranges;
 > therefore a very judicious analysis is necessary in order not to
@@ -118,7 +118,7 @@ Same probabilistic-input framing as reaccumulation-vs-distribution.
 
 ### Persistent Volatility — Diagnostic Cue
 
-[book p.87](../../raw/book/pages/page_087.md) explicitly: "Redistribution
+[book p.87](../../../raw/book/pages/page_087.md) explicitly: "Redistribution
 **remains volatile** during and at the end of its development before
 continuing the downtrend." This contrasts with accumulation, which
 shows decreasing volatility as the range matures.

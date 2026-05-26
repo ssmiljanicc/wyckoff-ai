@@ -18,13 +18,13 @@ sources:
 range. Its function: the **trend itself** unfolds — price abandons the
 structure and begins the markup (in accumulation) or markdown (in
 distribution) as the **effect** of the cause built during Phase B
-([book p.189](../../raw/book/pages/page_189.md)).
+([book p.189](../../../raw/book/pages/page_189.md)).
 
 Phase E starts after the **confirmation event** (BUEC / FTI / LPS / LPSY
 out of range) completes successfully.
 
 The events of Phase E are
-([book p.189](../../raw/book/pages/page_189.md)):
+([book p.189](../../../raw/book/pages/page_189.md)):
 
 - [[sign-of-strength|Sign of Strength]] and
   [[sign-of-weakness|Sign of Weakness]] — impulsive waves of the trend.
@@ -48,7 +48,7 @@ tools used to evaluate trend health.
 ### Confirmation = Phase E Entry Signal
 
 The book is explicit
-([book p.190](../../raw/book/pages/page_190.md)):
+([book p.190](../../../raw/book/pages/page_190.md)):
 
 > "This fact of successful break + confirmation is the great warning
 > that great professionals are positioned in that direction. It is
@@ -65,7 +65,7 @@ Every corrective wave during Phase E is an
 [[last-point-of-support|LPS]] (in markup) or
 [[last-point-of-supply|LPSY]] (in markdown) — see those pages for the
 catalog of LPS/LPSY types
-([book p.174](../../raw/book/pages/page_174.md)). These are the
+([book p.174](../../../raw/book/pages/page_174.md)). These are the
 natural re-entry / scale-up locations during the trend.
 
 The same wave-structure discipline as in Phase D applies: enter on the
@@ -91,7 +91,7 @@ The structural-then-trend-then-structural alternation is the
 Inside Phase E, [[secondary-test|trend tests]] continue to provide
 re-entry opportunities — the same No Demand / No Supply VSA signatures
 appear at LPS / LPSY locations during the trend
-([book p.130](../../raw/book/pages/page_130.md)). See "Where To Look
+([book p.130](../../../raw/book/pages/page_130.md)). See "Where To Look
 For Tests" in [[secondary-test]].
 
 ## Why It Matters For Wyckoff Reading

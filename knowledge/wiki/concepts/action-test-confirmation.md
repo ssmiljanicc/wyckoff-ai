@@ -36,8 +36,8 @@ A recurring three-step pattern runs through every Wyckoff structure:
 The pattern is not a specific event; it is **the underlying logic of
 how every structural transition is verified**. Every Wyckoff event
 that "counts" goes through some version of this sequence
-([book p.129–130](../../raw/book/pages/page_129.md);
-[book p.167–168](../../raw/book/pages/page_167.md)).
+([book p.129–130](../../../raw/book/pages/page_129.md);
+[book p.167–168](../../../raw/book/pages/page_167.md)).
 
 ## Key Points
 
@@ -52,7 +52,7 @@ is not yet evidence.
 the asserted meaning holds. The cleanest tests print as **No Demand**
 (in a bullish context) or **No Supply** (in a bearish context) —
 narrow-range bars with volume lower than the prior two bars
-([book p.131](../../raw/book/pages/page_131.md)).
+([book p.131](../../../raw/book/pages/page_131.md)).
 
 **Confirmation.** The test's outcome. A test that prints with
 narrowing ranges and decreasing volume **confirms** the action. A test
@@ -75,7 +75,7 @@ Every row is the same logical pattern.
 
 ### Test Validity Criteria
 
-A test is **valid** when ([book p.129](../../raw/book/pages/page_129.md)):
+A test is **valid** when ([book p.129](../../../raw/book/pages/page_129.md)):
 
 > "Volume is now low, which clearly indicates lack of interest and
 > suggests that the market is now prepared for a trend movement in
@@ -92,7 +92,7 @@ until exhaustion is confirmed.
 ### Why "Confirmation" Matters Operationally
 
 The book's clearest statement on the operational implication
-([book p.154](../../raw/book/pages/page_154.md)):
+([book p.154](../../../raw/book/pages/page_154.md)):
 
 > "This breakout movement itself is not an opportunity to trade; it
 > only alerts us to a possible opportunity in the very near future.

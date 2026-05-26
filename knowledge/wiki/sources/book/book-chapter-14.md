@@ -48,34 +48,34 @@ event**. This pattern recurs for SC, BC, and other named events.
 
 - PS is the first Wyckoff event of an accumulation range; PSY is the
   same in distribution
-  ([p.93](../../../raw/book/pages/page_093.md)).
+  ([p.93](../../../../raw/book/pages/page_093.md)).
 - Three valid graphical representations
-  ([p.94](../../../raw/book/pages/page_094.md)): wide-range bar with
+  ([p.94](../../../../raw/book/pages/page_094.md)): wide-range bar with
   volume spike, cluster of narrow bars with constant high volume,
   single bar with long wick.
 - Tom Williams diagnostic: a large trend bar with peak volume after a
   prolonged move signals the **opposite** sentiment — i.e. a bearish
   trend bar with high volume after a long decline is professional
   buying, not capitulation continuation
-  ([p.94](../../../raw/book/pages/page_094.md)).
+  ([p.94](../../../../raw/book/pages/page_094.md)).
 - Three weak-hand profiles provide the counterparty: greedy late
   shorts, fearful long capitulators, smart-but-early traders whose
-  stops just got hit ([p.95–96](../../../raw/book/pages/page_095.md)).
+  stops just got hit ([p.95–96](../../../../raw/book/pages/page_095.md)).
 - A bearish trend "does not stop at once" — expect numerous potential
   PS attempts before the genuine PS
-  ([p.98](../../../raw/book/pages/page_098.md)).
+  ([p.98](../../../../raw/book/pages/page_098.md)).
 - The **genuine** PS is the **penultimate** stop attempt; the last is
   the [[selling-climax|Selling Climax]]
-  ([p.99](../../../raw/book/pages/page_099.md)).
+  ([p.99](../../../../raw/book/pages/page_099.md)).
 - Many potential PS attempts foreshadow an **exhaustion-style climax**
   (low-volume SC) rather than a high-volume climactic SC
-  ([p.98](../../../raw/book/pages/page_098.md)).
-- Operational use ([p.97](../../../raw/book/pages/page_097.md)): stop
+  ([p.98](../../../../raw/book/pages/page_098.md)).
+- Operational use ([p.97](../../../../raw/book/pages/page_097.md)): stop
   trading in the prior trend's direction; take profits. NOT an entry
   trigger.
 - V-turn caveat: occasionally the market turns hypodermically with no
   PS chain — the rare case
-  ([p.98](../../../raw/book/pages/page_098.md)).
+  ([p.98](../../../../raw/book/pages/page_098.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

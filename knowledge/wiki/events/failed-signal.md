@@ -36,7 +36,7 @@ action that follows. The most operationally relevant forms:
   break is retroactively reclassified.
 
 The book is explicit on the discipline
-([book p.141](../../raw/book/pages/page_141.md)): a shake is only
+([book p.141](../../../raw/book/pages/page_141.md)): a shake is only
 labeled [[spring]] / [[upthrust-after-distribution|UTAD]] **if it
 causes the eventual range break**. Anything else is "just a test" — by
 construction these were potential events whose status is settled by
@@ -49,7 +49,7 @@ archive will populate the specific failure modes with examples.
 
 ### How Failure Is Diagnosed — No-Re-Entry Rule
 
-The book's primary diagnostic ([book p.158](../../raw/book/pages/page_158.md)):
+The book's primary diagnostic ([book p.158](../../../raw/book/pages/page_158.md)):
 
 > "The most powerful indication for valuing breakout as genuine is that
 > the price manages to stay out of the range."
@@ -59,7 +59,7 @@ range** after the apparent break, the break is false. The methodology
 relabels the move:
 
 - **Bullish break that re-enters** → [[upthrust|Upthrust (UT)]]
-  ([book p.160](../../raw/book/pages/page_160.md)).
+  ([book p.160](../../../raw/book/pages/page_160.md)).
 - **Bearish break that re-enters** → [[spring|Spring]] / Jump Across
   the Creek — i.e. the supposedly bearish event was actually a
   shake for an accumulation that hadn't been recognized yet.
@@ -69,7 +69,7 @@ relabels the move:
 The Phase D confirmation event ([[back-up-to-the-edge-of-the-creek|BUEC]]
 / [[fall-through-the-ice|FTI]] / LPS / LPSY) is where the failure
 becomes diagnosable
-([book p.169–170](../../raw/book/pages/page_169.md)):
+([book p.169–170](../../../raw/book/pages/page_169.md)):
 
 - A confirmation test with **narrow ranges and low volume** → genuine
   break.
@@ -84,7 +84,7 @@ to converting a profitable trade into a stopped-out one when the
 ### Phase D Has Three Possible Outcomes
 
 The book enumerates Phase D scenarios
-([book p.187](../../raw/book/pages/page_187.md)):
+([book p.187](../../../raw/book/pages/page_187.md)):
 
 1. **Successful break + confirmation test** → markup / markdown begins
    (Phase E).
@@ -99,7 +99,7 @@ The book enumerates Phase D scenarios
 
 Scenario 3 is the most damaging diagnostic mistake. It means the
 trader was on the wrong side of the structure throughout. The book
-notes ([book p.187](../../raw/book/pages/page_187.md)) that "higher
+notes ([book p.187](../../../raw/book/pages/page_187.md)) that "higher
 forces have been absorbing in the opposite direction" via a much more
 discreet absorption campaign — the structural read was misread because
 the dominant operator's intent was the opposite of what the visible

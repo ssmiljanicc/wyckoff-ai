@@ -19,13 +19,13 @@ sources:
 **Fall Through The Ice (FTI)** is the **confirmation event** (event #7)
 in a distribution structure — the pullback after the bearish breakout
 that retests the broken [[concepts/creek-and-ice|Ice]] from below
-([book p.167](../../raw/book/pages/page_167.md)). It is the
+([book p.167](../../../raw/book/pages/page_167.md)). It is the
 distribution mirror of the
 [[back-up-to-the-edge-of-the-creek|BUEC]].
 
 The book notes the FTI term is "less well known" than its
 accumulation-side counterpart
-([book p.168](../../raw/book/pages/page_168.md)). Most modern Wyckoff
+([book p.168](../../../raw/book/pages/page_168.md)). Most modern Wyckoff
 writing uses [[last-point-of-supply|LPSY]] for this event. The two
 labels point to the same event when LPSY occurs out-of-range as the
 SOW confirmation.
@@ -39,7 +39,7 @@ distribution the Ice is the support you fall through.
 ### What A Valid FTI Looks Like
 
 Same criteria as BUEC, mirrored
-([book p.168, p.177](../../raw/book/pages/page_168.md)):
+([book p.168, p.177](../../../raw/book/pages/page_168.md)):
 
 1. **Price does not re-enter the range.** Most reliable signal — the
    retest probes the broken Ice from below and holds beneath it.
@@ -51,7 +51,7 @@ Same criteria as BUEC, mirrored
 ### Warning Signal
 
 A bullish retest of the Ice with **wide ranges and elevated volume**
-is a warning ([book p.169–170](../../raw/book/pages/page_169.md)):
+is a warning ([book p.169–170](../../../raw/book/pages/page_169.md)):
 
 - Latent demand is still present.
 - The "SOW" may have been a [[failed-signal|failed bearish break]] —
@@ -59,7 +59,7 @@ is a warning ([book p.169–170](../../raw/book/pages/page_169.md)):
   resolution.
 
 The book also notes a more subtle warning specific to distribution
-([book p.177](../../raw/book/pages/page_177.md)): "we have to be
+([book p.177](../../../raw/book/pages/page_177.md)): "we have to be
 careful because a high volume could signal an increase in selling
 interest by shorting the zone" — i.e. a high-volume FTI is ambiguous.
 It may mean strong supply re-entering on the retest (bearish) or it
@@ -75,7 +75,7 @@ markdown that the structure has been building has not yet unfolded.
 ### Entry Trigger — SOW Bar
 
 The entry is typically taken on a [[sign-of-weakness|SOW Bar]]
-([book p.171–172](../../raw/book/pages/page_171.md)):
+([book p.171–172](../../../raw/book/pages/page_171.md)):
 
 - Wide bearish bar with close at the lows and elevated volume.
 - Or a bearish gap.
@@ -85,7 +85,7 @@ Stop loss above the LPSY high and the broken Ice line.
 ### Wave Structure
 
 FTI is the corrective wave after the impulsive SOW — the natural
-trend wave structure ([book p.169](../../raw/book/pages/page_169.md)).
+trend wave structure ([book p.169](../../../raw/book/pages/page_169.md)).
 
 ## Why It Matters For Wyckoff Reading
 

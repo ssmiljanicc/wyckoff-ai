@@ -25,17 +25,17 @@ distribution structure — the mirror of the [[selling-climax]] in
 accumulation. It is the second event of Phase A, appearing after the
 [[preliminary-support|Preliminary Supply]] and followed by the
 [[automatic-reaction]] and the [[secondary-test]]
-([book p.109](../../raw/book/pages/page_109.md)).
+([book p.109](../../../raw/book/pages/page_109.md)).
 
 The BC is a **powerful sign of market weakness**. Its high establishes
 the **upper limit (resistance zone) of the trading range**
-([book p.110](../../raw/book/pages/page_110.md)).
+([book p.110](../../../raw/book/pages/page_110.md)).
 
 ## Key Points
 
 ### How It Appears On The Graph
 
-Same flexibility as the SC ([book p.103](../../raw/book/pages/page_103.md)):
+Same flexibility as the SC ([book p.103](../../../raw/book/pages/page_103.md)):
 
 - A wide-range bullish bar with a volume spike.
 - A **cluster of narrow bars** with constant high volume.
@@ -46,7 +46,7 @@ All three express strong entry of seller interest by large traders.
 ### The Trap
 
 A BC is a deception — it **looks** like aggressive buying but the
-intention is the opposite ([book p.110](../../raw/book/pages/page_110.md)).
+intention is the opposite ([book p.110](../../../raw/book/pages/page_110.md)).
 Late retail buyers, drawn in by favorable news and a rapid rise, are
 absorbed by professional supply. The price cannot continue upward
 because every buy is being matched by an institutional sell — purchases
@@ -59,7 +59,7 @@ trend, but failure to sustain new highs.
 
 Big traders capable of stopping a trend appear as sellers. Ill-informed
 traders provide the demand
-([book p.109](../../raw/book/pages/page_109.md)) — the same three weak-hand
+([book p.109](../../../raw/book/pages/page_109.md)) — the same three weak-hand
 profiles as at [[preliminary-support]] and [[selling-climax]], just on the
 buy side: late greedy buyers chasing the move, fearful shorts capitulating
 into the rally, and smart-but-early longs whose protection stops just got
@@ -68,16 +68,16 @@ hit on the upward extension.
 ### The Buying Climax of Exhaustion
 
 An uptrend can end **without** climactic volume
-([book p.110–111](../../raw/book/pages/page_110.md)). Diagnostic cues:
+([book p.110–111](../../../raw/book/pages/page_110.md)). Diagnostic cues:
 
 - Successive **higher and higher potential PSY attempts** during the
-  rise ([book p.111](../../raw/book/pages/page_111.md)).
+  rise ([book p.111](../../../raw/book/pages/page_111.md)).
 - Overall volume **decreasing** as the trend extends — distribution
   has already happened.
 - The "BC" prints with normal or narrow range and average or low volume.
 
 The book proposes "Buying Exhaustion" as a clearer label
-([book p.111](../../raw/book/pages/page_111.md)) but structurally the
+([book p.111](../../../raw/book/pages/page_111.md)) but structurally the
 event still occupies the BC position in Phase A.
 
 This pairs directly with the PSY chain: many potential PSY attempts make
@@ -87,7 +87,7 @@ an exhaustion BC more likely.
 
 Treat the BC as **potential** until the [[automatic-reaction]] and
 [[secondary-test]] confirm the end of Phase A
-([book p.110](../../raw/book/pages/page_110.md)). Without those events
+([book p.110](../../../raw/book/pages/page_110.md)). Without those events
 the apparent BC may simply be a pause in an ongoing uptrend.
 
 See [[concepts/labeling-is-last-step]].

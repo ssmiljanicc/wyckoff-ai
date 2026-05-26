@@ -35,14 +35,14 @@ sources:
 A **distribution** structure is a lateral movement preceded by a
 bullish trend in which large traders absorb available demand from
 weak hands in order to short and profit at lower prices in a
-subsequent downtrend ([book p.80](../../raw/book/pages/page_080.md)).
+subsequent downtrend ([book p.80](../../../raw/book/pages/page_080.md)).
 
 It is the mirror of [[accumulation]]. The defining feature is the
 **direction of stock flow**: from strong hands to weak hands during
 the range, producing the cause for the subsequent markdown.
 
 The book presents two schematic variants
-([book p.42, p.44](../../raw/book/pages/page_042.md)):
+([book p.42, p.44](../../../raw/book/pages/page_042.md)):
 
 - **Basic Distribution Structure #1** — with a terminal
   [[events/upthrust-after-distribution|UTAD]] in Phase C.
@@ -81,7 +81,7 @@ duration predicts trend magnitude.
 
 First **CHoCh** runs from the BC high to the AR low — transition from
 uptrend to range
-([book p.42](../../raw/book/pages/page_042.md)).
+([book p.42](../../../raw/book/pages/page_042.md)).
 
 **[[concepts/phase-b|Phase B — Cause-building]]:**
 
@@ -91,7 +91,7 @@ uptrend to range
 
 Note the key contrast with accumulation: distribution **remains
 volatile** during the entire range, not just at the boundaries
-([book p.84](../../raw/book/pages/page_084.md)).
+([book p.84](../../../raw/book/pages/page_084.md)).
 
 **[[concepts/phase-c|Phase C — Test]]:**
 
@@ -123,7 +123,7 @@ highs and lows.
 ### Schematic #2 — No-Shake Variant
 
 In Distribution #2 the Phase C shake **does not reach the highs of
-the structure** ([book p.44–45](../../raw/book/pages/page_044.md)).
+the structure** ([book p.44–45](../../../raw/book/pages/page_044.md)).
 The book frames it as the inverse of Accumulation #2: greater
 background weakness, with already-positioned shorts preventing price
 from reaching the upper liquidity zone.
@@ -136,7 +136,7 @@ Operational consequences:
 - The SOW that breaks the structure is also lost as a discrete entry.
 - **The only clean short entry is the [[events/fall-through-the-ice|FTI]]
   / LPSY** after the breakdown
-  ([book p.45](../../raw/book/pages/page_045.md)).
+  ([book p.45](../../../raw/book/pages/page_045.md)).
 
 See [[events/no-shake-phase-c]].
 
@@ -144,7 +144,7 @@ See [[events/no-shake-phase-c]].
 
 During distribution the operator creates an **environment of extreme
 strength**, often supported by the media
-([book p.82](../../raw/book/pages/page_082.md)):
+([book p.82](../../../raw/book/pages/page_082.md)):
 
 - Bullish news attracts late retail buying.
 - Those late buyers provide the demand-side counterparty for the
@@ -162,12 +162,12 @@ The operator does not initiate the markdown until the
 [[concepts/path-of-least-resistance|path of least resistance]] is
 verified downward — by **upward probes** that test for absence of
 buyer participation
-([book p.83](../../raw/book/pages/page_083.md)). Hence multiple
+([book p.83](../../../raw/book/pages/page_083.md)). Hence multiple
 shakes within a single distribution range are common.
 
 ### Common Characteristics — Crucial Contrast With Accumulation
 
-From [book p.84](../../raw/book/pages/page_084.md):
+From [book p.84](../../../raw/book/pages/page_084.md):
 
 - **High volume and volatility throughout the range.** Wide price
   fluctuations; volume stays relatively high and constant. (Contrast:

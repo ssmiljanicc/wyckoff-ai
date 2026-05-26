@@ -21,7 +21,7 @@ sources:
 **Phase A** is the **first** structural phase of every Wyckoff range.
 Its single function: **stop the previous trend** and return the market
 to a state of balance between supply and demand
-([book p.180](../../raw/book/pages/page_180.md)).
+([book p.180](../../../raw/book/pages/page_180.md)).
 
 Before Phase A, the market is in a trend — controlled by either buyers
 (uptrend) or sellers (downtrend). During Phase A the controlling side
@@ -30,7 +30,7 @@ A, the market is in a [[trading-range|range context]] and the
 methodology's range-internal events become applicable.
 
 Phase A consists of **four events**, in order
-([book p.180](../../raw/book/pages/page_180.md)):
+([book p.180](../../../raw/book/pages/page_180.md)):
 
 1. [[preliminary-support|Preliminary Support / Preliminary Supply (PS / PSY)]]
 2. [[selling-climax|Selling Climax / Buying Climax (SC / BC)]]
@@ -42,7 +42,7 @@ Phase A consists of **four events**, in order
 ### The Four-Event Sequence
 
 The book's narrative
-([book p.181](../../raw/book/pages/page_181.md)):
+([book p.181](../../../raw/book/pages/page_181.md)):
 
 - **PS / PSY** — first signal of large-trader interest. May produce an
   overextended condition but does not stop the trend outright. May
@@ -64,7 +64,7 @@ Stopping the trend means the controlling side **stops being aggressive
 enough** to drive price. The book repeatedly notes that the stop is
 not a "reversal" — it is a transition to equilibrium where neither
 side has clear control yet
-([book p.180](../../raw/book/pages/page_180.md)).
+([book p.180](../../../raw/book/pages/page_180.md)).
 
 Phase B (cause-building) is where the **eventual** controlling side
 takes its position. Phase A merely **clears the deck** of the prior
@@ -75,7 +75,7 @@ trend's momentum.
 A key implication: **the resolution of the structure is not knowable
 at the end of Phase A**. The same four events appear at the start of
 accumulation, distribution, reaccumulation, and redistribution
-([book p.79](../../raw/book/pages/page_079.md) — Chapter 11). The
+([book p.79](../../../raw/book/pages/page_079.md) — Chapter 11). The
 difference between these structures emerges during Phase B onward.
 
 Early diagnostics that **lean** the read:
@@ -95,7 +95,7 @@ read.
 
 The book notes that markets sometimes turn in a hypodermic V with no
 Phase B, effectively compressing all phases into Phase A
-([book p.93](../../raw/book/pages/page_093.md)). In a V-turn there
+([book p.93](../../../raw/book/pages/page_093.md)). In a V-turn there
 may not be a discrete chain of four events — the climax, the AR, and
 the ST happen in rapid succession.
 
@@ -105,7 +105,7 @@ sequence with breathing space between them.
 ### Climactic vs Exhaustion Stop
 
 Phase A has two characteristic shapes
-([book p.108, p.111](../../raw/book/pages/page_108.md)):
+([book p.108, p.111](../../../raw/book/pages/page_108.md)):
 
 - **Climactic stop** — wide-range, high-volume SC / BC bar; clear and
   obvious in real time.

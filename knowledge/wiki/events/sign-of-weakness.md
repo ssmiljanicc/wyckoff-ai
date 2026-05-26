@@ -29,7 +29,7 @@ originates from the Phase C high — either the
 [[upthrust-after-distribution|UTAD]] or the
 [[last-point-of-supply|LPSY]] — and breaks the lower range boundary
 (the [[concepts/creek-and-ice|Ice]]) to begin the new bearish trend
-([book p.164](../../raw/book/pages/page_164.md)).
+([book p.164](../../../raw/book/pages/page_164.md)).
 
 The SOW produces the **second Change of Character (CHoCh)** of the
 distribution: the market exits the range and enters a markdown phase.
@@ -41,7 +41,7 @@ The accumulation mirror is [[sign-of-strength]].
 ### Where The SOW Originates
 
 The SOW originates in the **high of Phase C**
-([book p.164](../../raw/book/pages/page_164.md)):
+([book p.164](../../../raw/book/pages/page_164.md)):
 
 - In **Distribution #1** (with shake) — from the [[upthrust-after-distribution|UTAD]] high.
 - In **Distribution #2** (no shake) — from the
@@ -49,14 +49,14 @@ The SOW originates in the **high of Phase C**
 
 The book notes the breakdown "could be a second, third or fourth attempt
 to break the Ice and this is the most successful"
-([book p.164](../../raw/book/pages/page_164.md)) — i.e. it is normal
+([book p.164](../../../raw/book/pages/page_164.md)) — i.e. it is normal
 for there to be earlier failed attempts to break the lower boundary
 before the MSOW actually succeeds.
 
 ### Appearance
 
 A SOW is the bearish mirror of a [[sign-of-strength|SOS]]
-([book p.155](../../raw/book/pages/page_155.md)):
+([book p.155](../../../raw/book/pages/page_155.md)):
 
 - Relative **increase in price ranges** (wide bearish bars).
 - **Increase in volume**.
@@ -66,7 +66,7 @@ A SOW is the bearish mirror of a [[sign-of-strength|SOS]]
 ### Quality Of A Major SOW
 
 For the SOW to qualify as Major SOW (MSOW)
-([book p.164](../../raw/book/pages/page_164.md)):
+([book p.164](../../../raw/book/pages/page_164.md)):
 
 - The bearish movement shows **ease of movement** — easy displacement
   through prior levels.
@@ -82,7 +82,7 @@ Phase C that does not break the structure.
 ### SOW Bar — The Entry Trigger
 
 The **SOW Bar** is a specific bar pattern used as an entry trigger for
-shorts ([book p.166](../../raw/book/pages/page_166.md)):
+shorts ([book p.166](../../../raw/book/pages/page_166.md)):
 
 - Wide bearish bar.
 - Close **at the lows** of the range.
@@ -97,7 +97,7 @@ support the down move.
 ### Breakout Is Not An Entry Opportunity
 
 Same discipline as SOS
-([book p.159](../../raw/book/pages/page_159.md)): the breakdown itself
+([book p.159](../../../raw/book/pages/page_159.md)): the breakdown itself
 should **not** be traded. The correct entry is the **confirmation
 test** — LPSY / FTI in distribution. See
 [[last-point-of-supply]], [[fall-through-the-ice]].

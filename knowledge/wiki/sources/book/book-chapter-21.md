@@ -30,12 +30,12 @@ Short and direct. Phase A is short structurally (4 events in
 sequence) and the chapter mostly recaps the four event chapters that
 preceded it. Its load-bearing content is the **explicit
 phase-by-phase framework** introduced in the Part 6 intro
-([p.178–179](../../../raw/book/pages/page_178.md)) — five phases,
+([p.178–179](../../../../raw/book/pages/page_178.md)) — five phases,
 each with a unique function.
 
 This framework is what gives the methodology its **context
 advantage** over generic technical analysis
-([p.178](../../../raw/book/pages/page_178.md)): a Wyckoff trader who
+([p.178](../../../../raw/book/pages/page_178.md)): a Wyckoff trader who
 has correctly identified the phase reads a resistance break
 differently from a trader who only sees the bar pattern.
 
@@ -43,12 +43,12 @@ differently from a trader who only sees the bar pattern.
 
 - Phase analysis structures the **processes of accumulation and
   distribution** to provide the general market context
-  ([p.178](../../../raw/book/pages/page_178.md)).
+  ([p.178](../../../../raw/book/pages/page_178.md)).
 - Phase function gives Wyckoff its **context advantage** over
   generic technical analysis — same bar pattern, different
   interpretation depending on phase
-  ([p.178](../../../raw/book/pages/page_178.md)).
-- **Five phases** ([p.179](../../../raw/book/pages/page_179.md)):
+  ([p.178](../../../../raw/book/pages/page_178.md)).
+- **Five phases** ([p.179](../../../../raw/book/pages/page_179.md)):
   - A: stopping the previous trend
   - B: building the cause
   - C: test
@@ -57,26 +57,26 @@ differently from a trader who only sees the bar pattern.
 - All campaigns require time; phases generally follow repetitive
   patterns. If a phase can be correctly identified, the probability
   of correct scenario-building rises
-  ([p.179](../../../raw/book/pages/page_179.md)).
+  ([p.179](../../../../raw/book/pages/page_179.md)).
 - **Phase A function**: stop the previous trend; return the market
   to a balance state between supply and demand
-  ([p.180](../../../raw/book/pages/page_180.md)).
+  ([p.180](../../../../raw/book/pages/page_180.md)).
 - **Phase A consists of four events**
-  ([p.180](../../../raw/book/pages/page_180.md)):
+  ([p.180](../../../../raw/book/pages/page_180.md)):
   PS / PSY → SC / BC → AR → ST.
 - **PS narrative**: alerts to increased participation, possible
   massive close of positions; big traders begin to glimpse
   overextension and take profits
-  ([p.181](../../../raw/book/pages/page_181.md)).
+  ([p.181](../../../../raw/book/pages/page_181.md)).
 - **Climax narrative**: may appear without climactic volume
   (Exhaustion variant). Action exhausts the prior controlling side
-  ([p.181](../../../raw/book/pages/page_181.md)).
+  ([p.181](../../../../raw/book/pages/page_181.md)).
 - **Reaction narrative**: most informative event — confirms something
   is happening. Trend was prolonged; reaction shows opposite-side
   interest emerging
-  ([p.181](../../../raw/book/pages/page_181.md)).
+  ([p.181](../../../../raw/book/pages/page_181.md)).
 - **Test narrative**: ends Phase A; Phase B begins from here
-  ([p.181](../../../raw/book/pages/page_181.md)).
+  ([p.181](../../../../raw/book/pages/page_181.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

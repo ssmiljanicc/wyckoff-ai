@@ -19,7 +19,7 @@ sources:
 **Last Point of Supply (LPSY)** is the **functional name** for any
 defended-higher-high in a distribution structure where sellers step in,
 block the advance, and produce a lower high that precedes a new bearish
-impulse ([book p.176](../../raw/book/pages/page_176.md)).
+impulse ([book p.176](../../../raw/book/pages/page_176.md)).
 
 LPSY is "the immediate action that precedes a [[sign-of-weakness|Sign
 Of Weakness (SOW)]]" — buyers attempt to push price higher; large
@@ -28,7 +28,7 @@ new markdown begins.
 
 Like its accumulation mirror [[last-point-of-support|LPS]], LPSY is a
 **family of events** distinguished by location
-([book p.176](../../raw/book/pages/page_176.md)):
+([book p.176](../../../raw/book/pages/page_176.md)):
 
 1. **LPSY after a shake** — the test of an
    [[upthrust-after-distribution|UTAD]] / Terminal Upthrust.
@@ -42,7 +42,7 @@ Like its accumulation mirror [[last-point-of-support|LPS]], LPSY is a
 ### LPSY After A Shake
 
 In Distribution #1, the test of the UTAD is the LPSY
-([book p.176](../../raw/book/pages/page_176.md)). The shake produces a
+([book p.176](../../../raw/book/pages/page_176.md)). The shake produces a
 high; the test pulls back **below the UTAD high**; the SOW develops
 from this LPSY level.
 
@@ -66,7 +66,7 @@ labeling-overlap discussion.
 ### LPSY Out Of Range — FTI + Phase E Pullbacks
 
 Out-of-range LPSY appears as
-([book p.176](../../raw/book/pages/page_176.md)):
+([book p.176](../../../raw/book/pages/page_176.md)):
 
 - The **confirmation event after the Phase D breakdown** — synonymous
   with [[fall-through-the-ice|FTI]].
@@ -75,7 +75,7 @@ Out-of-range LPSY appears as
 ### LPSY Character — Narrow Ranges, Low Volume
 
 The book gives the diagnostic character of a good LPSY
-([book p.177](../../raw/book/pages/page_177.md)):
+([book p.177](../../../raw/book/pages/page_177.md)):
 
 - After breakdown of the Ice with a SOW, the upward retest should
   show **narrow price ranges** (difficulty rising).
@@ -94,7 +94,7 @@ trader to a potential failed bearish break.
 
 The LPSY price sometimes coincides with the original
 [[preliminary-support|Preliminary Supply (PSY)]] level
-([book p.177](../../raw/book/pages/page_177.md)) — the operator
+([book p.177](../../../raw/book/pages/page_177.md)) — the operator
 returns to the same area where the initial distribution began. Same
 "price magnet" effect as the LPS-PS coincidence in accumulation.
 

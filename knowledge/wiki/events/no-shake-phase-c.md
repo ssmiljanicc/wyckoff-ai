@@ -36,11 +36,11 @@ in accumulation, or [[last-point-of-supply|LPSY]] /
 
 The book is explicit on both sides: the shake "is the central handling
 manoeuvre but **does not always occur**"
-([book p.74](../../raw/book/pages/page_074.md);
-[book p.82](../../raw/book/pages/page_082.md)). The two no-shake
+([book p.74](../../../raw/book/pages/page_074.md);
+[book p.82](../../../raw/book/pages/page_082.md)). The two no-shake
 schematics are formally named **Basic Accumulation #2** and **Basic
 Distribution #2** in the methodology
-([book p.40–45](../../raw/book/pages/page_040.md)).
+([book p.40–45](../../../raw/book/pages/page_040.md)).
 
 ## Key Points
 
@@ -50,8 +50,8 @@ The shake's structural job is to grab the final liquidity above /
 below the structure. When the absorption during Phase B has been
 **thorough enough that no significant liquidity remains** at the
 range extremes, the operator does not need to take price there
-([book p.75](../../raw/book/pages/page_075.md);
-[book p.83](../../raw/book/pages/page_083.md)).
+([book p.75](../../../raw/book/pages/page_075.md);
+[book p.83](../../../raw/book/pages/page_083.md)).
 
 Functionally: the path of least resistance has been verified inside
 the range; no further test outside is required.
@@ -66,7 +66,7 @@ This typically happens when:
 
 Chapter 23 notes that the Phase C shake may not necessarily **sweep the
 extremes of the structure**
-([book p.184–185](../../raw/book/pages/page_184.md)). When the shake
+([book p.184–185](../../../raw/book/pages/page_184.md)). When the shake
 stays inside the structure, it can be labeled:
 
 - **Minor spring** / **minor UTAD** — internal shake that still produces
@@ -83,7 +83,7 @@ inside the range and the entry shifts to LPS / LPSY.
 
 In the no-shake schematics, the **primary trade location is the
 Phase D confirmation event**
-([book p.41, 45](../../raw/book/pages/page_041.md)):
+([book p.41, 45](../../../raw/book/pages/page_041.md)):
 
 - **Accumulation #2** — entry at the [[last-point-of-support|LPS]] /
   [[back-up-to-the-edge-of-the-creek|BUEC]] after the upward break of

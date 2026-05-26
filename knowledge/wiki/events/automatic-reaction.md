@@ -25,19 +25,19 @@ sources:
 The **Automatic Reaction (AR)** in a distribution structure is the
 significant downward move that develops after the [[buying-climax]] as
 the **first sign of selling interest**
-([book p.119](../../raw/book/pages/page_119.md)). It is event #3 of
+([book p.119](../../../raw/book/pages/page_119.md)). It is event #3 of
 Phase A in distribution — the mirror of the [[automatic-rally]] in
 accumulation.
 
 The AR confirms that the BC was a genuine climax and sets the **lower
-limit of the trading range** ([book p.115](../../raw/book/pages/page_115.md)).
+limit of the trading range** ([book p.115](../../../raw/book/pages/page_115.md)).
 It produces the first **Change of Character (CHoCH)** of the
 distribution structure, moving the market from an uptrend to a range
 context.
 
 The book uses "Automatic Reaction" for both the **event** and the
 **event family** that covers AR in both accumulation and distribution
-([book p.112](../../raw/book/pages/page_112.md)) — within the book's
+([book p.112](../../../raw/book/pages/page_112.md)) — within the book's
 chapter the term is shared with the [[automatic-rally]]. This wiki
 keeps them on separate pages because, despite identical mechanics, they
 appear in different structures and the diagnostics differ in direction.
@@ -47,7 +47,7 @@ appear in different structures and the diagnostics differ in direction.
 ### Why The Automatic Reaction Occurs
 
 Three forces converge at the end of the BC
-([book p.119–120](../../raw/book/pages/page_119.md)):
+([book p.119–120](../../../raw/book/pages/page_119.md)):
 
 - **Exhaustion of demand** — aggressive buyers stop entering.
 - **Length covering** — buyers who entered lower close longs for
@@ -61,7 +61,7 @@ during the AR itself, which ends the move.
 ### Anatomy
 
 Same shape as the bull-side AR, mirrored
-([book p.114](../../raw/book/pages/page_114.md)):
+([book p.114](../../../raw/book/pages/page_114.md)):
 
 - Wide bearish trend bars at the start with elevated volume from the
   climax.
@@ -75,7 +75,7 @@ not a mechanical rule.
 ### Distance Is A Diagnostic
 
 The size of the AR is one of the earliest reaccumulation-vs-distribution
-diagnostics ([book p.113–114](../../raw/book/pages/page_113.md)):
+diagnostics ([book p.113–114](../../../raw/book/pages/page_113.md)):
 
 - A **large** AR (relative to prior impulses) → strong-top signal,
   distribution more likely.
@@ -91,7 +91,7 @@ progress until proven otherwise.
 
 1. **Defines the lower limit of the range.** The low of the AR is the
    first support zone — new buying is expected on subsequent visits
-   ([book p.115](../../raw/book/pages/page_115.md)).
+   ([book p.115](../../../raw/book/pages/page_115.md)).
 2. **Identifies the genuine BC.** The BC is often unclear in real time;
    the AR retroactively confirms which prior high was the genuine
    climactic top.
@@ -104,14 +104,14 @@ progress until proven otherwise.
 Once the AR is in progress, the trader can drop to a lower timeframe
 and look for a **minor accumulation structure** that will end the AR
 and produce the bullish reversal toward the ST
-([book p.116](../../raw/book/pages/page_116.md)).
+([book p.116](../../../raw/book/pages/page_116.md)).
 
 ### Profit-Taking on Climax Trades
 
 A scalp taken at the BC must be closed at the AR. The position cannot
 be held through the range because direction (distribution vs
 reaccumulation) is not yet known
-([book p.115](../../raw/book/pages/page_115.md)).
+([book p.115](../../../raw/book/pages/page_115.md)).
 
 ## Why It Matters For Wyckoff Reading
 

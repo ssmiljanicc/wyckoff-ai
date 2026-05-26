@@ -22,12 +22,12 @@ sources:
 The single difference is the **prior trend direction**: accumulation
 starts after a stop of a downward move; reaccumulation starts after a
 stop of an upward move
-([book p.77](../../raw/book/pages/page_077.md)).
+([book p.77](../../../raw/book/pages/page_077.md)).
 
 It is a pause within an existing bullish trend, after which the
 markup resumes. The structure rebuilds strong-hand control of stock
 that has gradually drifted to weak hands during the prior uptrend
-([book p.78](../../raw/book/pages/page_078.md)).
+([book p.78](../../../raw/book/pages/page_078.md)).
 
 ## Key Points
 
@@ -36,7 +36,7 @@ that has gradually drifted to weak hands during the prior uptrend
 At the start of an uptrend, stock is largely in strong hands. As the
 trend develops, stock gradually shifts to weak hands — late buyers
 who entered at progressively higher prices
-([book p.78](../../raw/book/pages/page_078.md)). When this drift
+([book p.78](../../../raw/book/pages/page_078.md)). When this drift
 makes demand "of poor quality", the trend pauses for a fresh
 absorption cycle: the operator buys back stock from weak hands to
 re-establish control before the next leg up.
@@ -47,7 +47,7 @@ reaccumulation refreshes the cause for further markup.
 ### Duration Is Influenced By Strong/Weak Hand Mix
 
 Critical structural property
-([book p.78](../../raw/book/pages/page_078.md)):
+([book p.78](../../../raw/book/pages/page_078.md)):
 
 - **Stock mostly in strong hands at the start of reaccumulation** →
   **shorter** duration. Less absorption work needed.
@@ -67,7 +67,7 @@ equally.
 
 The only event-level difference: in reaccumulation, the Phase C shake
 is sometimes labeled an **Ordinary Shakeout** rather than a Spring
-([book p.148](../../raw/book/pages/page_148.md)):
+([book p.148](../../../raw/book/pages/page_148.md)):
 
 > "An Ordinary Shakeout … is defined as a strong bearish push without
 > extensive prior preparation that occurs during the development of
@@ -82,7 +82,7 @@ spring — liquidity grab before the trend continues.
 
 The book frames this as "one of the most compromising situations
 that any Wyckoff trader will encounter"
-([book p.79](../../raw/book/pages/page_079.md)). Both structures
+([book p.79](../../../raw/book/pages/page_079.md)). Both structures
 **start the same way**: after the stop of an upward move.
 
 In real time, Phase A is identical. The trader must use Phase B
@@ -109,7 +109,7 @@ structure is finally confirmed at the Phase D break — see
 - **Trade in the direction of the higher-timeframe trend.** A
   reaccumulation in an uptrend is best traded long — the methodology
   recommends "trade in favour of the larger structure". See
-  [book p.192](../../raw/book/pages/page_192.md) (Part 7, ingest in
+  [book p.192](../../../raw/book/pages/page_192.md) (Part 7, ingest in
   Batch 3).
 - **Entries are the same as accumulation:** Spring entry (Phase C),
   LPS entry (Phase D), BUEC entry (Phase D out-of-range).

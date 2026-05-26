@@ -31,13 +31,13 @@ trend**. Crossing them defines the structural breakout and the
 - **Creek** — the upper boundary of an
   [[structures/accumulation|accumulation]] structure. Named after a
   stream that the operator must "jump across" to start the markup
-  ([book p.38](../../raw/book/pages/page_038.md);
-  [book p.160](../../raw/book/pages/page_160.md)).
+  ([book p.38](../../../raw/book/pages/page_038.md);
+  [book p.160](../../../raw/book/pages/page_160.md)).
 - **Ice** — the lower boundary of a
   [[structures/distribution|distribution]] structure. Named after a
   frozen surface that price must "fall through" to start the markdown
-  ([book p.42](../../raw/book/pages/page_042.md);
-  [book p.168](../../raw/book/pages/page_168.md)).
+  ([book p.42](../../../raw/book/pages/page_042.md);
+  [book p.168](../../../raw/book/pages/page_168.md)).
 
 The metaphors are visual aids: Creek = stream you walk along until you
 find the place to cross; Ice = frozen ground that holds you up until
@@ -68,7 +68,7 @@ line.
    determines how much "noise" the methodology accommodates without
    re-classifying.
 2. **The last barrier before the trend.** Per
-   [book p.186](../../raw/book/pages/page_186.md):
+   [book p.186](../../../raw/book/pages/page_186.md):
 
    > "That zone that establishes the Reaction event (Creek or Ice) is
    > the last barrier that must be overcome to conclude that one side
@@ -99,7 +99,7 @@ The methodology has a complete vocabulary anchored on the Creek/Ice:
 The book sometimes references **minor Creeks** — internal resistance
 levels inside the range that get broken by minor SOS moves during
 Phase B without breaking the structural Creek
-([book p.158](../../raw/book/pages/page_158.md)). The same applies to
+([book p.158](../../../raw/book/pages/page_158.md)). The same applies to
 minor Ice in distribution.
 
 - **Major Creek / Ice** = the structural boundary.
@@ -122,7 +122,7 @@ above/below after the cross) is.
 ### The Creek/Ice And Internal Pullbacks
 
 Per Phase D mechanics
-([book p.186](../../raw/book/pages/page_186.md)): when an upward
+([book p.186](../../../raw/book/pages/page_186.md)): when an upward
 attempt fails at the Creek with too much resistance, two options are
 open:
 

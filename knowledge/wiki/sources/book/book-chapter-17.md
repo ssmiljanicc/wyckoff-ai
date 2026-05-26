@@ -46,53 +46,53 @@ Pages: `raw/book/pages/page_121.md`–`page_133.md`.
 ## Why It Matters
 
 This chapter introduces the **"ST in B"** ambiguous-labeling fallback
-([p.128](../../../raw/book/pages/page_128.md)) and the explicit
-**UA-vs-UT** discussion ([p.127](../../../raw/book/pages/page_127.md))
+([p.128](../../../../raw/book/pages/page_128.md)) and the explicit
+**UA-vs-UT** discussion ([p.127](../../../../raw/book/pages/page_127.md))
 — the cleanest example of the methodology's "same action, different
 label by structure" approach. It is the practical foundation for the
 [[labeling-is-last-step]] discipline.
 
 It also introduces the **VSA No Demand / No Supply** vocabulary
-([p.131–132](../../../raw/book/pages/page_131.md)) and the three
-canonical test locations ([p.130](../../../raw/book/pages/page_130.md))
+([p.131–132](../../../../raw/book/pages/page_131.md)) and the three
+canonical test locations ([p.130](../../../../raw/book/pages/page_130.md))
 — foundational to [[action-test-confirmation]].
 
 ## Key Claims
 
 - ST ends Phase A and begins Phase B
-  ([p.121](../../../raw/book/pages/page_121.md)).
+  ([p.121](../../../../raw/book/pages/page_121.md)).
 - Valid ST: **narrower ranges and lower volume than the climax**.
   Decrease in volume is **the primary criterion**
-  ([p.123–124](../../../raw/book/pages/page_123.md)).
+  ([p.123–124](../../../../raw/book/pages/page_123.md)).
 - Strict-above-SC rule is **relaxed**: ST above SC midpoint signals
   buyer-side imbalance; ST below SC low signals seller-side imbalance.
   ST roughly equal to SC = neutral
-  ([p.123](../../../raw/book/pages/page_123.md)).
+  ([p.123](../../../../raw/book/pages/page_123.md)).
 - The ST is the **structural closer** of Phase A. Once it prints, the
   market is officially in a range context
-  ([p.122](../../../raw/book/pages/page_122.md)).
-- **Phase B testing both ends** ([p.125](../../../raw/book/pages/page_125.md)):
+  ([p.122](../../../../raw/book/pages/page_122.md)).
+- **Phase B testing both ends** ([p.125](../../../../raw/book/pages/page_125.md)):
   upper-end tests (UA in accumulation, UT in distribution); lower-end
   tests (ST as SOW in accumulation, mSOW in distribution).
 - **UA vs UT**: same action, label depends only on structural read
-  ([p.127](../../../raw/book/pages/page_127.md)).
+  ([p.127](../../../../raw/book/pages/page_127.md)).
 - **mSOS variant**: when an upper-end test holds above resistance
   briefly, label as minor Sign Of Strength
-  ([p.127](../../../raw/book/pages/page_127.md)).
+  ([p.127](../../../../raw/book/pages/page_127.md)).
 - **"ST in B"** ambiguous fallback when direction unknown
-  ([p.128](../../../raw/book/pages/page_128.md)).
+  ([p.128](../../../../raw/book/pages/page_128.md)).
 - **VSA generic test** — an action, not an event; confirms absence of
-  opposite-side interest ([p.129](../../../raw/book/pages/page_129.md)).
+  opposite-side interest ([p.129](../../../../raw/book/pages/page_129.md)).
 - **Three high-value test locations**
-  ([p.130](../../../raw/book/pages/page_130.md)):
+  ([p.130](../../../../raw/book/pages/page_130.md)):
   1. After shock (Phase C — spring/UTAD test) — best R:R.
   2. After breakout (Phase D — BUEC/FTI / LPS/LPSY).
   3. Trend test (Phase E pullbacks).
 - **Test bar = No Demand / No Supply**: narrow range, volume **lower
-  than prior two bars** ([p.131–132](../../../raw/book/pages/page_131.md)).
+  than prior two bars** ([p.131–132](../../../../raw/book/pages/page_131.md)).
 - Secondary Test (structural event) vs generic test (VSA action) —
   same diagnostic, different role
-  ([p.133](../../../raw/book/pages/page_133.md)).
+  ([p.133](../../../../raw/book/pages/page_133.md)).
 
 ## Wiki Pages Sourced From This Chapter (Batch 2)
 

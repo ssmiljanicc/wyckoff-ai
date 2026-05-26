@@ -30,11 +30,11 @@ The **Selling Climax (SC)** is event #2 of the Wyckoff methodology in an
 accumulation structure. It appears after the
 [[preliminary-support]] and is followed by the [[automatic-rally]] and
 the [[secondary-test]] to complete Phase A
-([book p.101](../../raw/book/pages/page_101.md)).
+([book p.101](../../../raw/book/pages/page_101.md)).
 
 The SC is the **final stop attempt** in the prior downtrend. Its low
 establishes the **lower limit (support zone) of the trading range**
-([book p.107](../../raw/book/pages/page_107.md)). In distribution the
+([book p.107](../../../raw/book/pages/page_107.md)). In distribution the
 mirror event is the [[buying-climax]].
 
 ## Key Points
@@ -43,7 +43,7 @@ mirror event is the [[buying-climax]].
 
 The book is explicit that the SC does **not** require a wide bar with a
 volume spike — that is the common but incomplete textbook image
-([book p.103](../../raw/book/pages/page_103.md)). All three of the
+([book p.103](../../../raw/book/pages/page_103.md)). All three of the
 following are valid SC representations:
 
 - A wide-range bar with expansion of price ranges and a volume peak.
@@ -57,7 +57,7 @@ interest by large traders.
 ### Two Post-Climax Paths
 
 After a climactic bar, only two things can happen
-([book p.102](../../raw/book/pages/page_102.md)):
+([book p.102](../../../raw/book/pages/page_102.md)):
 
 1. A **reaction** (the [[automatic-rally]]) develops, followed by a
    [[secondary-test]]. This is the structural path — the price moves
@@ -73,7 +73,7 @@ labels the SC as genuine.
 
 For every share sold at the SC there is a buyer — large traders
 absorbing what weak hands are dumping
-([book p.104](../../raw/book/pages/page_104.md)). The weak-hand profile
+([book p.104](../../../raw/book/pages/page_104.md)). The weak-hand profile
 mix is the same as at [[preliminary-support]]: the greedy late shorts,
 the fearful long capitulators, and the smart-but-early traders whose
 stops just got hit. The SC is a higher-magnitude version of the same
@@ -82,11 +82,11 @@ order-flow event.
 ### The Selling Climax of Exhaustion
 
 A downtrend can also end **without** climactic volume — by exhaustion of
-the sellers ([book p.107–108](../../raw/book/pages/page_107.md)).
+the sellers ([book p.107–108](../../../raw/book/pages/page_107.md)).
 Diagnostic cues:
 
 - Successive **lower and lower potential PS attempts** during the
-  decline ([book p.108](../../raw/book/pages/page_108.md)).
+  decline ([book p.108](../../../raw/book/pages/page_108.md)).
 - Overall volume **decreasing** as the move develops — absorption has
   already happened.
 - The "SC" prints with **normal or narrow range and average or low
@@ -95,7 +95,7 @@ Diagnostic cues:
 The book proposes (but does not adopt) the label "Selling Exhaustion"
 for this variant. Structurally it is still labelled SC because it
 occupies the same Phase A position
-([book p.108](../../raw/book/pages/page_108.md)).
+([book p.108](../../../raw/book/pages/page_108.md)).
 
 This pairs directly with the PS chain: many potential PS attempts make
 an exhaustion SC more likely, because each PS has already absorbed some
@@ -106,12 +106,12 @@ supply.
 In Volume Spread Analysis (VSA), the bar type at the SC is known as
 **"No Supply"** in the bullish direction or **"No Demand"** in the
 bearish (see [[buying-climax]])
-([book p.102](../../raw/book/pages/page_102.md)).
+([book p.102](../../../raw/book/pages/page_102.md)).
 
 ### Operational Uses
 
 Same conclusions as PS but more emphatic
-([book p.105](../../raw/book/pages/page_105.md)):
+([book p.105](../../../raw/book/pages/page_105.md)):
 
 1. **Stop thinking about trading in the previous trend's direction**
    until the structure is confirmed as rotation or continuation.
@@ -127,7 +127,7 @@ scalp targeting the AR, but the structural entry waits for Phase C / D.
 The SC low is the **initial** support of the range, but not always the
 ultimate low. Later events — especially Phase C
 [[spring]] / Terminal Shakeout — may probe below the SC and remain the
-true low of the structure ([book p.102](../../raw/book/pages/page_102.md)).
+true low of the structure ([book p.102](../../../raw/book/pages/page_102.md)).
 
 ## Why It Matters For Wyckoff Reading
 

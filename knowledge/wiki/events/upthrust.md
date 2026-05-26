@@ -25,15 +25,15 @@ and redistribution structures. It is the term the book uses for a
 shake of the high that occurs in:
 
 - **Phase B** — as the upper-end Secondary Test in a distribution read
-  ([book p.127](../../raw/book/pages/page_127.md)).
+  ([book p.127](../../../raw/book/pages/page_127.md)).
 - **Phase D** — as a **failed upward breakout** of the resistance / Creek
   that re-enters the range
-  ([book p.160](../../raw/book/pages/page_160.md)).
+  ([book p.160](../../../raw/book/pages/page_160.md)).
 
 The UT is distinct from the [[upthrust-after-distribution|UTAD]]: the
 UTAD is the **Phase C** shake (after Phase B distribution has happened)
 that **succeeds in causing the bearish break**
-([book p.150](../../raw/book/pages/page_150.md)). A UT is either an
+([book p.150](../../../raw/book/pages/page_150.md)). A UT is either an
 earlier-phase test or a **failed** bullish breakout.
 
 The accumulation-side mirror in Phase B is [[st-as-msos|UA / mSOS]]; the
@@ -46,7 +46,7 @@ Phase D failed-break mirror in accumulation is at the lower side
 
 When the Phase B test of the upper boundary is read as **distribution**
 (rather than accumulation), the label is UT
-([book p.127](../../raw/book/pages/page_127.md)). Mechanically the
+([book p.127](../../../raw/book/pages/page_127.md)). Mechanically the
 event is identical to [[st-as-msos|UA / mSOS]]:
 
 - Price probes above the [[automatic-rally]] high.
@@ -61,7 +61,7 @@ accumulation) the trader believes is most likely. See
 
 When price attempts an upward breakout of the structure but **fails to
 stay above the level**, the move is labeled an Upthrust
-([book p.160](../../raw/book/pages/page_160.md)):
+([book p.160](../../../raw/book/pages/page_160.md)):
 
 > "If the [SOS] fails to stay above [the Creek] and re-enters the range,
 > the event would be an Upthrust (UT)."
@@ -75,7 +75,7 @@ expectation from "structure resolving up" to "structure resolving down".
 A **Terminal Upthrust** is the most severe variant of a UT — same
 character as a normal UT but with **extremely high volume or unusually
 large penetration**
-([book p.153](../../raw/book/pages/page_153.md)). The price still
+([book p.153](../../../raw/book/pages/page_153.md)). The price still
 re-enters the range, indicating strong downward pressure. Functionally
 it sits on the Phase C / Phase D boundary: a deeper, higher-volume UT
 that effectively serves as a UTAD substitute.
