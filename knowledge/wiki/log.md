@@ -158,3 +158,19 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Stvoriti `concepts/three-stages-of-uptrend.md`, `concepts/stride-of-trend.md`, `concepts/point-and-figure-counting.md` ako su pokriveni u ch 26–27 (verovatno P&F u ch 27)
 - Razmisliti o `scenarios/primary-positions.md` (mapiranje književnih primary trade lokacija) — može i da sačeka PRD-02 / [#8](https://github.com/ssmiljanicc/wyckoff-ai/issues/8)
 - Posle Batch 3 može da se pokrene prvi lint pass — sve required pages iz CLAUDE.md §3 vezane za knjigu trebale bi da postoje
+
+---
+
+## [2026-05-26] spot-fix | Batch 2 citation parity
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Scope: Batch 2 semantic-review cleanup before Batch 3.
+
+### Pages updated
+
+- `events/spring.md` — added missing `raw/book/pages/page_140.md` to frontmatter `sources:` because the page body cites `[book p.139–140]`. This brings the page into runbook §3.6 range-citation parity: both pages in the range are now listed in `sources:`.
+
+### Notes
+
+- The direct quote under "Labeling Discipline" already cites `page_142.md`, where the quote appears verbatim.
+- `structures/accumulation.md` and `structures/distribution.md` already contain explicit `> **Synthesis:**` markers for the former "Common Trading Mistakes" concern, so no further text change was needed there.

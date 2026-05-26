@@ -2,7 +2,7 @@
 title: "Spring"
 type: event
 status: active
-updated: 2026-05-25
+updated: 2026-05-26
 sources:
   - path: raw/book/pages/page_134.md
     note: "Chapter 18 intro — shaking is the key event Wyckoff traders wait for; preconditions"
@@ -16,6 +16,8 @@ sources:
     note: "graph appearance — 2+ candle and minor-structure variants; speed of reversal as strength cue"
   - path: raw/book/pages/page_139.md
     note: "shaking functions — expel breakout traders, fearful, smart-early"
+  - path: raw/book/pages/page_140.md
+    note: "shaking functions continuation — fearful/smart-early traders and maneuver completion"
   - path: raw/book/pages/page_141.md
     note: "diagnostics — UA/mSOW signal and price re-entry as shake-vs-effective-break indicators"
   - path: raw/book/pages/page_142.md
