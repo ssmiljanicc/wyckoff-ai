@@ -3,14 +3,14 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-05-25 (Batch 2 — book chapters 14–25)
-**Pages:** 61 of ~70 expected
+**Last updated:** 2026-05-26 (Batch 3 — book chapters 26–27)
+**Pages:** 64 of ~70 expected
 
 ---
 
 ## concepts/
 
-Active pages (20 of ~24 expected):
+Active pages (21 of ~24 expected):
 
 Three fundamental laws:
 - [three-laws](concepts/three-laws.md) — umbrella for the three fundamental laws
@@ -39,10 +39,11 @@ Cycle and structure foundations:
 - [action-test-confirmation](concepts/action-test-confirmation.md) — recurring three-step pattern
 - [labeling-is-last-step](concepts/labeling-is-last-step.md) — labels are provisional in real time
 - [creek-and-ice](concepts/creek-and-ice.md) — structural barrier zones
+- [point-and-figure-counting](concepts/point-and-figure-counting.md) — horizontal cause count and target projection
 
 Pending (Batch 3):
-- three-stages-of-uptrend, stride-of-trend, point-and-figure-counting,
-  principle-in-the-principle (Fraser-archive sourced)
+- three-stages-of-uptrend, stride-of-trend,
+  principle-in-the-principle (Fraser/archive sourced or later source-confirmed)
 
 ## events/
 
@@ -109,9 +110,9 @@ Expected pages:
 
 ## sources/
 
-Active pages (25 of ~70 expected):
+Active pages (27 of ~70 expected):
 
-`sources/book/` — one page per chapter (25 of 27):
+`sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
 - [book-chapter-02](sources/book/book-chapter-02.md) — The Price Cycle
 - [book-chapter-03](sources/book/book-chapter-03.md) — Trends
@@ -137,9 +138,10 @@ Active pages (25 of ~70 expected):
 - [book-chapter-23](sources/book/book-chapter-23.md) — Phase C: Test *(Batch 2)*
 - [book-chapter-24](sources/book/book-chapter-24.md) — Phase D: Trend Within Range *(Batch 2)*
 - [book-chapter-25](sources/book/book-chapter-25.md) — Phase E: Trend Out of Range *(Batch 2)*
+- [book-chapter-26](sources/book/book-chapter-26.md) — Primary Positions *(Batch 3)*
+- [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
 Pending:
-- `sources/book/` chapters 26–27 (Batch 3 — Primary Positions, Decision-Making)
 - `sources/crypto_archive/` — one page per volume (46 entries; Batches 4–5)
 - `sources/bruce_fraser/` — thematic groupings (~30–50 pages; Batches 6–9)
 

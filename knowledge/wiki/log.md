@@ -174,3 +174,37 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - The direct quote under "Labeling Discipline" already cites `page_142.md`, where the quote appears verbatim.
 - `structures/accumulation.md` and `structures/distribution.md` already contain explicit `> **Synthesis:**` markers for the former "Common Trading Mistakes" concern, so no further text change was needed there.
+
+---
+
+## [2026-05-26] ingest | Knjiga, Batch 3 — poglavlja 26–27 (primary positions i decision-making)
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch3`
+- Izvori: `raw/book/pages/page_198.md` do `page_226.md` (Chapter 26 — Primary Positions; Chapter 27 — Decision-Making). Chapter 27 source summary staje na `page_226.md`; `page_227.md` počinje Part 8 case studies.
+
+### Pages created (3)
+
+`concepts/`:
+- `point-and-figure-counting.md` — classical horizontal count method, structure-specific count boundaries, projection grades, and modern-market subjectivity warning.
+
+`sources/book/`:
+- `book-chapter-26.md` — source summary for primary trade locations across Phase C, Phase D, and Phase E.
+- `book-chapter-27.md` — source summary for significant bar, reversal of movement, order placement, stop logic, and take-profit evidence.
+
+### Pages updated
+
+- `knowledge/wiki/index.md` — Batch 3 pages added; book source summaries now complete at 27/27.
+- `knowledge/wiki/sources/book/book-chapter-08.md` — `point-and-figure-counting` reference updated from planned seed to active primary rules page.
+- `knowledge/wiki/log.md` — this entry.
+
+### Notes
+
+- `significant-bar.md` and `reversal-of-movement.md` already existed from Batch 1 because they were foundational for earlier pages; Chapter 27 now has its source summary instead of redefining those concepts.
+- Text search did not find source support in the book for `three-stages-of-uptrend` or `stride-of-trend`; these remain pending for Fraser/archive or later confirmed sources rather than being filled from training data.
+- No WIKI_GAP markers introduced.
+
+### Open follow-ups
+
+- Run mandatory semantic spot-check for Batch 3 before merge (per `operations/semantic-spot-check.md`).
+- After Batch 3 merge, first lint pass can verify all book-sourced required pages and distinguish remaining Fraser/archive-sourced required pages.
