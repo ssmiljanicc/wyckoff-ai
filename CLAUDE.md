@@ -61,14 +61,6 @@ Pre nego što se PR merge-uje u main, sledeća disciplina je obavezna:
 
 Kada se issue zatvara komentarom, srpski.
 
-### 0.4 Kild i model selection
-
-- **Kild + Codex YOLO:** za mehaničke skripte, MCP servere, scraping, ekstrakciju, ML feature engineering. Pattern već dokumentovan.
-- **Claude Opus sesija (interaktivna):** za #7 wiki ingest, #8 SKILL.md rebuild, sva work koja zahteva domain nuance i syntheses preko izvora.
-- **Claude Sonnet kild:** opciono za prelaz između (npr. validation skripti koje treba malu Wyckoff svesnost ali ne dubok rasudak)
-
-Vidi `model:opus` / `model:sonnet` labelu na svakom issue-u.
-
 ---
 
 ## 1. Three-Layer Architecture (Wyckoff instantiation)
