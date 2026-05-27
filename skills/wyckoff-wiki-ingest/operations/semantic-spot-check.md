@@ -106,6 +106,7 @@ Skeniraj stranicu za:
 - **Wyckoff termine** — koristi se baš izrazom iz knjige? ("Sign of Strength", "spring", "secondary test")
 - **Market žargon** — generički izrazi koji bi mogli zameniti precizan termin? ("breakout" umesto "JAC", "buyers step in" umesto "AR", "support holds" umesto "ST as MSOS")
 - **Synthesis-as-claim** — sekcije tipa "Common Mistakes The Book Flags", "Typical Failures", "Recurring Patterns" bez `> **Synthesis:**` marker-a i bez inline citacija → **CONCERN** (per runbook §3.5)
+- **Cross-author definicije** — ako stranica koristi termin koji već ima definicionu stranicu iz primarnog izvora (knjiga) ali sa drugačijim naglaskom drugog autora (Fraser, crypto archive), da li je tretirano per runbook §3.8 (sekcija `## Cross-Author Readings`, ne nova stranica, ne sinteza)? Sintetisanje dva izvora u jedinstvenu definiciju → **FAIL**. Paralelna stranica koja redefiniše isti pojam → **FAIL**. Tiha izmena postojeće definicije bez `## Cross-Author Readings` marker-a → **FAIL**.
 
 Žargon umesto preciznog termina kada je precizan dostupan → **CONCERN**. Žargon u meta-pasusu (npr. uvod) je OK.
 
@@ -141,7 +142,7 @@ Na kraju, **agregat**:
 
 | Stanje | Akcija |
 |---|---|
-| Sve PASS | Merge. Komentar na PR-u opcionalan. |
+| Sve PASS | Merge. 1-line audit trail entry u `log.md` je prerequisite za merge. Komentar na PR-u opcionalan. |
 | CONCERN-i bez FAIL | Merge dozvoljen. Ako je ≥3 CONCERN-a istog tipa (npr. 3× vocabulary) → zapiši u `log.md` open follow-up za sledeći batch. |
 | 1–2 FAIL u 1 stranici | Spot-fix direktno u PR-u (`git commit --fixup` u kildu ili novi commit). Re-run spot-check za tu stranicu. |
 | ≥3 FAIL ili FAIL-ovi preko više stranica | **Vrati u batch kild.** Pošalji listu problema kao prompt batch agentu, traži rebuild. Ne mergaj. |
@@ -153,7 +154,10 @@ Na kraju, **agregat**:
 Spot-check sesija završava sa:
 
 - Markdown izveštajem (struktura iz §4) — daj user-u u chat-u, ne commit-uj u repo
+- **Obavezan 1-line audit trail entry u `knowledge/wiki/log.md`** pod batch-ovim ingest entry-jem, oblika:
+  `[YYYY-MM-DD] spot-check Batch N — N stranica, X PASS / Y CONCERN / Z FAIL — akcija: <merge|spot-fix|back-to-kild>`
+  Uvek se piše, čak i kada je sve PASS — to je trag da je spot-check obavljen.
 - Eksplicitnom akcijom (merge / spot-fix / back-to-kild)
-- Ako CONCERN-i ostaju nakon merge-a — entry u `log.md` kao "spot-check follow-up Batch N"
+- Ako CONCERN-i ostaju nakon merge-a — produženi entry u `log.md` sa listom CONCERN-a (ne samo 1-line)
 
-Spot-check izveštaj **nije** PR komentar po default-u — ostaje između reviewer-a i user-a dok se ne odluči akcija.
+Detaljan spot-check izveštaj **nije** PR komentar po default-u — ostaje između reviewer-a i user-a. Samo 1-line audit trail ide u repo (`log.md`).
