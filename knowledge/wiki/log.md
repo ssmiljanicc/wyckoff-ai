@@ -258,3 +258,5 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Obavezan semantic spot-check pre merge-a: Batch 4 uvodi novi izvor tipa (`crypto archive`), trigger #1 iz `semantic-spot-check.md`.
 - Batch 5: Crypto Archive Vol 29–59 (2020–2021: DeFi, rotation, terminal Bitcoin).
+
+[2026-05-27] spot-check Batch 4 — 6 stranica, 24 PASS / 0 CONCERN / 0 FAIL — akcija: merge
