@@ -3,8 +3,8 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-05-26 (Batch 3 — book chapters 26–27)
-**Pages:** 64 of ~70 expected
+**Last updated:** 2026-05-27 (Batch 4 — crypto archive Vol 14–28)
+**Pages:** 88 tracked
 
 ---
 
@@ -90,14 +90,21 @@ Active pages (5 — all expected from book):
 
 ## crypto/
 
-*(empty — populates from crypto archive ingest, Batches 4–5)*
+Active pages (9 — Batch 4 crypto archive):
 
-Expected pages:
-- intermarket-gate, bitcoin-leader-vs-funding-source, rotation-hierarchy
-- spread-charts, comparative-strength, low-liquidity-tolerance
-- bitcoin-as-source-of-funding, risk-off-refuge-hierarchy
-- three-stages-of-uptrend-in-crypto, halving-and-catalysts
-- thematic-indexes, historical-analogs
+- [bitcoin-as-source-of-funding](crypto/bitcoin-as-source-of-funding.md) — Bitcoin as liquidity source during margin/exogenous shocks
+- [comparative-strength](crypto/comparative-strength.md) — BTC/SPX, leader-vs-BTC, and index selection discipline
+- [halving-and-catalysts](crypto/halving-and-catalysts.md) — catalysts as timing/context, not direct signal
+- [historical-analogs](crypto/historical-analogs.md) — 1987, 1998, 2017, and ETH analog templates
+- [intermarket-gate](crypto/intermarket-gate.md) — S&P/Nasdaq filter for crypto setup quality
+- [rotation-hierarchy](crypto/rotation-hierarchy.md) — Bitcoin → large/mid/small/micro cap rotation
+- [spread-charts](crypto/spread-charts.md) — ETHBTC/LINKBTC as relative-strength surfaces
+- [thematic-indexes](crypto/thematic-indexes.md) — FTX low/mid/micro/DeFi index reading
+- [three-stages-of-uptrend-in-crypto](crypto/three-stages-of-uptrend-in-crypto.md) — value buying → absorption → momentum
+
+Pending (Batch 5+ or later source-confirmed):
+- bitcoin-leader-vs-funding-source, low-liquidity-tolerance,
+  risk-off-refuge-hierarchy
 
 ## scenarios/
 
@@ -110,7 +117,7 @@ Expected pages:
 
 ## sources/
 
-Active pages (27 of ~70 expected):
+Active source pages (41 active + 1 WIKI_GAP of ~70 expected):
 
 `sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
@@ -142,8 +149,25 @@ Active pages (27 of ~70 expected):
 - [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
 Pending:
-- `sources/crypto_archive/` — one page per volume (46 entries; Batches 4–5)
+- `sources/crypto_archive/` — 15 of 46 entries started (Vol 14–28; Vol 26 WIKI_GAP)
 - `sources/bruce_fraser/` — thematic groupings (~30–50 pages; Batches 6–9)
+
+`sources/crypto_archive/` — one page per volume:
+- [crypto-report-vol-14](sources/crypto_archive/crypto-report-vol-14.md) — post-crash Bitcoin repair; margin-call funding source
+- [crypto-report-vol-15](sources/crypto_archive/crypto-report-vol-15.md) — Bitcoin/S&P correlation; defensive altcoin mode
+- [crypto-report-vol-16](sources/crypto_archive/crypto-report-vol-16.md) — S&P gate; 1987 analog; MOVE-contract note
+- [crypto-report-vol-17](sources/crypto_archive/crypto-report-vol-17.md) — Bitcoin-to-altcoin rotation; spread charts
+- [crypto-report-vol-18](sources/crypto_archive/crypto-report-vol-18.md) — Bitcoin/S&P resistance test; ChainLink leader tactics
+- [crypto-report-vol-19](sources/crypto_archive/crypto-report-vol-19.md) — BTC/SPX relative-strength base; ChainLink intraday P&F
+- [crypto-report-vol-20](sources/crypto_archive/crypto-report-vol-20.md) — BTC/SPX breakout; ETHBTC sentiment surface
+- [crypto-report-vol-21](sources/crypto_archive/crypto-report-vol-21.md) — three uptrend stages; halving catalyst; 2017 analog
+- [crypto-report-vol-22](sources/crypto_archive/crypto-report-vol-22.md) — Bitcoin/Nasdaq gate; ETHBTC rotation; comparative analysis
+- [crypto-report-vol-23](sources/crypto_archive/crypto-report-vol-23.md) — Bitcoin feather; altcoin rotation; TRX nested accumulation
+- [crypto-report-vol-24](sources/crypto_archive/crypto-report-vol-24.md) — Bitcoin lag; low/mid-cap rotation; LINK/XTZ tactics
+- [crypto-report-vol-25](sources/crypto_archive/crypto-report-vol-25.md) — crypto sector analysis; micro-cap leadership
+- [crypto-report-vol-26](sources/crypto_archive/crypto-report-vol-26.md) — WIKI_GAP; raw capture lacks article body
+- [crypto-report-vol-27](sources/crypto_archive/crypto-report-vol-27.md) — flash update; spring plan; small-cap leadership
+- [crypto-report-vol-28](sources/crypto_archive/crypto-report-vol-28.md) — Nasdaq comparison; DeFi index; large-cap rotation
 
 ## questions/
 

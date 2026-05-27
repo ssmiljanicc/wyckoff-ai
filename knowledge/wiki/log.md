@@ -208,3 +208,55 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Run mandatory semantic spot-check for Batch 3 before merge (per `operations/semantic-spot-check.md`).
 - After Batch 3 merge, first lint pass can verify all book-sourced required pages and distinguish remaining Fraser/archive-sourced required pages.
+
+---
+
+## [2026-05-27] ingest | Crypto archive, Batch 4 — Vol 14–28 (2020 post-crash repair, margin behavior)
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch4`
+- Izvori: `raw/crypto_archive/html/wyckoff-crypto-report-vol-14.html` do `wyckoff-crypto-report-vol-28.html`; Vol 27 koristi `wyckoff-crypto-report-vol-27-flash-update.html`.
+
+### Pages created (24)
+
+`sources/crypto_archive/` (15 — jedna stranica po volumenu):
+- `crypto-report-vol-14.md` do `crypto-report-vol-25.md`
+- `crypto-report-vol-26.md` — WIKI_GAP; raw capture nema article body
+- `crypto-report-vol-27.md`
+- `crypto-report-vol-28.md`
+
+`crypto/` (9 — crypto-specific applied concepts):
+- `bitcoin-as-source-of-funding.md`
+- `comparative-strength.md`
+- `halving-and-catalysts.md`
+- `historical-analogs.md`
+- `intermarket-gate.md`
+- `rotation-hierarchy.md`
+- `spread-charts.md`
+- `thematic-indexes.md`
+- `three-stages-of-uptrend-in-crypto.md`
+
+### Pages updated
+
+- `knowledge/wiki/index.md` — dodate Batch 4 crypto i source-summary stranice.
+- `knowledge/wiki/log.md` — ovaj zapis.
+
+### Commit-evi u ovom batch-u
+
+- `7c6b2cf` — source summaries Vol 14–20
+- `0126c31` — source summaries Vol 21–28, uključujući Vol 26 WIKI_GAP
+- `b18b390` — crypto applied concept stranice
+
+### Notes
+
+- Batch 1–3 book vocabulary nije redefinisan; archive stranice linkuju ka postojećim `concepts/`, `events/`, i `structures/` stranicama.
+- Svaki inline `[vol N]` link ima paritetan `sources:` entry; svaka frontmatter crypto archive putanja se pojavljuje inline.
+- Vol 26 je jedini WIKI_GAP u ovom batch-u: lokalni HTML fajl postoji, ali ne sadrži report body.
+- `low-liquidity-tolerance`, `risk-off-refuge-hierarchy`, i `bitcoin-leader-vs-funding-source` ostaju pending dok ih Batch 5 ili kasniji izvori ne podrže direktnije.
+
+### Open follow-ups
+
+- Obavezan semantic spot-check pre merge-a: Batch 4 uvodi novi izvor tipa (`crypto archive`), trigger #1 iz `semantic-spot-check.md`.
+- Batch 5: Crypto Archive Vol 29–59 (2020–2021: DeFi, rotation, terminal Bitcoin).
+
+[2026-05-27] spot-check Batch 4 — 6 stranica, 24 PASS / 0 CONCERN / 0 FAIL — akcija: merge
