@@ -190,6 +190,39 @@ Kada se vraćaš u sledećoj sesiji, prvo `git log --oneline -10` da vidiš tač
 
 ---
 
+## 3.8 Cross-author definition discipline
+
+§3 (Cross-batch awareness) zabranjuje kontradikciju i zabranjuje redefinisanje već definisanog pojma. Ovaj odeljak proširuje pravilo na slučaj kad drugi autor *legitimno* koristi termin sa drugačijim naglaskom — ne sa pogrešnom definicijom, već sa različitim fokusom ili užim opsegom.
+
+**Tipičan kontekst:** knjiga definiše Spring kroz tri tipa po supply intensity ([book p.144–147](../../../raw/book/pages/page_144.md)). Fraser ili crypto archive može da koristi "spring" sa drugačijim akcentom — recimo grupišući Spring #1 i Terminal Shakeout kao isti koncept, ili insistirajući na samo jednoj graphical varijanti. To **nije** sinteza dva izvora (§3.5) — to je jedan autor sa drugim naglaskom.
+
+### Klasifikacija
+
+| Scenario | Postupak |
+|---|---|
+| Drugi autor koristi isti pojam sa istim značenjem | Linkuj `[[name]]`. Bez izmene postojeće definicione stranice. |
+| Drugi autor koristi pojam sa **dodatnim naglaskom** ili **užim opsegom** | Na postojećoj definicionoj stranici dodaj sekciju `## Cross-Author Readings` sa pod-sekcijom `### As Used By [Fraser / Crypto Archive / Other]`. Inline citation u taj izvor + 2–3 rečenice šta autor naglašava ili ograničava. **Bez prepisivanja primarne definicije.** Ažuriraj `sources:` frontmatter postojeće stranice da uključi i taj izvor. |
+| Drugi autor **eksplicitno se ne slaže** sa primarnim izvorom | Isto kao gornje + flag u `knowledge/wiki/health/discrepancies.md` (kreira se po potrebi) sa datumom, izvorom, prirodom neslaganja. Reviewer odlučuje da li je legit alternative reading ili izvorska greška. |
+| Pojam **postoji samo** u drugom izvoru, ne u primarnom (npr. Fraser-specific pojam koji knjiga ne pominje) | Nova stranica u odgovarajućem folderu (`concepts/`, `events/`, etc.) sa frontmatter `primary_source: fraser` (umesto book). Citira se autor doslovno — bez sintetske definicije iz training data-e. |
+
+### Anti-patterns
+
+Ako pišeš Fraser source-summary i primetiš da Fraser koristi "spring" drugačije od knjige:
+
+- **NE** prepisuj postojeću `events/spring.md` definiciju
+- **NE** napravi novu stranicu `events/spring-fraser.md` (redefinisanje, banned po spot-check §3.2)
+- **NE** označi to kao `> **Synthesis:**` (sinteza je kombinacija ≥2 izvora; ovo je jedan izvor sa drugim naglaskom)
+- **DA** dodaj `## Cross-Author Readings → ### As Used By Fraser` na postojeću `events/spring.md`, sa inline citation u Fraser article-u
+
+### Detection u spot-check-u
+
+Spot-check §3.4 sad uključuje cross-author proveru. FAIL kategorije:
+- Sintetisanje dva izvora u jedinstvenu definiciju bez `> **Synthesis:**` marker-a
+- Paralelna stranica koja redefiniše već postojeći pojam
+- Tiha izmena postojeće definicije (ubacivanje novog autora bez `## Cross-Author Readings` sekcije i bez ažuriranja `sources:`)
+
+---
+
 ## 4. Output contract za batch
 
 Svaki batch završava sa:
@@ -262,18 +295,41 @@ Sve skripte koriste samo stdlib (Python 3.11+). Bez novih dependencies u `pyproj
 
 ---
 
-## 7. When to delete this skill
+## 7. Post-Batch 9 cleanup (trim, ne delete)
 
-Posle merge-a Batch 9 PR-a:
-```bash
-git rm -rf runbooks/wyckoff-wiki-ingest.md
-git rm -rf .claude/skills/wyckoff-wiki-ingest
-git rm -rf .agents/skills/wyckoff-wiki-ingest
-git rm -rf skills/wyckoff-wiki-ingest
-git commit -m "Remove wiki ingest skill (Issue #7 closed)"
-```
+Posle merge-a Batch 9 PR-a skill se **ne briše** — ostaje kao trajna discipline za ad-hoc wiki update-e (novi izvori, dodatne knjige, dopune Fraser arhive, dodatne crypto volume). Trim-uju se samo Batch-specifični delovi.
 
-CLAUDE.md ostaje — drži trajne invariante koje se koriste i za ad-hoc wiki update-e u budućnosti.
+### Što se uklanja
+
+- §1 "Ingest priority order" tabela (Batch 1–9 raspored je istorija)
+- §7 sam (ovaj odeljak postaje obsolete)
+- `Inputs` sekciju update — ukloni "broj batch-a (1–9)" (ostaje "PR broj" i "scope description")
+
+### Što se zadržava (trajno)
+
+- §2 Path depth tabela
+- §3 Cross-batch awareness protokol
+- §3.5 Unknown claim protocol
+- §3.6 Citation verification drill
+- §3.7 Context-budget protokol
+- §3.8 Cross-author definition discipline
+- §4 Output contract (commit grupe, PR template — adaptiraj naslov)
+- §5 Operacije (`ingest-batch`, `review-pr`, `semantic-spot-check`)
+- §6 Skripte (`validate_links.py`, `review_pr.py`, `fix_inline_links.py`)
+- Claude Code Adapter + Codex Adapter
+- Wrapper-i u `.claude/skills/wyckoff-wiki-ingest/` i `.agents/skills/wyckoff-wiki-ingest/`
+
+### Što se ažurira
+
+- `Scope` sekciju — promeni iz "dok se ne završi Issue #7" u "ad-hoc + batched ingest za Wyckoff wiki (novi izvori, dopune postojećih)"
+- `Operation: ingest-batch.md` — invocation pattern iz `$skill <batch-number>` u `$skill <scope-description>` (npr. `$skill "Fraser articles on Point & Figure section"`)
+- PR title template — bez `Batch N` prefixa, koristi `#<issue> Wiki ingest (source, scope)` format
+
+### Kada to izvesti
+
+Posle merge-a Batch 9 PR-a, u **zasebnom PR-u** "Trim wiki ingest skill — post-Batch 9 cleanup". Ne meša se sa Batch 9 sadržajem.
+
+CLAUDE.md ostaje nepromenjen — drži trajne invariante koje se koriste i za ad-hoc wiki update-e u budućnosti.
 
 ---
 
