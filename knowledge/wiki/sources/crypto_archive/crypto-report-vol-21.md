@@ -29,7 +29,7 @@ compares the 2020 shock to the 2017 China-ban shock
 - The long-term accumulation recap maps the two-year Bitcoin structure
   through stopping action, low institutional participation, extreme oversold
   value buying, profit taking, early absorption, margin-call selloff,
-  [[shakeout]], potential [[sign-of-strength]], and future [[last-point-of-support]]
+  [[spring|shakeout]], potential [[sign-of-strength]], and future [[last-point-of-support]]
   ([vol 21](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-21.html)).
 - The daily sequence is described as supply, absorption, feather, and
   acceleration, repeating as upper supply zones show less volume

@@ -24,7 +24,7 @@ accumulation case
   if confirmed
   ([vol 23](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-23.html)).
 - The intraday Bitcoin story links climactic action, shallow reaction,
-  absorption, [[upthrust]], [[shakeout]], higher-low test, and potential
+  absorption, [[upthrust]], [[spring|shakeout]], higher-low test, and potential
   [[last-point-of-support]] without redefining those labels
   ([vol 23](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-23.html)).
 - ChainLink is still treated as a relative-strength leader with P&F upside

@@ -31,7 +31,7 @@ than a completed bullish reversal
   the multi-year formation
   ([vol 14](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-14.html)).
 - The intraday section uses capitulation-bar levels, halfpoints, support
-  levels, [[upthrust]], [[spring]], [[change-of-behavior]], and swing reversal
+  levels, [[upthrust]], [[spring]], change-of-behavior, and swing reversal
   to plan short-term tactics without redefining those terms
   ([vol 14](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-14.html)).
 - The reader Q&A treats halving as timing context for long-term Bitcoin
@@ -48,4 +48,3 @@ than a completed bullish reversal
 
 This report should be read as an applied crypto case. Core Wyckoff labels
 remain sourced from the book pages and are linked rather than restated here.
-

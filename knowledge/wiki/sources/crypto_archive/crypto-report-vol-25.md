@@ -33,7 +33,7 @@ logic normally used in equities
   ([vol 25](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-25.html)).
 - Micro caps are used as the leader index: after a phase-C shakeout and
   successful test, the report reads acceleration, climactic move, and
-  [[change-of-behavior]]
+  change-of-behavior
   ([vol 25](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-25.html)).
 - The report warns that two scenarios can share the same supply signature,
   so the analyst must wait for test/confirmation rather than infer direction
@@ -46,4 +46,3 @@ logic normally used in equities
 - [[crypto/rotation-hierarchy]]
 - [[crypto/intermarket-gate]]
 - [[crypto/comparative-strength]]
-

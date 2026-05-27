@@ -26,7 +26,7 @@ rotation tools through ChainLink, ETHBTC, and comparative analysis
   ([vol 22](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-22.html)).
 - Bitcoin's intraday structure is read as a new range above the prior selling
   area, with a small [[automatic-reaction]], higher-high context,
-  [[upthrust]], and [[shakeout]]
+  [[upthrust]], and [[spring|shakeout]]
   ([vol 22](../../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-22.html)).
 - The ETHBTC spread chart is used to detect early rotation from Bitcoin to
   altcoins; a break of the ETHBTC downtrend would imply an altcoin-dominated
