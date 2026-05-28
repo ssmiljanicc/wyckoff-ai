@@ -29,12 +29,6 @@ Pre nego što radiš bilo šta u ovom repo-u, pročitaj:
 - Milestone obavezan
 - [CLAUDE.md §0.3](./CLAUDE.md#03-github-issue-convention)
 
-### Model selection
-
-- Mehanički task → Codex YOLO kild (Sonnet-class)
-- Domain rasudak (Wyckoff sinteza, schema, skill) → Claude Opus sesija
-- [CLAUDE.md §0.4](./CLAUDE.md#04-kild-i-model-selection)
-
 ### Wiki schema (za rad sa `knowledge/wiki/`)
 
 Sva pravila o folder layout-u, provenance-u, image alt textu, WIKI_GAP marker-ima:
