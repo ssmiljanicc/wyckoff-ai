@@ -2,7 +2,8 @@
 """Mechanical pre-merge review for batch PR.
 
 Runs 6 checks against the PR's diff:
-1. Provenance frontmatter — every new wiki page has `sources:` with valid raw/ paths
+1. Provenance frontmatter — every new wiki page has `sources:` with valid raw/ paths;
+   if `primary_source:` is present it must match a raw/ folder name
 2. Inline citation links — every `[text](path)` resolves from the page's actual depth
 3. Cross-references — `[[name]]` links point to pages that exist (or are flagged future-batch)
 4. Index/log update — knowledge/wiki/{index,log}.md have new batch entries
@@ -33,6 +34,15 @@ LINK_RE = re.compile(r"(?<!!)\[([^\]\n]+)\]\(([^)\s]+)\)")
 WIKILINK_RE = re.compile(r"\[\[([^\]\n|]+)(?:\|[^\]]+)?\]\]")
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 SOURCES_PATH_RE = re.compile(r"^\s*-\s*path:\s*(\S+)", re.MULTILINE)
+PRIMARY_SOURCE_RE = re.compile(r"^\s*primary_source:\s*(\S+)", re.MULTILINE)
+
+
+def allowed_primary_sources(wt: Path) -> set[str]:
+    """Allowed primary_source values = the raw/ subfolder names (derived, not hardcoded)."""
+    raw = wt / "raw"
+    if not raw.is_dir():
+        return set()
+    return {p.name for p in raw.iterdir() if p.is_dir()}
 
 
 def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> str:
@@ -80,6 +90,7 @@ def files_in_pr(wt: Path, pr_number: int) -> tuple[list[Path], list[Path]]:
 
 def check_frontmatter(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
     issues = []
+    allowed_ps = allowed_primary_sources(wt)
     for f in files:
         rel = f.relative_to(wt)
         if rel.name in ("index.md", "log.md", "README.md"):
@@ -97,6 +108,15 @@ def check_frontmatter(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
         for src in sources:
             if not (wt / src).exists():
                 issues.append(f"{rel}: sources path `{src}` ne postoji u repo-u")
+        # primary_source (optional): if present, value must match a raw/ folder name
+        ps_match = PRIMARY_SOURCE_RE.search(fm)
+        if ps_match and allowed_ps:
+            ps_val = ps_match.group(1)
+            if ps_val not in allowed_ps:
+                issues.append(
+                    f"{rel}: primary_source `{ps_val}` nije validan "
+                    f"(dozvoljeno: {', '.join(sorted(allowed_ps))})"
+                )
     return len(issues) == 0, issues
 
 

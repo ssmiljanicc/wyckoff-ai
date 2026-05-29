@@ -1,6 +1,6 @@
 ---
 name: wyckoff-wiki-ingest
-description: Operativni protokol za batched ingest sirovih izvora (book, crypto archive, Bruce Fraser) u knowledge/wiki/. Privremen — koristi se dok se ne završi Issue #7 (9 batch-eva). Sadrži cross-batch awareness pravila, citation verification protokol, validation skripte i review checklist. Pozivaj se eksplicitno na početku svakog batch-a i pre svakog PR review-a.
+description: Operativni protokol za batched ingest sirovih izvora (book, crypto archive, Bruce Fraser) u knowledge/wiki/. Koristi se za batched ingest tokom Issue #7 i za ad-hoc wiki update-e posle Batch 9 (trim-uje se, ne briše). Sadrži cross-batch awareness pravila, citation verification protokol, validation skripte i review checklist. Pozivaj se eksplicitno na početku svakog batch-a i pre svakog PR review-a.
 disable-model-invocation: true
 ---
 
@@ -28,4 +28,4 @@ Treat `$ARGUMENTS` as the runbook input — tipično batch broj (1–9), PR broj
 - **Citation verification:** runbook §3.6 — pre pisanja `[book p.XXX]` linka, Read + Grep raw stranicu
 - **Context budget:** runbook §3.7 — commit po logičkim grupama, stop signal na ~75% konteksta
 
-Skill je privremen — briše se posle merge-a Batch 9 (vidi runbook §7).
+Posle Batch 9 skill se **trim-uje** (batch-specifični delovi se uklanjaju), **ne briše** — discipline ostaje za ad-hoc wiki update-e i buduće izvore (vidi runbook §7).

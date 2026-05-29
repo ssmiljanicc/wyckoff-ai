@@ -1,6 +1,6 @@
 ---
 name: wyckoff-wiki-ingest
-description: Operativni protokol za batched ingest sirovih izvora (book, crypto archive, Bruce Fraser) u knowledge/wiki/. Privremen — koristi se dok se ne završi Issue #7 (9 batch-eva). Sadrži cross-batch awareness pravila, citation verification protokol, validation skripte i review checklist. Pozivaj se eksplicitno na početku svakog batch-a i pre svakog PR review-a.
+description: Operativni protokol za batched ingest sirovih izvora (book, crypto archive, Bruce Fraser) u knowledge/wiki/. Koristi se za batched ingest tokom Issue #7 i za ad-hoc wiki update-e posle Batch 9 (trim-uje se, ne briše). Sadrži cross-batch awareness pravila, citation verification protokol, validation skripte i review checklist. Pozivaj se eksplicitno na početku svakog batch-a i pre svakog PR review-a.
 ---
 
 # Wyckoff Wiki Ingest (Codex wrapper)
@@ -29,4 +29,4 @@ Treat the user's prompt as the runbook input — tipično batch broj (1–9), PR
 
 Codex policy: `agents/openai.yaml` drži `allow_implicit_invocation: false` — skill se ne aktivira automatski, samo na eksplicitan poziv.
 
-Skill je privremen — briše se posle merge-a Batch 9 (vidi runbook §7).
+Posle Batch 9 skill se **trim-uje** (batch-specifični delovi se uklanjaju), **ne briše** — discipline ostaje za ad-hoc wiki update-e i buduće izvore (vidi runbook §7).

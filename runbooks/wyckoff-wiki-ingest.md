@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Neutralni runbook za batched ingest sirovih izvora (book, crypto archive, Bruce Fraser) u `knowledge/wiki/`. Privremen — koristi se dok se ne završi Issue [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) (9 batch-eva). Sadrži cross-batch awareness pravila, citation verification protokol, validation skripte i review checklist.
+Neutralni runbook za batched ingest sirovih izvora (book, crypto archive, Bruce Fraser) u `knowledge/wiki/`. Tokom Issue [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) (9 batch-eva) drži batch-specifičan protokol; posle Batch 9 se **trim-uje, ne briše** (vidi §7) — discipline ostaje za ad-hoc wiki update-e i buduće izvore. Sadrži cross-batch awareness pravila, citation verification protokol, cross-author pravilo, validation skripte i review checklist.
 
 Runtime-agnostic — Claude Code adapter (§Claude Code Adapter) i Codex adapter (§Codex Adapter) na kraju mapiraju invocation. Sve operativne procedure ovde važe isto za oba runtime-a.
 
@@ -33,7 +33,9 @@ Ovaj runbook se koristi kada:
 - Review-uješ batch PR pre merge-a (mehanički + semantic spot-check)
 - Validiraš inline citation linkove
 
-Ne koristi se za: dodavanje pojedinačnih stranica van batch-a, ad-hoc update-e, pisanje skill-a `wyckoff-trader-skill`.
+Tokom #7 (batch faza) fokus je na batch-eve. **Posle Batch 9** isti runbook (trim-ovan, §7) pokriva i ad-hoc dodavanje pojedinačnih stranica i ingest novih izvora — discipline (citation, cross-batch, cross-author, spot-check) važi isto.
+
+Ne koristi se za: pisanje skill-a `wyckoff-trader-skill` (runtime contract, ne knowledge base).
 
 ---
 
@@ -196,23 +198,55 @@ Kada se vraćaš u sledećoj sesiji, prvo `git log --oneline -10` da vidiš tač
 
 **Tipičan kontekst:** knjiga definiše Spring kroz tri tipa po supply intensity ([book p.144–147](../../../raw/book/pages/page_144.md)). Fraser ili crypto archive može da koristi "spring" sa drugačijim akcentom — recimo grupišući Spring #1 i Terminal Shakeout kao isti koncept, ili insistirajući na samo jednoj graphical varijanti. To **nije** sinteza dva izvora (§3.5) — to je jedan autor sa drugim naglaskom.
 
+**Terminologija:** "primarni izvor" stranice = njen `primary_source` frontmatter key (default `book` kad key fali — vidi CLAUDE.md §5). Pravila ispod važe protiv `primary_source`-a TE stranice, ne specifično protiv knjige — pa rade i kad je stranica Fraser-origin.
+
 ### Klasifikacija
 
-| Scenario | Postupak |
-|---|---|
-| Drugi autor koristi isti pojam sa istim značenjem | Linkuj `[[name]]`. Bez izmene postojeće definicione stranice. |
-| Drugi autor koristi pojam sa **dodatnim naglaskom** ili **užim opsegom** | Na postojećoj definicionoj stranici dodaj sekciju `## Cross-Author Readings` sa pod-sekcijom `### As Used By [Fraser / Crypto Archive / Other]`. Inline citation u taj izvor + 2–3 rečenice šta autor naglašava ili ograničava. **Bez prepisivanja primarne definicije.** Ažuriraj `sources:` frontmatter postojeće stranice da uključi i taj izvor. |
-| Drugi autor **eksplicitno se ne slaže** sa primarnim izvorom | Isto kao gornje + flag u `knowledge/wiki/health/discrepancies.md` (kreira se po potrebi) sa datumom, izvorom, prirodom neslaganja. Reviewer odlučuje da li je legit alternative reading ili izvorska greška. |
-| Pojam **postoji samo** u drugom izvoru, ne u primarnom (npr. Fraser-specific pojam koji knjiga ne pominje) | Nova stranica u odgovarajućem folderu (`concepts/`, `events/`, etc.) sa frontmatter `primary_source: fraser` (umesto book). Citira se autor doslovno — bez sintetske definicije iz training data-e. |
+Odredi tačno **jedan** red, ovim redosledom odlučivanja (ne "viši red u tabeli"):
+
+1. **Same-referent test PRVO:** da li autor B koristi token za *suštinski drugi koncept* (drugi referent), ili za *isti koncept* (eventualno sa drugim naglaskom)? Ako drugi referent → **red 2 (homonim)**, bez obzira na sve ostalo.
+2. **Ako je isti koncept**, bira se disposition sa **najviše disclosure-a**:
+   - postoji eksplicitna kontradikcija sa primarnim izvorom → **red 4** (Cross-Author Readings + `discrepancies.md`)
+   - inače dodatni naglasak / uži opseg → **red 3** (Cross-Author Readings)
+   - inače isto značenje → **red 1** (samo link)
+   - pojam ne postoji u primarnom izvoru uopšte → **red 5** (nova stranica sa `primary_source`)
+
+Kod preklapanja red-3-vs-red-4 (npr. 90% slaganja + jedna tačka neslaganja) bira se **red 4** — kontradikcija mora da ostavi trag u `discrepancies.md`, ne sme da se tiho apsorbuje kao "samo naglasak".
+
+| # | Scenario | Postupak |
+|---|---|---|
+| 1 | Drugi autor koristi isti pojam sa **istim značenjem** | Linkuj `[[name]]`. Bez izmene postojeće definicione stranice. |
+| 2 | Drugi autor koristi **isti token za suštinski drugi koncept** (homonim — ne uži opseg, nego drugi referent) | **Nova stranica sa disambiguacijom** (`events/<term>-<author-concept>.md`) + link iz oba pravca + kratka "not to be confused with" napomena na obe. **NE** Cross-Author Readings (pogrešno bi zakačilo nepovezan koncept za primarnu definiciju). |
+| 3 | Drugi autor koristi pojam sa **dodatnim naglaskom** ili **užim opsegom** (isti koncept) | Na postojećoj definicionoj stranici dodaj sekciju `## Cross-Author Readings` sa pod-sekcijom `### As Used By <Human Name> (<source-value>)` — čitljivo ime + enum vrednost u zagradi radi parity provere, npr. `### As Used By Bruce Fraser (bruce_fraser)`. Inline citation u taj izvor + 2–3 rečenice šta autor naglašava/ograničava. **Bez prepisivanja primarne definicije.** Više `### As Used By X` pod-sekcija sme da se slaže (stacking). Ažuriraj `sources:` frontmatter. |
+| 4 | Drugi autor se **eksplicitno ne slaže** sa primarnim izvorom (kontradikcija, ne samo naglasak) | Isto kao red 3 (Cross-Author Readings) **+** flag u `knowledge/wiki/health/discrepancies.md` (persistent, append-only, lint ga NE regeneriše — vidi CLAUDE.md §2) sa datumom, terminom, oba izvora, prirodom neslaganja. Reviewer odlučuje legit-alternative vs izvorska greška. |
+| 5 | Pojam **postoji samo** u drugom izvoru, ne u primarnom (npr. Fraser-specific pojam koji knjiga ne pominje) | Nova stranica u odgovarajućem folderu sa frontmatter `primary_source: bruce_fraser` (ili `crypto_archive` — vrednost mora odgovarati raw folder imenu). Citira se autor doslovno — bez sintetske definicije iz training data-e. Ako kasnije treći izvor doda svoj naglasak na tu stranicu, primeni red 3/4 protiv NJENOG `primary_source`-a. |
+
+### Cross-Author Readings vs sinteza (§3.5 granica)
+
+`## Cross-Author Readings` sekcija sme **samo da OPIŠE** šta autor B naglašava/ograničava, citirajući B. Čim rečenica **uporedi** A i B ili izvuče zajednički zaključak ("oba izvora pokazuju...", "Fraser je uži od knjige jer..."), to je generalizacija preko ≥2 izvora = **sinteza** → mora `> **Synthesis:**` marker per §3.5. Test: da li rečenica može da stoji citirajući samo izvor B? Ako da → Cross-Author Reading. Ako joj treba i A da bi imala smisla → sinteza.
+
+**Gray zone (implicitna komparacija).** Rečenica može biti *gramatički* jednoizvorna ("Fraser tretira Spring #1 i Terminal Shakeout kao jedan event") a *semantički* komparativna — jer joj relevantnost zavisi od kontrasta sa primarnom definicijom (koja ih razdvaja). Takva rečenica "stoji" po doslovnom testu, ali postoji samo zbog implicitnog poređenja. Pravilo: ako **relevantnost** rečenice zavisi od kontrasta sa primarnom definicijom (čak i kad je gramatički jednoizvorna), tretira se kao borderline → siguran default je `> **Synthesis:**` marker.
+
+### `health/discrepancies.md` format (red 4)
+
+Persistent, append-only (vidi CLAUDE.md §2). Samo **red 4** piše ovde — redovi 1–3 i 5 ne diraju ovaj fajl. Fiksni template po unosu:
+
+```md
+## [YYYY-MM-DD] <termin>
+- **primary:** <source-value> — <šta primarni izvor tvrdi> ([citation])
+- **conflicting:** <source-value> — <šta drugi autor tvrdi> ([citation])
+- **priroda neslaganja:** <jedna rečenica>
+- **verdikt:** <legit-alternative | izvorska-greška | nerešeno>
+```
 
 ### Anti-patterns
 
-Ako pišeš Fraser source-summary i primetiš da Fraser koristi "spring" drugačije od knjige:
+Ako pišeš Fraser source-summary i primetiš da Fraser koristi "spring" sa drugim naglaskom (isti koncept — red 3):
 
 - **NE** prepisuj postojeću `events/spring.md` definiciju
-- **NE** napravi novu stranicu `events/spring-fraser.md` (redefinisanje, banned po spot-check §3.2)
-- **NE** označi to kao `> **Synthesis:**` (sinteza je kombinacija ≥2 izvora; ovo je jedan izvor sa drugim naglaskom)
-- **DA** dodaj `## Cross-Author Readings → ### As Used By Fraser` na postojeću `events/spring.md`, sa inline citation u Fraser article-u
+- **NE** napravi paralelnu stranicu `events/spring-fraser.md` za isti koncept (redefinisanje, banned po spot-check §3.2). *Izuzetak:* ako Fraser koristi "spring" za suštinski DRUGI koncept (homonim — red 2), disambiguirana stranica JE ispravna.
+- **NE** označi to kao `> **Synthesis:**` (sinteza je kombinacija ≥2 izvora; ovo je jedan izvor sa drugim naglaskom — vidi "Cross-Author Readings vs sinteza" gore)
+- **DA** dodaj `## Cross-Author Readings → ### As Used By Bruce Fraser (bruce_fraser)` na postojeću `events/spring.md`, sa inline citation u Fraser article-u
 
 ### Detection u spot-check-u
 
@@ -321,15 +355,24 @@ Posle merge-a Batch 9 PR-a skill se **ne briše** — ostaje kao trajna discipli
 
 ### Što se ažurira
 
-- `Scope` sekciju — promeni iz "dok se ne završi Issue #7" u "ad-hoc + batched ingest za Wyckoff wiki (novi izvori, dopune postojećih)"
+U ovom runbook-u:
+- `Purpose` (intro) — ukloni preostali batch-faza framing kad batch-evi prestanu
+- `Scope` sekciju — fokus prebaci na ad-hoc + buduće izvore (batch faza gotova)
+- `Inputs` — ukloni "broj batch-a (1–9)" (ostaje "PR broj" i "scope description")
+- `Codex Adapter` invocation pattern — iz `$skill <batch-number>` u `$skill <scope-description>` (uskladi sa ingest-batch.md)
+- `Source Evidence` — ukloni preostale "#7-specifičan / batch" reference
 - `Operation: ingest-batch.md` — invocation pattern iz `$skill <batch-number>` u `$skill <scope-description>` (npr. `$skill "Fraser articles on Point & Figure section"`)
 - PR title template — bez `Batch N` prefixa, koristi `#<issue> Wiki ingest (source, scope)` format
+
+U `CLAUDE.md` (NE ostaje nepromenjen — mora se uskladiti istim cleanup PR-om):
+- §4 "Ingest workflow" — ukloni batch priority order reference; opis trim-ovanog skill-a kao trajne ad-hoc discipline
+- §11 "Quick reference" — red "Run a #7 batch ingest" → generički "Run a wiki ingest / PR review"
 
 ### Kada to izvesti
 
 Posle merge-a Batch 9 PR-a, u **zasebnom PR-u** "Trim wiki ingest skill — post-Batch 9 cleanup". Ne meša se sa Batch 9 sadržajem.
 
-CLAUDE.md ostaje nepromenjen — drži trajne invariante koje se koriste i za ad-hoc wiki update-e u budućnosti.
+CLAUDE.md drži trajne invariante (folder layout, provenance, vocabulary) koje ostaju i za ad-hoc wiki update-e — ali §4 i §11 reference na batch lifecycle treba uskladiti (gore).
 
 ---
 
@@ -383,6 +426,7 @@ Posle bilo koje izmene wiki sadržaja (batch, spot-fix, ad-hoc):
 2. `git diff --check` — bez whitespace problema.
 3. Ako je PR otvoren: `uv run skills/wyckoff-wiki-ingest/scripts/review_pr.py <PR>` — sve mehaničke provere pass.
 4. Za Batch 2/3 (i kasnije po triger-u): `operations/semantic-spot-check.md` — Opus sesija, izveštaj na srpskom.
+5. Ako je spot-check pokrenut: obavezan 1-line audit trail entry u `knowledge/wiki/log.md` (per `operations/semantic-spot-check.md` §6) — prerequisite za merge, čak i kad je sve PASS.
 
 ## Handoff
 
@@ -392,7 +436,7 @@ Završen batch (PR ready za merge) ima:
 - `validate_links.py` pass + `review_pr.py` pass
 - `index.md` i `log.md` update
 - Otvoren PR sa srpskim body-jem, refs #7, bez self-merge
-- Ako je triger ispunjen: semantic-spot-check izveštaj sa eksplicitnom akcijom (merge / spot-fix / back-to-kild)
+- Ako je triger ispunjen: semantic-spot-check izveštaj sa eksplicitnom akcijom (merge / spot-fix / back-to-kild) **+ obavezan 1-line audit trail u `log.md`** (§6 operacije) — prerequisite za merge
 
 ## Source Evidence
 
@@ -402,4 +446,4 @@ Ovaj runbook je nastao iz Issue #7 batch ingest disciplinske evolucije:
 - Hardening §3.5–§3.7 dodato kao odgovor na PR #38 semantic spot-check nalaze (1 FAIL `spring.md` misattribution + 2 CONCERN-a synthesis-as-claim u accumulation/distribution)
 - Lokalan za projekat — `wyckoff-wiki-ingest` nije primenjiv na druge repo-e, pa ne živi u `~/.agent-runbooks/`
 
-Trajna shema je u [`CLAUDE.md`](../CLAUDE.md). Ovaj runbook drži #7-specifičan radni protokol i briše se posle merge-a Batch 9 PR-a.
+Trajna shema je u [`CLAUDE.md`](../CLAUDE.md). Ovaj runbook drži #7-specifičan radni protokol; posle merge-a Batch 9 PR-a se **trim-uje, ne briše** (§7) — discipline ostaje za ad-hoc update-e i buduće izvore.

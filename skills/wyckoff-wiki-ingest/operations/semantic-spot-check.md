@@ -90,6 +90,8 @@ grep -rn "^# " knowledge/wiki/concepts/ knowledge/wiki/events/ knowledge/wiki/st
 - Ako nova stranica dodaje applied case postojećeg pojma (npr. "Spring u low-liquidity crypto") → **OK** ako linkuje `[[spring]]` i ne ponavlja definiciju
 - Ako je termin uveden prvi put → **OK**
 
+**Carve-out (cross-author).** Dodavanje `## Cross-Author Readings` sekcije na **postojeću** definicionu stranicu **NIJE** redefinisanje (per runbook §3.8 red 3) — to je sankcionisan način da se zabeleži naglasak drugog autora. FAIL samo ako je primarna definicija prepisana/premeštena, ili ako je napravljena paralelna stranica za **isti koncept**. Disambiguirana stranica za **homonim** (drugi koncept, isti token — runbook §3.8 red 2) je takođe OK. Vidi §3.4 cross-author proveru.
+
 ### 3.3 Cross-link semantic
 
 Uzmi **2 `[[backlink]]`-a** iz stranice. Otvori target stranice. Proveri:
@@ -106,7 +108,7 @@ Skeniraj stranicu za:
 - **Wyckoff termine** — koristi se baš izrazom iz knjige? ("Sign of Strength", "spring", "secondary test")
 - **Market žargon** — generički izrazi koji bi mogli zameniti precizan termin? ("breakout" umesto "JAC", "buyers step in" umesto "AR", "support holds" umesto "ST as MSOS")
 - **Synthesis-as-claim** — sekcije tipa "Common Mistakes The Book Flags", "Typical Failures", "Recurring Patterns" bez `> **Synthesis:**` marker-a i bez inline citacija → **CONCERN** (per runbook §3.5)
-- **Cross-author definicije** — ako stranica koristi termin koji već ima definicionu stranicu iz primarnog izvora (knjiga) ali sa drugačijim naglaskom drugog autora (Fraser, crypto archive), da li je tretirano per runbook §3.8 (sekcija `## Cross-Author Readings`, ne nova stranica, ne sinteza)? Sintetisanje dva izvora u jedinstvenu definiciju → **FAIL**. Paralelna stranica koja redefiniše isti pojam → **FAIL**. Tiha izmena postojeće definicije bez `## Cross-Author Readings` marker-a → **FAIL**.
+- **Cross-author definicije** — ako stranica koristi termin koji već ima definicionu stranicu iz primarnog izvora (njen `primary_source`) ali sa drugačijim naglaskom drugog autora (Fraser, crypto archive), da li je tretirano per runbook §3.8 (sekcija `## Cross-Author Readings`, ne nova stranica, ne sinteza)? Sintetisanje dva izvora u jedinstvenu definiciju → **FAIL**. Paralelna stranica koja redefiniše **isti koncept** → **FAIL** (ali disambiguirana stranica za **homonim** — drugi koncept, isti token, §3.8 red 2 — je **OK**; proveri da primarna stranica ima reciprocnu "not to be confused with" napomenu). Tiha izmena postojeće definicije bez `## Cross-Author Readings` marker-a → **FAIL**.
 
 Žargon umesto preciznog termina kada je precizan dostupan → **CONCERN**. Žargon u meta-pasusu (npr. uvod) je OK.
 
@@ -140,9 +142,11 @@ Na kraju, **agregat**:
 
 ## 5. Akcija na osnovu rezultata
 
+**Za SVAKI ishod ispod:** obavezan 1-line audit trail entry u `log.md` (§6) je prerequisite za merge — piše se uvek, bez obzira na verdikt.
+
 | Stanje | Akcija |
 |---|---|
-| Sve PASS | Merge. 1-line audit trail entry u `log.md` je prerequisite za merge. Komentar na PR-u opcionalan. |
+| Sve PASS | Merge. Komentar na PR-u opcionalan. |
 | CONCERN-i bez FAIL | Merge dozvoljen. Ako je ≥3 CONCERN-a istog tipa (npr. 3× vocabulary) → zapiši u `log.md` open follow-up za sledeći batch. |
 | 1–2 FAIL u 1 stranici | Spot-fix direktno u PR-u (`git commit --fixup` u kildu ili novi commit). Re-run spot-check za tu stranicu. |
 | ≥3 FAIL ili FAIL-ovi preko više stranica | **Vrati u batch kild.** Pošalji listu problema kao prompt batch agentu, traži rebuild. Ne mergaj. |
@@ -151,13 +155,14 @@ Na kraju, **agregat**:
 
 ## 6. Output contract
 
+**Dva artefakta, dve sudbine:**
+- **Detaljan markdown izveštaj** (struktura iz §4) → u **chat** user-u. **NE** commit-uje se u repo, **nije** PR komentar po default-u.
+- **1-line audit trail** → u **repo** (`knowledge/wiki/log.md`). Obavezan.
+
 Spot-check sesija završava sa:
 
-- Markdown izveštajem (struktura iz §4) — daj user-u u chat-u, ne commit-uj u repo
-- **Obavezan 1-line audit trail entry u `knowledge/wiki/log.md`** pod batch-ovim ingest entry-jem, oblika:
+- **Obavezan 1-line audit trail entry u `knowledge/wiki/log.md`** — kao zaseban append-only red na **kraju fajla** (hronološki, per log append-only disciplina). Referencira batch u samom tekstu (`spot-check Batch N`), pa ne mora fizički biti uz batch ingest entry. Oblik:
   `[YYYY-MM-DD] spot-check Batch N — N stranica, X PASS / Y CONCERN / Z FAIL — akcija: <merge|spot-fix|back-to-kild>`
-  Uvek se piše, čak i kada je sve PASS — to je trag da je spot-check obavljen.
+  Uvek se piše, čak i kada je sve PASS — to je trag da je spot-check obavljen. Prerequisite za merge.
 - Eksplicitnom akcijom (merge / spot-fix / back-to-kild)
 - Ako CONCERN-i ostaju nakon merge-a — produženi entry u `log.md` sa listom CONCERN-a (ne samo 1-line)
-
-Detaljan spot-check izveštaj **nije** PR komentar po default-u — ostaje između reviewer-a i user-a. Samo 1-line audit trail ide u repo (`log.md`).

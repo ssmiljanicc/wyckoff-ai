@@ -94,10 +94,14 @@ knowledge/wiki/
   scenarios/        ← scenario templates, playbook entries, output contracts
   sources/          ← one page per source: book chapter, Fraser article, crypto archive volume
   questions/        ← filed query answers — the compounding layer (created during query operations)
-  health/           ← lint reports (created during lint operations)
+  health/           ← lint reports (machine-generated) + discrepancies.md (see below)
 ```
 
 **Do not create new top-level folders without updating this schema first.** If a concept doesn't fit, file it under the closest folder and flag the question in `log.md`.
+
+**`health/` holds two distinct artifact types:**
+- **Lint reports** — machine-generated during lint operations; may be regenerated/overwritten freely.
+- **`health/discrepancies.md`** — a **persistent, append-only, hand-authored** log of cross-author definition disagreements (per runbook §3.8). It is **exempt from lint regeneration** — the lint pass must never overwrite it. Each entry: date, term, the two sources, and the nature of the disagreement.
 
 ---
 
@@ -202,14 +206,14 @@ One per logical source unit:
 
 ## 4. Ingest workflow
 
-Active batch ingest for [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) is operated through the temporary skill `wyckoff-wiki-ingest`. The canonical protocol lives in the neutral runbook [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md); tanki Claude i Codex wrapper-i u [`.claude/skills/wyckoff-wiki-ingest/`](.claude/skills/wyckoff-wiki-ingest/SKILL.md) i [`.agents/skills/wyckoff-wiki-ingest/`](.agents/skills/wyckoff-wiki-ingest/SKILL.md) load-uju runbook. That skill contains:
+Active batch ingest for [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) is operated through the skill `wyckoff-wiki-ingest`. The canonical protocol lives in the neutral runbook [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md); tanki Claude i Codex wrapper-i u [`.claude/skills/wyckoff-wiki-ingest/`](.claude/skills/wyckoff-wiki-ingest/SKILL.md) i [`.agents/skills/wyckoff-wiki-ingest/`](.agents/skills/wyckoff-wiki-ingest/SKILL.md) load-uju runbook. That skill contains:
 
 - The batch priority order (book → crypto archive → Fraser) with concrete chapter/volume ranges
 - The cross-batch awareness protocol (read existing wiki before redefining)
 - Validation scripts (`validate_links.py`, `fix_inline_links.py`, `review_pr.py`)
 - Per-batch output contract and PR template
 
-The skill is deleted once #7 is complete (Batch 9 merged). This file then continues to govern ad-hoc wiki updates via §2, §3, §5–§9.
+After #7 completes (Batch 9 merged), the skill is **trimmed, not deleted** — batch-specific parts (priority order, this batch lifecycle) are removed, but the durable discipline (cross-batch awareness, citation drill, synthesis marking, cross-author rule, semantic spot-check, scripts) is retained for ad-hoc wiki updates and future raw sources. See runbook §7 for the trim checklist. This file (CLAUDE.md) continues to govern wiki updates via §2, §3, §5–§9.
 
 ---
 
@@ -223,6 +227,7 @@ title: "Spring"
 type: event
 status: active
 updated: 2026-05-24
+primary_source: book        # optional; defaults to "book" when absent
 sources:
   - path: raw/book/pages/page_142.md
     note: "primary definition"
@@ -232,6 +237,19 @@ sources:
     note: "crypto-specific example: BTC March 2020 spring"
 ---
 ```
+
+**`primary_source` key:** identifies which source first defines the page's
+term. Optional. **Allowed values match the raw folder names: `book`,
+`bruce_fraser`, `crypto_archive`.** When the key is **absent, the default is
+`book`** — so the hundreds of existing book-origin pages need no backfill. Set
+the key explicitly only when a term originates from a non-book author (per
+runbook §3.8 — e.g. a Fraser-specific event the book never names). A page's
+`## Cross-Author Readings` section (§8) describes how *other* authors use the
+same term without changing `primary_source`.
+
+**Caveat:** absence of the key is lossy — it means *either* "book-origin" *or*
+"page predates the convention." Do **not** infer book-origin from absence in
+any check or lint; only act on an **explicit** `primary_source` value.
 
 **Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) §2.
 
@@ -296,6 +314,13 @@ A well-formed event page (e.g. `events/spring.md`) should link:
 - **Provenance:** to the raw source pages cited
 
 A page with zero outbound links is suspicious — flag in lint.
+
+**`## Cross-Author Readings` section.** A definition page may carry an optional
+`## Cross-Author Readings` section when a *second* author (Fraser, crypto
+archive) uses the same term with a different emphasis than `primary_source`.
+This section describes the other author's framing (with an inline citation)
+**without rewriting the primary definition**. It is the sanctioned way to record
+author-specific nuance and is not a redefinition. Full rules: runbook §3.8.
 
 ---
 
