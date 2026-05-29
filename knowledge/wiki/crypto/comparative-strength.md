@@ -2,7 +2,7 @@
 title: "Comparative Strength"
 type: crypto
 status: active
-updated: 2026-05-27
+updated: 2026-05-29
 sources:
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-19.html
     note: "BTC/SPX relative-strength base and hinge"
@@ -12,6 +12,10 @@ sources:
     note: "synchronized highs/lows and slope comparison"
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-25.html
     note: "index comparison across Bitcoin, large caps, mid caps, micro caps"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-33.html
+    note: "USD pair first, BTC pair as confirmation"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-51.html
+    note: "altcoins retain comparative strength during BTC spring reaction"
 ---
 
 # Comparative Strength
@@ -42,6 +46,13 @@ absorbs supply and advances better.
 - Vol 25 expands the comparison to sector indexes: Bitcoin, large caps,
   mid caps, and micro caps
   ([vol 25](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-25.html)).
+- Vol 33 states the analysis sequence for altcoins: start with the USD pair and
+  use the BTC pair only as confirmation because crypto funds mainly track
+  dollar value
+  ([vol 33](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-33.html)).
+- Vol 51 says altcoins still showed comparative strength during the Bitcoin
+  spring reaction, with Chainlink and CRV highlighted as constructive examples
+  ([vol 51](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-51.html)).
 
 ## Why It Matters For Crypto Reading
 
@@ -59,5 +70,5 @@ absorbs supply and advances better.
 - Book vocabulary used here: [[effort-and-result]], [[supply-and-demand]],
   [[path-of-least-resistance]]
 - Sources: [[crypto-report-vol-19]], [[crypto-report-vol-20]],
-  [[crypto-report-vol-22]], [[crypto-report-vol-25]]
-
+  [[crypto-report-vol-22]], [[crypto-report-vol-25]],
+  [[crypto-report-vol-33]], [[crypto-report-vol-51]]

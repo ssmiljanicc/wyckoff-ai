@@ -2,7 +2,7 @@
 title: "Intermarket Gate"
 type: crypto
 status: active
-updated: 2026-05-27
+updated: 2026-05-29
 sources:
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-15.html
     note: "Bitcoin highly correlated to S&P during post-crash retest"
@@ -16,6 +16,10 @@ sources:
     note: "crypto underperformance versus S&P as risk-off warning"
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-28.html
     note: "Nasdaq weakness versus Bitcoin local outperformance"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-33.html
+    note: "Nasdaq and crypto downside synchronicity"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-59.html
+    note: "Nasdaq retest as entry gate for crypto spring candidates"
 ---
 
 # Intermarket Gate
@@ -47,6 +51,14 @@ or hostile market context.
 - Vol 28 shows the opposite case: Nasdaq pressure did not hit Bitcoin, which
   was showing local outperformance while volatility contracted
   ([vol 28](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-28.html)).
+- Vol 33 shows the gate in stress: heavy Nasdaq selling and crypto selling
+  happened together, and the quality of the next rally would decide whether the
+  action looked like a shakeout or a sign of weakness
+  ([vol 33](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-33.html)).
+- Vol 59 uses the same gate tactically: a final Nasdaq low would be the signal
+  to enter crypto assets already in spring position, including Chainlink and
+  DOT
+  ([vol 59](../../../raw/crypto_archive/html/wyckoff-crypto-report-59.html)).
 
 ## Why It Matters For Crypto Reading
 
@@ -65,5 +77,5 @@ or hostile market context.
   [[path-of-least-resistance]]
 - Sources: [[crypto-report-vol-15]], [[crypto-report-vol-16]],
   [[crypto-report-vol-17]], [[crypto-report-vol-25]],
-  [[crypto-report-vol-27]], [[crypto-report-vol-28]]
-
+  [[crypto-report-vol-27]], [[crypto-report-vol-28]],
+  [[crypto-report-vol-33]], [[crypto-report-vol-59]]

@@ -2,10 +2,14 @@
 title: "Three Stages Of Uptrend In Crypto"
 type: crypto
 status: active
-updated: 2026-05-27
+updated: 2026-05-29
 sources:
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-21.html
     note: "value buying, absorption, momentum sequence"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-40.html
+    note: "initial momentum, absorption, speculation analog"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-42.html
+    note: "market leader speculative stage and terminal low-cap switch"
 ---
 
 # Three Stages Of Uptrend In Crypto
@@ -33,6 +37,13 @@ to existing Wyckoff structure vocabulary rather than creating a new book term
   taking, early absorption, margin-call selloff, [[spring|shakeout]], potential
   [[sign-of-strength]], and future [[last-point-of-support]]
   ([vol 21](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-21.html)).
+- Vol 40 gives a later archive wording through the Chainlink analog: initial
+  momentum after an extreme oversold condition, absorption, and speculation
+  ([vol 40](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-40.html)).
+- Vol 42 applies the speculative stage to Bitcoin leadership: terminal-stage
+  Bitcoin can create short-term low-cap rotation, but not yet a durable altcoin
+  cycle
+  ([vol 42](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-42.html)).
 
 ## Why It Matters For Crypto Reading
 
@@ -45,8 +56,9 @@ to existing Wyckoff structure vocabulary rather than creating a new book term
 ## Links
 
 - Related archive pages: [[crypto/halving-and-catalysts]],
-  [[crypto/historical-analogs]], [[crypto/bitcoin-as-source-of-funding]]
+  [[crypto/historical-analogs]], [[crypto/bitcoin-as-source-of-funding]],
+  [[crypto/bitcoin-leader-vs-funding-source]]
 - Book vocabulary used here: [[accumulation]], [[phase-c]], [[phase-d]],
   [[sign-of-strength]], [[last-point-of-support]]
-- Source: [[crypto-report-vol-21]]
-
+- Sources: [[crypto-report-vol-21]], [[crypto-report-vol-40]],
+  [[crypto-report-vol-42]]

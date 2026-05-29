@@ -260,3 +260,57 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Batch 5: Crypto Archive Vol 29–59 (2020–2021: DeFi, rotation, terminal Bitcoin).
 
 [2026-05-27] spot-check Batch 4 — 6 stranica, 24 PASS / 0 CONCERN / 0 FAIL — akcija: merge
+
+---
+
+## [2026-05-29] ingest | Crypto archive, Batch 5 — Vol 29–59 (2020–2021 DeFi, rotation, terminal Bitcoin)
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch5`
+- Izvori: `raw/crypto_archive/html/wyckoff-crypto-report-vol-29.html` do `wyckoff-crypto-report-vol-52.html`, `wyckoff-crypto-report-53.html` do `wyckoff-crypto-report-55.html`, `wyckoff-crypto-report-vol-56.html`, i `wyckoff-crypto-report-57.html` do `wyckoff-crypto-report-59.html`.
+
+### Pages created (38)
+
+`sources/crypto_archive/` (31 — jedna stranica po volumenu):
+- `crypto-report-vol-29.md` do `crypto-report-vol-59.md`
+- `crypto-report-vol-52.md` do `crypto-report-vol-58.md` — WIKI_GAP; raw capture nema tekstualni market-analysis body dovoljan za safe paraphrase.
+
+`concepts/` (3):
+- `principle-in-the-principle.md`
+- `stride-of-trend.md`
+- `three-stages-of-uptrend.md`
+
+`events/` (1):
+- `flat-reaction.md`
+
+`crypto/` (3):
+- `bitcoin-leader-vs-funding-source.md`
+- `low-liquidity-tolerance.md`
+- `risk-off-refuge-hierarchy.md`
+
+### Pages updated
+
+- `knowledge/wiki/index.md` — Batch 5 pages added; crypto archive source summaries now complete at 46/46 entries.
+- `knowledge/wiki/concepts/point-and-figure-counting.md` — added crypto archive Cross-Author Readings for GBTC/Bitcoin P&F usage.
+- `knowledge/wiki/crypto/rotation-hierarchy.md`, `thematic-indexes.md`, `spread-charts.md`, `intermarket-gate.md`, `comparative-strength.md`, and `three-stages-of-uptrend-in-crypto.md` — Batch 5 applied examples added.
+- `knowledge/wiki/log.md` — this entry.
+
+### Commit-evi u ovom batch-u
+
+- `ad82bd6` — source summaries Vol 29–44
+- `926f3c1` — source summaries Vol 45–59, uključujući Vol 52–58 WIKI_GAP
+- `1c72e24` — crypto rotation concept pages
+
+### Notes
+
+- Batch 1–4 vocabulary nije redefinisan; nove stranice linkuju postojeće `concepts/`, `events/`, `structures/`, i `crypto/` stranice.
+- `point-and-figure-counting.md` je dopunjen kroz `## Cross-Author Readings`, bez izmene primarne book definicije.
+- Svaki inline `[vol N]` link ima paritetan `sources:` entry; svaka frontmatter crypto archive putanja se pojavljuje inline.
+- No new unsupported claims were added from image-only reports; Vol 52–58 remain explicit WIKI_GAP pages until text/alt-text evidence exists.
+
+### Open follow-ups
+
+- Batch 6: Bruce Fraser context and phase reading (~40 articles).
+- Semantic spot-check decision: recommended before merge because Batch 5 adds several cross-source concept pages and WIKI_GAP judgments.
+
+[2026-05-29] spot-check Batch 5 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
