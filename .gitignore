@@ -166,3 +166,6 @@ Thumbs.db
 
 # Editors
 *.swp
+
+# Runtime signal log — never commit live trading data
+data/signals/
