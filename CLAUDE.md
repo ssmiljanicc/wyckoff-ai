@@ -247,6 +247,10 @@ runbook §3.8 — e.g. a Fraser-specific event the book never names). A page's
 `## Cross-Author Readings` section (§8) describes how *other* authors use the
 same term without changing `primary_source`.
 
+**Caveat:** absence of the key is lossy — it means *either* "book-origin" *or*
+"page predates the convention." Do **not** infer book-origin from absence in
+any check or lint; only act on an **explicit** `primary_source` value.
+
 **Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) §2.
 
 **Synthesis claims** (cross-source generalizations not stated verbatim in any one source) must be marked:

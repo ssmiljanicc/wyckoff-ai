@@ -1,6 +1,6 @@
 # AGENTS.md — Wyckoff AI Project Instructions for All Agents
 
-Ovaj fajl sadrži pravila za sve AI agente (Codex, Claude Code, Gemini, Cursor, drugi) koji rade na ovom projektu. Identičan u sadržaju sa **glavnim CLAUDE.md fajlom u repo root-u** — koristi se kao alternativni put pretrage jer različiti alati traže različita imena (Claude → `CLAUDE.md`, Codex/drugi → `AGENTS.md`).
+Ovaj fajl sadrži pravila za sve AI agente (Codex, Claude Code, Gemini, Cursor, drugi) koji rade na ovom projektu. **Sažetak ključnih pravila iz** glavnog `CLAUDE.md` fajla u repo root-u (NIJE potpun mirror) — koristi se kao alternativni put pretrage jer različiti alati traže različita imena (Claude → `CLAUDE.md`, Codex/drugi → `AGENTS.md`). **Za sva pravila, izvor istine je `CLAUDE.md`** — vidi i agent-lab #51 (predlog da ovaj fajl postane čist pokazivač).
 
 **Kompletan sadržaj projektnih pravila i wiki schema-e:** [CLAUDE.md](./CLAUDE.md)
 

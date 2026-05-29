@@ -108,7 +108,7 @@ Skeniraj stranicu za:
 - **Wyckoff termine** — koristi se baš izrazom iz knjige? ("Sign of Strength", "spring", "secondary test")
 - **Market žargon** — generički izrazi koji bi mogli zameniti precizan termin? ("breakout" umesto "JAC", "buyers step in" umesto "AR", "support holds" umesto "ST as MSOS")
 - **Synthesis-as-claim** — sekcije tipa "Common Mistakes The Book Flags", "Typical Failures", "Recurring Patterns" bez `> **Synthesis:**` marker-a i bez inline citacija → **CONCERN** (per runbook §3.5)
-- **Cross-author definicije** — ako stranica koristi termin koji već ima definicionu stranicu iz primarnog izvora (knjiga) ali sa drugačijim naglaskom drugog autora (Fraser, crypto archive), da li je tretirano per runbook §3.8 (sekcija `## Cross-Author Readings`, ne nova stranica, ne sinteza)? Sintetisanje dva izvora u jedinstvenu definiciju → **FAIL**. Paralelna stranica koja redefiniše isti pojam → **FAIL**. Tiha izmena postojeće definicije bez `## Cross-Author Readings` marker-a → **FAIL**.
+- **Cross-author definicije** — ako stranica koristi termin koji već ima definicionu stranicu iz primarnog izvora (njen `primary_source`) ali sa drugačijim naglaskom drugog autora (Fraser, crypto archive), da li je tretirano per runbook §3.8 (sekcija `## Cross-Author Readings`, ne nova stranica, ne sinteza)? Sintetisanje dva izvora u jedinstvenu definiciju → **FAIL**. Paralelna stranica koja redefiniše **isti koncept** → **FAIL** (ali disambiguirana stranica za **homonim** — drugi koncept, isti token, §3.8 red 2 — je **OK**; proveri da primarna stranica ima reciprocnu "not to be confused with" napomenu). Tiha izmena postojeće definicije bez `## Cross-Author Readings` marker-a → **FAIL**.
 
 Žargon umesto preciznog termina kada je precizan dostupan → **CONCERN**. Žargon u meta-pasusu (npr. uvod) je OK.
 
@@ -161,7 +161,7 @@ Na kraju, **agregat**:
 
 Spot-check sesija završava sa:
 
-- **Obavezan 1-line audit trail entry u `knowledge/wiki/log.md`** — kao zaseban append-only red na kraju fajla (hronološki, per log append-only disciplina), odmah ispod batch ingest entry-ja na koji se odnosi. Oblik:
+- **Obavezan 1-line audit trail entry u `knowledge/wiki/log.md`** — kao zaseban append-only red na **kraju fajla** (hronološki, per log append-only disciplina). Referencira batch u samom tekstu (`spot-check Batch N`), pa ne mora fizički biti uz batch ingest entry. Oblik:
   `[YYYY-MM-DD] spot-check Batch N — N stranica, X PASS / Y CONCERN / Z FAIL — akcija: <merge|spot-fix|back-to-kild>`
   Uvek se piše, čak i kada je sve PASS — to je trag da je spot-check obavljen. Prerequisite za merge.
 - Eksplicitnom akcijom (merge / spot-fix / back-to-kild)

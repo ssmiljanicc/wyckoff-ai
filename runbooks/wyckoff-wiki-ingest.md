@@ -202,19 +202,42 @@ Kada se vraćaš u sledećoj sesiji, prvo `git log --oneline -10` da vidiš tač
 
 ### Klasifikacija
 
-Odredi tačno **jedan** red. Redovi su poređani po prioritetu — ako slučaj odgovara na više, **viši red u tabeli pobeđuje** (npr. stranica koja i dodaje naglasak i ima tačku neslaganja → tretira se kao "eksplicitno neslaganje", red 4).
+Odredi tačno **jedan** red, ovim redosledom odlučivanja (ne "viši red u tabeli"):
+
+1. **Same-referent test PRVO:** da li autor B koristi token za *suštinski drugi koncept* (drugi referent), ili za *isti koncept* (eventualno sa drugim naglaskom)? Ako drugi referent → **red 2 (homonim)**, bez obzira na sve ostalo.
+2. **Ako je isti koncept**, bira se disposition sa **najviše disclosure-a**:
+   - postoji eksplicitna kontradikcija sa primarnim izvorom → **red 4** (Cross-Author Readings + `discrepancies.md`)
+   - inače dodatni naglasak / uži opseg → **red 3** (Cross-Author Readings)
+   - inače isto značenje → **red 1** (samo link)
+   - pojam ne postoji u primarnom izvoru uopšte → **red 5** (nova stranica sa `primary_source`)
+
+Kod preklapanja red-3-vs-red-4 (npr. 90% slaganja + jedna tačka neslaganja) bira se **red 4** — kontradikcija mora da ostavi trag u `discrepancies.md`, ne sme da se tiho apsorbuje kao "samo naglasak".
 
 | # | Scenario | Postupak |
 |---|---|---|
 | 1 | Drugi autor koristi isti pojam sa **istim značenjem** | Linkuj `[[name]]`. Bez izmene postojeće definicione stranice. |
 | 2 | Drugi autor koristi **isti token za suštinski drugi koncept** (homonim — ne uži opseg, nego drugi referent) | **Nova stranica sa disambiguacijom** (`events/<term>-<author-concept>.md`) + link iz oba pravca + kratka "not to be confused with" napomena na obe. **NE** Cross-Author Readings (pogrešno bi zakačilo nepovezan koncept za primarnu definiciju). |
-| 3 | Drugi autor koristi pojam sa **dodatnim naglaskom** ili **užim opsegom** (isti koncept) | Na postojećoj definicionoj stranici dodaj sekciju `## Cross-Author Readings` sa pod-sekcijom `### As Used By [bruce_fraser / crypto_archive / ...]` (label = `primary_source` vrednost tog autora). Inline citation u taj izvor + 2–3 rečenice šta autor naglašava/ograničava. **Bez prepisivanja primarne definicije.** Više `### As Used By X` pod-sekcija sme da se slaže (stacking). Ažuriraj `sources:` frontmatter. |
+| 3 | Drugi autor koristi pojam sa **dodatnim naglaskom** ili **užim opsegom** (isti koncept) | Na postojećoj definicionoj stranici dodaj sekciju `## Cross-Author Readings` sa pod-sekcijom `### As Used By <Human Name> (<source-value>)` — čitljivo ime + enum vrednost u zagradi radi parity provere, npr. `### As Used By Bruce Fraser (bruce_fraser)`. Inline citation u taj izvor + 2–3 rečenice šta autor naglašava/ograničava. **Bez prepisivanja primarne definicije.** Više `### As Used By X` pod-sekcija sme da se slaže (stacking). Ažuriraj `sources:` frontmatter. |
 | 4 | Drugi autor se **eksplicitno ne slaže** sa primarnim izvorom (kontradikcija, ne samo naglasak) | Isto kao red 3 (Cross-Author Readings) **+** flag u `knowledge/wiki/health/discrepancies.md` (persistent, append-only, lint ga NE regeneriše — vidi CLAUDE.md §2) sa datumom, terminom, oba izvora, prirodom neslaganja. Reviewer odlučuje legit-alternative vs izvorska greška. |
 | 5 | Pojam **postoji samo** u drugom izvoru, ne u primarnom (npr. Fraser-specific pojam koji knjiga ne pominje) | Nova stranica u odgovarajućem folderu sa frontmatter `primary_source: bruce_fraser` (ili `crypto_archive` — vrednost mora odgovarati raw folder imenu). Citira se autor doslovno — bez sintetske definicije iz training data-e. Ako kasnije treći izvor doda svoj naglasak na tu stranicu, primeni red 3/4 protiv NJENOG `primary_source`-a. |
 
 ### Cross-Author Readings vs sinteza (§3.5 granica)
 
 `## Cross-Author Readings` sekcija sme **samo da OPIŠE** šta autor B naglašava/ograničava, citirajući B. Čim rečenica **uporedi** A i B ili izvuče zajednički zaključak ("oba izvora pokazuju...", "Fraser je uži od knjige jer..."), to je generalizacija preko ≥2 izvora = **sinteza** → mora `> **Synthesis:**` marker per §3.5. Test: da li rečenica može da stoji citirajući samo izvor B? Ako da → Cross-Author Reading. Ako joj treba i A da bi imala smisla → sinteza.
+
+**Gray zone (implicitna komparacija).** Rečenica može biti *gramatički* jednoizvorna ("Fraser tretira Spring #1 i Terminal Shakeout kao jedan event") a *semantički* komparativna — jer joj relevantnost zavisi od kontrasta sa primarnom definicijom (koja ih razdvaja). Takva rečenica "stoji" po doslovnom testu, ali postoji samo zbog implicitnog poređenja. Pravilo: ako **relevantnost** rečenice zavisi od kontrasta sa primarnom definicijom (čak i kad je gramatički jednoizvorna), tretira se kao borderline → siguran default je `> **Synthesis:**` marker.
+
+### `health/discrepancies.md` format (red 4)
+
+Persistent, append-only (vidi CLAUDE.md §2). Samo **red 4** piše ovde — redovi 1–3 i 5 ne diraju ovaj fajl. Fiksni template po unosu:
+
+```md
+## [YYYY-MM-DD] <termin>
+- **primary:** <source-value> — <šta primarni izvor tvrdi> ([citation])
+- **conflicting:** <source-value> — <šta drugi autor tvrdi> ([citation])
+- **priroda neslaganja:** <jedna rečenica>
+- **verdikt:** <legit-alternative | izvorska-greška | nerešeno>
+```
 
 ### Anti-patterns
 
@@ -223,7 +246,7 @@ Ako pišeš Fraser source-summary i primetiš da Fraser koristi "spring" sa drug
 - **NE** prepisuj postojeću `events/spring.md` definiciju
 - **NE** napravi paralelnu stranicu `events/spring-fraser.md` za isti koncept (redefinisanje, banned po spot-check §3.2). *Izuzetak:* ako Fraser koristi "spring" za suštinski DRUGI koncept (homonim — red 2), disambiguirana stranica JE ispravna.
 - **NE** označi to kao `> **Synthesis:**` (sinteza je kombinacija ≥2 izvora; ovo je jedan izvor sa drugim naglaskom — vidi "Cross-Author Readings vs sinteza" gore)
-- **DA** dodaj `## Cross-Author Readings → ### As Used By bruce_fraser` na postojeću `events/spring.md`, sa inline citation u Fraser article-u
+- **DA** dodaj `## Cross-Author Readings → ### As Used By Bruce Fraser (bruce_fraser)` na postojeću `events/spring.md`, sa inline citation u Fraser article-u
 
 ### Detection u spot-check-u
 
