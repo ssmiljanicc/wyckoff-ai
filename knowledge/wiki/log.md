@@ -312,3 +312,5 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Batch 6: Bruce Fraser context and phase reading (~40 articles).
 - Semantic spot-check decision: recommended before merge because Batch 5 adds several cross-source concept pages and WIKI_GAP judgments.
+
+[2026-05-29] spot-check Batch 5 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
