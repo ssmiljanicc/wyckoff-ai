@@ -2,7 +2,7 @@
 
 This is an LLM-maintained knowledge base for Wyckoff methodology, specialized for crypto markets.
 
-**Method:** [llm-wiki](file:///Users/ssmiljanic/.agent-runbooks/llm-wiki.md) — Karpathy-pattern three-layer architecture (raw / wiki / schema).
+**Method:** `llm-wiki` (universal runbook in `~/.agent-runbooks/llm-wiki.md`) — Karpathy-pattern three-layer architecture (raw / wiki / schema). For the active #7 batch ingest, see [`runbooks/wyckoff-wiki-ingest.md`](../../runbooks/wyckoff-wiki-ingest.md).
 
 ## Layout
 

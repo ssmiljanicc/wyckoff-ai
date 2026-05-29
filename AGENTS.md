@@ -1,6 +1,6 @@
 # AGENTS.md — Wyckoff AI Project Instructions for All Agents
 
-Ovaj fajl sadrži pravila za sve AI agente (Codex, Claude Code, Gemini, Cursor, drugi) koji rade na ovom projektu. Identičan u sadržaju sa **glavnim CLAUDE.md fajlom u repo root-u** — koristi se kao alternativni put pretrage jer različiti alati traže različita imena (Claude → `CLAUDE.md`, Codex/drugi → `AGENTS.md`).
+Ovaj fajl sadrži pravila za sve AI agente (Codex, Claude Code, Gemini, Cursor, drugi) koji rade na ovom projektu. **Sažetak ključnih pravila iz** glavnog `CLAUDE.md` fajla u repo root-u (NIJE potpun mirror) — koristi se kao alternativni put pretrage jer različiti alati traže različita imena (Claude → `CLAUDE.md`, Codex/drugi → `AGENTS.md`). **Za sva pravila, izvor istine je `CLAUDE.md`** — vidi i agent-lab #51 (predlog da ovaj fajl postane čist pokazivač).
 
 **Kompletan sadržaj projektnih pravila i wiki schema-e:** [CLAUDE.md](./CLAUDE.md)
 
@@ -28,12 +28,6 @@ Pre nego što radiš bilo šta u ovom repo-u, pročitaj:
 - Labele: `phase:1/2/3`, `model:opus/sonnet`, plus tip
 - Milestone obavezan
 - [CLAUDE.md §0.3](./CLAUDE.md#03-github-issue-convention)
-
-### Model selection
-
-- Mehanički task → Codex YOLO kild (Sonnet-class)
-- Domain rasudak (Wyckoff sinteza, schema, skill) → Claude Opus sesija
-- [CLAUDE.md §0.4](./CLAUDE.md#04-kild-i-model-selection)
 
 ### Wiki schema (za rad sa `knowledge/wiki/`)
 

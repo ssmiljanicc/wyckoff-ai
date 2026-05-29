@@ -3,52 +3,108 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Pages:** 0 of ~70 expected
+**Last updated:** 2026-05-27 (Batch 4 — crypto archive Vol 14–28)
+**Pages:** 88 tracked
 
 ---
 
 ## concepts/
 
-*(empty — populates from book ingest, batches 1–2)*
+Active pages (21 of ~24 expected):
 
-Expected pages (see `/CLAUDE.md` §3 for full list):
-- three-laws, supply-and-demand, cause-and-effect, effort-and-result
-- market-cycle, buying-selling-neutral-position
-- waves-and-fractals, trend-assessment, significant-bar, reversal-of-movement
-- action-test-confirmation, labeling-is-last-step
-- random-vs-purposeful-range, path-of-least-resistance, principle-in-the-principle
-- phase-a, phase-b, phase-c, phase-d, phase-e
-- three-stages-of-uptrend, stride-of-trend, creek-and-ice
-- point-and-figure-counting
+Three fundamental laws:
+- [three-laws](concepts/three-laws.md) — umbrella for the three fundamental laws
+- [supply-and-demand](concepts/supply-and-demand.md) — first law; passive vs aggressive orders
+- [cause-and-effect](concepts/cause-and-effect.md) — second law; proportionality and P&F counting
+- [effort-and-result](concepts/effort-and-result.md) — third law; harmony / divergence
+
+Cycle and structure foundations:
+- [market-cycle](concepts/market-cycle.md) — accumulation → markup → distribution → markdown
+- [buying-selling-neutral-position](concepts/buying-selling-neutral-position.md) — three-way market stance
+- [waves-and-fractals](concepts/waves-and-fractals.md) — comparative unit of analysis
+- [trend-assessment](concepts/trend-assessment.md) — speed, projection, depth, channels
+- [significant-bar](concepts/significant-bar.md) — bar-level intent
+- [reversal-of-movement](concepts/reversal-of-movement.md) — when control changes hands
+- [random-vs-purposeful-range](concepts/random-vs-purposeful-range.md) — when to ignore a range
+- [path-of-least-resistance](concepts/path-of-least-resistance.md) — verified, not assumed
+
+**Phases (Batch 2):**
+- [phase-a](concepts/phase-a.md) — stop the previous trend; four events
+- [phase-b](concepts/phase-b.md) — cause-building; proportional duration rule
+- [phase-c](concepts/phase-c.md) — test; three outcomes including no-shake
+- [phase-d](concepts/phase-d.md) — trend within range; three scenarios
+- [phase-e](concepts/phase-e.md) — trend out of range; switch to trend tools
+
+**Methodology discipline (Batch 2):**
+- [action-test-confirmation](concepts/action-test-confirmation.md) — recurring three-step pattern
+- [labeling-is-last-step](concepts/labeling-is-last-step.md) — labels are provisional in real time
+- [creek-and-ice](concepts/creek-and-ice.md) — structural barrier zones
+- [point-and-figure-counting](concepts/point-and-figure-counting.md) — horizontal cause count and target projection
+
+Pending (Batch 3):
+- three-stages-of-uptrend, stride-of-trend,
+  principle-in-the-principle (Fraser/archive sourced or later source-confirmed)
 
 ## events/
 
-*(empty — populates from book ingest, batch 2)*
+Active pages (20 — all expected from book):
 
-Expected pages:
-- Phase A: preliminary-support, selling-climax, buying-climax, automatic-rally, automatic-reaction, secondary-test, st-as-msos, st-as-msow
-- Phase C: spring, upthrust, upthrust-after-distribution, no-shake-phase-c
-- Phase D/E: sign-of-strength, sign-of-weakness, jump-across-the-creek, back-up-to-the-edge-of-the-creek, fall-through-the-ice, last-point-of-support, last-point-of-supply
-- Failed signals: failed-signal
-- Archive modifiers: feather, hinge, flat-reaction
+Phase A — stop events (Batch 2):
+- [preliminary-support](events/preliminary-support.md) (PS / PSY)
+- [selling-climax](events/selling-climax.md) (SC)
+- [buying-climax](events/buying-climax.md) (BC)
+- [automatic-rally](events/automatic-rally.md) (AR — accumulation)
+- [automatic-reaction](events/automatic-reaction.md) (AR — distribution)
+- [secondary-test](events/secondary-test.md) (ST)
+- [st-as-msos](events/st-as-msos.md) (UA / mSOS — Phase B upper-end test)
+- [st-as-msow](events/st-as-msow.md) (ST as SOW / mSOW — Phase B lower-end test)
+
+Phase C — test/shake events (Batch 2):
+- [spring](events/spring.md) — three Spring types + Terminal Shakeout + Ordinary Shakeout
+- [upthrust-after-distribution](events/upthrust-after-distribution.md) (UTAD)
+- [upthrust](events/upthrust.md) (UT — Phase B generic and Phase D failed-break)
+- [no-shake-phase-c](events/no-shake-phase-c.md) — Accumulation #2 / Distribution #2 variant
+
+Phase D/E — trend events (Batch 2):
+- [sign-of-strength](events/sign-of-strength.md) (SOS / Major SOS / minor SOS / SOS Bar)
+- [sign-of-weakness](events/sign-of-weakness.md) (SOW / MSOW / minor SOW / SOW Bar)
+- [jump-across-the-creek](events/jump-across-the-creek.md) (JAC — synonym for SOS)
+- [back-up-to-the-edge-of-the-creek](events/back-up-to-the-edge-of-the-creek.md) (BUEC)
+- [fall-through-the-ice](events/fall-through-the-ice.md) (FTI)
+- [last-point-of-support](events/last-point-of-support.md) (LPS — three types by location)
+- [last-point-of-supply](events/last-point-of-supply.md) (LPSY — three types by location)
+- [failed-signal](events/failed-signal.md) — labeling discipline, failed-break diagnostics
+
+Pending (Batches 4–9):
+- Archive modifiers: feather, hinge, flat-reaction (Fraser archive)
 
 ## structures/
 
-*(empty — populates from book ingest, batches 1–2)*
+Active pages (5 — all expected from book):
 
-Expected pages:
-- accumulation, distribution, reaccumulation, redistribution, trading-range
+- [trading-range](structures/trading-range.md) — generic range theory
+- [accumulation](structures/accumulation.md) — Schematic #1 (with spring) + #2 (no-shake)
+- [distribution](structures/distribution.md) — Schematic #1 (with UTAD) + #2 (no-shake)
+- [reaccumulation](structures/reaccumulation.md) — same as accumulation; disambiguation focus
+- [redistribution](structures/redistribution.md) — same as distribution; disambiguation focus
 
 ## crypto/
 
-*(empty — populates from crypto archive ingest, batches 4–5)*
+Active pages (9 — Batch 4 crypto archive):
 
-Expected pages:
-- intermarket-gate, bitcoin-leader-vs-funding-source, rotation-hierarchy
-- spread-charts, comparative-strength, low-liquidity-tolerance
-- bitcoin-as-source-of-funding, risk-off-refuge-hierarchy
-- three-stages-of-uptrend-in-crypto, halving-and-catalysts
-- thematic-indexes, historical-analogs
+- [bitcoin-as-source-of-funding](crypto/bitcoin-as-source-of-funding.md) — Bitcoin as liquidity source during margin/exogenous shocks
+- [comparative-strength](crypto/comparative-strength.md) — BTC/SPX, leader-vs-BTC, and index selection discipline
+- [halving-and-catalysts](crypto/halving-and-catalysts.md) — catalysts as timing/context, not direct signal
+- [historical-analogs](crypto/historical-analogs.md) — 1987, 1998, 2017, and ETH analog templates
+- [intermarket-gate](crypto/intermarket-gate.md) — S&P/Nasdaq filter for crypto setup quality
+- [rotation-hierarchy](crypto/rotation-hierarchy.md) — Bitcoin → large/mid/small/micro cap rotation
+- [spread-charts](crypto/spread-charts.md) — ETHBTC/LINKBTC as relative-strength surfaces
+- [thematic-indexes](crypto/thematic-indexes.md) — FTX low/mid/micro/DeFi index reading
+- [three-stages-of-uptrend-in-crypto](crypto/three-stages-of-uptrend-in-crypto.md) — value buying → absorption → momentum
+
+Pending (Batch 5+ or later source-confirmed):
+- bitcoin-leader-vs-funding-source, low-liquidity-tolerance,
+  risk-off-refuge-hierarchy
 
 ## scenarios/
 
@@ -61,12 +117,57 @@ Expected pages:
 
 ## sources/
 
-*(empty — populates per-source during ingest)*
+Active source pages (41 active + 1 WIKI_GAP of ~70 expected):
 
-Subfolders:
-- `sources/book/` — one page per chapter (~27 pages)
-- `sources/crypto_archive/` — one page per volume (46 pages; ~12 marked WIKI_GAP)
-- `sources/bruce_fraser/` — thematic groupings (~30–50 pages, not 243 separate)
+`sources/book/` — one page per chapter (27 of 27):
+- [book-chapter-01](sources/book/book-chapter-01.md) — Waves
+- [book-chapter-02](sources/book/book-chapter-02.md) — The Price Cycle
+- [book-chapter-03](sources/book/book-chapter-03.md) — Trends
+- [book-chapter-04](sources/book/book-chapter-04.md) — Assessing Trends
+- [book-chapter-05](sources/book/book-chapter-05.md) — Trading Ranges
+- [book-chapter-06](sources/book/book-chapter-06.md) — Wyckoff Methodology Structures
+- [book-chapter-07](sources/book/book-chapter-07.md) — Supply and Demand
+- [book-chapter-08](sources/book/book-chapter-08.md) — Cause and Effect
+- [book-chapter-09](sources/book/book-chapter-09.md) — Effort and Result
+- [book-chapter-10](sources/book/book-chapter-10.md) — Accumulation
+- [book-chapter-11](sources/book/book-chapter-11.md) — Reaccumulation
+- [book-chapter-12](sources/book/book-chapter-12.md) — Distribution
+- [book-chapter-13](sources/book/book-chapter-13.md) — Redistribution
+- [book-chapter-14](sources/book/book-chapter-14.md) — Event #1: Preliminary Stop *(Batch 2)*
+- [book-chapter-15](sources/book/book-chapter-15.md) — Event #2: Climax *(Batch 2)*
+- [book-chapter-16](sources/book/book-chapter-16.md) — Event #3: Reaction *(Batch 2)*
+- [book-chapter-17](sources/book/book-chapter-17.md) — Event #4: Test *(Batch 2)*
+- [book-chapter-18](sources/book/book-chapter-18.md) — Event #5: Shaking *(Batch 2)*
+- [book-chapter-19](sources/book/book-chapter-19.md) — Event #6: Breakout *(Batch 2)*
+- [book-chapter-20](sources/book/book-chapter-20.md) — Event #7: Confirmation *(Batch 2)*
+- [book-chapter-21](sources/book/book-chapter-21.md) — Phase A: Stopping the Previous Trend *(Batch 2)*
+- [book-chapter-22](sources/book/book-chapter-22.md) — Phase B: Building the Cause *(Batch 2)*
+- [book-chapter-23](sources/book/book-chapter-23.md) — Phase C: Test *(Batch 2)*
+- [book-chapter-24](sources/book/book-chapter-24.md) — Phase D: Trend Within Range *(Batch 2)*
+- [book-chapter-25](sources/book/book-chapter-25.md) — Phase E: Trend Out of Range *(Batch 2)*
+- [book-chapter-26](sources/book/book-chapter-26.md) — Primary Positions *(Batch 3)*
+- [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
+
+Pending:
+- `sources/crypto_archive/` — 15 of 46 entries started (Vol 14–28; Vol 26 WIKI_GAP)
+- `sources/bruce_fraser/` — thematic groupings (~30–50 pages; Batches 6–9)
+
+`sources/crypto_archive/` — one page per volume:
+- [crypto-report-vol-14](sources/crypto_archive/crypto-report-vol-14.md) — post-crash Bitcoin repair; margin-call funding source
+- [crypto-report-vol-15](sources/crypto_archive/crypto-report-vol-15.md) — Bitcoin/S&P correlation; defensive altcoin mode
+- [crypto-report-vol-16](sources/crypto_archive/crypto-report-vol-16.md) — S&P gate; 1987 analog; MOVE-contract note
+- [crypto-report-vol-17](sources/crypto_archive/crypto-report-vol-17.md) — Bitcoin-to-altcoin rotation; spread charts
+- [crypto-report-vol-18](sources/crypto_archive/crypto-report-vol-18.md) — Bitcoin/S&P resistance test; ChainLink leader tactics
+- [crypto-report-vol-19](sources/crypto_archive/crypto-report-vol-19.md) — BTC/SPX relative-strength base; ChainLink intraday P&F
+- [crypto-report-vol-20](sources/crypto_archive/crypto-report-vol-20.md) — BTC/SPX breakout; ETHBTC sentiment surface
+- [crypto-report-vol-21](sources/crypto_archive/crypto-report-vol-21.md) — three uptrend stages; halving catalyst; 2017 analog
+- [crypto-report-vol-22](sources/crypto_archive/crypto-report-vol-22.md) — Bitcoin/Nasdaq gate; ETHBTC rotation; comparative analysis
+- [crypto-report-vol-23](sources/crypto_archive/crypto-report-vol-23.md) — Bitcoin feather; altcoin rotation; TRX nested accumulation
+- [crypto-report-vol-24](sources/crypto_archive/crypto-report-vol-24.md) — Bitcoin lag; low/mid-cap rotation; LINK/XTZ tactics
+- [crypto-report-vol-25](sources/crypto_archive/crypto-report-vol-25.md) — crypto sector analysis; micro-cap leadership
+- [crypto-report-vol-26](sources/crypto_archive/crypto-report-vol-26.md) — WIKI_GAP; raw capture lacks article body
+- [crypto-report-vol-27](sources/crypto_archive/crypto-report-vol-27.md) — flash update; spring plan; small-cap leadership
+- [crypto-report-vol-28](sources/crypto_archive/crypto-report-vol-28.md) — Nasdaq comparison; DeFi index; large-cap rotation
 
 ## questions/
 

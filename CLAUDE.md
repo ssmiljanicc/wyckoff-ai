@@ -61,14 +61,6 @@ Pre nego što se PR merge-uje u main, sledeća disciplina je obavezna:
 
 Kada se issue zatvara komentarom, srpski.
 
-### 0.4 Kild i model selection
-
-- **Kild + Codex YOLO:** za mehaničke skripte, MCP servere, scraping, ekstrakciju, ML feature engineering. Pattern već dokumentovan.
-- **Claude Opus sesija (interaktivna):** za #7 wiki ingest, #8 SKILL.md rebuild, sva work koja zahteva domain nuance i syntheses preko izvora.
-- **Claude Sonnet kild:** opciono za prelaz između (npr. validation skripti koje treba malu Wyckoff svesnost ali ne dubok rasudak)
-
-Vidi `model:opus` / `model:sonnet` labelu na svakom issue-u.
-
 ---
 
 ## 1. Three-Layer Architecture (Wyckoff instantiation)
@@ -102,10 +94,14 @@ knowledge/wiki/
   scenarios/        ← scenario templates, playbook entries, output contracts
   sources/          ← one page per source: book chapter, Fraser article, crypto archive volume
   questions/        ← filed query answers — the compounding layer (created during query operations)
-  health/           ← lint reports (created during lint operations)
+  health/           ← lint reports (machine-generated) + discrepancies.md (see below)
 ```
 
 **Do not create new top-level folders without updating this schema first.** If a concept doesn't fit, file it under the closest folder and flag the question in `log.md`.
+
+**`health/` holds two distinct artifact types:**
+- **Lint reports** — machine-generated during lint operations; may be regenerated/overwritten freely.
+- **`health/discrepancies.md`** — a **persistent, append-only, hand-authored** log of cross-author definition disagreements (per runbook §3.8). It is **exempt from lint regeneration** — the lint pass must never overwrite it. Each entry: date, term, the two sources, and the nature of the disagreement.
 
 ---
 
@@ -208,24 +204,16 @@ One per logical source unit:
 
 ---
 
-## 4. Ingest priority order
+## 4. Ingest workflow
 
-When ingesting raw sources into the wiki, follow this priority unless a specific batch is requested:
+Active batch ingest for [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) is operated through the skill `wyckoff-wiki-ingest`. The canonical protocol lives in the neutral runbook [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md); tanki Claude i Codex wrapper-i u [`.claude/skills/wyckoff-wiki-ingest/`](.claude/skills/wyckoff-wiki-ingest/SKILL.md) i [`.agents/skills/wyckoff-wiki-ingest/`](.agents/skills/wyckoff-wiki-ingest/SKILL.md) load-uju runbook. That skill contains:
 
-1. **Book** (`raw/book/`) — defines vocabulary and structure for everything else. Batch by chapter range:
-   - Chapters 1–13 (core framework)
-   - Chapters 14–25 (events, phases)
-   - Chapters 26–27 (trade execution, P&F)
-2. **Crypto Archive** (`raw/crypto_archive/`) — applies the framework to crypto. Batch by date range:
-   - Vol 14–28 (2020: post-crash repair, margin behavior)
-   - Vol 29–59 (2020–2021: DeFi, rotation, terminal Bitcoin)
-3. **Bruce Fraser** (`raw/bruce_fraser/`) — context, P&F, and relative strength. Batch by theme:
-   - Context and phase reading (~40 articles)
-   - Point & Figure (~30 articles)
-   - Relative strength and campaign logic (~40 articles)
-   - Remaining (~130 articles)
+- The batch priority order (book → crypto archive → Fraser) with concrete chapter/volume ranges
+- The cross-batch awareness protocol (read existing wiki before redefining)
+- Validation scripts (`validate_links.py`, `fix_inline_links.py`, `review_pr.py`)
+- Per-batch output contract and PR template
 
-Rationale: the book is the canonical taxonomy. Ingesting it first means crypto and Fraser pages can link back to existing concept pages instead of redefining terms.
+After #7 completes (Batch 9 merged), the skill is **trimmed, not deleted** — batch-specific parts (priority order, this batch lifecycle) are removed, but the durable discipline (cross-batch awareness, citation drill, synthesis marking, cross-author rule, semantic spot-check, scripts) is retained for ad-hoc wiki updates and future raw sources. See runbook §7 for the trim checklist. This file (CLAUDE.md) continues to govern wiki updates via §2, §3, §5–§9.
 
 ---
 
@@ -239,6 +227,7 @@ title: "Spring"
 type: event
 status: active
 updated: 2026-05-24
+primary_source: book        # optional; defaults to "book" when absent
 sources:
   - path: raw/book/pages/page_142.md
     note: "primary definition"
@@ -249,13 +238,20 @@ sources:
 ---
 ```
 
-**Within page body**, cite inline using markdown links for high-density claims:
+**`primary_source` key:** identifies which source first defines the page's
+term. Optional. **Allowed values match the raw folder names: `book`,
+`bruce_fraser`, `crypto_archive`.** When the key is **absent, the default is
+`book`** — so the hundreds of existing book-origin pages need no backfill. Set
+the key explicitly only when a term originates from a non-book author (per
+runbook §3.8 — e.g. a Fraser-specific event the book never names). A page's
+`## Cross-Author Readings` section (§8) describes how *other* authors use the
+same term without changing `primary_source`.
 
-```md
-A spring is a downside shake that probes below trading-range support
-([book p.142](../../raw/book/pages/page_142.md)) and is followed by a
-test that prints lower volume than the spring itself.
-```
+**Caveat:** absence of the key is lossy — it means *either* "book-origin" *or*
+"page predates the convention." Do **not** infer book-origin from absence in
+any check or lint; only act on an **explicit** `primary_source` value.
+
+**Within page body**, cite inline using markdown links for high-density claims. The link path must be **relative from the page's actual depth** — not a fixed string. Path depth varies by folder. For the exact prefix per folder and the automated validator, see [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) §2.
 
 **Synthesis claims** (cross-source generalizations not stated verbatim in any one source) must be marked:
 
@@ -297,7 +293,7 @@ paywalled (`status: paywalled` in manifest). Only the introductory
 sentence was scraped; the spring example referenced in the public excerpt
 cannot be verified.
 
-The book covers springs in general ([book ch.17](../../raw/book/sources/book-ch17.md))
+The book covers springs in general (`raw/book/pages/page_XXX.md` — the relevant chapter)
 but does not specifically address low-liquidity tails.
 ```
 
@@ -318,6 +314,13 @@ A well-formed event page (e.g. `events/spring.md`) should link:
 - **Provenance:** to the raw source pages cited
 
 A page with zero outbound links is suspicious — flag in lint.
+
+**`## Cross-Author Readings` section.** A definition page may carry an optional
+`## Cross-Author Readings` section when a *second* author (Fraser, crypto
+archive) uses the same term with a different emphasis than `primary_source`.
+This section describes the other author's framing (with an inline citation)
+**without rewriting the primary definition**. It is the sanctioned way to record
+author-specific nuance and is not a redefinition. Full rules: runbook §3.8.
 
 ---
 
@@ -348,10 +351,10 @@ If you find yourself writing something in one of these categories, file it in th
 
 | Want to... | Go to |
 |---|---|
-| Understand how ingest works | `~/.agent-runbooks/llm-wiki.md` |
-| Add a new source to the wiki | runbook §"Operation: Ingest" + this file §4 |
+| Understand how ingest works (generic) | `~/.agent-runbooks/llm-wiki.md` |
+| Run a #7 batch ingest or PR review | [`runbooks/wyckoff-wiki-ingest.md`](runbooks/wyckoff-wiki-ingest.md) |
 | Decide where a new page goes | this file §2 + §3 |
-| Cite a source correctly | this file §5 |
+| Cite a source correctly | this file §5 + runbook §2 (path depth) |
 | Mark a missing or paywalled source | this file §7 |
 | Verify the wiki is healthy | runbook §"Operation: Lint" + this file §3 (required pages list) |
 
