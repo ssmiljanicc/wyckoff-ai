@@ -181,7 +181,7 @@ Skill update:
 
 | # | Phase | Milestone | Description | Status |
 |---|-------|-----------|-------------|--------|
-| 1 | Virtual portfolio MCP | M5 | Open/close/list/persistent state | pending |
+| 1 | Virtual portfolio MCP | M5 | Open/close/list/persistent state | in-progress — `PRPs/plans/trading-portfolio-mcp.plan.md` |
 | 2 | Signal logger MCP | M5 | Append-only log + replay | pending |
 | 3 | Scanner MCP | M5 | Multi-symbol OHLCV + lightweight rule filter | pending (depends on Faza-2 OHLCV) |
 | 4 | Skill Signal mode | M5 | New mode + output contract | pending (depends on Faza-1 mode discriminator) |

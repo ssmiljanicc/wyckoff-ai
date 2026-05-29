@@ -142,6 +142,11 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# --- Runtime data ---
+data/portfolios/*.json
+data/portfolios/*.lock
+!data/portfolios/.gitkeep
+
 # --- Python / wyckoff-ai ---
 
 # Python
