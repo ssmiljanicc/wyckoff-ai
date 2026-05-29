@@ -229,6 +229,9 @@ class PortfolioStore:
         exit_price: float,
         reason: str = "",
     ) -> Position:
+        if exit_price <= 0:
+            raise ValueError(f"exit_price must be > 0, got {exit_price}")
+
         path = self._path(portfolio)
         with _locked(path):
             state = self._load(portfolio)
@@ -299,6 +302,9 @@ class PortfolioStore:
         portfolio: str,
         starting_cash: float = DEFAULT_STARTING_CASH,
     ) -> PortfolioState:
+        if starting_cash <= 0:
+            raise ValueError(f"starting_cash must be > 0, got {starting_cash}")
+
         path = self._path(portfolio)
         with _locked(path):
             fresh = self._seed(portfolio, starting_cash)

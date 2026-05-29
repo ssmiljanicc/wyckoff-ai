@@ -165,6 +165,23 @@ def test_list_positions_status_filter(tmp_path) -> None:
     assert closed_pos[0]["id"] == pos1["id"]
 
 
+def test_close_position_validates_exit_price(tmp_path) -> None:
+    store = PortfolioStore(base_dir=tmp_path)
+    pos = store.open_position("v", "BTC/USDT", "long", 1.0, entry_price=40000)
+    with pytest.raises(ValueError, match="exit_price"):
+        store.close_position("v", pos["id"], exit_price=0)
+    with pytest.raises(ValueError, match="exit_price"):
+        store.close_position("v", pos["id"], exit_price=-1)
+
+
+def test_reset_portfolio_validates_starting_cash(tmp_path) -> None:
+    store = PortfolioStore(base_dir=tmp_path)
+    with pytest.raises(ValueError, match="starting_cash"):
+        store.reset_portfolio("v", starting_cash=0)
+    with pytest.raises(ValueError, match="starting_cash"):
+        store.reset_portfolio("v", starting_cash=-5000)
+
+
 def test_open_position_validates_side_and_size(tmp_path) -> None:
     store = PortfolioStore(base_dir=tmp_path)
     with pytest.raises(ValueError, match="side"):
