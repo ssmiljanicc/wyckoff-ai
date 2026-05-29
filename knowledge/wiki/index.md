@@ -3,14 +3,14 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-05-27 (Batch 4 — crypto archive Vol 14–28)
-**Pages:** 88 tracked
+**Last updated:** 2026-05-29 (Batch 5 — crypto archive Vol 29–59)
+**Pages:** 126 tracked
 
 ---
 
 ## concepts/
 
-Active pages (21 of ~24 expected):
+Active pages (24 of 24 expected):
 
 Three fundamental laws:
 - [three-laws](concepts/three-laws.md) — umbrella for the three fundamental laws
@@ -41,13 +41,14 @@ Cycle and structure foundations:
 - [creek-and-ice](concepts/creek-and-ice.md) — structural barrier zones
 - [point-and-figure-counting](concepts/point-and-figure-counting.md) — horizontal cause count and target projection
 
-Pending (Batch 3):
-- three-stages-of-uptrend, stride-of-trend,
-  principle-in-the-principle (Fraser/archive sourced or later source-confirmed)
+**Archive-confirmed concepts (Batch 5):**
+- [principle-in-the-principle](concepts/principle-in-the-principle.md) — smaller Wyckoff structure embedded inside a larger one
+- [stride-of-trend](concepts/stride-of-trend.md) — trend pace/angle and late acceleration
+- [three-stages-of-uptrend](concepts/three-stages-of-uptrend.md) — initial momentum → absorption → speculation
 
 ## events/
 
-Active pages (20 — all expected from book):
+Active pages (21):
 
 Phase A — stop events (Batch 2):
 - [preliminary-support](events/preliminary-support.md) (PS / PSY)
@@ -75,8 +76,11 @@ Phase D/E — trend events (Batch 2):
 - [last-point-of-supply](events/last-point-of-supply.md) (LPSY — three types by location)
 - [failed-signal](events/failed-signal.md) — labeling discipline, failed-break diagnostics
 
-Pending (Batches 4–9):
-- Archive modifiers: feather, hinge, flat-reaction (Fraser archive)
+Archive modifiers:
+- [flat-reaction](events/flat-reaction.md) — low-volatility reaction in top half of local range
+
+Pending (Batches 6–9):
+- Archive modifiers: feather, hinge (Fraser/archive)
 
 ## structures/
 
@@ -90,21 +94,20 @@ Active pages (5 — all expected from book):
 
 ## crypto/
 
-Active pages (9 — Batch 4 crypto archive):
+Active pages (12 — Batch 4–5 crypto archive):
 
 - [bitcoin-as-source-of-funding](crypto/bitcoin-as-source-of-funding.md) — Bitcoin as liquidity source during margin/exogenous shocks
+- [bitcoin-leader-vs-funding-source](crypto/bitcoin-leader-vs-funding-source.md) — Bitcoin as defensive leader, campaign leader, or rotation funding source
 - [comparative-strength](crypto/comparative-strength.md) — BTC/SPX, leader-vs-BTC, and index selection discipline
 - [halving-and-catalysts](crypto/halving-and-catalysts.md) — catalysts as timing/context, not direct signal
 - [historical-analogs](crypto/historical-analogs.md) — 1987, 1998, 2017, and ETH analog templates
 - [intermarket-gate](crypto/intermarket-gate.md) — S&P/Nasdaq filter for crypto setup quality
+- [low-liquidity-tolerance](crypto/low-liquidity-tolerance.md) — major-exchange volume, weekend thinness, and swing-by-swing risk
+- [risk-off-refuge-hierarchy](crypto/risk-off-refuge-hierarchy.md) — Tether/Bitcoin defensive behavior before broad risk-on rotation
 - [rotation-hierarchy](crypto/rotation-hierarchy.md) — Bitcoin → large/mid/small/micro cap rotation
 - [spread-charts](crypto/spread-charts.md) — ETHBTC/LINKBTC as relative-strength surfaces
 - [thematic-indexes](crypto/thematic-indexes.md) — FTX low/mid/micro/DeFi index reading
 - [three-stages-of-uptrend-in-crypto](crypto/three-stages-of-uptrend-in-crypto.md) — value buying → absorption → momentum
-
-Pending (Batch 5+ or later source-confirmed):
-- bitcoin-leader-vs-funding-source, low-liquidity-tolerance,
-  risk-off-refuge-hierarchy
 
 ## scenarios/
 
@@ -117,7 +120,7 @@ Expected pages:
 
 ## sources/
 
-Active source pages (41 active + 1 WIKI_GAP of ~70 expected):
+Active source pages (65 active + 8 WIKI_GAP; Fraser pending):
 
 `sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
@@ -149,7 +152,6 @@ Active source pages (41 active + 1 WIKI_GAP of ~70 expected):
 - [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
 Pending:
-- `sources/crypto_archive/` — 15 of 46 entries started (Vol 14–28; Vol 26 WIKI_GAP)
 - `sources/bruce_fraser/` — thematic groupings (~30–50 pages; Batches 6–9)
 
 `sources/crypto_archive/` — one page per volume:
@@ -168,6 +170,37 @@ Pending:
 - [crypto-report-vol-26](sources/crypto_archive/crypto-report-vol-26.md) — WIKI_GAP; raw capture lacks article body
 - [crypto-report-vol-27](sources/crypto_archive/crypto-report-vol-27.md) — flash update; spring plan; small-cap leadership
 - [crypto-report-vol-28](sources/crypto_archive/crypto-report-vol-28.md) — Nasdaq comparison; DeFi index; large-cap rotation
+- [crypto-report-vol-29](sources/crypto_archive/crypto-report-vol-29.md) — market-cap stride; small-cap rotation; GBTC P&F count
+- [crypto-report-vol-30](sources/crypto_archive/crypto-report-vol-30.md) — absorption still in play; Tezos completion; selection exercise
+- [crypto-report-vol-31](sources/crypto_archive/crypto-report-vol-31.md) — Bitcoin spring scenario; low-cap major SOS
+- [crypto-report-vol-32](sources/crypto_archive/crypto-report-vol-32.md) — DeFi index leadership; YFI leverage analogy
+- [crypto-report-vol-33](sources/crypto_archive/crypto-report-vol-33.md) — Nasdaq/crypto downside synchronicity; USD-vs-BTC pair analysis
+- [crypto-report-vol-34](sources/crypto_archive/crypto-report-vol-34.md) — flat reaction; exchange-token relative strength
+- [crypto-report-vol-35](sources/crypto_archive/crypto-report-vol-35.md) — reactionary mode; bar context; crypto volume reliability
+- [crypto-report-vol-36](sources/crypto_archive/crypto-report-vol-36.md) — confirmed spring/test; risk-off refuge behavior
+- [crypto-report-vol-37](sources/crypto_archive/crypto-report-vol-37.md) — high-risk support; bullish/bearish scenario discipline
+- [crypto-report-vol-38](sources/crypto_archive/crypto-report-vol-38.md) — Bitcoin absorption; risk-off to risk-on transition
+- [crypto-report-vol-39](sources/crypto_archive/crypto-report-vol-39.md) — mini trading range; Phase B whipsaw; REN P&F
+- [crypto-report-vol-40](sources/crypto_archive/crypto-report-vol-40.md) — Bitcoin leadership; Chainlink three-stage analog
+- [crypto-report-vol-41](sources/crypto_archive/crypto-report-vol-41.md) — pre-election playbook; Bitcoin-to-altcoin switch scenarios
+- [crypto-report-vol-42](sources/crypto_archive/crypto-report-vol-42.md) — terminal Bitcoin move; short-term altcoin rotation
+- [crypto-report-vol-43](sources/crypto_archive/crypto-report-vol-43.md) — Bitcoin add scenarios; percentage-scaled P&F target
+- [crypto-report-vol-44](sources/crypto_archive/crypto-report-vol-44.md) — P&F target reached; accelerating stride; weekend thinness
+- [crypto-report-vol-45](sources/crypto_archive/crypto-report-vol-45.md) — Bitcoin change of behavior; tactical scenarios
+- [crypto-report-vol-46](sources/crypto_archive/crypto-report-vol-46.md) — DeFi/Bitcoin ratio; altseason confirmation
+- [crypto-report-vol-47](sources/crypto_archive/crypto-report-vol-47.md) — bullish consolidation; spring/shakeout alternative plan
+- [crypto-report-vol-48](sources/crypto_archive/crypto-report-vol-48.md) — David Weis tribute; Bitcoin P&F count discipline
+- [crypto-report-vol-49](sources/crypto_archive/crypto-report-vol-49.md) — Bitcoin target zone; dollar spring warning
+- [crypto-report-vol-50](sources/crypto_archive/crypto-report-vol-50.md) — Bitcoin consolidation; Chainlink rotation and backup count
+- [crypto-report-vol-51](sources/crypto_archive/crypto-report-vol-51.md) — BTC spring; low-cap comparative strength
+- [crypto-report-vol-52](sources/crypto_archive/crypto-report-vol-52.md) — WIKI_GAP; raw capture has image-only update
+- [crypto-report-vol-53](sources/crypto_archive/crypto-report-vol-53.md) — WIKI_GAP; raw capture has announcements only
+- [crypto-report-vol-54](sources/crypto_archive/crypto-report-vol-54.md) — WIKI_GAP; raw capture has image-only weekend update
+- [crypto-report-vol-55](sources/crypto_archive/crypto-report-vol-55.md) — WIKI_GAP; raw capture has image-only weekend update
+- [crypto-report-vol-56](sources/crypto_archive/crypto-report-vol-56.md) — WIKI_GAP; raw capture has image-only trading-range update
+- [crypto-report-vol-57](sources/crypto_archive/crypto-report-vol-57.md) — WIKI_GAP; raw capture has image-only two-way-market update
+- [crypto-report-vol-58](sources/crypto_archive/crypto-report-vol-58.md) — WIKI_GAP; raw capture has announcements only
+- [crypto-report-vol-59](sources/crypto_archive/crypto-report-vol-59.md) — Nasdaq retest gate; crypto spring candidates
 
 ## questions/
 
