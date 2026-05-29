@@ -2,7 +2,7 @@
 title: "Rotation Hierarchy"
 type: crypto
 status: active
-updated: 2026-05-27
+updated: 2026-05-29
 sources:
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-17.html
     note: "short-term Bitcoin-to-altcoin rotation; micro-cap exhaustion warning"
@@ -16,6 +16,12 @@ sources:
     note: "small-cap crypto leadership and mid-cap apex"
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-28.html
     note: "rotation from speculative assets to large-cap crypto"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-29.html
+    note: "Bitcoin/large-cap profit taking and low-cap recovery"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-36.html
+    note: "Bitcoin to mid-cap/low-cap flow required for sustainable rally"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-42.html
+    note: "terminal Bitcoin stage and short-term altcoin switch"
 ---
 
 # Rotation Hierarchy
@@ -50,6 +56,16 @@ such as DeFi. The hierarchy is used for selection, not for redefining
   crypto when DeFi took profit near an overbought line and Bitcoin showed
   strength
   ([vol 28](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-28.html)).
+- Vol 29 reads Bitcoin and large-cap profit taking as a possible rotation into
+  small caps, confirmed by the quick recovery in the low-cap index
+  ([vol 29](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-29.html)).
+- Vol 36 says a more sustainable rally would need capital flowing from Bitcoin
+  into mid caps and low caps
+  ([vol 36](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-36.html)).
+- Vol 42 warns that a short-term altcoin switch can appear when Bitcoin is in
+  the speculative stage, but that this is not yet proof of a durable altcoin
+  cycle
+  ([vol 42](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-42.html)).
 
 ## Why It Matters For Crypto Reading
 
@@ -63,10 +79,12 @@ such as DeFi. The hierarchy is used for selection, not for redefining
 ## Links
 
 - Related archive pages: [[crypto/thematic-indexes]],
-  [[crypto/spread-charts]], [[crypto/comparative-strength]]
+  [[crypto/spread-charts]], [[crypto/comparative-strength]],
+  [[crypto/bitcoin-leader-vs-funding-source]]
 - Book vocabulary used here: [[cause-and-effect]], [[reaccumulation]],
   [[distribution]], [[phase-d]]
 - Sources: [[crypto-report-vol-17]], [[crypto-report-vol-23]],
   [[crypto-report-vol-24]], [[crypto-report-vol-25]],
-  [[crypto-report-vol-27]], [[crypto-report-vol-28]]
-
+  [[crypto-report-vol-27]], [[crypto-report-vol-28]],
+  [[crypto-report-vol-29]], [[crypto-report-vol-36]],
+  [[crypto-report-vol-42]]

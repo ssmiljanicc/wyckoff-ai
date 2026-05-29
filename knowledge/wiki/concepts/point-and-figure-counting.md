@@ -2,7 +2,7 @@
 title: "Point and Figure Counting"
 type: concept
 status: active
-updated: 2026-05-26
+updated: 2026-05-29
 sources:
   - path: raw/book/pages/page_057.md
     note: "point-and-figure charts as volatility-based cause measurement; right-to-left count boundaries"
@@ -12,6 +12,10 @@ sources:
     note: "modern-market subjectivity warning and alternative projection tools"
   - path: raw/book/pages/page_221.md
     note: "chapter 27 take-profit context — original Wyckoff target method"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-29.html
+    note: "GBTC 3% scaling P&F swing and confirmation counts"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-48.html
+    note: "Bitcoin 2018-2020 campaign count and recent swing-count discipline"
 ---
 
 # Point and Figure Counting
@@ -97,6 +101,19 @@ point-and-figure charts for targets, but the author considers other tools
 more useful in today's market structure
 ([book p.221](../../../raw/book/pages/page_221.md)).
 
+## Cross-Author Readings
+
+### As Used By Wyckoff Analytics Crypto Archive (crypto_archive)
+
+Vol 29 applies a 3% scaling point-and-figure chart to GBTC and warns that
+laggard assets should be counted conservatively by focusing on recent price
+action
+([vol 29](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-29.html)).
+Vol 48 applies Bitcoin counts across the 2018-2020 multi-year structure, but
+still emphasizes recent campaign segments and intraday swing counts before
+acting on very large long-term objectives
+([vol 48](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-48.html)).
+
 ## Why It Matters For Wyckoff Reading
 
 - It is the quantitative bridge from a [[trading-range]] to a target: the
@@ -118,4 +135,5 @@ more useful in today's market structure
   [[events/buying-climax]]
 - Related target/exit context: [[significant-bar]],
   [[reversal-of-movement]]
-- Sources: [[book-chapter-08]], [[book-chapter-27]]
+- Sources: [[book-chapter-08]], [[book-chapter-27]],
+  [[crypto-report-vol-29]], [[crypto-report-vol-48]]

@@ -2,7 +2,7 @@
 title: "Thematic Indexes"
 type: crypto
 status: active
-updated: 2026-05-27
+updated: 2026-05-29
 sources:
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-24.html
     note: "low-cap and mid-cap FTX index rotation"
@@ -12,6 +12,10 @@ sources:
     note: "small-cap and mid-cap crypto index leadership"
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-28.html
     note: "DEFIPERP DeFi index and rotation into large caps"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-32.html
+    note: "DEFIPERP as leading index and DeFi asset selection"
+  - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-46.html
+    note: "DeFi/Bitcoin ratio range and altseason confirmation"
 ---
 
 # Thematic Indexes
@@ -41,6 +45,12 @@ and DeFi index behavior to judge rotation and selection.
 - Vol 28 reads DeFi profit taking near the overbought channel while Bitcoin
   shows strength, implying rotation from speculative assets to large-cap crypto
   ([vol 28](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-28.html)).
+- Vol 32 calls DEFIPERP the leading index after it cleared resistance with a
+  major sign of strength, then uses DeFi assets for selection
+  ([vol 32](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-32.html)).
+- Vol 46 applies the same ratio logic to DeFi/Bitcoin and requires a supply-line
+  break plus retest before confirming altseason
+  ([vol 46](../../../raw/crypto_archive/html/wyckoff-crypto-report-vol-46.html)).
 
 ## Why It Matters For Crypto Reading
 
@@ -56,5 +66,5 @@ and DeFi index behavior to judge rotation and selection.
 - Book vocabulary used here: [[effort-and-result]], [[reaccumulation]],
   [[path-of-least-resistance]]
 - Sources: [[crypto-report-vol-24]], [[crypto-report-vol-25]],
-  [[crypto-report-vol-27]], [[crypto-report-vol-28]]
-
+  [[crypto-report-vol-27]], [[crypto-report-vol-28]],
+  [[crypto-report-vol-32]], [[crypto-report-vol-46]]
