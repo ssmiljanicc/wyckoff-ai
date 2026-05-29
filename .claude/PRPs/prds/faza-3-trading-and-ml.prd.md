@@ -182,7 +182,7 @@ Skill update:
 | # | Phase | Milestone | Description | Status |
 |---|-------|-----------|-------------|--------|
 | 1 | Virtual portfolio MCP | M5 | Open/close/list/persistent state | pending |
-| 2 | Signal logger MCP | M5 | Append-only log + replay | in-progress — [plan](../../../PRPs/plans/signal-logger-mcp.plan.md) |
+| 2 | Signal logger MCP | M5 | Append-only log + replay | complete — [plan](../../../PRPs/plans/completed/signal-logger-mcp.plan.md), [PR #48](https://github.com/ssmiljanicc/wyckoff-ai/pull/48) |
 | 3 | Scanner MCP | M5 | Multi-symbol OHLCV + lightweight rule filter | pending (depends on Faza-2 OHLCV) |
 | 4 | Skill Signal mode | M5 | New mode + output contract | pending (depends on Faza-1 mode discriminator) |
 | 5 | Backtest runner MCP | M5 | Rule-based, deterministic backtest with stats | pending (depends on signal logger) |

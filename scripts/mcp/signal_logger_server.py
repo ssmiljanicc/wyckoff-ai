@@ -161,9 +161,9 @@ class SignalStore:
                         continue
                     try:
                         record: Signal = json.loads(line)
-                    except json.JSONDecodeError:
+                        logged_at = _to_aware_utc(_parse_iso(record["logged_at"]))
+                    except (json.JSONDecodeError, KeyError, ValueError):
                         continue
-                    logged_at = _to_aware_utc(_parse_iso(record["logged_at"]))
                     if symbol is not None and record["symbol"] != symbol:
                         continue
                     if signal_type is not None and record["signal_type"] != signal_type:
