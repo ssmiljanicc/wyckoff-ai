@@ -181,7 +181,7 @@ Skill update:
 
 | # | Phase | Milestone | Description | Status |
 |---|-------|-----------|-------------|--------|
-| 1 | Virtual portfolio MCP | M5 | Open/close/list/persistent state | pending |
+| 1 | Virtual portfolio MCP | M5 | Open/close/list/persistent state | complete — [plan](../../../PRPs/plans/completed/trading-portfolio-mcp.plan.md), [PR #49](https://github.com/ssmiljanicc/wyckoff-ai/pull/49) |
 | 2 | Signal logger MCP | M5 | Append-only log + replay | complete — [plan](../../../PRPs/plans/completed/signal-logger-mcp.plan.md), [PR #48](https://github.com/ssmiljanicc/wyckoff-ai/pull/48) |
 | 3 | Scanner MCP | M5 | Multi-symbol OHLCV + lightweight rule filter | pending (depends on Faza-2 OHLCV) |
 | 4 | Skill Signal mode | M5 | New mode + output contract | pending (depends on Faza-1 mode discriminator) |
