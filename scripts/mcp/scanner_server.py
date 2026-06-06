@@ -62,6 +62,7 @@ RS_TOP_DECILE = 0.90       # 90th percentile
 BTC_REFERENCE_SYMBOL = "BTC"
 DEFAULT_MAX_RESULTS = 10
 FETCH_BUFFER_BARS = 10
+MAX_CONCURRENT_FETCHES = 8  # cap on simultaneous OHLCV pulls (rate-limit safety)
 
 UNIVERSES: dict[str, list[str]] = {
     "top20_alts": [
@@ -401,8 +402,16 @@ async def _fetch_one(
 async def _fetch_many(
     symbols: list[str], timeframe: str, limit: int
 ) -> dict[str, tuple[list[dict] | None, Exception | None]]:
-    tasks = [_fetch_one(sym, timeframe, limit) for sym in symbols]
-    gathered = await asyncio.gather(*tasks)
+    # The shared BinanceMarketDataClient is synchronous and its rate limiter
+    # assumes sequential calls; cap concurrency so a wide scan does not fire a
+    # burst of simultaneous requests (risking HTTP 429) or thrash the LRU cache.
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT_FETCHES)
+
+    async def _guarded(sym: str) -> tuple[str, list[dict] | None, Exception | None]:
+        async with semaphore:
+            return await _fetch_one(sym, timeframe, limit)
+
+    gathered = await asyncio.gather(*(_guarded(sym) for sym in symbols))
     return {sym: (candles, err) for sym, candles, err in gathered}
 
 
@@ -493,23 +502,33 @@ def _scan_relative_strength(
     return results
 
 
-def scan(
+async def _scan_ranked(
     symbols: list[str],
     timeframe: str,
     rule: str,
     max_results: int = DEFAULT_MAX_RESULTS,
 ) -> list[ScanResult]:
-    """Scan ``symbols`` against ``rule`` and return ranked matches (sync entry point)."""
+    """Scan ``symbols`` against ``rule`` and return ranked matches (async core)."""
     if not symbols:
         raise ValueError("symbols must be a non-empty list")
     if max_results < 1:
         raise ValueError("max_results must be >= 1")
     _validate_rule(rule)
 
-    all_results = asyncio.run(_scan_async(symbols, timeframe, rule))
+    all_results = await _scan_async(symbols, timeframe, rule)
     matches = [r for r in all_results if r["match"]]
     matches.sort(key=lambda r: r["score"], reverse=True)
     return matches[:max_results]
+
+
+def scan(
+    symbols: list[str],
+    timeframe: str,
+    rule: str,
+    max_results: int = DEFAULT_MAX_RESULTS,
+) -> list[ScanResult]:
+    """Synchronous entry point for ``_scan_ranked`` (CLI/tests outside an event loop)."""
+    return asyncio.run(_scan_ranked(symbols, timeframe, rule, max_results))
 
 
 # ---------------------------------------------------------------------------
@@ -517,7 +536,7 @@ def scan(
 # ---------------------------------------------------------------------------
 
 @mcp.tool()
-def scan_universe(
+async def scan_universe(
     symbols: list[str],
     timeframe: str,
     rule: str,
@@ -527,8 +546,12 @@ def scan_universe(
 
     Returns up to ``max_results`` symbols that match ``rule``, sorted by score
     (strongest first), each with a human-readable ``reason``.
+
+    Async so FastMCP awaits it on its own event loop — the concurrent OHLCV
+    pulls run via ``asyncio.gather`` inside that loop (never a nested
+    ``asyncio.run``, which would raise inside a running loop).
     """
-    return scan(symbols, timeframe, rule, max_results)
+    return await _scan_ranked(symbols, timeframe, rule, max_results)
 
 
 @mcp.tool()
@@ -544,31 +567,45 @@ def get_universe(name: str) -> list[str]:
 
 
 @mcp.tool()
-def evaluate_rule(symbol: str, timeframe: str, rule: str) -> RuleResult:
+async def evaluate_rule(symbol: str, timeframe: str, rule: str) -> RuleResult:
     """Evaluate a single symbol against one rule, returning {match, reason, score}.
 
     For ``relative_strength_top_decile`` the symbol is ranked against the
     ``top20_alts`` reference universe.
+
+    Async so FastMCP awaits it on its own event loop (see ``scan_universe``).
     """
+    return await _evaluate_async(symbol, timeframe, rule)
+
+
+async def _evaluate_async(symbol: str, timeframe: str, rule: str) -> RuleResult:
+    """Evaluate a single symbol against ``rule`` (async core)."""
     _validate_rule(rule)
     normalized_tf = normalize_timeframe(timeframe)
 
     if rule == RELATIVE_STRENGTH_RULE:
-        return _evaluate_rule_relative_strength(symbol, normalized_tf)
+        return await _evaluate_relative_strength_for_symbol(symbol, normalized_tf)
 
     fetch_limit = _fetch_limit(rule, normalized_tf)
-    candles = market_data_client.get_ohlcv(symbol, normalized_tf, fetch_limit)
+    candles = await asyncio.to_thread(
+        market_data_client.get_ohlcv, symbol, normalized_tf, fetch_limit
+    )
     return _SINGLE_SYMBOL_RULES[rule](candles, normalized_tf)
 
 
-def _evaluate_rule_relative_strength(symbol: str, timeframe: str) -> RuleResult:
+def evaluate(symbol: str, timeframe: str, rule: str) -> RuleResult:
+    """Synchronous entry point for ``_evaluate_async`` (CLI/tests outside an event loop)."""
+    return asyncio.run(_evaluate_async(symbol, timeframe, rule))
+
+
+async def _evaluate_relative_strength_for_symbol(symbol: str, timeframe: str) -> RuleResult:
     reference = UNIVERSES["top20_alts"]
     normalized_target = normalize_symbol(symbol)
     universe = list(reference)
     if not any(normalize_symbol(s) == normalized_target for s in universe):
         universe.append(symbol)
 
-    results = asyncio.run(_scan_async(universe, timeframe, RELATIVE_STRENGTH_RULE))
+    results = await _scan_async(universe, timeframe, RELATIVE_STRENGTH_RULE)
     for result in results:
         if normalize_symbol(result["symbol"]) == normalized_target:
             return {"match": result["match"], "reason": result["reason"], "score": result["score"]}

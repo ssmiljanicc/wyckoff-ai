@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import asyncio
+
 import pytest
 
 from scripts.mcp import scanner_server
@@ -237,7 +239,7 @@ def test_scan_universe_returns_sorted_filtered(monkeypatch: pytest.MonkeyPatch) 
     fake = FakeClient(data)
     monkeypatch.setattr(scanner_server, "market_data_client", fake)
 
-    results = scanner_server.scan_universe(
+    results = scanner_server.scan(
         ["STRONG", "MID", "WEAK"], "1d", "range_after_drop", max_results=5
     )
 
@@ -257,21 +259,58 @@ def test_scan_universe_respects_max_results(monkeypatch: pytest.MonkeyPatch) -> 
     fake = FakeClient(data)
     monkeypatch.setattr(scanner_server, "market_data_client", fake)
 
-    results = scanner_server.scan_universe(
+    results = scanner_server.scan(
         ["A", "B", "C", "D"], "1d", "range_after_drop", max_results=2
     )
 
     assert len(results) == 2
 
 
-def test_scan_universe_rejects_unknown_rule() -> None:
+def test_scan_rejects_unknown_rule() -> None:
     with pytest.raises(scanner_server.UnknownRuleError):
-        scanner_server.scan_universe(["BTC"], "1d", "no_such_rule")
+        scanner_server.scan(["BTC"], "1d", "no_such_rule")
 
 
-def test_scan_universe_rejects_empty_symbols() -> None:
+def test_scan_rejects_empty_symbols() -> None:
     with pytest.raises(ValueError, match="non-empty"):
-        scanner_server.scan_universe([], "1d", "volume_declining")
+        scanner_server.scan([], "1d", "volume_declining")
+
+
+def test_scan_universe_tool_runs_inside_event_loop(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Regression for the asyncio.run-inside-a-running-loop bug: FastMCP awaits
+    # tool coroutines on its own event loop, so the tool must be awaitable and
+    # must not call asyncio.run() internally.
+    def drop_candles(trough: float) -> list[dict]:
+        highs = [100.0] * 30 + [95.0] * 26
+        lows = [99.0] * 30 + [trough] * 26
+        closes = [(h + l) / 2 for h, l in zip(highs, lows)]
+        return make_candles(closes, highs=highs, lows=lows)
+
+    fake = FakeClient({"STRONG": drop_candles(60.0), "WEAK": drop_candles(95.0)})
+    monkeypatch.setattr(scanner_server, "market_data_client", fake)
+
+    async def call() -> list[dict]:
+        return await scanner_server.scan_universe(
+            ["STRONG", "WEAK"], "1d", "range_after_drop", max_results=5
+        )
+
+    results = asyncio.run(call())
+
+    assert [r["symbol"] for r in results] == ["STRONG"]
+
+
+def test_evaluate_rule_tool_runs_inside_event_loop(monkeypatch: pytest.MonkeyPatch) -> None:
+    closes = [100.0] * 20
+    volumes = [float(2_000 - 90 * i) for i in range(20)]
+    fake = FakeClient({"ETH": make_candles(closes, volumes=volumes)})
+    monkeypatch.setattr(scanner_server, "market_data_client", fake)
+
+    async def call() -> dict:
+        return await scanner_server.evaluate_rule("ETH", "1d", "volume_declining")
+
+    result = asyncio.run(call())
+
+    assert result["match"] is True
 
 
 # ---------------------------------------------------------------------------
@@ -306,7 +345,7 @@ def test_evaluate_rule_single_symbol(monkeypatch: pytest.MonkeyPatch) -> None:
     fake = FakeClient({"ETH": make_candles(closes, volumes=volumes)})
     monkeypatch.setattr(scanner_server, "market_data_client", fake)
 
-    result = scanner_server.evaluate_rule("ETH", "1d", "volume_declining")
+    result = scanner_server.evaluate("ETH", "1d", "volume_declining")
 
     assert result["match"] is True
     assert "declining" in result["reason"]
