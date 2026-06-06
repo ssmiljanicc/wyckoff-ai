@@ -1,10 +1,11 @@
 """Tests for the backtest runner MCP server.
 
-Covers the three invariants from issue #24: determinism (identical input →
-identical stats), walk-forward execution (no future leakage), and the two
-entry paths (logged signals + declarative rule). Dependencies (market data
-client + signal store) are duck-typed fakes so the suite is offline and
-deterministic.
+Covers the issue #24 invariants — determinism (identical input → identical
+stats), walk-forward execution (no future leakage) — plus the three
+refinements: signal trades exit on their own stop/target, stats carry a
+per-tactical-quality / per-phase breakdown, and Sharpe is computed over
+daily returns. Dependencies (market data client + signal store) are
+duck-typed fakes so the suite is offline and deterministic.
 """
 
 from __future__ import annotations
@@ -42,7 +43,7 @@ def _candle(iso, o, h, l, c, v=1000.0):
     }
 
 
-# A steadily rising daily series: any long trade is a winner.
+# A steadily rising daily series: a long generally reaches its target.
 _RISING = [
     _candle("2024-01-01T00:00:00Z", 100.0, 105.0, 99.0, 100.0),
     _candle("2024-01-02T00:00:00Z", 200.0, 206.0, 101.0, 101.0),  # signal day
@@ -51,6 +52,15 @@ _RISING = [
     _candle("2024-01-05T00:00:00Z", 126.0, 140.0, 125.0, 135.0),
     _candle("2024-01-06T00:00:00Z", 136.0, 150.0, 135.0, 145.0),
     _candle("2024-01-07T00:00:00Z", 146.0, 160.0, 145.0, 155.0),
+]
+
+# A steadily falling daily series.
+_FALLING = [
+    _candle("2024-01-01T00:00:00Z", 100.0, 101.0, 90.0, 95.0),
+    _candle("2024-01-02T00:00:00Z", 95.0, 96.0, 80.0, 90.0),  # signal day
+    _candle("2024-01-03T00:00:00Z", 90.0, 91.0, 70.0, 75.0),  # entry day
+    _candle("2024-01-04T00:00:00Z", 75.0, 76.0, 60.0, 65.0),
+    _candle("2024-01-05T00:00:00Z", 65.0, 66.0, 50.0, 55.0),
 ]
 
 
@@ -84,13 +94,28 @@ class _FakeSignalStore:
         return out
 
 
-def _signal(signal_id, symbol, signal_type, logged_at, timeframe="1d"):
+def _signal(
+    signal_id,
+    symbol,
+    signal_type,
+    logged_at,
+    *,
+    invalidation=None,
+    target_zone=None,
+    tactical_quality=None,
+    phase=None,
+    timeframe="1d",
+):
     return {
         "signal_id": signal_id,
         "symbol": symbol,
         "signal_type": signal_type,
         "logged_at": logged_at,
         "timeframe": timeframe,
+        "invalidation": invalidation,
+        "target_zone": target_zone or [],
+        "tactical_quality": tactical_quality,
+        "phase_identified": phase,
     }
 
 
@@ -107,13 +132,18 @@ def reset_state():
 
 
 # --------------------------------------------------------------------------
-# backtest_signals with a mocked signal store.
+# backtest_signals: stop/target exit from the logged signal.
 # --------------------------------------------------------------------------
 
 
-def test_backtest_signals_with_mocked_store(reset_state):
+def test_backtest_signals_hits_target(reset_state):
     backtest_server._signal_store = _FakeSignalStore(
-        [_signal("s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z")]
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+            )
+        ]
     )
     backtest_server._market_client = _FakeMarketClient(_RISING)
 
@@ -122,38 +152,86 @@ def test_backtest_signals_with_mocked_store(reset_state):
         start_date="2024-01-01T00:00:00Z",
         end_date="2024-01-31T00:00:00Z",
         fill_rule="next_bar_open",
-        holding_bars=2,
     )
 
-    assert "backtest_id" in result
     summary = result["summary"]
     assert summary["total_trades"] == 1
-    # long_spring → long; rising series → a winning trade.
     assert summary["win_rate"] == 1.0
     assert summary["gross_pnl"] > 0
+
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # Enter at next-bar open (110), exit at the target (130) once touched.
+    assert trade["entry_price"] == 110.0
+    assert trade["exit_price"] == 130.0
+    assert trade["outcome"] == "hit_tp"
 
     stats = backtest_server.get_stats(result["backtest_id"])
     assert stats == summary
 
 
-def test_backtest_signals_short(reset_state):
-    falling = [
-        _candle("2024-01-01T00:00:00Z", 100.0, 101.0, 90.0, 95.0),
-        _candle("2024-01-02T00:00:00Z", 95.0, 96.0, 80.0, 90.0),  # signal day
-        _candle("2024-01-03T00:00:00Z", 90.0, 91.0, 70.0, 75.0),  # entry day
-        _candle("2024-01-04T00:00:00Z", 75.0, 76.0, 60.0, 65.0),
-        _candle("2024-01-05T00:00:00Z", 65.0, 66.0, 50.0, 55.0),
-    ]
+def test_backtest_signals_hits_stop(reset_state):
+    # Long signal on a falling series → stop is hit, a losing trade.
     backtest_server._signal_store = _FakeSignalStore(
-        [_signal("s1", "ETHUSDT", "short_utad", "2024-01-02T12:00:00Z")]
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=85.0, target_zone=[200.0],
+            )
+        ]
     )
-    backtest_server._market_client = _FakeMarketClient(falling)
+    backtest_server._market_client = _FakeMarketClient(_FALLING)
 
-    result = backtest_server.backtest_signals(holding_bars=2)
+    result = backtest_server.backtest_signals()
     summary = result["summary"]
-    assert summary["total_trades"] == 1
-    assert summary["win_rate"] == 1.0
-    assert summary["gross_pnl"] > 0
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+
+    # Enter at 90 (entry-day open), stopped out at 85.
+    assert trade["entry_price"] == 90.0
+    assert trade["exit_price"] == 85.0
+    assert trade["outcome"] == "hit_sl"
+    assert summary["win_rate"] == 0.0
+    assert summary["gross_pnl"] < 0
+
+
+def test_backtest_signals_short_hits_target(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "ETHUSDT", "short_utad", "2024-01-02T12:00:00Z",
+                invalidation=96.0, target_zone=[70.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_FALLING)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # Short enters at 90, target 70 reached.
+    assert trade["entry_price"] == 90.0
+    assert trade["exit_price"] == 70.0
+    assert trade["outcome"] == "hit_tp"
+    assert result["summary"]["win_rate"] == 1.0
+
+
+def test_max_holding_bars_timeout(reset_state):
+    # Target never reached within the timeout → exit at the close of the
+    # candle `max_holding_bars` after entry.
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=50.0, target_zone=[9999.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals(max_holding_bars=1)
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # Entry day = 2024-01-03 (open 110); one bar later = 2024-01-04 close 125.
+    assert trade["entry_price"] == 110.0
+    assert trade["exit_price"] == 125.0
+    assert trade["outcome"] == "timeout"
 
 
 # --------------------------------------------------------------------------
@@ -169,16 +247,20 @@ def test_walk_forward_entry_is_after_signal(reset_state):
     candle's open (110).
     """
     backtest_server._signal_store = _FakeSignalStore(
-        [_signal("s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z")]
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+            )
+        ]
     )
     backtest_server._market_client = _FakeMarketClient(_RISING)
 
-    result = backtest_server.backtest_signals(holding_bars=1)
+    result = backtest_server.backtest_signals()
     trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
 
     assert trade["entry_price"] == 110.0
     assert trade["entry_time"] == _ms("2024-01-03T00:00:00Z")
-    # Exit is strictly after entry.
     assert trade["exit_time"] > trade["entry_time"]
 
 
@@ -194,7 +276,45 @@ def test_no_trade_when_signal_after_last_candle(reset_state):
 
 
 # --------------------------------------------------------------------------
-# backtest_rule with synthetic OHLCV.
+# Per-tactical-quality / per-phase breakdown.
+# --------------------------------------------------------------------------
+
+
+def test_breakdown_by_quality_and_phase(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+                tactical_quality="phase_c_aggressive", phase="C",
+            ),
+            _signal(
+                "s2", "BTCUSDT", "long_sos", "2024-01-03T12:00:00Z",
+                invalidation=110.0, target_zone=[150.0],
+                tactical_quality="phase_d_confirmation", phase="D",
+            ),
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    summary = backtest_server.backtest_signals()["summary"]
+
+    assert summary["total_trades"] == 2
+
+    by_q = summary["by_tactical_quality"]
+    assert set(by_q) == {"phase_c_aggressive", "phase_d_confirmation"}
+    assert by_q["phase_c_aggressive"]["total_trades"] == 1
+    assert by_q["phase_d_confirmation"]["total_trades"] == 1
+    assert sum(g["total_trades"] for g in by_q.values()) == summary["total_trades"]
+
+    by_phase = summary["by_phase"]
+    assert set(by_phase) == {"C", "D"}
+    assert by_phase["C"]["total_trades"] == 1
+    assert by_phase["D"]["total_trades"] == 1
+
+
+# --------------------------------------------------------------------------
+# backtest_rule with synthetic OHLCV (fixed-holding exit).
 # --------------------------------------------------------------------------
 
 _BREAKOUT = [
@@ -232,6 +352,9 @@ def test_backtest_rule_breakout(reset_state):
     assert trade["entry_price"] == 210.0
     assert trade["exit_price"] == 250.0
     assert result["summary"]["win_rate"] == 1.0
+    # Rule trades carry no Wyckoff metadata → empty breakdowns.
+    assert result["summary"]["by_tactical_quality"] == {}
+    assert result["summary"]["by_phase"] == {}
 
 
 def test_backtest_rule_slippage_raises_entry(reset_state):
@@ -265,6 +388,50 @@ def test_invalid_fill_rule_raises(reset_state):
         backtest_server.backtest_signals(fill_rule="market_order")
 
 
+def test_max_holding_bars_validation_raises(reset_state):
+    backtest_server._signal_store = _FakeSignalStore([])
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+    with pytest.raises(ValueError):
+        backtest_server.backtest_signals(max_holding_bars=0)
+
+
+# --------------------------------------------------------------------------
+# Sharpe over daily returns.
+# --------------------------------------------------------------------------
+
+
+def test_sharpe_daily_buckets_by_exit_day():
+    # Two trades that exit on the same UTC day collapse into one daily
+    # return (their sum), so the series here is identical to two distinct
+    # daily returns of 0.10 and (-0.05 + 0.15).
+    combined = backtest_server._sharpe_daily(
+        [
+            {"exit_time": _ms("2024-01-01T00:00:00Z"), "pnl_pct": 0.10},
+            {"exit_time": _ms("2024-01-02T00:00:00Z"), "pnl_pct": -0.05},
+            {"exit_time": _ms("2024-01-02T06:00:00Z"), "pnl_pct": 0.15},
+        ]
+    )
+    expected = backtest_server._sharpe_daily(
+        [
+            {"exit_time": _ms("2024-01-01T00:00:00Z"), "pnl_pct": 0.10},
+            {"exit_time": _ms("2024-01-02T00:00:00Z"), "pnl_pct": -0.05 + 0.15},
+        ]
+    )
+    assert combined == pytest.approx(expected)
+
+
+def test_sharpe_daily_two_distinct_days():
+    trades = [
+        {"exit_time": _ms("2024-01-01T00:00:00Z"), "pnl_pct": 0.10},
+        {"exit_time": _ms("2024-01-02T00:00:00Z"), "pnl_pct": 0.20},
+    ]
+    mean = 0.15
+    std = (((0.10 - mean) ** 2 + (0.20 - mean) ** 2) / 1) ** 0.5
+    assert backtest_server._sharpe_daily(trades) == pytest.approx(mean / std)
+    # A single active day has no dispersion → Sharpe 0.
+    assert backtest_server._sharpe_daily(trades[:1]) == 0.0
+
+
 # --------------------------------------------------------------------------
 # Determinism: identical input → identical stats across runs.
 # --------------------------------------------------------------------------
@@ -272,15 +439,23 @@ def test_invalid_fill_rule_raises(reset_state):
 
 def test_determinism_signals(reset_state):
     signals = [
-        _signal("s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z"),
-        _signal("s2", "BTCUSDT", "long_sos", "2024-01-03T12:00:00Z"),
+        _signal(
+            "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+            invalidation=105.0, target_zone=[130.0],
+            tactical_quality="phase_c_aggressive", phase="C",
+        ),
+        _signal(
+            "s2", "BTCUSDT", "long_sos", "2024-01-03T12:00:00Z",
+            invalidation=110.0, target_zone=[150.0],
+            tactical_quality="phase_d_confirmation", phase="D",
+        ),
     ]
 
     runs = []
     for _ in range(3):
         backtest_server._signal_store = _FakeSignalStore(signals)
         backtest_server._market_client = _FakeMarketClient(_RISING)
-        result = backtest_server.backtest_signals(holding_bars=2)
+        result = backtest_server.backtest_signals()
         runs.append(backtest_server.get_stats(result["backtest_id"]))
 
     assert runs[0] == runs[1] == runs[2]

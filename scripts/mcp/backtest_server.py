@@ -10,8 +10,12 @@ Design invariants:
     - Walk-forward, no future leakage. A trade's entry always fills on a
       candle that opens strictly *after* the decision candle (the signal's
       timestamp, or the candle whose close triggered a rule). An entry
-      decision never reads a price from the candle it fills on or any later
-      candle.
+      decision never reads a price from a candle before the entry candle.
+    - Faithful to the logged signal. A ``backtest_signals`` trade exits on
+      the signal's own ``invalidation`` (stop) or ``target_zone`` (target),
+      walking the candles forward bar by bar with the same conservative
+      stop-before-target tie-break the Signal Logger's ``replay_signal``
+      uses. ``max_holding_bars`` is an optional timeout, not the exit model.
     - Reproducible. There is no randomness in the P&L path: identical input
       yields identical statistics across any number of runs. (The
       ``backtest_id`` itself is a random uuid4 — it labels the run, it is
@@ -44,7 +48,7 @@ FILL_FIXED_SLIPPAGE = "fixed_slippage_0.1pct"
 _VALID_FILL_RULES = {FILL_NEXT_BAR_OPEN, FILL_FIXED_SLIPPAGE}
 _SLIPPAGE_PCT = 0.001  # 0.1%
 
-# Default holding period (in bars) when none is supplied.
+# Default holding period (in bars) for the declarative rule engine.
 _DEFAULT_HOLDING_BARS = 5
 
 # How many candles to pull per (symbol, timeframe). The Binance client is
@@ -113,6 +117,11 @@ def _iso_to_ms(value: str | None) -> int | None:
     return int(dt.timestamp() * 1000)
 
 
+def _ms_to_day(time_ms: int) -> str:
+    """Render an epoch-ms timestamp as a UTC calendar day (``YYYY-MM-DD``)."""
+    return datetime.fromtimestamp(time_ms / 1000, tz=timezone.utc).strftime("%Y-%m-%d")
+
+
 # --------------------------------------------------------------------------
 # Core simulation (pure, deterministic).
 # --------------------------------------------------------------------------
@@ -157,20 +166,109 @@ def _trade_return(side: str, entry: float, exit_price: float) -> float:
     return (entry - exit_price) / entry
 
 
-def _simulate_one(
+def _resolve_signal_exit(
+    candles: list[Candle],
+    entry_index: int,
+    side: str,
+    invalidation: float | None,
+    target_zone: list[float] | None,
+    max_holding_bars: int | None,
+) -> tuple[int, float, str]:
+    """Walk forward from the entry candle to the signal's stop/target exit.
+
+    Returns ``(exit_index, exit_price, outcome)``. The stop (``invalidation``)
+    is checked before the target on each candle, so a candle whose range
+    spans both resolves conservatively to ``hit_sl`` — the intrabar path is
+    unknown, mirroring ``signal_logger_server.replay_signal``.
+
+    The first target reached is used: ``min(target_zone)`` for a long,
+    ``max(target_zone)`` for a short. When the signal carries no usable
+    stop/target, or neither is touched before the data (or
+    ``max_holding_bars``) runs out, the trade exits at the last candle's
+    close with outcome ``"timeout"``.
+    """
+    last = len(candles) - 1
+    if max_holding_bars is not None:
+        last = min(last, entry_index + max_holding_bars)
+
+    has_levels = invalidation is not None and bool(target_zone)
+    if has_levels:
+        inval = float(invalidation)
+        target = min(target_zone) if side == "long" else max(target_zone)
+        for i in range(entry_index, last + 1):
+            high = float(candles[i]["high"])
+            low = float(candles[i]["low"])
+            if side == "long":
+                if low <= inval:
+                    return i, inval, "hit_sl"
+                if high >= target:
+                    return i, target, "hit_tp"
+            else:
+                if high >= inval:
+                    return i, inval, "hit_sl"
+                if low <= target:
+                    return i, target, "hit_tp"
+
+    exit_candle = candles[last]
+    return last, float(exit_candle["close"]), "timeout"
+
+
+def _simulate_signal_trade(
+    candles: list[Candle],
+    entry_index: int,
+    side: str,
+    fill_rule: str,
+    signal: dict[str, Any],
+    max_holding_bars: int | None,
+) -> dict[str, Any] | None:
+    """Simulate one trade from a logged signal using its own stop/target.
+
+    ``entry_index`` is the candle whose *open* fills the entry — it must lie
+    strictly after the signal (no future leakage). The exit is resolved by
+    :func:`_resolve_signal_exit` against the signal's ``invalidation`` and
+    ``target_zone``.
+
+    Returns ``None`` when there is no candle available to fill the entry.
+    """
+    if entry_index < 0 or entry_index >= len(candles):
+        return None
+    entry_candle = candles[entry_index]
+    entry_price = _apply_entry_slippage(float(entry_candle["open"]), side, fill_rule)
+
+    exit_index, exit_price, outcome = _resolve_signal_exit(
+        candles,
+        entry_index,
+        side,
+        signal.get("invalidation"),
+        signal.get("target_zone"),
+        max_holding_bars,
+    )
+    exit_candle = candles[exit_index]
+    pnl_pct = _trade_return(side, entry_price, exit_price)
+    return {
+        "side": side,
+        "entry_time": entry_candle["open_time"],
+        "entry_price": entry_price,
+        "exit_time": exit_candle["open_time"],
+        "exit_price": exit_price,
+        "pnl_pct": pnl_pct,
+        "outcome": outcome,
+    }
+
+
+def _simulate_holding_trade(
     candles: list[Candle],
     entry_index: int,
     side: str,
     fill_rule: str,
     holding_bars: int,
 ) -> dict[str, Any] | None:
-    """Simulate a single trade.
+    """Simulate a fixed-holding trade (used by the rule engine).
 
-    ``entry_index`` is the index of the candle whose *open* fills the entry
-    — this candle must lie strictly after the decision candle, which is
-    what keeps the simulation free of future leakage. The trade exits at
-    the close of the candle ``holding_bars`` later, clamped to the last
-    available candle.
+    ``entry_index`` is the candle whose *open* fills the entry — it must lie
+    strictly after the decision candle, which keeps the simulation free of
+    future leakage. The trade exits at the close of the candle
+    ``holding_bars`` later, clamped to the last available candle.
 
     Returns ``None`` when there is no candle available to fill the entry.
     """
@@ -191,6 +289,7 @@ def _simulate_one(
         "exit_time": exit_candle["open_time"],
         "exit_price": exit_price,
         "pnl_pct": pnl_pct,
+        "outcome": "timeout",
     }
 
 
@@ -221,15 +320,39 @@ def _filter_range(
     return out
 
 
-def _compute_stats(trades: list[dict[str, Any]]) -> dict[str, Any]:
-    """Summary statistics over a list of completed trades.
+def _sharpe_daily(trades: list[dict[str, Any]]) -> float:
+    """Simple Sharpe over daily returns (per the issue: daily returns / std).
 
-    All money figures are expressed as fractional returns so trades on
-    symbols with different price scales aggregate sensibly. ``max_drawdown``
-    is taken from a compounding equity curve; ``sharpe`` is the per-trade
-    mean/std (no annualization — MVP).
+    Each trade's return is bucketed into the UTC calendar day of its exit;
+    days with no trade are not synthesised. Sharpe is the mean of the daily
+    series over its sample standard deviation. Fewer than two active days,
+    or zero dispersion, yields 0.0.
     """
-    returns = [t["pnl_pct"] for t in trades]
+    by_day: dict[str, float] = {}
+    for t in trades:
+        day = _ms_to_day(int(t["exit_time"]))
+        by_day[day] = by_day.get(day, 0.0) + t["pnl_pct"]
+
+    daily = [by_day[d] for d in sorted(by_day)]
+    n = len(daily)
+    if n < 2:
+        return 0.0
+    mean = sum(daily) / n
+    variance = sum((r - mean) ** 2 for r in daily) / (n - 1)
+    std = variance ** 0.5
+    return mean / std if std > 0 else 0.0
+
+
+def _base_stats(trades: list[dict[str, Any]]) -> dict[str, Any]:
+    """The seven core metrics over a list of completed trades.
+
+    All money figures are fractional returns so trades on symbols with
+    different price scales aggregate sensibly. ``max_drawdown`` is taken
+    from a compounding equity curve walked in entry-time order; ``sharpe``
+    is the simple daily Sharpe (see :func:`_sharpe_daily`).
+    """
+    ordered = sorted(trades, key=lambda t: int(t.get("entry_time", 0)))
+    returns = [t["pnl_pct"] for t in ordered]
     total = len(returns)
     wins = [r for r in returns if r > 0]
     losses = [r for r in returns if r < 0]
@@ -251,14 +374,6 @@ def _compute_stats(trades: list[dict[str, Any]]) -> dict[str, Any]:
             if drawdown > max_drawdown:
                 max_drawdown = drawdown
 
-    if total > 1:
-        mean = gross_pnl / total
-        variance = sum((r - mean) ** 2 for r in returns) / (total - 1)
-        std = variance ** 0.5
-        sharpe = mean / std if std > 0 else 0.0
-    else:
-        sharpe = 0.0
-
     return {
         "total_trades": total,
         "win_rate": win_rate,
@@ -266,8 +381,32 @@ def _compute_stats(trades: list[dict[str, Any]]) -> dict[str, Any]:
         "avg_gain": avg_gain,
         "avg_loss": avg_loss,
         "max_drawdown": max_drawdown,
-        "sharpe": sharpe,
+        "sharpe": _sharpe_daily(ordered),
     }
+
+
+def _group_stats(trades: list[dict[str, Any]], key: str) -> dict[str, Any]:
+    """Per-group base stats, grouped by ``trade[key]`` (None values skipped).
+
+    Keys are sorted so the breakdown is deterministic. Trades that lack the
+    attribute (e.g. rule trades have no ``tactical_quality``) are omitted,
+    yielding an empty mapping rather than a spurious ``None`` group.
+    """
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for t in trades:
+        value = t.get(key)
+        if value is None:
+            continue
+        groups.setdefault(str(value), []).append(t)
+    return {k: _base_stats(groups[k]) for k in sorted(groups)}
+
+
+def _compute_stats(trades: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate stats plus per-tactical-quality and per-phase breakdowns."""
+    stats = _base_stats(trades)
+    stats["by_tactical_quality"] = _group_stats(trades, "tactical_quality")
+    stats["by_phase"] = _group_stats(trades, "phase")
+    return stats
 
 
 def _store_backtest(
@@ -342,15 +481,17 @@ def backtest_signals(
     start_date: str | None = None,
     end_date: str | None = None,
     fill_rule: str = FILL_NEXT_BAR_OPEN,
-    holding_bars: int = _DEFAULT_HOLDING_BARS,
+    max_holding_bars: int | None = None,
     candle_limit: int = _DEFAULT_CANDLE_LIMIT,
 ) -> dict[str, Any]:
     """Backtest a stream of logged Wyckoff signals.
 
     Each matching signal becomes one trade: it enters on the candle that
-    opens after the signal's ``logged_at`` (per ``fill_rule``) and exits at
-    the close ``holding_bars`` candles later. Signals are processed in
-    chronological order, so the run is walk-forward by construction.
+    opens after the signal's ``logged_at`` (per ``fill_rule``), then exits
+    on the signal's own ``invalidation`` (stop) or ``target_zone`` (target),
+    walking the candles forward bar by bar — stop checked before target.
+    Signals are processed in chronological order, so the run is walk-forward
+    by construction.
 
     The signal's own ``timeframe`` field selects which OHLCV series the
     fills are resolved against. ``signal_filter`` accepts ``symbol`` and
@@ -361,19 +502,24 @@ def backtest_signals(
         start_date: ISO-8601 inclusive lower bound on signal timestamps.
         end_date: ISO-8601 inclusive upper bound on signal timestamps.
         fill_rule: ``"next_bar_open"`` or ``"fixed_slippage_0.1pct"``.
-        holding_bars: Number of candles to hold each position.
+        max_holding_bars: Optional timeout — exit at the candle's close this
+            many bars after entry if neither stop nor target is hit. When
+            ``None`` (default) the trade runs until stop/target or the end
+            of the available candles.
         candle_limit: How many candles to pull per (symbol, timeframe).
 
     Returns:
-        ``{"backtest_id": ..., "summary": {...stats...}}``.
+        ``{"backtest_id": ..., "summary": {...stats...}}``. The summary
+        carries the seven core metrics plus ``by_tactical_quality`` and
+        ``by_phase`` breakdowns.
     """
     if fill_rule not in _VALID_FILL_RULES:
         raise ValueError(
             f"unknown fill_rule {fill_rule!r}; "
             f"expected one of {sorted(_VALID_FILL_RULES)}"
         )
-    if holding_bars < 1:
-        raise ValueError("holding_bars must be >= 1")
+    if max_holding_bars is not None and max_holding_bars < 1:
+        raise ValueError("max_holding_bars must be >= 1 when set")
 
     flt = signal_filter or {}
     signals = _get_signal_store().list_signals(
@@ -404,10 +550,14 @@ def backtest_signals(
             continue
         entry_index = _first_index_after(candles, signal_ms)
         side = _side_for_signal(signal)
-        trade = _simulate_one(candles, entry_index, side, fill_rule, holding_bars)
+        trade = _simulate_signal_trade(
+            candles, entry_index, side, fill_rule, signal, max_holding_bars
+        )
         if trade is not None:
             trade["signal_id"] = signal.get("signal_id")
             trade["symbol"] = symbol
+            trade["tactical_quality"] = signal.get("tactical_quality")
+            trade["phase"] = signal.get("phase_identified")
             trades.append(trade)
 
     record = _store_backtest(
@@ -417,7 +567,7 @@ def backtest_signals(
             "start_date": start_date,
             "end_date": end_date,
             "fill_rule": fill_rule,
-            "holding_bars": holding_bars,
+            "max_holding_bars": max_holding_bars,
         },
         trades,
     )
@@ -448,7 +598,9 @@ def backtest_rule(
     A long enters when a candle's close exceeds the highest high of the
     prior ``lookback`` candles; a short enters on a close below the lowest
     low. The entry fills on the *next* candle's open (per ``fill_rule``), so
-    no future data influences the entry decision. Trades are non-overlapping.
+    no future data influences the entry decision. A rule has no stop/target,
+    so each trade exits at the close ``holding_bars`` candles after entry.
+    Trades are non-overlapping.
 
     Args:
         rule_definition: The breakout rule, as above.
@@ -499,7 +651,9 @@ def backtest_rule(
         for decision_index in triggers:
             # Decision on the trigger candle's close; fill on the next candle.
             entry_index = decision_index + 1
-            trade = _simulate_one(candles, entry_index, side, fill_rule, holding_bars)
+            trade = _simulate_holding_trade(
+                candles, entry_index, side, fill_rule, holding_bars
+            )
             if trade is not None:
                 trade["symbol"] = symbol
                 trades.append(trade)
@@ -529,7 +683,9 @@ def get_stats(backtest_id: str) -> dict[str, Any]:
 
     Returns:
         ``{win_rate, total_trades, gross_pnl, avg_gain, avg_loss,
-        max_drawdown, sharpe}``.
+        max_drawdown, sharpe, by_tactical_quality, by_phase}``. The two
+        breakdowns map each tactical-quality / phase value to the same
+        seven core metrics over that subset of trades.
 
     Raises:
         KeyError: If ``backtest_id`` is unknown.
