@@ -528,3 +528,5 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Batch 9: Bruce Fraser preostali clanci (~130), ukljucujuci single-name case studies, market context, intraday/workshop posts i preostale non-Batch 6-8 teme.
 - Semantic spot-check pre merge-a je preporucen jer Batch 8 uvodi Fraser-origin RS/campaign konceptne stranice i analogije prema crypto rotation/comparative-strength vokabularu.
+
+[2026-06-08] spot-check Batch 8 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
