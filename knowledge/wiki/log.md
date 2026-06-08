@@ -453,3 +453,5 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Batch 8: Bruce Fraser relative strength and campaign logic (~40 articles).
 - Semantic spot-check pre merge-a je preporucen jer Batch 7 uvodi vise Fraser-origin P&F koncepta i nove `Cross-Author Readings` dopune.
+
+[2026-06-08] spot-check Batch 7 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
