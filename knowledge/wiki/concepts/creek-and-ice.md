@@ -2,7 +2,7 @@
 title: "Creek and Ice"
 type: concept
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_038.md
     note: "Creek named on accumulation schematic 1"
@@ -16,6 +16,12 @@ sources:
     note: "Ice = support zone, analog to Creek; FTI = Fall Through the Ice"
   - path: raw/book/pages/page_186.md
     note: "Chapter 24 — Creek/Ice as last barrier before the trend; LPS/LPSY in front of the boundary"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md
+    note: "Bruce Fraser — Creek as overhanging supply; JAC/BUEC"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-09-context-is-king.md
+    note: "Bruce Fraser — Ice/support break in distribution Phase D"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-04-sp-500-zooming-in.md
+    note: "Bruce Fraser — Ice as support zone confirmed by inability to recover"
 ---
 
 # Creek and Ice
@@ -155,6 +161,23 @@ Both metaphors imply that **the breach is structural, not tactical**.
 - The Creek/Ice vocabulary is interchangeable with SOS/SOW + BUEC/FTI
   + LPS/LPSY in practice. Different writers use different terms for
   the same events.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser's Creek usage centers on overhanging supply that suppresses rallies
+inside accumulation. A valid JAC has a change in price/volume character -
+wider bars and a surge in volume - and the BUEC is the later test of that
+formerly resistant zone from above
+([Fraser, "Jumping the Creek"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md)).
+
+For the Ice side, Fraser describes distribution Phase D as the break of
+support where price begins to live under the old range and test the Ice from
+below. In a later SPX case study, he treats inability to climb back above the
+broken support as the confirming clue that the Ice has broken
+([Fraser, "Context is King"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-09-context-is-king.md);
+[Fraser, "S&P 500. Zooming In."](../../../raw/bruce_fraser/posts/articles-wyckoff-2018-04-sp-500-zooming-in.md)).
 
 ## Links
 

@@ -2,7 +2,7 @@
 title: "Jump Across the Creek (JAC)"
 type: event
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_160.md
     note: "SOS definition references Creek break — what JAC is, structurally"
@@ -12,6 +12,10 @@ sources:
     note: "Chapter 6 — JAC named on accumulation schematic 1"
   - path: raw/book/pages/page_040.md
     note: "Chapter 6 — schematic 2; JAC equivalent in no-shake variant"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md
+    note: "Bruce Fraser — JAC as leap through overhanging supply"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md
+    note: "Bruce Fraser — JAC/SOS phase-D case-study behavior"
 ---
 
 # Jump Across the Creek (JAC)
@@ -89,6 +93,20 @@ A JAC that re-enters the range immediately is by definition not a JAC
 - If a chart annotation says "JAC" and the chart shows no Creek
   drawn, the annotator is using sloppy vocabulary — the JAC label only
   makes sense in the context of the Creek as a structural zone.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser keeps the Evans Creek metaphor active: the JAC is the leap through
+overhanging supply, with widening price bars and a volume surge as the price
+behavior that distinguishes a genuine change from prior range rallies
+([Fraser, "Jumping the Creek"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md)).
+
+In his phase case studies, the JAC/SOS area is part of Phase D only when price
+can move toward and out of the accumulation area with better demand quality and
+hold above the range on later backups
+([Fraser, "Phase Analysis"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md)).
 
 ## Links
 

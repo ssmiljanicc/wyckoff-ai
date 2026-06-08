@@ -2,7 +2,7 @@
 title: "Waves and Fractals"
 type: concept
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_012.md
     note: "primary statement — price moves in waves, not straight lines; fractal nature"
@@ -10,6 +10,10 @@ sources:
     note: "wave analysis as readout of supply/demand strength"
   - path: raw/book/pages/page_067.md
     note: "Weis wave-volume — operational wave analysis tool"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md
+    note: "Bruce Fraser — comparative power-wave analysis"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-03-distribution-power-waves.md
+    note: "Bruce Fraser — distribution power-wave case studies"
 ---
 
 # Waves and Fractals
@@ -75,6 +79,20 @@ direction and to the opposing wave. This is the primary input to
 - The shift between "buying position" and "selling position"
   ([[buying-selling-neutral-position]]) often shows up first as a change in
   the relative size of the up vs down waves on a chosen grade.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser calls this "Power Wave" analysis: compare buying waves and selling waves
+by their relative force, then use the changes to detect whether leadership,
+weakness, or a change of character is emerging
+([Fraser, "Judging Power Waves"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md)).
+
+In distribution examples, Fraser watches rally waves become shorter, more
+labored, or unable to make progress while selling waves deepen and quicken;
+that wave comparison is one of his context tools for judging markdown risk
+([Fraser, "Distribution Power Waves"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-03-distribution-power-waves.md)).
 
 ## Links
 

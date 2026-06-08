@@ -2,7 +2,7 @@
 title: "Accumulation"
 type: structure
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_037.md
     note: "Chapter 6 intro — flexible structure approach; fixed elements are phases and events"
@@ -24,6 +24,10 @@ sources:
     note: "Chapter 10 — counterparty mechanics; verification by tests"
   - path: raw/book/pages/page_076.md
     note: "Chapter 10 — common characteristics; start of the bullish movement"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-accumulation-phase-absorbing-stock-like-a-sponge.md
+    note: "Bruce Fraser — absorption and C.O. accumulation emphasis"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md
+    note: "Bruce Fraser — accumulation phase case studies"
 ---
 
 # Accumulation
@@ -218,6 +222,22 @@ stage).
   and will be cross-referenced in Batch 3.
 - The full event sequence in Accumulation #1 is the **canonical
   vocabulary** used throughout the rest of the methodology.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser emphasizes accumulation as a campaign environment where the C.O. buys
+available shares quietly while prices stay low and listless; his diagnostic
+focus is whether volume/price behavior shows active absorption rather than a
+random range
+([Fraser, "Accumulation Phase"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-06-accumulation-phase-absorbing-stock-like-a-sponge.md)).
+
+In his phase case studies, Fraser reads accumulation as a visible progression:
+Phase B discourages holders, Phase C tests prior high-volume lows through
+Spring or LPS behavior, and Phase D requires a quality rally with widening
+spread, expanding volume, and later BUEC pauses
+([Fraser, "Phase Analysis"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md)).
 
 ## Links
 

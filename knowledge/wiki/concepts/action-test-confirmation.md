@@ -2,7 +2,7 @@
 title: "Action — Test — Confirmation"
 type: concept
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_129.md
     note: "generic test definition (VSA) — confirming who controls the market"
@@ -18,6 +18,8 @@ sources:
     note: "Chapter 20 — confirmation is the test of the prior action"
   - path: raw/book/pages/page_168.md
     note: "confirmation criteria — narrow ranges, low volume, no re-entry"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-09-action--test.md
+    note: "Bruce Fraser — Action-Test as recurring two-step process"
 ---
 
 # Action — Test — Confirmation
@@ -128,6 +130,20 @@ trader to fake-outs. The confirmation has structural conviction.
   warning. It happens (UTAD without a test, see
   [[upthrust-after-distribution]]) but most often the right move is to
   wait for the test.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser names the recurring unit "Action and Test". In his wording, the action
+has volatility, wide spread, and high volume, while the test should show
+compression of price spread, less volatility, and diminishing volume
+([Fraser, "Action - Test"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-09-action--test.md)).
+
+He applies the same two-step pattern across timeframes and treats test quality
+as the evidence for whether a climax or breakout has exhausted the prior trend
+or still needs more testing
+([Fraser, "Action - Test"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-09-action--test.md)).
 
 ## Links
 

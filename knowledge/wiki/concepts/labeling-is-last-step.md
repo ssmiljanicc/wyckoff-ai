@@ -2,7 +2,7 @@
 title: "Labeling Is The Last Step"
 type: concept
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_099.md
     note: "potential PS / confirmed PS — the Phase A label is provisional until all four events complete"
@@ -20,6 +20,12 @@ sources:
     note: "Phase C internal shake — Spring/Upthrust minor or in function of LPS/LPSY; labels are not what matters"
   - path: raw/book/pages/page_186.md
     note: "Phase D internal failure — back to LPS/LPSY before another attempt"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md
+    note: "Bruce Fraser — relabeling Phase C/D as Phase B if supply persists"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-08-range-bound-ndx.md
+    note: "Bruce Fraser — carry multiple scenarios in range-bound context"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-09-compq-up-close.md
+    note: "Bruce Fraser — return into range changes labeling and analysis"
 ---
 
 # Labeling Is The Last Step
@@ -139,6 +145,22 @@ label from provisional to confirmed.
   expects ambiguity to be tolerated and resolved over time.
 - The discipline is what separates pattern-matching from genuine
   Wyckoff reading.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser applies provisional labeling in live case work. In the TWTR case, a
+weak Phase D rally and persistent supply would force the analyst to relabel
+the supposed Phase C/D as continued Phase B with final testing still ahead
+([Fraser, "Phase Analysis"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md)).
+
+In index case studies, Fraser keeps multiple scenarios open after a change of
+character. NDX can be reaccumulation, distribution, or an intermediate decline
+until later price/volume behavior resolves the range; similarly, a COMPQ return
+back into the range would change the labeling and analysis
+([Fraser, "Range Bound NDX"](../../../raw/bruce_fraser/posts/articles-wyckoff-2017-08-range-bound-ndx.md);
+[Fraser, "$COMPQ Up Close"](../../../raw/bruce_fraser/posts/articles-wyckoff-2017-09-compq-up-close.md)).
 
 ## Links
 
