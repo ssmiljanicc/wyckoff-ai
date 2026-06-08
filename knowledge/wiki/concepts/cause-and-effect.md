@@ -22,6 +22,10 @@ sources:
     note: "Fraser C.O.-footprint rationale for horizontal P&F cause measurement"
   - path: raw/bruce_fraser/posts/articles-wyckoff-2019-01-aapl-campaign-completed.md
     note: "Fraser campaign cycle example: cause, effect, objective, new cause"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-05-campaign-caravan.md
+    note: "Fraser campaign candidate cause and multi-year potential"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-04-identify-campaign-setups-with-727.md
+    note: "Fraser campaign setup rules and large causal structures"
 ---
 
 # Law of Cause and Effect
@@ -100,6 +104,11 @@ In the AAPL campaign case, he repeats the cycle operationally: a completed
 cause produces an effect into a P&F objective, then a new cause must form
 before the next meaningful move can be projected
 ([AAPL Campaign Completed](../../../raw/bruce_fraser/posts/articles-wyckoff-2019-01-aapl-campaign-completed.md)).
+In his campaign-trading articles, large reaccumulation or accumulation causes
+become candidate filters: the countable structure must offer enough potential
+to justify a campaign, but the setup still needs positioning and holding rules
+([Campaign Caravan](../../../raw/bruce_fraser/posts/articles-wyckoff-2019-05-campaign-caravan.md);
+[Identify Campaign Setups](../../../raw/bruce_fraser/posts/articles-wyckoff-2021-04-identify-campaign-setups-with-727.md)).
 
 ## Why It Matters For Wyckoff Reading
 
@@ -118,8 +127,9 @@ before the next meaningful move can be projected
 - Sibling laws: [[supply-and-demand]], [[effort-and-result]]
 - Parent: [[three-laws]]
 - Applied: [[trading-range]], [[random-vs-purposeful-range]],
-  [[point-and-figure-counting]]
+  [[point-and-figure-counting]], [[campaign-trading]]
 - Fraser applications: [[pnf-count-segmentation]],
-  [[pnf-count-confirmation]], [[pnf-distribution-paradox]]
+  [[pnf-count-confirmation]], [[pnf-distribution-paradox]],
+  [[fraser-campaign-management]]
 - Sources: [[book-chapter-08]], [[fraser-pnf-construction-and-counting]],
   [[fraser-pnf-distribution-and-downside-counts]]
