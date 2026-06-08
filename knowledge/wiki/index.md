@@ -3,14 +3,14 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-06-08 (Batch 6 — Bruce Fraser context and phase reading)
-**Pages:** 132 tracked
+**Last updated:** 2026-06-08 (Batch 7 — Bruce Fraser Point & Figure)
+**Pages:** 142 tracked
 
 ---
 
 ## concepts/
 
-Active pages (24 of 24 expected):
+Active pages (29; 24 expected core + 5 Fraser P&F extensions):
 
 Three fundamental laws:
 - [three-laws](concepts/three-laws.md) — umbrella for the three fundamental laws
@@ -40,6 +40,13 @@ Cycle and structure foundations:
 - [labeling-is-last-step](concepts/labeling-is-last-step.md) — labels are provisional in real time
 - [creek-and-ice](concepts/creek-and-ice.md) — structural barrier zones
 - [point-and-figure-counting](concepts/point-and-figure-counting.md) — horizontal cause count and target projection
+
+**Fraser P&F extensions (Batch 7):**
+- [intraday-pnf-reading](concepts/intraday-pnf-reading.md) — intraday P&F counts, ATR scaling, and nested causes
+- [percent-scale-pnf](concepts/percent-scale-pnf.md) — log/percent-scale P&F for dynamically rising instruments
+- [pnf-count-confirmation](concepts/pnf-count-confirmation.md) — matching/nested count objectives as campaign evidence
+- [pnf-count-segmentation](concepts/pnf-count-segmentation.md) — counting only the active cause inside a larger range
+- [pnf-distribution-paradox](concepts/pnf-distribution-paradox.md) — distribution over-counting and downside-count limits
 
 **Archive-confirmed concepts (Batch 5):**
 - [principle-in-the-principle](concepts/principle-in-the-principle.md) — smaller Wyckoff structure embedded inside a larger one
@@ -120,7 +127,7 @@ Expected pages:
 
 ## sources/
 
-Active source pages (71 active + 8 WIKI_GAP):
+Active source pages (76 active + 8 WIKI_GAP):
 
 `sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
@@ -151,11 +158,16 @@ Active source pages (71 active + 8 WIKI_GAP):
 - [book-chapter-26](sources/book/book-chapter-26.md) — Primary Positions *(Batch 3)*
 - [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
-`sources/bruce_fraser/` — thematic groupings (6 active; Batches 7–9 pending):
+`sources/bruce_fraser/` — thematic groupings (11 active; Batches 8–9 pending):
 - [fraser-accumulation-phase-reading](sources/bruce_fraser/fraser-accumulation-phase-reading.md) — stopping action, absorption, Spring/LPS, JAC, and BUEC
 - [fraser-distribution-phase-reading](sources/bruce_fraser/fraser-distribution-phase-reading.md) — distribution context, UTAD/LPSY, power waves, and tape reading
 - [fraser-market-index-phase-case-studies](sources/bruce_fraser/fraser-market-index-phase-case-studies.md) — NDX/COMPQ/SPX context and scenario discipline
 - [fraser-method-context](sources/bruce_fraser/fraser-method-context.md) — cycle, C.O. heuristic, three laws, and context discipline
+- [fraser-pnf-campaign-projections](sources/bruce_fraser/fraser-pnf-campaign-projections.md) — P&F campaign objectives, rotation, and completion scenarios
+- [fraser-pnf-construction-and-counting](sources/bruce_fraser/fraser-pnf-construction-and-counting.md) — P&F construction, accumulation/distribution count mechanics, and C.O. rationale
+- [fraser-pnf-distribution-and-downside-counts](sources/bruce_fraser/fraser-pnf-distribution-and-downside-counts.md) — distribution paradox, downside counts, and redistribution confirmation
+- [fraser-pnf-intraday-and-percent-scale](sources/bruce_fraser/fraser-pnf-intraday-and-percent-scale.md) — intraday P&F, ATR scaling, and percent/log-scale P&F
+- [fraser-pnf-segmentation-and-confirmation](sources/bruce_fraser/fraser-pnf-segmentation-and-confirmation.md) — segmenting counts and matching/reconfirming objectives
 - [fraser-reaccumulation-phase-reading](sources/bruce_fraser/fraser-reaccumulation-phase-reading.md) — reaccumulation vs distribution diagnostics
 - [fraser-redistribution-phase-reading](sources/bruce_fraser/fraser-redistribution-phase-reading.md) — redistribution as markdown pause and accumulation trap
 

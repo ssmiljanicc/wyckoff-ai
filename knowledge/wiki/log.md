@@ -380,3 +380,76 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Semantic spot-check pre merge-a je preporucen jer Batch 6 uvodi novi autor-source tip i vise cross-author dopuna.
 
 [2026-06-08] spot-check Batch 6 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
+
+---
+
+## [2026-06-08] ingest | Bruce Fraser, Batch 7 — Point & Figure
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch7`
+- Izvori: `raw/bruce_fraser/posts/` — 31 clanak izabran iz tematskog opsega "Point & Figure".
+
+### Candidate article set
+
+- Construction and count mechanics:
+  `Intro to Point and Figure Construction`, `Unlocking the Mysteries of Point and Figure Charts`,
+  `Secrets of Point and Figure Distribution`, `Point and Figure Magic`,
+  `Why Point and Figure Works`, `QQQ Teetering + Point & Figure Workshop TV Special`,
+  `Swing Trading with Point & Figure`.
+- Segmentation and count confirmation:
+  `Counting Monster Point & Figure Charts`, `Point and Figure Pauses that Refresh`,
+  `Current Point and Figure Counts`, `Segmenting PnF Counts`, `More Pie. Bigger Sky!`,
+  `Point & Figure Diary`, `Dear Point and Figure Diary`.
+- Distribution and downside counts:
+  `The Point and Figure Distribution Paradox`, `Bonds. Shaken, Not Stirred.`,
+  `Nasdaq Composite. Down for the Count?`, `Will PnF Light the Way in 2019`,
+  `AAPL Campaign Completed`, `Campaigning Crude Oil`.
+- Campaign projections and rotation:
+  `Point and Figure Pie in the Sky?`, `Get to the Point and Figure`,
+  `Dow Jones Industrials PnF Dilemma`, `Detect Rotation with PnF Charts`,
+  `Do Semiconductors Still Compute?`, `Semi. Campaign. Completion?`.
+- Intraday and percent-scale P&F:
+  `Point and Figure Analysis with Intraday Charts`, `The Law of Cause and Effect in Action`,
+  `Using PnF Charts for Intraday Trading`, `A NASDAQ 100 Throwover. Is the Uptrend Ending?`,
+  `Percent Scale PnF Technique. Nvidia Case Study.`
+
+### Pages created (10)
+
+`sources/bruce_fraser/` (5):
+- `fraser-pnf-campaign-projections.md`
+- `fraser-pnf-construction-and-counting.md`
+- `fraser-pnf-distribution-and-downside-counts.md`
+- `fraser-pnf-intraday-and-percent-scale.md`
+- `fraser-pnf-segmentation-and-confirmation.md`
+
+`concepts/` (5):
+- `intraday-pnf-reading.md`
+- `percent-scale-pnf.md`
+- `pnf-count-confirmation.md`
+- `pnf-count-segmentation.md`
+- `pnf-distribution-paradox.md`
+
+### Pages updated
+
+- `knowledge/wiki/concepts/point-and-figure-counting.md` — dodata Fraser `Cross-Author Readings` sekcija za construction/count boundary/segmentation/percent-scale naglaske.
+- `knowledge/wiki/concepts/cause-and-effect.md` — dodata Fraser `Cross-Author Readings` sekcija za C.O.-footprint rationale horizontalnog count-a.
+- `knowledge/wiki/index.md` — dodate Batch 7 concept i source-summary stranice; page count azuriran na 142.
+- `knowledge/wiki/log.md` — ovaj zapis.
+
+### Commit-evi u ovom batch-u
+
+- `afc43ed` — Fraser P&F source summaries, konceptne stranice i cross-author dopune.
+- `this commit` — index/log update za Batch 7.
+
+### Notes
+
+- `point-and-figure-counting.md` nije redefinisan; book definicija je ostala primarna, a Fraser naglasci su dodati kroz `## Cross-Author Readings`.
+- Batch 6 clanci nisu ponovo korisceni kao Batch 7 izvori, osim indirektno kroz postojece wiki linkove.
+- Sva nova concept prosirenja imaju `primary_source: bruce_fraser`.
+- Svaki inline Fraser source link ima paritetan `sources:` entry; svaka frontmatter Fraser putanja se pojavljuje inline bar jednom.
+- Nema novih `WIKI_GAP` markera.
+
+### Open follow-ups
+
+- Batch 8: Bruce Fraser relative strength and campaign logic (~40 articles).
+- Semantic spot-check pre merge-a je preporucen jer Batch 7 uvodi vise Fraser-origin P&F koncepta i nove `Cross-Author Readings` dopune.
