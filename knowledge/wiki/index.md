@@ -3,8 +3,8 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-05-29 (Batch 5 — crypto archive Vol 29–59)
-**Pages:** 126 tracked
+**Last updated:** 2026-06-08 (Batch 6 — Bruce Fraser context and phase reading)
+**Pages:** 132 tracked
 
 ---
 
@@ -120,7 +120,7 @@ Expected pages:
 
 ## sources/
 
-Active source pages (65 active + 8 WIKI_GAP; Fraser pending):
+Active source pages (71 active + 8 WIKI_GAP):
 
 `sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
@@ -151,8 +151,13 @@ Active source pages (65 active + 8 WIKI_GAP; Fraser pending):
 - [book-chapter-26](sources/book/book-chapter-26.md) — Primary Positions *(Batch 3)*
 - [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
-Pending:
-- `sources/bruce_fraser/` — thematic groupings (~30–50 pages; Batches 6–9)
+`sources/bruce_fraser/` — thematic groupings (6 active; Batches 7–9 pending):
+- [fraser-accumulation-phase-reading](sources/bruce_fraser/fraser-accumulation-phase-reading.md) — stopping action, absorption, Spring/LPS, JAC, and BUEC
+- [fraser-distribution-phase-reading](sources/bruce_fraser/fraser-distribution-phase-reading.md) — distribution context, UTAD/LPSY, power waves, and tape reading
+- [fraser-market-index-phase-case-studies](sources/bruce_fraser/fraser-market-index-phase-case-studies.md) — NDX/COMPQ/SPX context and scenario discipline
+- [fraser-method-context](sources/bruce_fraser/fraser-method-context.md) — cycle, C.O. heuristic, three laws, and context discipline
+- [fraser-reaccumulation-phase-reading](sources/bruce_fraser/fraser-reaccumulation-phase-reading.md) — reaccumulation vs distribution diagnostics
+- [fraser-redistribution-phase-reading](sources/bruce_fraser/fraser-redistribution-phase-reading.md) — redistribution as markdown pause and accumulation trap
 
 `sources/crypto_archive/` — one page per volume:
 - [crypto-report-vol-14](sources/crypto_archive/crypto-report-vol-14.md) — post-crash Bitcoin repair; margin-call funding source

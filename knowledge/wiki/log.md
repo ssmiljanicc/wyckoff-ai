@@ -314,3 +314,67 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Semantic spot-check decision: recommended before merge because Batch 5 adds several cross-source concept pages and WIKI_GAP judgments.
 
 [2026-05-29] spot-check Batch 5 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
+
+---
+
+## [2026-06-08] ingest | Bruce Fraser, Batch 6 — context and phase reading
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch6`
+- Izvori: `raw/bruce_fraser/posts/` — 40 clanaka izabranih iz tematskog opsega "context and phase reading".
+
+### Candidate article set
+
+- 2015-05 to 2016-09 Fraser foundation/context and accumulation-side phase reading:
+  `Getting some Basic Wyckoff Terminology Under our Belts`, `Richard D. Wyckoff's REAL Rules of the Game`,
+  `The Stopping Action of a Downtrend`, `Accumulation Phase; Absorbing Stock Like a Sponge`,
+  `Jumping the Creek`, `Wyckoff Power Charting. Let's Review`, `The Way of Wyckoff`,
+  `Wyckoff Walk Around the Clock`, `The Laws of Wyckoff`, `The Illustrated Wyckoff`,
+  `How to Determine the Best Trade Entry Points`, `Stalking the Trade`, `Wyckoff Buy Strategies`,
+  `Springing into Action`, `Putting It All Together`, `Phase Analysis. Two Case Studies`,
+  `Action - Test`, `Tracking Big Footprints`.
+- Reaccumulation and redistribution/distribution context:
+  `Rev Up with Reaccumulation Trading Ranges`, `Reaccumulation Roundup`,
+  `Trading the Reaccumulation`, `Reaccumulation Review`, `Distribution or Re-Accumulation?`,
+  `Context is King`, `Just Another Phase`, `Distribution Definitions`, `Judging Power Waves`,
+  `Distribution Power Waves`, `Distribution Review`, `Divining Distribution`,
+  `Redistribution Ruckus`, `Redistribution, the Evil Twin`, `Redistribution - A Case Study`,
+  `Tape Reading for Distribution`.
+- Market-index phase case studies:
+  `Follow the Bouncing Ball`, `NASDAQ 100 Index. A Current Case Study.`,
+  `Range Bound NDX`, `$COMPQ Up Close`, `S&P 500. Zooming In.`, `A Wyckoff Week`.
+
+### Pages created (6)
+
+`sources/bruce_fraser/`:
+- `fraser-accumulation-phase-reading.md`
+- `fraser-distribution-phase-reading.md`
+- `fraser-market-index-phase-case-studies.md`
+- `fraser-method-context.md`
+- `fraser-reaccumulation-phase-reading.md`
+- `fraser-redistribution-phase-reading.md`
+
+### Pages updated
+
+- `knowledge/wiki/index.md` — dodate Batch 6 Fraser source-summary stranice.
+- `knowledge/wiki/concepts/action-test-confirmation.md`, `creek-and-ice.md`, `labeling-is-last-step.md`, `waves-and-fractals.md` — dodate Fraser `Cross-Author Readings` sekcije.
+- `knowledge/wiki/events/spring.md`, `jump-across-the-creek.md`, `back-up-to-the-edge-of-the-creek.md` — dodate Fraser `Cross-Author Readings` sekcije.
+- `knowledge/wiki/structures/accumulation.md`, `distribution.md`, `reaccumulation.md`, `redistribution.md` — dodate Fraser `Cross-Author Readings` sekcije.
+- `knowledge/wiki/log.md` — ovaj zapis.
+
+### Commit-evi u ovom batch-u
+
+- `bc43bfe` — Fraser context source summaries.
+- `0651dda` — Fraser cross-author readings na postojecem wiki vokabularu.
+- `this commit` — index/log update za Batch 6.
+
+### Notes
+
+- Book i crypto vokabular nije redefinisan. Fraser-specific naglasci su ili u `sources/bruce_fraser/` source-summary stranicama ili u `## Cross-Author Readings` sekcijama.
+- P&F-heavy Fraser clanci su odlozeni za Batch 7; relative-strength/campaign-heavy clanci za Batch 8.
+- Nema novih `WIKI_GAP` markera.
+
+### Open follow-ups
+
+- Batch 7: Bruce Fraser Point & Figure (~30 articles).
+- Semantic spot-check pre merge-a je preporucen jer Batch 6 uvodi novi autor-source tip i vise cross-author dopuna.
