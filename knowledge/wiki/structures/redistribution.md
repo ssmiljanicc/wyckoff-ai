@@ -2,7 +2,7 @@
 title: "Redistribution"
 type: structure
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_086.md
     note: "Chapter 13 intro — redistribution is a pause in a bearish trend that resumes the downtrend"
@@ -12,6 +12,12 @@ sources:
     note: "duration influenced by strong/weak hand mix; objectives of the main distribution not yet met"
   - path: raw/book/pages/page_153.md
     note: "Ordinary Upthrust — Phase C variant in redistribution (bullish shake during downtrend)"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-10-redistribution-ruckus--.md
+    note: "Bruce Fraser — redistribution as markdown pause"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution-the-evil-twin.md
+    note: "Bruce Fraser — redistribution vs reaccumulation diagnostic"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution--a-case-study.md
+    note: "Bruce Fraser — CSCO redistribution case study"
 ---
 
 # Redistribution
@@ -145,6 +151,22 @@ accumulation, especially when paired with a weak AR.
   misread.
 - The persistent-volatility cue is one of the cleanest diagnostic
   contrasts available before Phase C.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser frames redistribution as a pause after a decline that normally resumes
+lower, with the practical warning that it is often misread as accumulation by
+buyers looking for a bottom
+([Fraser, "Redistribution Ruckus"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-10-redistribution-ruckus--.md)).
+
+His key emphasis is volatility: reaccumulation tends to become duller as
+absorption completes, while redistribution remains volatile and ends with
+renewed markdown. He tracks SOWs, ICE breaks, weak rallies, and failed attempts
+to recover the old range as the confirming behavior
+([Fraser, "Redistribution, the Evil Twin"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution-the-evil-twin.md);
+[Fraser, "Redistribution - A Case Study"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution--a-case-study.md)).
 
 ## Links
 

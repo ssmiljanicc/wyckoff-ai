@@ -2,7 +2,7 @@
 title: "Back Up to the Edge of the Creek (BUEC)"
 type: event
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_167.md
     note: "Chapter 20 intro — confirmation event; LPS / BUEC labels for the SOS test"
@@ -18,6 +18,12 @@ sources:
     note: "trigger details — SOS bar entry, stop placement under LPS"
   - path: raw/book/pages/page_175.md
     note: "LPS / BUEC sometimes coincides with the original PS price"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md
+    note: "Bruce Fraser — BUEC as return to crossed Creek"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md
+    note: "Bruce Fraser — BUEC as absorption pause around/above resistance"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md
+    note: "Bruce Fraser — BUEC after SOS in stepping-stone reaccumulation"
 ---
 
 # Back Up to the Edge of the Creek (BUEC)
@@ -137,6 +143,21 @@ Part 7 (Trading), which Batch 3 will cover.
   retest is a **warning** to step aside.
 - BUEC = LPS (out-of-range variant). Both labels point to the same
   event in Accumulation #1 / Reaccumulation Phase D.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser's Creek metaphor makes BUEC the return to the crossed barrier after the
+JAC; a shallow retracement is a strength clue because price gives up little
+ground after moving through the supply zone
+([Fraser, "Jumping the Creek"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md)).
+
+In his case studies, the BUEC is an absorption pause around or above resistance
+after SOS/JAC. He treats later backups as places where the C.O. continues
+absorbing stock while price proves it can stay out of the range
+([Fraser, "Phase Analysis"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md);
+[Fraser, "Springing into Action"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md)).
 
 ## Links
 

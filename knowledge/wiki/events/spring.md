@@ -2,7 +2,7 @@
 title: "Spring"
 type: event
 status: active
-updated: 2026-05-26
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_134.md
     note: "Chapter 18 intro — shaking is the key event Wyckoff traders wait for; preconditions"
@@ -36,6 +36,10 @@ sources:
     note: "Ordinary Shakeout — bearish push during uptrend, in reaccumulation"
   - path: raw/book/pages/page_149.md
     note: "Spring test — narrowing ranges, lower volume, holds above the spring low"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md
+    note: "Bruce Fraser — Spring #2/#3 applied distinction"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md
+    note: "Bruce Fraser — Spring/LPS as tests of prior high-volume lows"
 ---
 
 # Spring
@@ -227,6 +231,21 @@ downside probe is a spring (not a real bearish break)
   tradable, Spring #1 needs follow-on demand confirmation.
 - A spring without a corresponding [[sign-of-strength]] / SOS that
   actually breaks the range is not a spring — discipline the label.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser's applied spring distinction is operational: a high-volume Spring #2
+shows supply appearing below support and therefore needs a lower-volume test,
+while a low-volume Spring #3 can turn without a separate test because the lack
+of volume is itself evidence of scarce supply
+([Fraser, "Springing into Action"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md)).
+
+In accumulation phase case studies, Fraser also groups Spring and LPS by
+function: both test prior high-volume lows, and the later rally must prove a
+change of character before the structure can be treated as Phase D
+([Fraser, "Phase Analysis"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md)).
 
 ## Links
 

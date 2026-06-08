@@ -2,7 +2,7 @@
 title: "Distribution"
 type: structure
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_037.md
     note: "Chapter 6 — flexible structure approach"
@@ -26,6 +26,12 @@ sources:
     note: "Chapter 12 — common characteristics; high volatility throughout the range"
   - path: raw/book/pages/page_085.md
     note: "Chapter 12 — beginning of the bearish movement"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-09-context-is-king.md
+    note: "Bruce Fraser — distribution phase context"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-09-distribution-definitions.md
+    note: "Bruce Fraser — distribution event vocabulary"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-03-divining-distribution.md
+    note: "Bruce Fraser — UTAD and phase evolution case studies"
 ---
 
 # Distribution
@@ -212,6 +218,22 @@ volatile is much more likely to be distribution than accumulation.
   [[events/upthrust-after-distribution]]) cover the edge variants.
 - The full event vocabulary appears here in its bearish form, mirroring
   the accumulation vocabulary one-for-one.
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser's distribution writing treats phase analysis as context: schematics are
+road maps, but each phase has a distinct price/volume character that reveals
+how the C.O. selling campaign is maturing
+([Fraser, "Context is King"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-09-context-is-king.md)).
+
+His applied event language focuses on PSY/BCLX/AR/ST/UT/SOW/UTAD/LPSY as
+markers in that evolution. Phase B is watched for volume near resistance and
+high volume on declines, Phase C resolves through UTAD or LPSY, and Phase D is
+where the Ice/support area breaks and gets tested from below
+([Fraser, "Distribution Definitions"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-09-distribution-definitions.md);
+[Fraser, "Divining Distribution"](../../../raw/bruce_fraser/posts/articles-wyckoff-2018-03-divining-distribution.md)).
 
 ## Links
 

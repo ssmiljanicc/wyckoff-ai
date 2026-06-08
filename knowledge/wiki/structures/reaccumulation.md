@@ -2,7 +2,7 @@
 title: "Reaccumulation"
 type: structure
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_077.md
     note: "Chapter 11 intro — reaccumulation = accumulation mechanically; only difference is prior trend direction"
@@ -12,6 +12,12 @@ sources:
     note: "reaccumulation vs distribution — both start after stopping an upward move; key disambiguation"
   - path: raw/book/pages/page_148.md
     note: "Ordinary Shakeout — Phase C variant in reaccumulation (bearish push during an uptrend)"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-07-rev-up-with-reaccumulation-trading-ranges.md
+    note: "Bruce Fraser — reaccumulation vs distribution diagnostic"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-01-reaccumulation-review.md
+    note: "Bruce Fraser — reaccumulation review and intraday examples"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2022-03-distribution-or-reaccumulation-699.md
+    note: "Bruce Fraser — modern distribution-vs-reaccumulation checklist"
 ---
 
 # Reaccumulation
@@ -125,6 +131,21 @@ structure is finally confirmed at the Phase D break — see
 - The duration-by-stock-mix rule gives early signal on how long the
   pause will last (and therefore how much markup follow-through to
   expect).
+
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser emphasizes the initial ambiguity: reaccumulation and distribution can
+begin with the same buying-climax/automatic-reaction stopping action, so the
+later volume/volatility behavior carries the diagnostic burden
+([Fraser, "Rev Up with Reaccumulation Trading Ranges"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-07-rev-up-with-reaccumulation-trading-ranges.md)).
+
+For Fraser, reaccumulation matures when volatility recedes, volume contracts on
+reactions, support tests hold or make higher lows, and the later rally can
+reach or exceed resistance with better quality
+([Fraser, "Reaccumulation Review"](../../../raw/bruce_fraser/posts/articles-wyckoff-2018-01-reaccumulation-review.md);
+[Fraser, "Distribution or Re-Accumulation?"](../../../raw/bruce_fraser/posts/articles-wyckoff-2022-03-distribution-or-reaccumulation-699.md)).
 
 ## Links
 
