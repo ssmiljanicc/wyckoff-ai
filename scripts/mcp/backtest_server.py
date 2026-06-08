@@ -122,25 +122,47 @@ def _ms_to_day(time_ms: int) -> str:
     return datetime.fromtimestamp(time_ms / 1000, tz=timezone.utc).strftime("%Y-%m-%d")
 
 
+def _parse_signal_time(signal: dict[str, Any]) -> tuple[int | None, str | None]:
+    """Parse a signal's ``logged_at`` into epoch ms, never raising.
+
+    Returns ``(ms, None)`` on success, or ``(None, reason)`` where ``reason``
+    is ``"missing_timestamp"`` (field absent/None) or
+    ``"unparseable_timestamp"`` (present but not valid ISO-8601). The latter
+    must not crash the whole backtest — one bad row should be skipped and
+    accounted for, not discard every trade computed before it.
+    """
+    logged_at = signal.get("logged_at")
+    if logged_at is None:
+        return None, "missing_timestamp"
+    try:
+        return _iso_to_ms(logged_at), None
+    except (ValueError, TypeError):
+        return None, "unparseable_timestamp"
+
+
 # --------------------------------------------------------------------------
 # Core simulation (pure, deterministic).
 # --------------------------------------------------------------------------
 
 
-def _side_for_signal(signal: dict[str, Any]) -> str:
-    """Resolve the trade side for a logged signal.
+def _side_for_signal(signal: dict[str, Any]) -> str | None:
+    """Resolve the trade side for a logged signal, or ``None`` if unknown.
 
     The signal store's ``signal_type`` is prefixed ``long_`` / ``short_``
     (e.g. ``long_spring``). An explicit ``side`` field wins if present;
-    otherwise the prefix decides, defaulting to long.
+    otherwise the prefix decides. When neither yields a direction the side
+    is *not* guessed — the caller skips and accounts for the signal rather
+    than silently trading it long, which would flip the sign of its P&L.
     """
     side = signal.get("side")
     if side in ("long", "short"):
         return side
     signal_type = str(signal.get("signal_type", "")).lower()
+    if signal_type.startswith("long"):
+        return "long"
     if signal_type.startswith("short"):
         return "short"
-    return "long"
+    return None
 
 
 def _apply_entry_slippage(price: float, side: str, fill_rule: str) -> float:
@@ -182,35 +204,47 @@ def _resolve_signal_exit(
     unknown, mirroring ``signal_logger_server.replay_signal``.
 
     The first target reached is used: ``min(target_zone)`` for a long,
-    ``max(target_zone)`` for a short. When the signal carries no usable
-    stop/target, or neither is touched before the data (or
-    ``max_holding_bars``) runs out, the trade exits at the last candle's
-    close with outcome ``"timeout"``.
+    ``max(target_zone)`` for a short. When no exit fires, the exit is the
+    last considered candle's close, with an ``outcome`` that distinguishes
+    *why* there was no stop/target exit:
+
+    - ``"no_exit_levels"`` — the signal carried no usable stop/target.
+    - ``"timeout"`` — ``max_holding_bars`` elapsed with data still ahead
+      (a real, modeled timeout).
+    - ``"data_exhausted"`` — the available candles ran out first; the trade
+      did not actually close and its P&L is not a genuine result.
     """
-    last = len(candles) - 1
-    if max_holding_bars is not None:
-        last = min(last, entry_index + max_holding_bars)
+    data_last = len(candles) - 1
+    if max_holding_bars is not None and entry_index + max_holding_bars < data_last:
+        last = entry_index + max_holding_bars
+        no_exit_outcome = "timeout"
+    else:
+        last = data_last
+        no_exit_outcome = "data_exhausted"
 
     has_levels = invalidation is not None and bool(target_zone)
-    if has_levels:
-        inval = float(invalidation)
-        target = min(target_zone) if side == "long" else max(target_zone)
-        for i in range(entry_index, last + 1):
-            high = float(candles[i]["high"])
-            low = float(candles[i]["low"])
-            if side == "long":
-                if low <= inval:
-                    return i, inval, "hit_sl"
-                if high >= target:
-                    return i, target, "hit_tp"
-            else:
-                if high >= inval:
-                    return i, inval, "hit_sl"
-                if low <= target:
-                    return i, target, "hit_tp"
+    if not has_levels:
+        exit_candle = candles[last]
+        return last, float(exit_candle["close"]), "no_exit_levels"
+
+    inval = float(invalidation)
+    target = min(target_zone) if side == "long" else max(target_zone)
+    for i in range(entry_index, last + 1):
+        high = float(candles[i]["high"])
+        low = float(candles[i]["low"])
+        if side == "long":
+            if low <= inval:
+                return i, inval, "hit_sl"
+            if high >= target:
+                return i, target, "hit_tp"
+        else:
+            if high >= inval:
+                return i, inval, "hit_sl"
+            if low <= target:
+                return i, target, "hit_tp"
 
     exit_candle = candles[last]
-    return last, float(exit_candle["close"]), "timeout"
+    return last, float(exit_candle["close"]), no_exit_outcome
 
 
 def _simulate_signal_trade(
@@ -277,7 +311,15 @@ def _simulate_holding_trade(
     entry_candle = candles[entry_index]
     entry_price = _apply_entry_slippage(float(entry_candle["open"]), side, fill_rule)
 
-    exit_index = min(entry_index + holding_bars, len(candles) - 1)
+    target_index = entry_index + holding_bars
+    if target_index <= len(candles) - 1:
+        exit_index = target_index
+        outcome = "timeout"
+    else:
+        # The holding window extends past the available data — the trade did
+        # not complete its intended hold; flag it rather than pretend it did.
+        exit_index = len(candles) - 1
+        outcome = "data_exhausted"
     exit_candle = candles[exit_index]
     exit_price = float(exit_candle["close"])
 
@@ -289,7 +331,7 @@ def _simulate_holding_trade(
         "exit_time": exit_candle["open_time"],
         "exit_price": exit_price,
         "pnl_pct": pnl_pct,
-        "outcome": "timeout",
+        "outcome": outcome,
     }
 
 
@@ -509,9 +551,14 @@ def backtest_signals(
         candle_limit: How many candles to pull per (symbol, timeframe).
 
     Returns:
-        ``{"backtest_id": ..., "summary": {...stats...}}``. The summary
-        carries the seven core metrics plus ``by_tactical_quality`` and
-        ``by_phase`` breakdowns.
+        ``{"backtest_id", "summary", "signals_considered", "trades_executed",
+        "skipped"}``. The summary carries the seven core metrics plus
+        ``by_tactical_quality`` and ``by_phase`` breakdowns. ``skipped`` is a
+        ``{reason: count}`` map so the caller can always reconcile signals in
+        against trades out — a signal silently dropped would otherwise bias
+        every statistic. Reasons: ``missing_symbol_or_timeframe``,
+        ``missing_timestamp``, ``unparseable_timestamp``, ``unresolvable_side``,
+        ``no_entry_candle``, ``invalid_entry``.
     """
     if fill_rule not in _VALID_FILL_RULES:
         raise ValueError(
@@ -531,6 +578,11 @@ def backtest_signals(
     # list_signals() already sorts by logged_at; re-sort defensively.
     signals = sorted(signals, key=lambda s: s.get("logged_at", ""))
 
+    skipped: dict[str, int] = {}
+
+    def _skip(reason: str) -> None:
+        skipped[reason] = skipped.get(reason, 0) + 1
+
     client = _get_market_client()
     # Fetch OHLCV once per (symbol, timeframe) — avoid refetching in the loop.
     candle_cache: dict[tuple[str, str], list[Candle]] = {}
@@ -539,26 +591,45 @@ def backtest_signals(
         symbol = signal.get("symbol")
         timeframe = signal.get("timeframe")
         if not symbol or not timeframe:
+            _skip("missing_symbol_or_timeframe")
             continue
+
+        signal_ms, time_error = _parse_signal_time(signal)
+        if time_error is not None:
+            _skip(time_error)
+            continue
+
+        side = _side_for_signal(signal)
+        if side is None:
+            _skip("unresolvable_side")
+            continue
+
         key = (symbol, timeframe)
         if key not in candle_cache:
             candle_cache[key] = client.get_ohlcv(symbol, timeframe, candle_limit)
         candles = candle_cache[key]
 
-        signal_ms = _iso_to_ms(signal.get("logged_at"))
-        if signal_ms is None:
-            continue
         entry_index = _first_index_after(candles, signal_ms)
-        side = _side_for_signal(signal)
+        if entry_index >= len(candles):
+            _skip("no_entry_candle")
+            continue
+        if float(candles[entry_index]["open"]) <= 0:
+            # A non-positive fill price is corrupt data, not a real trade —
+            # surface it rather than fabricate a break-even result.
+            _skip("invalid_entry")
+            continue
+
         trade = _simulate_signal_trade(
             candles, entry_index, side, fill_rule, signal, max_holding_bars
         )
-        if trade is not None:
-            trade["signal_id"] = signal.get("signal_id")
-            trade["symbol"] = symbol
-            trade["tactical_quality"] = signal.get("tactical_quality")
-            trade["phase"] = signal.get("phase_identified")
-            trades.append(trade)
+        if trade is None:
+            _skip("no_entry_candle")
+            continue
+        trade["signal_id"] = signal.get("signal_id")
+        trade["symbol"] = symbol
+        trade["tactical_quality"] = signal.get("tactical_quality")
+        trade["phase"] = signal.get("phase_identified")
+        trades.append(trade)
 
     record = _store_backtest(
         "signals",
@@ -571,7 +642,17 @@ def backtest_signals(
         },
         trades,
     )
-    return {"backtest_id": record["backtest_id"], "summary": record["stats"]}
+    accounting = {
+        "signals_considered": len(signals),
+        "trades_executed": len(trades),
+        "skipped": skipped,
+    }
+    record["accounting"] = accounting
+    return {
+        "backtest_id": record["backtest_id"],
+        "summary": record["stats"],
+        **accounting,
+    }
 
 
 @mcp.tool()

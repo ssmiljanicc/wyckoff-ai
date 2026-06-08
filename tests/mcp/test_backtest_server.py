@@ -65,13 +65,23 @@ _FALLING = [
 
 
 class _FakeMarketClient:
-    """Duck-typed stand-in for BinanceMarketDataClient."""
+    """Duck-typed stand-in for BinanceMarketDataClient (one series for all)."""
 
     def __init__(self, candles):
         self._candles = candles
 
     def get_ohlcv(self, symbol, timeframe, limit):
         return list(self._candles)
+
+
+class _MultiSymbolClient:
+    """Market client returning a different candle series per symbol."""
+
+    def __init__(self, by_symbol):
+        self._by_symbol = by_symbol
+
+    def get_ohlcv(self, symbol, timeframe, limit):
+        return list(self._by_symbol[symbol])
 
 
 class _FakeSignalStore:
@@ -430,6 +440,244 @@ def test_sharpe_daily_two_distinct_days():
     assert backtest_server._sharpe_daily(trades) == pytest.approx(mean / std)
     # A single active day has no dispersion → Sharpe 0.
     assert backtest_server._sharpe_daily(trades[:1]) == 0.0
+
+
+# --------------------------------------------------------------------------
+# Stop-before-target tie-break (single candle straddling both levels).
+# --------------------------------------------------------------------------
+
+# Entry candle (idx 1) spans both stop (105) and target (130): low 100, high 135.
+_STRADDLE_LONG = [
+    _candle("2024-01-01T00:00:00Z", 100.0, 101.0, 99.0, 100.0),
+    _candle("2024-01-02T00:00:00Z", 110.0, 135.0, 100.0, 120.0),
+    _candle("2024-01-03T00:00:00Z", 120.0, 140.0, 118.0, 130.0),
+]
+
+# Entry candle (idx 1) spans both stop (100) and target (65): high 110, low 60.
+_STRADDLE_SHORT = [
+    _candle("2024-01-01T00:00:00Z", 100.0, 101.0, 99.0, 100.0),
+    _candle("2024-01-02T00:00:00Z", 90.0, 110.0, 60.0, 70.0),
+    _candle("2024-01-03T00:00:00Z", 70.0, 72.0, 55.0, 60.0),
+]
+
+
+def test_stop_before_target_tiebreak_long(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-01T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_STRADDLE_LONG)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # The entry candle touches both levels; conservative resolution = stop.
+    assert trade["outcome"] == "hit_sl"
+    assert trade["exit_price"] == 105.0
+    assert result["summary"]["win_rate"] == 0.0
+
+
+def test_stop_before_target_tiebreak_short(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "ETHUSDT", "short_utad", "2024-01-01T12:00:00Z",
+                invalidation=100.0, target_zone=[65.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_STRADDLE_SHORT)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    assert trade["outcome"] == "hit_sl"
+    assert trade["exit_price"] == 100.0
+    assert result["summary"]["win_rate"] == 0.0
+
+
+def test_backtest_signals_short_hits_stop(reset_state):
+    # Short stop branch (high >= invalidation), on its own — the long-stop and
+    # short-target paths are covered elsewhere, this exercises the short stop.
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "short_utad", "2024-01-02T12:00:00Z",
+                invalidation=115.0, target_zone=[1.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # Entry 110, rising series triggers the short stop at 115.
+    assert trade["entry_price"] == 110.0
+    assert trade["exit_price"] == 115.0
+    assert trade["outcome"] == "hit_sl"
+    assert result["summary"]["win_rate"] == 0.0
+
+
+# --------------------------------------------------------------------------
+# Exit-outcome distinctions: no levels, timeout vs data exhaustion.
+# --------------------------------------------------------------------------
+
+
+def test_no_exit_levels_times_out_at_last_close(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [_signal("s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z")]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # No stop/target → exit at the last candle close, labelled accordingly.
+    assert trade["outcome"] == "no_exit_levels"
+    assert trade["exit_price"] == 155.0
+
+
+def test_data_exhausted_when_levels_never_hit(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=1.0, target_zone=[99999.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # Neither level reachable and no max_holding → ran out of candles.
+    assert trade["outcome"] == "data_exhausted"
+    assert trade["exit_price"] == 155.0
+
+
+def test_max_holding_does_not_override_stop_target(reset_state):
+    # max_holding_bars is a ceiling, not the exit model: a target hit before
+    # the timeout boundary must still win.
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals(max_holding_bars=5)
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    assert trade["outcome"] == "hit_tp"
+    assert trade["exit_price"] == 130.0
+
+
+def test_last_candle_entry_exits_same_bar(reset_state):
+    two = [
+        _candle("2024-01-01T00:00:00Z", 100.0, 105.0, 99.0, 100.0),
+        _candle("2024-01-02T00:00:00Z", 110.0, 120.0, 109.0, 115.0),  # last = entry
+    ]
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-01T12:00:00Z",
+                invalidation=1.0, target_zone=[99999.0],
+            )
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(two)
+
+    result = backtest_server.backtest_signals()
+    trade = backtest_server._backtests[result["backtest_id"]]["trades"][0]
+    # Entry is the only/last candle: exits that same bar at its close.
+    assert trade["entry_time"] == trade["exit_time"]
+    assert trade["exit_price"] == 115.0
+    assert trade["outcome"] == "data_exhausted"
+
+
+# --------------------------------------------------------------------------
+# Multi-symbol aggregation.
+# --------------------------------------------------------------------------
+
+
+def test_multi_symbol_aggregation(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "s1", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+            ),
+            _signal(
+                "s2", "ETHUSDT", "short_utad", "2024-01-02T12:00:00Z",
+                invalidation=96.0, target_zone=[70.0],
+            ),
+        ]
+    )
+    backtest_server._market_client = _MultiSymbolClient(
+        {"BTCUSDT": _RISING, "ETHUSDT": _FALLING}
+    )
+
+    result = backtest_server.backtest_signals()
+    trades = backtest_server._backtests[result["backtest_id"]]["trades"]
+    assert result["summary"]["total_trades"] == 2
+    assert {t["symbol"] for t in trades} == {"BTCUSDT", "ETHUSDT"}
+    # Both setups win on their respective series.
+    assert result["summary"]["win_rate"] == 1.0
+
+
+# --------------------------------------------------------------------------
+# Skipped-signal accounting (no silent drops, no crash on bad rows).
+# --------------------------------------------------------------------------
+
+
+def test_skipped_signal_accounting(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [
+            _signal(
+                "ok", "BTCUSDT", "long_spring", "2024-01-02T12:00:00Z",
+                invalidation=105.0, target_zone=[130.0],
+            ),
+            _signal("no_tf", "BTCUSDT", "long_spring", "2024-01-05T00:00:00Z",
+                    timeframe=None),
+            _signal("bad_ts", "BTCUSDT", "long_spring", "not-a-timestamp"),
+            _signal("future", "BTCUSDT", "long_spring", "2024-12-31T00:00:00Z",
+                    invalidation=105.0, target_zone=[130.0]),
+        ]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals()
+    assert result["signals_considered"] == 4
+    assert result["trades_executed"] == 1
+    assert result["summary"]["total_trades"] == 1
+    assert result["skipped"] == {
+        "missing_symbol_or_timeframe": 1,
+        "unparseable_timestamp": 1,
+        "no_entry_candle": 1,
+    }
+
+
+def test_unresolvable_side_skipped(reset_state):
+    backtest_server._signal_store = _FakeSignalStore(
+        [_signal("s1", "BTCUSDT", "mystery_event", "2024-01-02T12:00:00Z")]
+    )
+    backtest_server._market_client = _FakeMarketClient(_RISING)
+
+    result = backtest_server.backtest_signals()
+    assert result["trades_executed"] == 0
+    assert result["skipped"] == {"unresolvable_side": 1}
+
+
+def test_sharpe_daily_zero_dispersion_multiday():
+    # Two active days with identical returns → std 0 → Sharpe 0.
+    trades = [
+        {"exit_time": _ms("2024-01-01T00:00:00Z"), "pnl_pct": 0.10},
+        {"exit_time": _ms("2024-01-02T00:00:00Z"), "pnl_pct": 0.10},
+    ]
+    assert backtest_server._sharpe_daily(trades) == 0.0
 
 
 # --------------------------------------------------------------------------
