@@ -2,7 +2,7 @@
 title: "Point and Figure Counting"
 type: concept
 status: active
-updated: 2026-05-29
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_057.md
     note: "point-and-figure charts as volatility-based cause measurement; right-to-left count boundaries"
@@ -16,6 +16,16 @@ sources:
     note: "GBTC 3% scaling P&F swing and confirmation counts"
   - path: raw/crypto_archive/html/wyckoff-crypto-report-vol-48.html
     note: "Bitcoin 2018-2020 campaign count and recent swing-count discipline"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-01-intro-to-point-and-figure-construction.md
+    note: "Fraser construction emphasis: volatility axis, 1-box/3-box guidance"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-01-unlocking-the-mysteries-of-point-and-figure-charts.md
+    note: "Fraser accumulation count mechanics and down-column boundary rule"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-01-secrets-of-point-and-figure-distribution.md
+    note: "Fraser distribution count mechanics and up-column boundary rule"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-05-segmenting-pnf-counts.md
+    note: "Fraser segmentation discipline for valid accumulation cause"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2023-09-percent-scale-pnf-technique-nv-456.md
+    note: "Fraser percent-scale/log P&F adaptation and limits"
 ---
 
 # Point and Figure Counting
@@ -103,6 +113,24 @@ more useful in today's market structure
 
 ## Cross-Author Readings
 
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser keeps the same horizontal cause-counting premise, but puts unusual
+weight on construction discipline: the P&F axis advances by volatility rather
+than time, and 1-box/3-box choices change the operating timeframe
+([Fraser construction](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-01-intro-to-point-and-figure-construction.md)).
+He also insists that vertical-chart labels be transferred to P&F before the
+count is taken; accumulation counts begin/end on down columns, while
+distribution counts begin/end on up columns
+([accumulation count](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-01-unlocking-the-mysteries-of-point-and-figure-charts.md);
+[distribution count](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-01-secrets-of-point-and-figure-distribution.md)).
+
+Fraser's distinct applied emphasis is count quality: segment a large base when
+only part of it shows true accumulation, and treat percent-scale P&F as a
+specialized log-scale extension rather than the default count method
+([segmenting](../../../raw/bruce_fraser/posts/articles-wyckoff-2017-05-segmenting-pnf-counts.md);
+[percent scale](../../../raw/bruce_fraser/posts/articles-wyckoff-2023-09-percent-scale-pnf-technique-nv-456.md)).
+
 ### As Used By Wyckoff Analytics Crypto Archive (crypto_archive)
 
 Vol 29 applies a 3% scaling point-and-figure chart to GBTC and warns that
@@ -128,6 +156,9 @@ acting on very large long-term objectives
 ## Links
 
 - Parent law: [[cause-and-effect]]
+- Fraser applications: [[pnf-count-segmentation]],
+  [[pnf-count-confirmation]], [[pnf-distribution-paradox]],
+  [[intraday-pnf-reading]], [[percent-scale-pnf]]
 - Structure inputs: [[structures/accumulation]], [[structures/distribution]],
   [[structures/reaccumulation]], [[structures/redistribution]]
 - Boundary events: [[events/last-point-of-support]],
@@ -136,4 +167,7 @@ acting on very large long-term objectives
 - Related target/exit context: [[significant-bar]],
   [[reversal-of-movement]]
 - Sources: [[book-chapter-08]], [[book-chapter-27]],
-  [[crypto-report-vol-29]], [[crypto-report-vol-48]]
+  [[crypto-report-vol-29]], [[crypto-report-vol-48]],
+  [[fraser-pnf-construction-and-counting]],
+  [[fraser-pnf-segmentation-and-confirmation]],
+  [[fraser-pnf-intraday-and-percent-scale]]

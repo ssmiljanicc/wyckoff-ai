@@ -2,7 +2,7 @@
 title: "Law of Cause and Effect"
 type: concept
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_054.md
     note: "primary statement — something cannot happen out of nowhere; cause precedes effect"
@@ -18,6 +18,10 @@ sources:
     note: "alternative projection tools (Fibonacci, harmonic projection)"
   - path: raw/book/pages/page_060.md
     note: "conclusion — trends and causes alternate"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-12-why-point-and-figure-works.md
+    note: "Fraser C.O.-footprint rationale for horizontal P&F cause measurement"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-01-aapl-campaign-completed.md
+    note: "Fraser campaign cycle example: cause, effect, objective, new cause"
 ---
 
 # Law of Cause and Effect
@@ -84,6 +88,19 @@ many traders prefer projection tools like Fibonacci or harmonic ranges
 ([book p.59](../../../raw/book/pages/page_059.md)) — useful, but the underlying
 law (proportionality of cause to effect) is what matters.
 
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser links the law directly to C.O. activity: because P&F columns are created
+by reversals, he treats the countable volatility in accumulation or
+distribution as the footprint of large interests building cause
+([Why P&F Works](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-12-why-point-and-figure-works.md)).
+In the AAPL campaign case, he repeats the cycle operationally: a completed
+cause produces an effect into a P&F objective, then a new cause must form
+before the next meaningful move can be projected
+([AAPL Campaign Completed](../../../raw/bruce_fraser/posts/articles-wyckoff-2019-01-aapl-campaign-completed.md)).
+
 ## Why It Matters For Wyckoff Reading
 
 - It is the reason patience inside a [[trading-range]] pays off — short
@@ -102,4 +119,7 @@ law (proportionality of cause to effect) is what matters.
 - Parent: [[three-laws]]
 - Applied: [[trading-range]], [[random-vs-purposeful-range]],
   [[point-and-figure-counting]]
-- Source: [[book-chapter-08]]
+- Fraser applications: [[pnf-count-segmentation]],
+  [[pnf-count-confirmation]], [[pnf-distribution-paradox]]
+- Sources: [[book-chapter-08]], [[fraser-pnf-construction-and-counting]],
+  [[fraser-pnf-distribution-and-downside-counts]]
