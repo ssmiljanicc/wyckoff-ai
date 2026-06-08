@@ -378,3 +378,5 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Batch 7: Bruce Fraser Point & Figure (~30 articles).
 - Semantic spot-check pre merge-a je preporucen jer Batch 6 uvodi novi autor-source tip i vise cross-author dopuna.
+
+[2026-06-08] spot-check Batch 6 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
