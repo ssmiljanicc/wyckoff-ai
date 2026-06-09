@@ -616,7 +616,7 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 ### Pages updated
 
-- `index.md` — scenarios/ section populated; page count 162 → 170.
+- `index.md` — scenarios/ section populated; page count corrected to **179** (domain folders `concepts/events/structures/crypto/scenarios/sources` actually hold 179 `.md` and index links 179; the prior Batch-9 `162` baseline was inconsistent — the `+8` scenarios delta was right but the total was stale).
 - `log.md` — this entry.
 
 ### Open follow-ups (remaining #8 phases)

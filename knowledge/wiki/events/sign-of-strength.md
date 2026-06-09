@@ -2,7 +2,7 @@
 title: "Sign of Strength (SOS) and Major SOS"
 type: event
 status: active
-updated: 2026-05-25
+updated: 2026-06-09
 sources:
   - path: raw/book/pages/page_154.md
     note: "Chapter 19 — breakout event in general; market imbalance produces strong move"
@@ -15,13 +15,11 @@ sources:
   - path: raw/book/pages/page_159.md
     note: "follow-up unintentional candles; distance of rupture"
   - path: raw/book/pages/page_160.md
-    note: "SOS definition — origin in Phase C low, breaks the Creek; UT label if fails"
+    note: "the break is not an operational opportunity; wait for the subsequent test"
   - path: raw/book/pages/page_161.md
-    note: "SOS quality — easy movement, reaches midpoint, regression stays above spring"
+    note: "SOS definition — originates in Phase C low, breaks the Creek, UT if it re-enters; plus quality (ease of movement, reaches midpoint, regression stays above spring)"
   - path: raw/book/pages/page_162.md
-    note: "minor SOS variant; SOS bar definition — wide bullish bar with close at highs and increased volume"
-  - path: raw/book/pages/page_163.md
-    note: "SOS bar as entry trigger"
+    note: "minor SOS variant; SOS bar definition and entry trigger — wide bullish bar, close at highs, increased volume"
 ---
 
 # Sign of Strength (SOS) and Major SOS
@@ -33,7 +31,7 @@ of the methodology) in an accumulation structure. It is the upward move
 that originates from the low of Phase C — either the [[spring]] or the
 [[last-point-of-support|LPS]] — and produces the break of the upper
 range boundary (the [[concepts/creek-and-ice|Creek]])
-([book p.160](../../../raw/book/pages/page_160.md)).
+([book p.161](../../../raw/book/pages/page_161.md)).
 
 The SOS produces the **second Change of Character (CHoCh)** of the
 structure: the market exits the range and enters a trending phase
@@ -51,7 +49,7 @@ The distribution mirror is [[sign-of-weakness]].
 ### Where The SOS Originates
 
 The SOS originates in the **low of Phase C**
-([book p.160](../../../raw/book/pages/page_160.md)):
+([book p.161](../../../raw/book/pages/page_161.md)):
 
 - In **Accumulation #1** (with shake) — from the [[spring]] low.
 - In **Accumulation #2** (no shake) — from the
@@ -126,7 +124,7 @@ that has SOS characteristics but does not break the structure.
 ### SOS Bar — The Entry Trigger
 
 The **SOS Bar** is a specific bar pattern used as an entry trigger
-([book p.162–163](../../../raw/book/pages/page_162.md)):
+([book p.162](../../../raw/book/pages/page_162.md)):
 
 - Wide bullish bar.
 - Close **at the highs** of the range.
@@ -142,7 +140,7 @@ trigger for longs.
 ### Breakout Is Not An Entry Opportunity
 
 The book is explicit
-([book p.159](../../../raw/book/pages/page_159.md)): the break itself
+([book p.160](../../../raw/book/pages/page_160.md)): the break itself
 should **not** be traded:
 
 - The break zone has too many crossing orders; market control can flip.

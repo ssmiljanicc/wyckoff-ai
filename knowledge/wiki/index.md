@@ -4,7 +4,7 @@ Navigation catalog. Every wiki page is listed under its folder. Empty sections w
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
 **Last updated:** 2026-06-09 (#8 skill rebuild — scenarios/ layer synthesized)
-**Pages:** 170 tracked
+**Pages:** 179 tracked
 
 ---
 

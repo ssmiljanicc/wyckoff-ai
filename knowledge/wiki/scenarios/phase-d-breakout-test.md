@@ -5,11 +5,13 @@ status: active
 updated: 2026-06-09
 primary_source: book
 sources:
-  - path: raw/book/pages/page_159.md
-    note: "the break itself is not an entry; control can flip; trade the test"
+  - path: raw/book/pages/page_158.md
+    note: "staying out of the range is the most reliable cue of a genuine break"
   - path: raw/book/pages/page_160.md
+    note: "the break itself is not an entry; control can flip; wait for the test"
+  - path: raw/book/pages/page_161.md
     note: "SOS breaks the Creek; UT label if the break fails"
-  - path: raw/book/pages/page_163.md
+  - path: raw/book/pages/page_162.md
     note: "SOS bar as the entry trigger at the confirmation test"
 ---
 
@@ -28,7 +30,7 @@ either side. Evidence checklist, not a trade call (`/CLAUDE.md` §9). Leaf of
 The book is explicit: the break itself should **not** be traded. The break zone
 has too many crossing orders and market control can flip — a potential
 [[sign-of-strength|SOS]] can turn into an [[upthrust|UT]] without warning
-([book p.159](../../../raw/book/pages/page_159.md)). The correct entry is the
+([book p.160](../../../raw/book/pages/page_160.md)). The correct entry is the
 **confirmation test** that follows the break.
 
 ## Evidence Sequence
@@ -37,13 +39,13 @@ has too many crossing orders and market control can flip — a potential
 
 1. **Range break.** [[sign-of-strength|SOS]] / [[jump-across-the-creek|JAC]]
    breaks the [[creek-and-ice|Creek]]
-   ([book p.160](../../../raw/book/pages/page_160.md)).
+   ([book p.161](../../../raw/book/pages/page_161.md)).
 2. **Hold above the break.** Price does **not** immediately re-enter the range —
-   the single most reliable cue ([book p.159](../../../raw/book/pages/page_159.md)).
+   the single most reliable cue ([book p.158](../../../raw/book/pages/page_158.md)).
 3. **Confirmation test.** The [[back-up-to-the-edge-of-the-creek|BUEC]] /
    [[last-point-of-support|LPS]] back-up to the broken Creek on lower volume; an
    [[sign-of-strength|SOS bar]] there is the trigger
-   ([book p.163](../../../raw/book/pages/page_163.md)).
+   ([book p.162](../../../raw/book/pages/page_162.md)).
 
 ### Distribution side
 

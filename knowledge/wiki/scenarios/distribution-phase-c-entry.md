@@ -11,8 +11,8 @@ sources:
     note: "UTAD as Phase C shake in distribution; moderate to strong volume"
   - path: raw/book/pages/page_152.md
     note: "UTAD test — less enthusiasm, holds below UTAD level; short on the test ceiling"
-  - path: raw/book/pages/page_159.md
-    note: "do not trade the break; wait for the confirmation test"
+  - path: raw/book/pages/page_160.md
+    note: "do not trade the break; wait for the subsequent confirmation test"
 ---
 
 # Scenario — Distribution Phase C Entry
@@ -48,7 +48,7 @@ Without these, an upside probe of resistance is uptrend continuation, not a
    just above the UTAD high.
 3. **Sign of Weakness.** The [[sign-of-weakness|SOW]] breaks the lower boundary
    ([[creek-and-ice|Ice]]). **Do not enter on the break itself**
-   ([book p.159](../../../raw/book/pages/page_159.md)).
+   ([book p.160](../../../raw/book/pages/page_160.md)).
 4. **Confirmation test.** The [[last-point-of-supply|LPSY]] /
    [[fall-through-the-ice|FTI]] rally back to the broken Ice is the confirmation
    entry on a lower high.

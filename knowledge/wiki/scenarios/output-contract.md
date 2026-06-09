@@ -30,6 +30,7 @@ pick the mode; the rest of the response follows that mode's contract.
 > structure resolves ([[labeling-is-last-step]],
 > [book p.142](../../../raw/book/pages/page_142.md)). It is not stated in any
 > single raw source.
+> Sources: [[labeling-is-last-step]], [book p.142](../../../raw/book/pages/page_142.md), Faza 1 PRD (`.claude/PRPs/prds/faza-1-skill-modernization.prd.md`)
 
 ## Mode Discriminator
 

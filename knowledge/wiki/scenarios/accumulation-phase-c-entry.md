@@ -9,9 +9,9 @@ sources:
     note: "labeling discipline — spring only if it causes the upward break"
   - path: raw/book/pages/page_149.md
     note: "spring test — narrowing ranges, lower volume, holds above spring low"
-  - path: raw/book/pages/page_159.md
-    note: "do not trade the break; wait for the confirmation test"
-  - path: raw/book/pages/page_163.md
+  - path: raw/book/pages/page_160.md
+    note: "do not trade the break; wait for the subsequent confirmation test"
+  - path: raw/book/pages/page_162.md
     note: "SOS bar as the entry trigger"
 ---
 
@@ -48,12 +48,12 @@ If these do not hold, a probe below support is trend continuation, not a
 3. **Sign of Strength.** The [[sign-of-strength|SOS]] breaks the upper boundary
    ([[creek-and-ice|Creek]]). **Do not enter on the break itself** — the break
    zone can flip into an [[upthrust|UT]]
-   ([book p.159](../../../raw/book/pages/page_159.md)).
+   ([book p.160](../../../raw/book/pages/page_160.md)).
 4. **Confirmation test.** The [[last-point-of-support|LPS]] /
    [[back-up-to-the-edge-of-the-creek|BUEC]] back-up to the broken boundary is
    the confirmation entry. The [[sign-of-strength|SOS bar]] (wide bullish bar,
    close at highs, increased volume) is the entry trigger
-   ([book p.163](../../../raw/book/pages/page_163.md)).
+   ([book p.162](../../../raw/book/pages/page_162.md)).
 
 ## Trigger, Invalidation, Path
 

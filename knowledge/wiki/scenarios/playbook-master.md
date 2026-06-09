@@ -27,6 +27,7 @@ trigger / invalidation logic.
 > ([book p.184–185](../../../raw/book/pages/page_184.md)) into a single
 > navigation order. No raw source states the tree as such; each branch's claims
 > are cited on the page it links to.
+> Sources: [[phase-c]], [[structures/accumulation]], [[structures/distribution]], [book p.184–185](../../../raw/book/pages/page_184.md)
 
 ## The Tree
 

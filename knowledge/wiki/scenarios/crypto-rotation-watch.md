@@ -26,6 +26,7 @@ before pattern), invoked from every other scenario's "Crypto Overlay" section.
 > [[intermarket-gate]], the [[rotation-hierarchy]], [[comparative-strength]], and
 > [[spread-charts]] — into one watch order. Each tool's claims are cited on its
 > own page; the ordering here is the composition.
+> Sources: [[intermarket-gate]], [[rotation-hierarchy]], [[comparative-strength]], [[spread-charts]]
 
 ## Watch Order
 
