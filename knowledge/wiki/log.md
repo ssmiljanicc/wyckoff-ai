@@ -585,3 +585,5 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 
 - Pre merge-a: run mechanical PR review and semantic spot-check because Batch 9 closes the #7 ingest lifecycle and adds event modifier pages.
 - Posle merge-a Batch 9 PR-a: open a separate cleanup PR for post-Batch 9 skill/runbook trim. Do not mix that cleanup into this batch PR.
+
+[2026-06-09] spot-check Batch 9 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
