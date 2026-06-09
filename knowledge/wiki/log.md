@@ -455,3 +455,78 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Semantic spot-check pre merge-a je preporucen jer Batch 7 uvodi vise Fraser-origin P&F koncepta i nove `Cross-Author Readings` dopune.
 
 [2026-06-08] spot-check Batch 7 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
+
+---
+
+## [2026-06-08] ingest | Bruce Fraser, Batch 8 — relative strength and campaign logic
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch8`
+- Izvori: `raw/bruce_fraser/posts/` — 40 clanaka izabranih iz tematskog opsega "relative strength and campaign logic".
+
+### Candidate article set
+
+- Relative strength i top-down selection:
+  `Wyckoff Skill Building`, `Wyckoff Group Think`, `Group Stink`,
+  `A Gaggle of Groups`, `In Gear with Relative Strength`,
+  `Sectors. Groups. Stocks.`, `Three Legged Stool`,
+  `Around the World in 21 Ways`,
+  `Combining Wyckoff and Relative Strength to Find Big Trends`,
+  `Win the Race with Relative Strength`,
+  `Power Charting TV: Stock Selection with the Wyckoff Market Report`.
+- Group/sector rotation i leadership case studies:
+  `breXit and O's`, `Animal Spirits`, `Financial Sector Update`,
+  `The New Nifty Fifty`, `Group Dynamics`, `Two Way Markets`, `BankRoll`,
+  `Retail Roll-Reversal`, `Tale of the Tape`,
+  `A Mid-Year Look at FANG Stocks`, `deFANG'd?`, `Semi-Tough`,
+  `Health Care Plan`, `Health Care Crisis`, `Residential Constructive`,
+  `Material Development`, `Energy Heats Up`,
+  `S&P 500 Equal Weight ETF Gains Strength`, `Trifecta of Trouble`.
+- Campaign logic i campaign management:
+  `When Termites Get into Your Trends`, `Does Lightening Strike Twice?`,
+  `Stair Step to Profits`, `Swing Trading Case Study`, `Campaigning Gold`,
+  `Campaign Caravan`, `Identify Campaign Setups with the Wyckoff Method`,
+  `Towering TSLA!`, `AAPL on the Hinge`, `Will the QQQ Swing into Gear?`.
+
+### Pages created (8)
+
+`sources/bruce_fraser/` (3):
+- `fraser-campaign-management.md`
+- `fraser-relative-strength-and-selection.md`
+- `fraser-sector-rotation-and-leadership.md`
+
+`concepts/` (5):
+- `campaign-trading.md`
+- `leadership-rotation.md`
+- `relative-strength-in-gear.md`
+- `sector-group-stock-drilldown.md`
+- `two-way-market.md`
+
+### Pages updated
+
+- `knowledge/wiki/concepts/trend-assessment.md` — dodata Fraser `Cross-Author Readings` sekcija za trend assessment kao campaign-management alat.
+- `knowledge/wiki/concepts/cause-and-effect.md` — dopunjena Fraser `Cross-Author Readings` sekcija za campaign candidate filter.
+- `knowledge/wiki/structures/reaccumulation.md` — dopunjena Fraser `Cross-Author Readings` sekcija za reaccumulation kao campaign hold/add okruzenje.
+- `knowledge/wiki/index.md` — dodate Batch 8 concept i source-summary stranice; page count azuriran na 150.
+- `knowledge/wiki/log.md` — ovaj zapis.
+
+### Commit-evi u ovom batch-u
+
+- `12a8839` — Fraser RS/campaign source summaries, concept stranice i cross-author dopune.
+- `this commit` — index/log update za Batch 8.
+
+### Notes
+
+- Batch 6 i Batch 7 clanci nisu ponovo korisceni kao Batch 8 primarni izvori, osim kroz postojece wiki linkove i prethodno ingestovane Fraser stranice.
+- P&F je koriscen samo kada podrzava relative-strength/campaign reading; P&F-only clanci ostaju u Batch 7 stranicama.
+- `crypto/comparative-strength` i `crypto/rotation-hierarchy` nisu redefinisani; Batch 8 dodaje equity/Fraser analogne concept stranice i cross-linkove.
+- Sva nova Fraser-origin concept prosirenja imaju `primary_source: bruce_fraser`.
+- Svaki inline Fraser source link ima paritetan `sources:` entry; svaka frontmatter Fraser putanja se pojavljuje inline bar jednom.
+- Nema novih `WIKI_GAP` markera.
+
+### Open follow-ups
+
+- Batch 9: Bruce Fraser preostali clanci (~130), ukljucujuci single-name case studies, market context, intraday/workshop posts i preostale non-Batch 6-8 teme.
+- Semantic spot-check pre merge-a je preporucen jer Batch 8 uvodi Fraser-origin RS/campaign konceptne stranice i analogije prema crypto rotation/comparative-strength vokabularu.
+
+[2026-06-08] spot-check Batch 8 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge

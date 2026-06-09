@@ -2,7 +2,7 @@
 title: "Trend Assessment — Speed, Projection, Depth, Channels"
 type: concept
 status: active
-updated: 2026-05-25
+updated: 2026-06-08
 sources:
   - path: raw/book/pages/page_017.md
     note: "trends as the line of least resistance; identification of uptrend / downtrend / sideways"
@@ -36,6 +36,10 @@ sources:
     note: "converging lines — when standard channels fail"
   - path: raw/book/pages/page_032.md
     note: "exhaustion patterns from converging lines"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-10-does-lightening-strike-twice.md
+    note: "Bruce Fraser — trend following and trend management emphasis"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-09-aapl-on-the-hinge-226.md
+    note: "Bruce Fraser — leadership-stock thresholds and trend-channel risk"
 ---
 
 # Trend Assessment — Speed, Projection, Depth, Channels
@@ -144,6 +148,19 @@ trends are driven by fear, leading to oversold conditions
 The book treats these as predictable extremes that the comparative
 toolkit is designed to spot before they exhaust.
 
+## Cross-Author Readings
+
+### As Used By Bruce Fraser (bruce_fraser)
+
+Fraser uses trend analysis as a campaign-management tool: the method seeks the
+preconditions to a rising or falling trend, then manages participation for the
+duration of that trend
+([Fraser, "Does Lightening Strike Twice?"](../../../raw/bruce_fraser/posts/articles-wyckoff-2016-10-does-lightening-strike-twice.md)).
+In his AAPL case, support/resistance thresholds, the lower trend-channel line,
+and RS divergence define whether a leadership-stock campaign remains viable
+or is in danger of failure
+([Fraser, "AAPL on the Hinge"](../../../raw/bruce_fraser/posts/articles-wyckoff-2021-09-aapl-on-the-hinge-226.md)).
+
 ## Why It Matters For Wyckoff Reading
 
 - Speed / projection / depth give you the comparative vocabulary the book
@@ -162,5 +179,7 @@ toolkit is designed to spot before they exhaust.
 - Parent: [[market-cycle]]
 - Sibling: [[waves-and-fractals]]
 - Related: [[significant-bar]] (bar-level intent),
-  [[reversal-of-movement]] (turn confirmation), [[stride-of-trend]]
-- Sources: [[book-chapter-03]], [[book-chapter-04]]
+  [[reversal-of-movement]] (turn confirmation), [[stride-of-trend]],
+  [[campaign-trading]]
+- Sources: [[book-chapter-03]], [[book-chapter-04]],
+  [[fraser-campaign-management]]

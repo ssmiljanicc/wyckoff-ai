@@ -3,14 +3,14 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-06-08 (Batch 7 — Bruce Fraser Point & Figure)
-**Pages:** 142 tracked
+**Last updated:** 2026-06-08 (Batch 8 - Bruce Fraser relative strength and campaign logic)
+**Pages:** 150 tracked
 
 ---
 
 ## concepts/
 
-Active pages (29; 24 expected core + 5 Fraser P&F extensions):
+Active pages (34; 24 expected core + 5 Fraser P&F extensions + 5 Fraser RS/campaign extensions):
 
 Three fundamental laws:
 - [three-laws](concepts/three-laws.md) — umbrella for the three fundamental laws
@@ -47,6 +47,13 @@ Cycle and structure foundations:
 - [pnf-count-confirmation](concepts/pnf-count-confirmation.md) — matching/nested count objectives as campaign evidence
 - [pnf-count-segmentation](concepts/pnf-count-segmentation.md) — counting only the active cause inside a larger range
 - [pnf-distribution-paradox](concepts/pnf-distribution-paradox.md) — distribution over-counting and downside-count limits
+
+**Fraser RS/campaign extensions (Batch 8):**
+- [campaign-trading](concepts/campaign-trading.md) — Fraser's multi-month to multi-year campaign process
+- [leadership-rotation](concepts/leadership-rotation.md) — equity sector/group/capitalization rotation reading
+- [relative-strength-in-gear](concepts/relative-strength-in-gear.md) — price and RS confirming or warning on trend health
+- [sector-group-stock-drilldown](concepts/sector-group-stock-drilldown.md) — top-down sector/group/stock selection workflow
+- [two-way-market](concepts/two-way-market.md) — bifurcated market where groups stop moving together
 
 **Archive-confirmed concepts (Batch 5):**
 - [principle-in-the-principle](concepts/principle-in-the-principle.md) — smaller Wyckoff structure embedded inside a larger one
@@ -127,7 +134,7 @@ Expected pages:
 
 ## sources/
 
-Active source pages (76 active + 8 WIKI_GAP):
+Active source pages (79 active + 8 WIKI_GAP):
 
 `sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
@@ -158,8 +165,9 @@ Active source pages (76 active + 8 WIKI_GAP):
 - [book-chapter-26](sources/book/book-chapter-26.md) — Primary Positions *(Batch 3)*
 - [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
-`sources/bruce_fraser/` — thematic groupings (11 active; Batches 8–9 pending):
+`sources/bruce_fraser/` — thematic groupings (14 active; Batch 9 pending):
 - [fraser-accumulation-phase-reading](sources/bruce_fraser/fraser-accumulation-phase-reading.md) — stopping action, absorption, Spring/LPS, JAC, and BUEC
+- [fraser-campaign-management](sources/bruce_fraser/fraser-campaign-management.md) — campaign holding, reaccumulation, objectives, and risk thresholds
 - [fraser-distribution-phase-reading](sources/bruce_fraser/fraser-distribution-phase-reading.md) — distribution context, UTAD/LPSY, power waves, and tape reading
 - [fraser-market-index-phase-case-studies](sources/bruce_fraser/fraser-market-index-phase-case-studies.md) — NDX/COMPQ/SPX context and scenario discipline
 - [fraser-method-context](sources/bruce_fraser/fraser-method-context.md) — cycle, C.O. heuristic, three laws, and context discipline
@@ -170,6 +178,8 @@ Active source pages (76 active + 8 WIKI_GAP):
 - [fraser-pnf-segmentation-and-confirmation](sources/bruce_fraser/fraser-pnf-segmentation-and-confirmation.md) — segmenting counts and matching/reconfirming objectives
 - [fraser-reaccumulation-phase-reading](sources/bruce_fraser/fraser-reaccumulation-phase-reading.md) — reaccumulation vs distribution diagnostics
 - [fraser-redistribution-phase-reading](sources/bruce_fraser/fraser-redistribution-phase-reading.md) — redistribution as markdown pause and accumulation trap
+- [fraser-relative-strength-and-selection](sources/bruce_fraser/fraser-relative-strength-and-selection.md) — RS in-gear, top-down selection, and stock ranking
+- [fraser-sector-rotation-and-leadership](sources/bruce_fraser/fraser-sector-rotation-and-leadership.md) — sector/group rotation, leadership, and two-way markets
 
 `sources/crypto_archive/` — one page per volume:
 - [crypto-report-vol-14](sources/crypto_archive/crypto-report-vol-14.md) — post-crash Bitcoin repair; margin-call funding source

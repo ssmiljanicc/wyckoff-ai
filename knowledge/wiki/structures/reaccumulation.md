@@ -18,6 +18,10 @@ sources:
     note: "Bruce Fraser — reaccumulation review and intraday examples"
   - path: raw/bruce_fraser/posts/articles-wyckoff-2022-03-distribution-or-reaccumulation-699.md
     note: "Bruce Fraser — modern distribution-vs-reaccumulation checklist"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-08-when-termites-get-into-your-trends.md
+    note: "Bruce Fraser — reaccumulation as trend repair and campaign add-on environment"
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-05-campaign-caravan.md
+    note: "Bruce Fraser — campaign holding discipline through reaccumulation"
 ---
 
 # Reaccumulation
@@ -147,6 +151,13 @@ reach or exceed resistance with better quality
 ([Fraser, "Reaccumulation Review"](../../../raw/bruce_fraser/posts/articles-wyckoff-2018-01-reaccumulation-review.md);
 [Fraser, "Distribution or Re-Accumulation?"](../../../raw/bruce_fraser/posts/articles-wyckoff-2022-03-distribution-or-reaccumulation-699.md)).
 
+Fraser also treats reaccumulation as campaign management. A strong trend can
+need an ownership "repair" phase before the next advance, and the campaigner
+must often hold through that pause instead of liquidating a position that may
+be difficult to rebuild after the next markup begins
+([Fraser, "When Termites Get into Your Trends"](../../../raw/bruce_fraser/posts/articles-wyckoff-2015-08-when-termites-get-into-your-trends.md);
+[Fraser, "Campaign Caravan"](../../../raw/bruce_fraser/posts/articles-wyckoff-2019-05-campaign-caravan.md)).
+
 ## Links
 
 - Identical mechanics: [[accumulation]] (read first)
@@ -157,5 +168,7 @@ reach or exceed resistance with better quality
   [[concepts/phase-c]], [[concepts/phase-d]], [[concepts/phase-e]]
 - Cycle position: [[concepts/market-cycle]]
 - Diagnostic concept: [[concepts/cause-and-effect]]
+- Campaign use: [[concepts/campaign-trading]]
 - Failure mode: [[events/failed-signal]]
-- Sources: [[book-chapter-11]], [[book-chapter-18]]
+- Sources: [[book-chapter-11]], [[book-chapter-18]],
+  [[fraser-reaccumulation-phase-reading]], [[fraser-campaign-management]]
