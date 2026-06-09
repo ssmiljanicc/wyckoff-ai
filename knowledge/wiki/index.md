@@ -3,8 +3,8 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-06-08 (Batch 8 - Bruce Fraser relative strength and campaign logic)
-**Pages:** 150 tracked
+**Last updated:** 2026-06-09 (Batch 9 - Bruce Fraser remaining articles and modifiers)
+**Pages:** 162 tracked
 
 ---
 
@@ -62,7 +62,7 @@ Cycle and structure foundations:
 
 ## events/
 
-Active pages (21):
+Active pages (23):
 
 Phase A — stop events (Batch 2):
 - [preliminary-support](events/preliminary-support.md) (PS / PSY)
@@ -92,9 +92,8 @@ Phase D/E — trend events (Batch 2):
 
 Archive modifiers:
 - [flat-reaction](events/flat-reaction.md) — low-volatility reaction in top half of local range
-
-Pending (Batches 6–9):
-- Archive modifiers: feather, hinge (Fraser/archive)
+- [feather](events/feather.md) — crypto archive absorption/acceleration modifier
+- [hinge](events/hinge.md) — Fraser pivot/volatility-squeeze modifier
 
 ## structures/
 
@@ -134,7 +133,7 @@ Expected pages:
 
 ## sources/
 
-Active source pages (79 active + 8 WIKI_GAP):
+Active source pages (89 active + 8 WIKI_GAP):
 
 `sources/book/` — one page per chapter (27 of 27):
 - [book-chapter-01](sources/book/book-chapter-01.md) — Waves
@@ -165,11 +164,18 @@ Active source pages (79 active + 8 WIKI_GAP):
 - [book-chapter-26](sources/book/book-chapter-26.md) — Primary Positions *(Batch 3)*
 - [book-chapter-27](sources/book/book-chapter-27.md) — Decision-Making *(Batch 3)*
 
-`sources/bruce_fraser/` — thematic groupings (14 active; Batch 9 pending):
+`sources/bruce_fraser/` — thematic groupings (24 active; Batch 9 complete):
 - [fraser-accumulation-phase-reading](sources/bruce_fraser/fraser-accumulation-phase-reading.md) — stopping action, absorption, Spring/LPS, JAC, and BUEC
+- [fraser-bonds-rates-dollar-and-inflation](sources/bruce_fraser/fraser-bonds-rates-dollar-and-inflation.md) — bonds, rates, dollar, and inflation context
 - [fraser-campaign-management](sources/bruce_fraser/fraser-campaign-management.md) — campaign holding, reaccumulation, objectives, and risk thresholds
+- [fraser-chart-reading-and-education](sources/bruce_fraser/fraser-chart-reading-and-education.md) — chart-reading practice, education, and Power Charting context
+- [fraser-commodity-case-studies](sources/bruce_fraser/fraser-commodity-case-studies.md) — crude oil, natural gas, gold, silver, and commodity-linked examples
 - [fraser-distribution-phase-reading](sources/bruce_fraser/fraser-distribution-phase-reading.md) — distribution context, UTAD/LPSY, power waves, and tape reading
+- [fraser-index-scenario-notebook-2015-2019](sources/bruce_fraser/fraser-index-scenario-notebook-2015-2019.md) — broad-index scenario studies from 2015 to 2019
+- [fraser-index-scenario-notebook-2020-2026](sources/bruce_fraser/fraser-index-scenario-notebook-2020-2026.md) — broad-index scenario studies from 2020 to 2026
+- [fraser-intraday-and-swing-tactics](sources/bruce_fraser/fraser-intraday-and-swing-tactics.md) — intraday, short-term, and swing-trading applications
 - [fraser-market-index-phase-case-studies](sources/bruce_fraser/fraser-market-index-phase-case-studies.md) — NDX/COMPQ/SPX context and scenario discipline
+- [fraser-market-internals-and-sentiment](sources/bruce_fraser/fraser-market-internals-and-sentiment.md) — breadth, sentiment, and environmental context filters
 - [fraser-method-context](sources/bruce_fraser/fraser-method-context.md) — cycle, C.O. heuristic, three laws, and context discipline
 - [fraser-pnf-campaign-projections](sources/bruce_fraser/fraser-pnf-campaign-projections.md) — P&F campaign objectives, rotation, and completion scenarios
 - [fraser-pnf-construction-and-counting](sources/bruce_fraser/fraser-pnf-construction-and-counting.md) — P&F construction, accumulation/distribution count mechanics, and C.O. rationale
@@ -179,7 +185,10 @@ Active source pages (79 active + 8 WIKI_GAP):
 - [fraser-reaccumulation-phase-reading](sources/bruce_fraser/fraser-reaccumulation-phase-reading.md) — reaccumulation vs distribution diagnostics
 - [fraser-redistribution-phase-reading](sources/bruce_fraser/fraser-redistribution-phase-reading.md) — redistribution as markdown pause and accumulation trap
 - [fraser-relative-strength-and-selection](sources/bruce_fraser/fraser-relative-strength-and-selection.md) — RS in-gear, top-down selection, and stock ranking
+- [fraser-sector-industry-and-theme-case-studies](sources/bruce_fraser/fraser-sector-industry-and-theme-case-studies.md) — sector, industry, and investment-theme examples
 - [fraser-sector-rotation-and-leadership](sources/bruce_fraser/fraser-sector-rotation-and-leadership.md) — sector/group rotation, leadership, and two-way markets
+- [fraser-single-stock-case-studies](sources/bruce_fraser/fraser-single-stock-case-studies.md) — single-name campaign, reaccumulation, distribution, and squeeze examples
+- [fraser-trendline-and-timeframe-practice](sources/bruce_fraser/fraser-trendline-and-timeframe-practice.md) — trendline, channel, timeframe, creek, and stride practice
 
 `sources/crypto_archive/` — one page per volume:
 - [crypto-report-vol-14](sources/crypto_archive/crypto-report-vol-14.md) — post-crash Bitcoin repair; margin-call funding source

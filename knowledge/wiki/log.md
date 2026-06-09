@@ -530,3 +530,60 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Semantic spot-check pre merge-a je preporucen jer Batch 8 uvodi Fraser-origin RS/campaign konceptne stranice i analogije prema crypto rotation/comparative-strength vokabularu.
 
 [2026-06-08] spot-check Batch 8 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
+
+---
+
+## [2026-06-09] ingest | Bruce Fraser, Batch 9 — remaining articles and modifiers
+
+- Issue: [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7)
+- Branch: `wiki-ingest-batch9`
+- Izvori: `raw/bruce_fraser/posts/` — 132 preostala Fraser clanka koja nisu bila referencirana posle Batch 6-8; plus postojeci crypto archive izvori za `feather`.
+
+### Coverage audit
+
+- Pre Batch 9: 243 Fraser raw posta ukupno; 111 referencirano u wiki-ju; 132 preostala.
+- Posle `Wiki Batch 9.1`: 243/243 Fraser raw posta referencirano kroz `sources/bruce_fraser/`.
+- Provera: `comm -23 all_fraser referenced_fraser_after_sources` je prazan skup.
+
+### Source grouping
+
+`sources/bruce_fraser/` (10):
+- `fraser-bonds-rates-dollar-and-inflation.md`
+- `fraser-chart-reading-and-education.md`
+- `fraser-commodity-case-studies.md`
+- `fraser-index-scenario-notebook-2015-2019.md`
+- `fraser-index-scenario-notebook-2020-2026.md`
+- `fraser-intraday-and-swing-tactics.md`
+- `fraser-market-internals-and-sentiment.md`
+- `fraser-sector-industry-and-theme-case-studies.md`
+- `fraser-single-stock-case-studies.md`
+- `fraser-trendline-and-timeframe-practice.md`
+
+`events/` (2):
+- `feather.md`
+- `hinge.md`
+
+### Pages updated
+
+- `knowledge/wiki/index.md` — Batch 9 source pages and modifier events added; page count updated to 162.
+- `knowledge/wiki/log.md` — this entry.
+
+### Commit-evi u ovom batch-u
+
+- `6f3ba5f` — remaining Fraser source summaries.
+- `87506f4` — feather and hinge modifiers.
+- `this commit` — index/log update za Batch 9.
+
+### Notes
+
+- Batch 9 source summaries are source-index pages: they preserve provenance and link to existing wiki vocabulary instead of redefining book-origin terms.
+- `feather.md` uses `primary_source: crypto_archive` because the term is defined in the crypto archive, not Fraser.
+- `hinge.md` uses `primary_source: bruce_fraser` and includes a crypto archive cross-market usage.
+- No new `WIKI_GAP` markers.
+
+### Open follow-ups
+
+- Pre merge-a: run mechanical PR review and semantic spot-check because Batch 9 closes the #7 ingest lifecycle and adds event modifier pages.
+- Posle merge-a Batch 9 PR-a: open a separate cleanup PR for post-Batch 9 skill/runbook trim. Do not mix that cleanup into this batch PR.
+
+[2026-06-09] spot-check Batch 9 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
