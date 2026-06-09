@@ -1,107 +1,117 @@
 ---
 name: wyckoff-trader-skill
-description: Use this skill when building, reviewing, or updating Wyckoff-based market scenarios, especially for crypto assets. It helps map market cycle context, accumulation/distribution structures, phase and event evidence, intermarket dependencies, crypto sector rotation, relative strength, and actionable scenario trees with triggers, invalidations, and campaign logic.
+description: Use this skill to answer Wyckoff questions about markets (especially crypto) in one of three modes — scenario (a full forward-looking scenario tree), concept (definition of a term), or diagnostic (classify what a chart is showing). It reads from a provenance-tracked wiki so every claim traces back to a source. Use it for springs, upthrusts, SOS/SOW, LPS/LPSY, accumulation vs distribution, phase reading, intermarket gates, crypto rotation, and relative strength.
 ---
 
 # Wyckoff Trader Skill
 
 ## Overview
 
-Use this skill to turn raw chart observations into disciplined Wyckoff scenarios. It is optimized for crypto, but the core workflow remains classical Wyckoff: determine context first, identify the active campaign, evaluate phase and event evidence, then express the result as a scenario tree instead of a single prediction.
+This skill turns chart observations into disciplined Wyckoff analysis. It is
+optimized for crypto but the core method is classical Wyckoff: context first,
+then structure, then phase and event evidence, then — only for forward-looking
+questions — a scenario tree instead of a single prediction.
 
-## When To Use It
+## Knowledge Base Architecture
 
-Use this skill when the task involves any of the following:
+The skill's knowledge lives in a **provenance-tracked wiki** at
+`../../knowledge/wiki/` (relative to this file). Every substantive claim there
+cites a raw source, so the skill's answers are traceable: answer → wiki page →
+raw source.
 
-- Building a Wyckoff scenario for Bitcoin, altcoins, sector indexes, or spread charts.
-- Deciding whether a structure is accumulation, reaccumulation, distribution, or redistribution.
-- Interpreting springs, upthrusts, SOS/SOW, LPS/LPSY, BUEC/FTI, tests, or failed signals.
-- Comparing Bitcoin leadership vs altcoin rotation, sector rotation, or risk-on/risk-off behavior.
-- Producing a trade or no-trade thesis with trigger, invalidation, and path dependency.
-- Updating the skill from new books, reports, blog posts, or market studies.
+**Runtime model (option B):** do **not** load the whole wiki. Always start by
+reading the index, then read only the specific pages a query needs.
 
-## Core Rules
+1. Read [`../../knowledge/wiki/index.md`](../../knowledge/wiki/index.md) — the
+   navigation catalog. Every page is listed under its folder with a one-line
+   description.
+2. From the index, open the specific `concepts/`, `events/`, `structures/`,
+   `crypto/`, or `scenarios/` pages the query requires.
+3. Cite the wiki pages you used so the user can drill down to the raw source.
 
-- Label last. Start with price/volume behavior, then add structure labels only after the story is coherent.
-- Context outranks pattern. A spring in the wrong background is noise.
-- Treat all reads as scenarios, not certainties.
-- Prefer the path of least resistance, not the most dramatic narrative.
-- In crypto, always check intermarket context and internal rotation before committing to a directional view.
-- If the evidence is mixed, produce a no-trade or wait scenario instead of forcing a thesis.
-- Prefer the bundled local corpus in `references/assets/` over external URLs.
+## Step 0 — Pick The Response Mode
 
-## Workflow
+Before answering, classify the query into **one** mode (full contract:
+[`scenarios/output-contract.md`](../../knowledge/wiki/scenarios/output-contract.md)):
 
-### 0. Prefer Local Corpus
+1. **Concept** — "what is X?", "explain Phase C", "spring vs upthrust?". No live
+   data; the user wants knowledge.
+2. **Diagnostic** — specific price/volume/structure observations supplied, asking
+   "what is this?" / "what phase?". The user wants a classification.
+3. **Scenario** — a forward-looking plan: scenario tree with trigger,
+   invalidation, path ("build a scenario", "what's the setup?", "go/wait?").
 
-- Start with [assets/index.md](references/assets/index.md).
-- Use the local bundled assets before browsing or re-fetching any source.
-- For classical Wyckoff source text, use `references/assets/book/`.
-- For the crypto archive source text, use `references/assets/crypto_archive/`.
-- For long-form applied case studies, Point & Figure practice, trend stride work, and stock-selection workflow, use `references/assets/bruce_fraser_stockcharts/`.
+Tie-breaks: forward path with trigger/invalidation → scenario; "what is this
+right now" → diagnostic; general question → concept.
 
-### 1. Build Context First
+## Mode Workflows
 
-- Determine the dominant market cycle position on the relevant higher timeframe.
-- Note whether the asset is in a buying position, selling position, or neutral position.
-- Check whether the range is likely purposeful or just random balance.
-- Load [book_foundations.md](references/book_foundations.md) if the structural read is unclear.
+### Concept mode
 
-### 2. Map The Structure
+Read the relevant `concepts/` or `events/` page via the index. Return: a 2–4
+sentence definition in book vocabulary, 1–2 wiki citations, 2–3 related wiki
+links, and one worked example (crypto preferred). Do **not** emit the
+nine-section scenario contract.
 
-- Identify the range boundaries, key bars, and path-of-least-resistance clues.
-- Decide whether the structure is accumulation, reaccumulation, distribution, or redistribution.
-- Evaluate Phase A-E evidence and event sequence.
-- For uncertainty around Phase C or Phase D, read [uncommon_concepts.md](references/uncommon_concepts.md).
+### Diagnostic mode
 
-### 3. Apply Crypto Overlays
+Enforce [labeling-is-last-step](../../knowledge/wiki/concepts/labeling-is-last-step.md):
+describe the price/volume behavior **before** naming a label. Return: what the
+behavior shows, the candidate label(s) plus runner-up, the confidence and what
+evidence would confirm or deny it, and an optional offer to escalate to scenario
+mode.
 
-- Check S&P, Nasdaq, dollar, or other relevant intermarket gates when the setup depends on macro risk appetite.
-- Check Bitcoin leadership vs large caps, mid caps, low caps, and thematic groups.
-- Use spread charts for leadership detection, then switch back to tradable USD or perp charts for execution logic.
-- Read [crypto_adaptations.md](references/crypto_adaptations.md) for crypto-specific behavior.
+### Scenario mode
 
-### 4. Build The Scenario Tree
+Route through the master tree
+([`scenarios/playbook-master.md`](../../knowledge/wiki/scenarios/playbook-master.md)),
+then produce the full nine-section contract:
 
-- Write the leading scenario.
-- Write at least one credible alternate scenario.
-- For each scenario, define:
-  - structural thesis
-  - trigger
-  - invalidation
-  - expected path
-  - intermarket dependency
-  - evidence quality
-- Use [scenario_playbook.md](references/scenario_playbook.md) for the output contract.
-
-### 5. Express Campaign Logic
-
-- Distinguish between Phase C, Phase D, and Phase E opportunities.
-- Note whether the opportunity is an aggressive end-of-range entry, a confirmation entry, or a continuation entry.
-- Prefer action -> test -> confirmation logic over premature breakout chasing.
-- Treat failed signals as fresh information, not as nuisances.
-
-## Output Contract
-
-Unless the user asks for another format, structure the final scenario with:
-
-1. Context
-2. Wyckoff story
-3. Phase and event evidence
-4. Crypto-specific overlays
-5. Leading scenario
-6. Alternate scenario(s)
-7. Trigger, invalidation, target path
+1. Context (market-cycle position; buying/selling/neutral)
+2. Wyckoff story (supply/demand narrative so far)
+3. Phase and event evidence (Phase A–E + events)
+4. Crypto overlays (intermarket gate, BTC leadership, rotation, relative
+   strength — run
+   [`scenarios/crypto-rotation-watch.md`](../../knowledge/wiki/scenarios/crypto-rotation-watch.md))
+5. Leading scenario (thesis, trigger, invalidation, path, intermarket
+   dependency, evidence quality)
+6. Alternate scenario(s) — at least one credible alternate
+7. Trigger, invalidation, target path (comparative, not absolute)
 8. What would change the read
 9. Trade / wait / no-trade conclusion
 
+Pick the matching entry template from the tree:
+[accumulation-phase-c-entry](../../knowledge/wiki/scenarios/accumulation-phase-c-entry.md),
+[distribution-phase-c-entry](../../knowledge/wiki/scenarios/distribution-phase-c-entry.md),
+[phase-d-breakout-test](../../knowledge/wiki/scenarios/phase-d-breakout-test.md),
+or [no-shake-foothold](../../knowledge/wiki/scenarios/no-shake-foothold.md).
+
+## Core Rules
+
+- **Label last.** Read price/volume behavior first; assign structure labels only
+  after the story is coherent.
+- **Context outranks pattern.** A spring in the wrong background is noise.
+- **Scenarios, not certainties.** Every forward read carries an explicit
+  invalidation.
+- **Path of least resistance**, not the most dramatic narrative.
+- **Crypto:** always check the intermarket gate and internal rotation before a
+  directional view.
+- **Mixed evidence → no-trade / wait**, not a forced thesis.
+- **No trade calls** (`/CLAUDE.md` §9): describe what *would* count as evidence;
+  never emit a bare "buy here".
+- **Cite the wiki.** Every concept/diagnostic claim names the wiki page it came
+  from.
+
+## Optional: Live Data (MCP)
+
+When MCP market-data tools are available (Faza 2), use them to populate the
+observations a scenario needs. The skill must still work **without** them — in
+that case, analyze the observations the user provides.
+
 ## References
 
-- [source_index.md](references/source_index.md): what sources informed the skill and why they matter.
-- [assets/index.md](references/assets/index.md): bundled offline corpus of the book and crypto archive.
-- [bruce_fraser_stockcharts.md](references/bruce_fraser_stockcharts.md): applied Wyckoff lessons distilled from Bruce Fraser's 243-article StockCharts archive.
-- [book_foundations.md](references/book_foundations.md): formal Wyckoff framework from the book.
-- [crypto_adaptations.md](references/crypto_adaptations.md): crypto-specific behaviors extracted from the archive.
-- [uncommon_concepts.md](references/uncommon_concepts.md): high-signal, non-obvious ideas and terminology.
-- [scenario_playbook.md](references/scenario_playbook.md): scenario-building checklist and template.
-- [skill-updator.md](skill-updator.md): process for updating the skill with new material.
+- Navigation: [`../../knowledge/wiki/index.md`](../../knowledge/wiki/index.md)
+- Response contract: [`scenarios/output-contract.md`](../../knowledge/wiki/scenarios/output-contract.md)
+- Scenario tree: [`scenarios/playbook-master.md`](../../knowledge/wiki/scenarios/playbook-master.md)
+- Updating the skill / wiki: [`runbooks/wyckoff-wiki-ingest.md`](../../runbooks/wyckoff-wiki-ingest.md)
+- Domain schema: [`/CLAUDE.md`](../../CLAUDE.md)

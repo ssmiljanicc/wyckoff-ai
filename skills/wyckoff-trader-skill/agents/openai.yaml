@@ -1,7 +1,7 @@
 interface:
   display_name: "Wyckoff Trader Skill"
-  short_description: "Build Wyckoff-based crypto scenarios"
-  default_prompt: "Use $wyckoff-trader-skill to build a disciplined Wyckoff scenario for this market."
+  short_description: "Answer Wyckoff questions in scenario, concept, or diagnostic mode"
+  default_prompt: "Use $wyckoff-trader-skill to answer this Wyckoff question. Pick the mode first: concept (define a term), diagnostic (classify what a chart shows), or scenario (a full forward-looking scenario tree). See SKILL.md and knowledge/wiki/scenarios/output-contract.md."
 
 policy:
   allow_implicit_invocation: true

@@ -587,3 +587,42 @@ All of them. Ingest begins with [#7](https://github.com/ssmiljanicc/wyckoff-ai/i
 - Posle merge-a Batch 9 PR-a: open a separate cleanup PR for post-Batch 9 skill/runbook trim. Do not mix that cleanup into this batch PR.
 
 [2026-06-09] spot-check Batch 9 — 5 stranica, 20 PASS / 0 CONCERN / 0 FAIL — akcija: merge
+
+---
+
+## [2026-06-09] update | #8 skill rebuild — scenarios/ layer synthesized
+
+- Issue: [#8](https://github.com/ssmiljanicc/wyckoff-ai/issues/8) (Rebuild SKILL.md + scenario_playbook from wiki), phase A1.
+- Scope: synthesized the `scenarios/` layer (was empty by design — see `index.md` note). 8 new pages.
+- Architecture decision (locked for #8): runtime option **B** (bundle wiki + preload `index.md`, JIT navigation); upstream packaging deferred to [#29](https://github.com/ssmiljanicc/wyckoff-ai/issues/29).
+
+### Pages created (8)
+
+`scenarios/`:
+- `output-contract.md` — three response modes (scenario / concept / diagnostic) + mode discriminator. Derived from Faza-1 PRD; three-mode taxonomy marked as Synthesis.
+- `playbook-master.md` — top-level scenario decision tree (context → structure → phase → Phase C/D branch). Composition marked as Synthesis.
+- `accumulation-phase-c-entry.md` — spring → test → SOS → confirmation.
+- `distribution-phase-c-entry.md` — UTAD → test → SOW → confirmation.
+- `phase-d-breakout-test.md` — trade the confirmation test, not the break.
+- `no-shake-foothold.md` — Accumulation #2 / Distribution #2; LPS/LPSY primary trade.
+- `crypto-rotation-watch.md` — intermarket gate → rotation → comparative strength → spread/USD. Watch-order composition marked as Synthesis.
+- `test-set.md` — 8 canonical prompts for E2E validation ([#13](https://github.com/ssmiljanicc/wyckoff-ai/issues/13)), 3 concept / 3 diagnostic / 2 scenario.
+
+### Provenance discipline
+
+- Scenario pages are compositional; cross-source compositions carry `> **Synthesis:**` markers per `/CLAUDE.md` §5.
+- Inline raw citations restricted to pages read+verified this session (spring p.142/149, phase-c p.184/185, SOS p.159/160/163, UTAD p.150/152, no-shake p.41/45, crypto vol-33/36/59). Everything else routes via Obsidian-style wiki links to pages that carry their own verified provenance.
+- No trade calls (`/CLAUDE.md` §9): scenarios are evidence checklists with trigger/invalidation framed as evidence, not "buy/sell here".
+
+### Pages updated
+
+- `index.md` — scenarios/ section populated; page count corrected to **179** (domain folders `concepts/events/structures/crypto/scenarios/sources` actually hold 179 `.md` and index links 179; the prior Batch-9 `162` baseline was inconsistent — the `+8` scenarios delta was right but the total was stale).
+- `log.md` — this entry.
+
+### Open follow-ups (remaining #8 phases)
+
+- A2: rewrite `skills/wyckoff-trader-skill/SKILL.md` for architecture B + mode discriminator.
+- A3: rewrite `references/scenario_playbook.md` as a thin pointer to `scenarios/`.
+- A4: resolve 5 distilled ref files (delete redundant, repoint `references/assets/`).
+- A5: update `agents/openai.yaml` for three modes.
+- A6: validate + open PR; fix stale `prds/02-trading-use.md` references in `CLAUDE.md`/`log.md` (PRD-02 superseded by Faza-1 PRD per [#15](https://github.com/ssmiljanicc/wyckoff-ai/issues/15)).

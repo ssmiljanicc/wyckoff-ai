@@ -3,8 +3,8 @@
 Navigation catalog. Every wiki page is listed under its folder. Empty sections will fill in as [#7](https://github.com/ssmiljanicc/wyckoff-ai/issues/7) ingest progresses.
 
 **Generated:** 2026-05-24 (init via [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Last updated:** 2026-06-09 (Batch 9 - Bruce Fraser remaining articles and modifiers)
-**Pages:** 162 tracked
+**Last updated:** 2026-06-09 (#8 skill rebuild — scenarios/ layer synthesized)
+**Pages:** 179 tracked
 
 ---
 
@@ -124,12 +124,21 @@ Active pages (12 — Batch 4–5 crypto archive):
 
 ## scenarios/
 
-*(empty — populates after PRD-02 lands and during [#8](https://github.com/ssmiljanicc/wyckoff-ai/issues/8))*
+Active pages (8; created during [#8](https://github.com/ssmiljanicc/wyckoff-ai/issues/8) skill rebuild):
 
-Expected pages:
-- playbook-master, output-contract
-- accumulation-phase-c-entry, distribution-phase-c-entry, phase-d-breakout-test
-- no-shake-foothold, crypto-rotation-watch
+Contract and router:
+- [output-contract](scenarios/output-contract.md) — three response modes (scenario / concept / diagnostic) and the mode discriminator
+- [playbook-master](scenarios/playbook-master.md) — top-level scenario decision tree
+
+Entry templates:
+- [accumulation-phase-c-entry](scenarios/accumulation-phase-c-entry.md) — spring → test → SOS → confirmation
+- [distribution-phase-c-entry](scenarios/distribution-phase-c-entry.md) — UTAD → test → SOW → confirmation
+- [phase-d-breakout-test](scenarios/phase-d-breakout-test.md) — trade the confirmation test, not the break
+- [no-shake-foothold](scenarios/no-shake-foothold.md) — Accumulation #2 / Distribution #2; LPS/LPSY primary trade
+- [crypto-rotation-watch](scenarios/crypto-rotation-watch.md) — intermarket gate → rotation → comparative strength → spread/USD
+
+Validation:
+- [test-set](scenarios/test-set.md) — 8 canonical prompts for E2E validation ([#13](https://github.com/ssmiljanicc/wyckoff-ai/issues/13))
 
 ## sources/
 

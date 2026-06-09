@@ -188,7 +188,7 @@ Modifiers / archive-specific:
 ### scenarios/
 
 - `scenarios/playbook-master.md` (top-level scenario tree)
-- `scenarios/output-contract.md` (what an analysis answer looks like — to be aligned with PRD-02)
+- `scenarios/output-contract.md` (what an analysis answer looks like — aligned with the Faza 1 PRD `.claude/PRPs/prds/faza-1-skill-modernization.prd.md`, which superseded the stub PRD-02 per [#15](https://github.com/ssmiljanicc/wyckoff-ai/issues/15))
 - `scenarios/accumulation-phase-c-entry.md`
 - `scenarios/distribution-phase-c-entry.md`
 - `scenarios/phase-d-breakout-test.md`
@@ -263,6 +263,27 @@ any check or lint; only act on an **explicit** `primary_source` value.
 ```
 
 **Wiki-internal links** use Obsidian-style `[[event name]]` for backlinks between pages (the LLM and human reader both benefit).
+
+**Transitive provenance for compositional pages (`type: scenario`).** Scenario
+and contract pages synthesize claims that are already defined-and-cited on
+`concepts/`, `events/`, `structures/`, and `crypto/` pages. They are held to a
+**parity** rule rather than a duplicate-everything rule:
+
+- Every claim a scenario page states **directly** with an inline `[book p.XXX]`
+  citation must have a matching `sources:` frontmatter entry, and vice versa
+  (frontmatter ↔ inline parity, per runbook §3.6).
+- A claim that the page merely **restates from a linked definition page** may
+  rely on **transitive provenance** — the `[[wikilink]]` to that page, which
+  carries its own raw citation. Such a claim does **not** need its upstream raw
+  source re-listed in the scenario page's frontmatter.
+- Cross-source compositions still require the `> **Synthesis:**` marker with a
+  `Sources:` line (above).
+
+**Meta / contract pages** (e.g. `scenarios/output-contract.md`,
+`scenarios/test-set.md`) may cite a **project-design source** (such as the Faza 1
+PRD) where a statement originates in a project decision rather than a Wyckoff raw
+source. Such statements must be explicitly framed as design/contract — not
+presented as Wyckoff claims — and the page says so in its body.
 
 ---
 
@@ -361,4 +382,4 @@ If you find yourself writing something in one of these categories, file it in th
 ---
 
 **Schema version:** 1.0 (2026-05-24, created with [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Next revision trigger:** PRD-02 (trading use) lands — may add/refine `scenarios/` and `crypto/` structure based on real query patterns.
+**Next revision trigger:** real query patterns from trading use (#13 E2E validation, then live use) — may add/refine `scenarios/` and `crypto/` structure. (The trading-use spec originally tracked as PRD-02 was folded into the Faza 1 PRD `.claude/PRPs/prds/faza-1-skill-modernization.prd.md` per [#15](https://github.com/ssmiljanicc/wyckoff-ai/issues/15); the `scenarios/` layer landed in #8.)
