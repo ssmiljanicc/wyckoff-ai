@@ -312,6 +312,13 @@ Refs `#7`. **Bez self-merge.**
   uv run skills/wyckoff-wiki-ingest/scripts/validate_links.py --pr 38   # samo fajlovi iz PR-a
   ```
 
+- `scripts/audit_citations.py` — Sloj-1 citation audit: proverava image-only raw strane, direct quote grep, section-boundary heuristiku, frontmatter ↔ inline parity i range sanity. Exit 0 ako nema flagova, exit 1 ako postoje sumnjivi citati. Primer:
+  ```bash
+  uv run skills/wyckoff-wiki-ingest/scripts/audit_citations.py
+  uv run skills/wyckoff-wiki-ingest/scripts/audit_citations.py --pr 38   # samo fajlovi iz PR-a
+  uv run skills/wyckoff-wiki-ingest/scripts/audit_citations.py --json
+  ```
+
 - `scripts/fix_inline_links.py` — jednokratni fix za citation depth bug. Idempotentan.
   ```bash
   uv run skills/wyckoff-wiki-ingest/scripts/fix_inline_links.py --dry-run
@@ -423,10 +430,12 @@ CLAUDE.md drži trajne invariante (folder layout, provenance, vocabulary) koje o
 Posle bilo koje izmene wiki sadržaja (batch, spot-fix, ad-hoc):
 
 1. `uv run skills/wyckoff-wiki-ingest/scripts/validate_links.py` — mora pass.
-2. `git diff --check` — bez whitespace problema.
-3. Ako je PR otvoren: `uv run skills/wyckoff-wiki-ingest/scripts/review_pr.py <PR>` — sve mehaničke provere pass.
-4. Za Batch 2/3 (i kasnije po triger-u): `operations/semantic-spot-check.md` — Opus sesija, izveštaj na srpskom.
-5. Ako je spot-check pokrenut: obavezan 1-line audit trail entry u `knowledge/wiki/log.md` (per `operations/semantic-spot-check.md` §6) — prerequisite za merge, čak i kad je sve PASS.
+2. `uv run skills/wyckoff-wiki-ingest/scripts/audit_citations.py` — Sloj-1 citation audit mora pass ili imati eksplicitno review-disposition u PR-u. Obavezne pre-merge provere su: image-only page check, quote-not-found, section-boundary heuristika, frontmatter ↔ inline parity i range sanity.
+3. `git diff --check` — bez whitespace problema.
+4. Ako je PR otvoren: `uv run skills/wyckoff-wiki-ingest/scripts/review_pr.py <PR>` — sve mehaničke provere pass.
+5. Za Batch 2/3 (i kasnije po triger-u): `operations/semantic-spot-check.md` — Opus sesija, izveštaj na srpskom.
+6. Za citate koje `audit_citations.py` flaguje u PR-u: `operations/citation-audit.md` — Opus Sloj-2 semantic pass nad flagovanim citatima pre merge-a.
+7. Ako je spot-check ili citation audit pokrenut: obavezan 1-line audit trail entry u `knowledge/wiki/log.md` (per `operations/semantic-spot-check.md` §6 i `operations/citation-audit.md`) — prerequisite za merge, čak i kad je sve PASS.
 
 ## Handoff
 
