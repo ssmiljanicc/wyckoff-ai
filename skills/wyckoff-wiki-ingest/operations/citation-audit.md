@@ -42,7 +42,7 @@ Za book page raspon (`p.A-B`) procitaj sve raw strane u rasponu.
 
 ### Pre-merge PR audit
 
-Obradi sve nove ili izmenjene citate u PR-u koje Sloj-1 flaguje. Ako je broj flagova veliki, nemoj uzorkovati nasumicno; prvo pokrij sve `image_only`, `quote_not_found`, `range_*`, i `section_boundary` nalaze, pa tek onda parity nalaze.
+Obradi sve nove ili izmenjene citate u PR-u koje Sloj-1 hard-flaguje. Ako je broj flagova veliki, nemoj uzorkovati nasumicno; prvo pokrij sve `image_only`, `missing_raw`, `quote_not_found`, `range_*`, i `frontmatter_missing` nalaze. `section_boundary` i `inline_missing` su warning / Sloj-2 backlog i ulaze tek kada reviewer trazi siru semanticku proveru.
 
 ### Full sweep
 
@@ -106,11 +106,17 @@ Ne menjaj wiki sadrzaj tokom ove operacije. Ispravke idu u zaseban PR koji refer
 
 ## 5. Validation
 
-Pre nego sto se audit report smatra zavrsenim:
+Za Sloj-1 generated report:
 
 ```bash
 uv run skills/wyckoff-wiki-ingest/scripts/audit_citations.py --json > /tmp/citation-audit.json || true
 python3 -m json.tool /tmp/citation-audit.json >/dev/null
+rg -n "Hard Gate Flags|Warning / Sloj-2 Backlog|quote_not_found|section_boundary" knowledge/wiki/health/citation-audit-*.md
+```
+
+Za Sloj-2 semantic verdict report:
+
+```bash
 rg -n "misattribution|needs-human-review|directly-stated|paraphrase-ok" knowledge/wiki/health/citation-audit-*.md
 ```
 

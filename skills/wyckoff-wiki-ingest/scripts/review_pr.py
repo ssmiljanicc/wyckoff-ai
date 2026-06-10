@@ -37,6 +37,19 @@ SOURCES_PATH_RE = re.compile(r"^\s*-\s*path:\s*(\S+)", re.MULTILINE)
 PRIMARY_SOURCE_RE = re.compile(r"^\s*primary_source:\s*(\S+)", re.MULTILINE)
 
 
+def is_generated_health_report(path: Path, wt: Path) -> bool:
+    try:
+        rel = path.relative_to(wt)
+    except ValueError:
+        return False
+    return (
+        len(rel.parts) == 4
+        and rel.parts[:3] == ("knowledge", "wiki", "health")
+        and rel.name.startswith("citation-audit-")
+        and rel.suffix == ".md"
+    )
+
+
 def allowed_primary_sources(wt: Path) -> set[str]:
     """Allowed primary_source values = the raw/ subfolder names (derived, not hardcoded)."""
     raw = wt / "raw"
@@ -93,6 +106,8 @@ def check_frontmatter(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
     allowed_ps = allowed_primary_sources(wt)
     for f in files:
         rel = f.relative_to(wt)
+        if is_generated_health_report(f, wt):
+            continue
         if rel.name in ("index.md", "log.md", "README.md"):
             continue
         text = f.read_text(encoding="utf-8")
@@ -124,6 +139,8 @@ def check_inline_links(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
     issues = []
     for f in files:
         rel = f.relative_to(wt)
+        if is_generated_health_report(f, wt):
+            continue
         if rel.name in ("index.md", "log.md", "README.md"):
             continue
         text = f.read_text(encoding="utf-8")
@@ -156,6 +173,8 @@ def check_cross_references(files: list[Path], wt: Path) -> tuple[bool, list[str]
     issues = []
     for f in files:
         rel = f.relative_to(wt)
+        if is_generated_health_report(f, wt):
+            continue
         if rel.name in ("index.md", "log.md", "README.md"):
             continue
         text = f.read_text(encoding="utf-8")
@@ -172,6 +191,7 @@ def check_index_log_update(added_files: list[Path], all_files: list[Path], wt: P
         f for f in added_files
         if f.name not in ("index.md", "log.md", "README.md")
         and "knowledge/wiki" in str(f)
+        and not is_generated_health_report(f, wt)
     ]
     if not new_content:
         return True, []
@@ -189,6 +209,8 @@ def check_style(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
     issues = []
     for f in files:
         rel = f.relative_to(wt)
+        if is_generated_health_report(f, wt):
+            continue
         if rel.name in ("index.md", "log.md", "README.md"):
             continue
         # source summary pages have different format
@@ -206,6 +228,8 @@ def check_wiki_gap(files: list[Path], wt: Path) -> tuple[bool, list[str]]:
     issues = []
     for f in files:
         rel = f.relative_to(wt)
+        if is_generated_health_report(f, wt):
+            continue
         if rel.name == "log.md":
             continue
         text = f.read_text(encoding="utf-8")
