@@ -2,7 +2,7 @@
 title: "Upthrust After Distribution (UTAD)"
 type: event
 status: active
-updated: 2026-05-25
+updated: 2026-06-10
 sources:
   - path: raw/book/pages/page_134.md
     note: "Chapter 18 intro — shaking is the key event; preconditions"
@@ -141,7 +141,7 @@ successful tests) before selling.
 ### Labeling Discipline
 
 The book is strict
-([book p.141](../../../raw/book/pages/page_141.md)):
+([book p.142](../../../raw/book/pages/page_142.md)):
 
 > "A UTAD is the shaking event of the highs of the structure but it
 > should also cause the bearish break and the beginning of the trend
