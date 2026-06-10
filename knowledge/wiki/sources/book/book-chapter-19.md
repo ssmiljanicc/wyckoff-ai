@@ -2,7 +2,7 @@
 title: "Book Chapter 19 — Event #6: Breakout"
 type: source-summary
 status: active
-updated: 2026-05-25
+updated: 2026-06-10
 sources:
   - path: raw/book/pages/page_154.md
     note: "intro — breakout follows Phase C test; market imbalance produces the move; not an entry"
@@ -15,15 +15,15 @@ sources:
   - path: raw/book/pages/page_158.md
     note: "key cue: price does NOT immediately re-enter the range"
   - path: raw/book/pages/page_159.md
-    note: "unintentional follow-up candles; distance of rupture; breakout is not an opportunity"
+    note: "unintentional follow-up candles; distance of rupture"
   - path: raw/book/pages/page_160.md
-    note: "SOS definition — origin in Phase C low, breaks the Creek; if re-enters = UT"
+    note: "the break is not an operational opportunity; wait for the subsequent test"
   - path: raw/book/pages/page_161.md
-    note: "SOS quality — ease of movement, reaches midpoint, regression stays above spring"
+    note: "SOS definition — origin in Phase C low, breaks the Creek, UT if it re-enters; plus quality (ease of movement, reaches midpoint, regression stays above spring)"
   - path: raw/book/pages/page_162.md
-    note: "minor SOS; SOS Bar — wide bullish bar with close at highs and increased volume"
+    note: "minor SOS; SOS Bar — wide bullish bar, close at highs, increased volume; entry trigger"
   - path: raw/book/pages/page_163.md
-    note: "SOS Bar as entry trigger"
+    note: "SOS figure (Chapter 19)"
   - path: raw/book/pages/page_164.md
     note: "MSOW definition — strong bearish move from Phase C high, breaks the Ice"
   - path: raw/book/pages/page_165.md

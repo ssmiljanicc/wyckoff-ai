@@ -2,7 +2,7 @@
 title: "Upthrust (UT)"
 type: event
 status: active
-updated: 2026-05-25
+updated: 2026-06-10
 sources:
   - path: raw/book/pages/page_126.md
     note: "Phase B ST upper-end test; UT label when distribution is favored"
@@ -12,8 +12,8 @@ sources:
     note: "UT vs UTAD — UTAD is the Phase C UT after distribution has happened"
   - path: raw/book/pages/page_153.md
     note: "Terminal Upthrust as a variant of UT"
-  - path: raw/book/pages/page_160.md
-    note: "SOS / Upthrust dichotomy — upward Creek break is UT if price fails to stay above"
+  - path: raw/book/pages/page_161.md
+    note: "SOS / Upthrust dichotomy — upward Creek break is UT if price fails to stay above and re-enters"
 ---
 
 # Upthrust (UT)
@@ -28,7 +28,7 @@ shake of the high that occurs in:
   ([book p.127](../../../raw/book/pages/page_127.md)).
 - **Phase D** — as a **failed upward breakout** of the resistance / Creek
   that re-enters the range
-  ([book p.160](../../../raw/book/pages/page_160.md)).
+  ([book p.161](../../../raw/book/pages/page_161.md)).
 
 The UT is distinct from the [[upthrust-after-distribution|UTAD]]: the
 UTAD is the **Phase C** shake (after Phase B distribution has happened)
@@ -61,7 +61,7 @@ accumulation) the trader believes is most likely. See
 
 When price attempts an upward breakout of the structure but **fails to
 stay above the level**, the move is labeled an Upthrust
-([book p.160](../../../raw/book/pages/page_160.md)):
+([book p.161](../../../raw/book/pages/page_161.md)):
 
 > "If the [SOS] fails to stay above [the Creek] and re-enters the range,
 > the event would be an Upthrust (UT)."
