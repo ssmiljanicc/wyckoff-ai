@@ -1,7 +1,23 @@
 interface:
   display_name: "Wyckoff Trader Skill"
-  short_description: "Answer Wyckoff questions in scenario, concept, or diagnostic mode"
-  default_prompt: "Use $wyckoff-trader-skill to answer this Wyckoff question. Pick the mode first: concept (define a term), diagnostic (classify what a chart shows), or scenario (a full forward-looking scenario tree). See SKILL.md and knowledge/wiki/scenarios/output-contract.md."
+  short_description: "Answer Wyckoff questions with wiki-grounded analysis and MCP live data when available"
+  default_prompt: "Use $wyckoff-trader-skill to answer this Wyckoff question. If the query includes a symbol + timeframe live-market request, first use available MCP tools to pull OHLCV, render the chart, inspect it, and include an MCP trace before the answer. Then pick the mode: concept (define a term), diagnostic (classify what a chart shows), or scenario (a full forward-looking scenario tree). See SKILL.md and knowledge/wiki/scenarios/output-contract.md."
+
+mcp:
+  expected_tools:
+    - server: "scripts.mcp.market_data_server"
+      tools:
+        - "get_ohlcv"
+        - "get_supported_symbols"
+        - "get_timeframes"
+    - server: "scripts.mcp.chart_renderer"
+      tools:
+        - "render_chart"
+        - "render_chart_for_symbol"
+    - server: "scripts.mcp.spread_chart_server"
+      tools:
+        - "get_spread"
+        - "render_spread_chart"
 
 policy:
   allow_implicit_invocation: true
