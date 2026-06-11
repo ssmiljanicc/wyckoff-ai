@@ -146,8 +146,8 @@ Wiki citations + OHLCV-derived facts (e.g., volume comparison) compose 9-section
 | 1 | Market data MCP | M4 | OHLCV server with Binance public API | complete | [PRPs/plans/completed/market-data-mcp-ohlcv.plan.md](../../../PRPs/plans/completed/market-data-mcp-ohlcv.plan.md) |
 | 2 | Chart renderer MCP | M4 | OHLCV → PNG via `mplfinance` | complete | [PRPs/plans/completed/10-chart-renderer-mcp.plan.md](../../../PRPs/plans/completed/10-chart-renderer-mcp.plan.md) |
 | 3 | Spread chart MCP | M4 | Ratio OHLCV + spread chart render | complete | [PRPs/plans/completed/11-spread-chart-mcp.plan.md](../../../PRPs/plans/completed/11-spread-chart-mcp.plan.md) |
-| 4 | Skill integration | M4 | Update SKILL.md + agents/openai.yaml to use MCP | pending (depends on #1, #2, #3) | |
-| 5 | E2E validation Phase B | M4 (or #13 Phase B) | 3 MCP-driven prompts validated | pending (depends on #4) | |
+| 4 | Skill integration | M4 | Update SKILL.md + agents/openai.yaml to use MCP | complete | PR #64 |
+| 5 | E2E validation Phase B | M4 (or #13 Phase B) | 3 MCP-driven prompts validated | complete | PR #65 |
 
 ### Phase Details
 
@@ -180,6 +180,7 @@ Wiki citations + OHLCV-derived facts (e.g., volume comparison) compose 9-section
 
 - Phase 2 (chart renderer) and Phase 3 (spread chart) can run in parallel — both depend on Phase 1 (OHLCV) but not on each other
 - Phase 4 (skill integration) is sequential after 1+2+3; can begin as soon as all three MCP servers expose a stable interface, even before validation
+- Completion note (2026-06-11): Phase 4 completed in PR #64; Phase 5 completed in PR #65.
 
 ---
 
