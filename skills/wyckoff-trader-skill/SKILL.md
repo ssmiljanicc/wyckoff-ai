@@ -10,7 +10,9 @@ description: Use this skill to answer Wyckoff questions about markets (especiall
 This skill turns chart observations into disciplined Wyckoff analysis. It is
 optimized for crypto but the core method is classical Wyckoff: context first,
 then structure, then phase and event evidence, then — only for forward-looking
-questions — a scenario tree instead of a single prediction.
+questions — a scenario tree instead of a single prediction. When a live market
+query includes a clear symbol and timeframe, use available MCP market-data tools
+as the primary observation source before relying on user-provided chart prose.
 
 ## Knowledge Base Architecture
 
@@ -29,6 +31,12 @@ reading the index, then read only the specific pages a query needs.
    `crypto/`, or `scenarios/` pages the query requires.
 3. Cite the wiki pages you used so the user can drill down to the raw source.
 
+**Live-data precedence:** the wiki supplies method and vocabulary; MCP supplies
+fresh observations. For a query such as "Analyze BTC 1d", first pull and render
+the chart through MCP when those tools are available. Use the user's chart
+description as supplemental context or as fallback only when MCP is unavailable
+or the live fetch fails.
+
 ## Step 0 — Pick The Response Mode
 
 Before answering, classify the query into **one** mode (full contract:
@@ -42,7 +50,10 @@ Before answering, classify the query into **one** mode (full contract:
    invalidation, path ("build a scenario", "what's the setup?", "go/wait?").
 
 Tie-breaks: forward path with trigger/invalidation → scenario; "what is this
-right now" → diagnostic; general question → concept.
+right now" → diagnostic; symbol + timeframe with "analyze", "setup", "scenario",
+"go/wait", or similar live-market intent → run the MCP workflow first, then pick
+diagnostic or scenario from the user's requested output; general question →
+concept.
 
 ## Mode Workflows
 
@@ -86,6 +97,45 @@ Pick the matching entry template from the tree:
 [phase-d-breakout-test](../../knowledge/wiki/scenarios/phase-d-breakout-test.md),
 or [no-shake-foothold](../../knowledge/wiki/scenarios/no-shake-foothold.md).
 
+## Step 3.5 — MCP-Driven Live Workflow
+
+Use this workflow when the query contains enough market identity to fetch live
+data: at minimum a symbol and timeframe, with an analysis, diagnostic, or
+scenario intent.
+
+1. Normalize the symbol and timeframe without changing the user's intent
+   (`BTC 1d` → `BTCUSDT`, `1d` unless the user specified another quote asset).
+2. Pull candles with `get_ohlcv(symbol, timeframe, limit)`. Use enough candles
+   to see the current structure; default to about 200 bars when the user does
+   not specify a lookback.
+3. Render a Vision-readable chart from those candles with `render_chart`. If the
+   runtime exposes only the shortcut renderer, `render_chart_for_symbol` is
+   acceptable, but the answer must still state the fetched symbol, timeframe,
+   lookback, and candle count.
+4. Inspect the rendered chart before naming Wyckoff labels. Preserve the normal
+   label-last discipline: describe range boundaries, swing quality, volume/effort
+   behavior, tests, and relative position first.
+5. For crypto overlay checks, use spread tools when the question needs relative
+   strength or rotation evidence: `get_spread` and `render_spread_chart` for
+   pairs such as `ETH/BTC`. Do not require spread calls for a simple BTC-only
+   diagnostic unless the scenario conclusion depends on rotation.
+6. Include a brief **MCP trace** in the answer before the mode-specific output:
+   tools called, symbol/timeframe, lookback, rendered chart path if available,
+   and any fetch/render failure.
+7. Then produce the selected mode output. Scenario mode still uses the full
+   nine-section contract, and section 1 (Context) must be grounded in the MCP
+   candles/chart when the live workflow succeeded.
+
+Fallback discipline:
+
+- If MCP tools are not available, say so explicitly and ask for chart
+  observations or an image before making a live-current claim.
+- If `get_ohlcv` fails or the symbol/timeframe is unsupported, report the
+  failure and either ask for corrected inputs or proceed only on user-supplied
+  observations.
+- Never fabricate live price, phase, volume, spread, or chart state when the MCP
+  pull/render did not succeed.
+
 ## Core Rules
 
 - **Label last.** Read price/volume behavior first; assign structure labels only
@@ -101,12 +151,8 @@ or [no-shake-foothold](../../knowledge/wiki/scenarios/no-shake-foothold.md).
   never emit a bare "buy here".
 - **Cite the wiki.** Every concept/diagnostic claim names the wiki page it came
   from.
-
-## Optional: Live Data (MCP)
-
-When MCP market-data tools are available (Faza 2), use them to populate the
-observations a scenario needs. The skill must still work **without** them — in
-that case, analyze the observations the user provides.
+- **MCP trace for live queries.** When live data is used, show the tool-call
+  trace and distinguish tool observations from Wyckoff interpretation.
 
 ## References
 
