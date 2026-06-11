@@ -382,4 +382,4 @@ If you find yourself writing something in one of these categories, file it in th
 ---
 
 **Schema version:** 1.0 (2026-05-24, created with [#6](https://github.com/ssmiljanicc/wyckoff-ai/issues/6))
-**Next revision trigger:** real query patterns from trading use (#13 E2E validation, then live use) — may add/refine `scenarios/` and `crypto/` structure. (The trading-use spec originally tracked as PRD-02 was folded into the Faza 1 PRD `.claude/PRPs/prds/faza-1-skill-modernization.prd.md` per [#15](https://github.com/ssmiljanicc/wyckoff-ai/issues/15); the `scenarios/` layer landed in #8.)
+**Next revision trigger:** real query patterns from continued live use after #32 Phase B validation — may add/refine `scenarios/` and `crypto/` structure. (The trading-use spec originally tracked as PRD-02 was folded into the Faza 1 PRD `.claude/PRPs/prds/faza-1-skill-modernization.prd.md` per [#15](https://github.com/ssmiljanicc/wyckoff-ai/issues/15); the `scenarios/` layer landed in #8.)
