@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "wyckoff-market-data": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "python", "-m", "scripts.mcp.market_data_server"],
+      "cwd": "."
+    },
+    "wyckoff-chart-renderer": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "python", "-m", "scripts.mcp.chart_renderer"],
+      "cwd": "."
+    },
+    "wyckoff-spread-chart": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "python", "-m", "scripts.mcp.spread_chart_server"],
+      "cwd": "."
+    },
+    "wyckoff-analysis-journal": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "python", "-m", "scripts.mcp.analysis_journal_server"],
+      "cwd": "."
+    }
+  }
+}
