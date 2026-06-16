@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 import httpx
 import pytest
 
@@ -103,6 +105,89 @@ def test_get_ohlcv_fetches_and_caches_identical_request() -> None:
     assert len(first) == 2
     assert len(fake.calls) == 1
     assert fake.calls[0][1] == {"symbol": "BTCUSDT", "interval": "1d", "limit": 2}
+
+
+def test_get_ohlcv_passes_end_time_to_binance() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    client.get_ohlcv("BTC", "1d", 1, end_time=1_554_076_800_000)
+
+    assert fake.calls[0][1] == {
+        "symbol": "BTCUSDT",
+        "interval": "1d",
+        "limit": 1,
+        "endTime": 1_554_076_800_000,
+    }
+
+
+def test_get_ohlcv_accepts_iso_end_time() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    client.get_ohlcv("BTC", "1d", 1, end_time="2019-04-01")
+
+    assert fake.calls[0][1] == {
+        "symbol": "BTCUSDT",
+        "interval": "1d",
+        "limit": 1,
+        "endTime": 1_554_076_800_000,
+    }
+
+
+def test_get_ohlcv_accepts_datetime_end_time() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    client.get_ohlcv(
+        "BTC",
+        "1d",
+        1,
+        end_time=datetime(2019, 4, 1, tzinfo=timezone.utc),
+    )
+
+    assert fake.calls[0][1] == {
+        "symbol": "BTCUSDT",
+        "interval": "1d",
+        "limit": 1,
+        "endTime": 1_554_076_800_000,
+    }
+
+
+def test_get_ohlcv_without_end_time_omits_param() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    client.get_ohlcv("BTC", "1d", 1, end_time=None)
+
+    assert fake.calls[0][1] == {"symbol": "BTCUSDT", "interval": "1d", "limit": 1}
+
+
+def test_end_time_cache_does_not_collide() -> None:
+    fake = FakeHttpClient(
+        [
+            response(200, [sample_kline(1)]),
+            response(200, [sample_kline(2)]),
+        ]
+    )
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    first = client.get_ohlcv("BTC", "1d", 1, end_time=1_554_076_800_000)
+    second = client.get_ohlcv("BTC", "1d", 1, end_time=1_554_163_200_000)
+    cached_first = client.get_ohlcv("BTC", "1d", 1, end_time=1_554_076_800_000)
+
+    assert first == cached_first
+    assert first != second
+    assert len(fake.calls) == 2
+
+
+def test_get_ohlcv_rejects_invalid_end_time() -> None:
+    client = BinanceMarketDataClient(http_client=FakeHttpClient([]), rate_limit_delay=0)
+
+    with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time=-1)
+    with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time="not-a-date")
 
 
 def test_ohlcv_cache_evicts_least_recently_used_entry() -> None:
