@@ -15,10 +15,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal, TypedDict
 
-from scripts.mcp.chart_renderer import render_chart_image
+from scripts.mcp.chart_renderer import EVAL_STYLE_VERSION, make_eval_style, render_chart_image
 
 
-UNUSUAL_PRICE_TARGETS = [137.0, 1234.5, 88000.0, 0.0042, 555555.0, 0.0001]
+# Targets chosen to be clearly artificial and outside all recognizable crypto ranges:
+# - not in BTC-like ~25k–55k band
+# - not in known ETH (~137, ~1234), BNB, DOGE (~0.0042), SHIB (~0.0001) ranges
+# - large enough that round(target/median_close, 8) never underflows to 0.0
+#   even for BTC-like prices up to ~$100k (smallest target 0.314: 0.314/100000 = 3.14e-6 ≠ 0)
+UNUSUAL_PRICE_TARGETS = [333.33, 9999.1, 88000.0, 0.00317, 555555.0, 0.314]
 VOLUME_SCALE_FACTORS = [0.001, 10000.0, 0.00001, 50000.0, 0.1, 100000.0]
 # Epoch 0 (1970-01-01 UTC) — clearly artificial, not recognizable as any market era
 NEUTRAL_EPOCH_MS = 0
@@ -66,6 +71,12 @@ def anonymize(candles: list[dict], *, case_id: str) -> tuple[list[dict], dict]:
     idx = _case_index(case_id)
     price_target = UNUSUAL_PRICE_TARGETS[idx]
     price_coef = round(price_target / median_close, 8)
+    if price_coef == 0:
+        raise ValueError(
+            f"price_coef rounded to zero for case_id={case_id!r} "
+            f"(price_target={price_target}, median_close={median_close:.6g}); "
+            "choose a larger price_target in UNUSUAL_PRICE_TARGETS"
+        )
     volume_coef = round(VOLUME_SCALE_FACTORS[idx], 8)
 
     anon: list[dict] = []
@@ -95,11 +106,14 @@ def render_eval_chart(
     annotations: Any = None,
     output_dir: str | Path | None = None,
 ) -> dict:
+    """Render eval chart with neutral style — no project-specific color fingerprints."""
     return render_chart_image(
         anon_candles,
         title=title,
         annotations=annotations,
         output_dir=str(output_dir) if output_dir is not None else None,
+        style=make_eval_style(),
+        style_key=EVAL_STYLE_VERSION,
     )
 
 
@@ -145,6 +159,16 @@ def build_snapshot(
     Answer key (real symbol, cutoff, coef_meta, ground_truth) is written to
     base_dir/_answers/<case_id>.answer.json — physically outside the case
     directory so an analyst given only the case dir cannot access it.
+
+    Notes:
+    - candles.json is deterministic for fixed inputs; chart.png bytes are NOT
+      guaranteed deterministic across matplotlib versions or platforms (mplfinance
+      renders non-deterministically), but the content is visually identical.
+    - Paths in manifest.json are absolute; the manifest is not portable across
+      machines. This is acceptable for single-developer eval workflow.
+    - ground_truth is stored in the answer key file, not in the case directory.
+      PROBE_CASES in lookahead_probe.py contain ground_truth in committed code —
+      intentional for the probe phase (testing leak mechanics, not production eval).
     """
     if mode not in ("blind", "future_visible"):
         raise ValueError(f"mode must be 'blind' or 'future_visible', got {mode!r}")
@@ -172,6 +196,11 @@ def build_snapshot(
         candles = client.get_ohlcv(
             symbol, timeframe, n_bars + future_bars, end_time=end_time_fv
         )
+        if len(candles) < n_bars + future_bars:
+            raise ValueError(
+                f"Expected {n_bars + future_bars} candles for {case_id} future_visible "
+                f"but got {len(candles)} — try a more recent cutoff or reduce n_bars/future_bars"
+            )
         case_dir_name = f"{case_id}__fv"
         t_marker_index = n_bars - 1
         annotations = {

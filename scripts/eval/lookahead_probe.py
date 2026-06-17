@@ -33,6 +33,10 @@ from typing import Any
 from scripts.eval.snapshot_builder import build_snapshot
 
 
+# NOTE: symbols, cutoff dates, and ground_truth are intentionally visible in committed
+# code. The probe phase tests leak mechanics (does the LLM "cheat" when shown future
+# candles?), not the analyst's inability to google a case. For production eval, use
+# a separate secrets store. See build_snapshot docstring for the full rationale.
 PROBE_CASES = [
     {
         "case_id": "case_01",

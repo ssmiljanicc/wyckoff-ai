@@ -45,6 +45,7 @@ MIN_HEIGHT = 600
 DEFAULT_DPI = 100
 RENDER_CACHE_SIZE = 128
 STYLE_VERSION = "wyckoff_style_v1"
+EVAL_STYLE_VERSION = "eval_style_v1"
 RENDER_CACHE_DIR = Path(tempfile.gettempdir()) / "wyckoff-ai-chart-renderer"
 REQUIRED_CANDLE_FIELDS = ("open_time", "open", "high", "low", "close", "volume")
 
@@ -193,6 +194,11 @@ def make_wyckoff_style() -> Any:
     )
 
 
+def make_eval_style() -> Any:
+    """Neutral mplfinance style for eval charts — avoids project-specific color fingerprints."""
+    return mpf.make_mpf_style(base_mpf_style="default", y_on_right=False)
+
+
 def render_chart_image(
     ohlcv_data: list[dict[str, Any]],
     title: str = "",
@@ -200,13 +206,15 @@ def render_chart_image(
     output_dir: str | Path | None = None,
     width: int = MIN_WIDTH,
     height: int = MIN_HEIGHT,
+    style: Any = None,
+    style_key: str = STYLE_VERSION,
 ) -> RenderedChart:
     if width < MIN_WIDTH or height < MIN_HEIGHT:
         raise ValueError(f"Chart dimensions must be at least {MIN_WIDTH}x{MIN_HEIGHT}")
 
     df = ohlcv_to_dataframe(ohlcv_data)
     normalized_annotations = normalize_annotations(annotations)
-    cache_key = _cache_key(df, title, normalized_annotations, width, height)
+    cache_key = _cache_key(df, title, normalized_annotations, width, height, style_key)
     cached = _get_cached_render(cache_key)
     if cached is not None:
         result = dict(cached)
@@ -219,11 +227,12 @@ def render_chart_image(
     dpi = DEFAULT_DPI
     figsize = (width / dpi, height / dpi)
 
+    plot_style = style if style is not None else make_wyckoff_style()
     fig, axes = mpf.plot(
         df,
         type="candle",
         volume=True,
-        style=make_wyckoff_style(),
+        style=plot_style,
         title=title,
         figsize=figsize,
         returnfig=True,
@@ -426,9 +435,10 @@ def _cache_key(
     annotations: ChartAnnotations,
     width: int,
     height: int,
+    style_key: str = STYLE_VERSION,
 ) -> str:
     payload = {
-        "style": STYLE_VERSION,
+        "style": style_key,
         "title": title,
         "annotations": annotations,
         "width": width,

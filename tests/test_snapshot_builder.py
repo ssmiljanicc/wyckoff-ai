@@ -6,6 +6,7 @@ import json
 import statistics
 from pathlib import Path
 from typing import Any
+from unittest import mock
 
 import pytest
 
@@ -76,6 +77,15 @@ def test_anonymize_deterministic() -> None:
 
     assert anon1 == anon2
     assert meta1 == meta2
+
+
+def test_anonymize_raises_on_price_coef_zero() -> None:
+    # Force price_coef underflow by patching targets to a value that rounds to 0
+    # with a high base price (0.0001 / 35000 = 2.86e-9 → round(…, 8) = 0.0)
+    candles = make_fake_candles(10, base_price=35000.0)
+    with mock.patch("scripts.eval.snapshot_builder.UNUSUAL_PRICE_TARGETS", [0.0001]):
+        with pytest.raises(ValueError, match="price_coef rounded to zero"):
+            anonymize(candles, case_id="any_case")
 
 
 def test_anonymize_different_cases_different_coefs() -> None:
