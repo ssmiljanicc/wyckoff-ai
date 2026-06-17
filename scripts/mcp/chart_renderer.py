@@ -45,6 +45,7 @@ MIN_HEIGHT = 600
 DEFAULT_DPI = 100
 RENDER_CACHE_SIZE = 128
 STYLE_VERSION = "wyckoff_style_v1"
+EVAL_STYLE_VERSION = "eval_style_v1"
 RENDER_CACHE_DIR = Path(tempfile.gettempdir()) / "wyckoff-ai-chart-renderer"
 REQUIRED_CANDLE_FIELDS = ("open_time", "open", "high", "low", "close", "volume")
 
@@ -73,9 +74,16 @@ class PhaseLabelAnnotation(TypedDict, total=False):
     color: str
 
 
+class VerticalLineAnnotation(TypedDict, total=False):
+    index: int
+    label: str
+    color: str
+
+
 class ChartAnnotations(TypedDict, total=False):
     horizontal_lines: list[HorizontalLineAnnotation]
     phase_labels: list[PhaseLabelAnnotation]
+    vertical_lines: list[VerticalLineAnnotation]
 
 
 class RenderedChart(TypedDict):
@@ -186,6 +194,11 @@ def make_wyckoff_style() -> Any:
     )
 
 
+def make_eval_style() -> Any:
+    """Neutral mplfinance style for eval charts — avoids project-specific color fingerprints."""
+    return mpf.make_mpf_style(base_mpf_style="default", y_on_right=False)
+
+
 def render_chart_image(
     ohlcv_data: list[dict[str, Any]],
     title: str = "",
@@ -193,13 +206,15 @@ def render_chart_image(
     output_dir: str | Path | None = None,
     width: int = MIN_WIDTH,
     height: int = MIN_HEIGHT,
+    style: Any = None,
+    style_key: str = STYLE_VERSION,
 ) -> RenderedChart:
     if width < MIN_WIDTH or height < MIN_HEIGHT:
         raise ValueError(f"Chart dimensions must be at least {MIN_WIDTH}x{MIN_HEIGHT}")
 
     df = ohlcv_to_dataframe(ohlcv_data)
     normalized_annotations = normalize_annotations(annotations)
-    cache_key = _cache_key(df, title, normalized_annotations, width, height)
+    cache_key = _cache_key(df, title, normalized_annotations, width, height, style_key)
     cached = _get_cached_render(cache_key)
     if cached is not None:
         result = dict(cached)
@@ -212,11 +227,12 @@ def render_chart_image(
     dpi = DEFAULT_DPI
     figsize = (width / dpi, height / dpi)
 
+    plot_style = style if style is not None else make_wyckoff_style()
     fig, axes = mpf.plot(
         df,
         type="candle",
         volume=True,
-        style=make_wyckoff_style(),
+        style=plot_style,
         title=title,
         figsize=figsize,
         returnfig=True,
@@ -318,10 +334,32 @@ def normalize_annotations(annotations: ChartAnnotations | None) -> ChartAnnotati
             }
         )
 
+    vertical_lines = annotations.get("vertical_lines", [])
+    if vertical_lines is None:
+        vertical_lines = []
+    if not isinstance(vertical_lines, list):
+        raise ValueError("annotations.vertical_lines must be a list")
+
+    normalized_vlines: list[VerticalLineAnnotation] = []
+    for index, vline in enumerate(vertical_lines):
+        if not isinstance(vline, dict):
+            raise ValueError(f"vertical_lines[{index}] must be an object")
+        if "index" not in vline:
+            raise ValueError(f"vertical_lines[{index}] missing index")
+        normalized_vlines.append(
+            {
+                "index": _coerce_int(vline["index"], f"vertical_lines[{index}].index"),
+                "label": str(vline.get("label", "")),
+                "color": str(vline.get("color", "#888888")),
+            }
+        )
+
     if normalized_lines:
         normalized["horizontal_lines"] = normalized_lines
     if normalized_labels:
         normalized["phase_labels"] = normalized_labels
+    if normalized_vlines:
+        normalized["vertical_lines"] = normalized_vlines
     return normalized
 
 
@@ -370,6 +408,26 @@ def _apply_annotations(axes: list[Any], df: pd.DataFrame, annotations: ChartAnno
             bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.75, "pad": 1.5},
         )
 
+    for vline in annotations.get("vertical_lines", []):
+        vidx = vline["index"]
+        if vidx < 0 or vidx >= candle_count:
+            raise ValueError(f"vertical line index {vidx} outside candle range")
+        color = vline.get("color", "#888888")
+        label = vline.get("label", "")
+        price_axis.axvline(vidx, color=color, linewidth=1.0, linestyle="--", alpha=0.85)
+        if label:
+            price_axis.text(
+                vidx,
+                label_y,
+                label,
+                color=color,
+                fontsize=8,
+                ha="center",
+                va="top",
+                rotation=90,
+                bbox={"facecolor": "white", "edgecolor": color, "alpha": 0.7, "pad": 1.5},
+            )
+
 
 def _cache_key(
     df: pd.DataFrame,
@@ -377,9 +435,10 @@ def _cache_key(
     annotations: ChartAnnotations,
     width: int,
     height: int,
+    style_key: str = STYLE_VERSION,
 ) -> str:
     payload = {
-        "style": STYLE_VERSION,
+        "style": style_key,
         "title": title,
         "annotations": annotations,
         "width": width,

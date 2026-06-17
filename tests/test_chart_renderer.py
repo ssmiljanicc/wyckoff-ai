@@ -202,3 +202,34 @@ def test_render_chart_for_symbol_reports_missing_market_data_client(
 
     with pytest.raises(RuntimeError, match="requires issue #9 market data client"):
         chart_renderer.render_chart_for_symbol("BTC", "1d", 200)
+
+
+def test_vertical_lines_annotation(tmp_path: Path) -> None:
+    candles = sample_ohlcv(80)
+    k = 40
+
+    result = chart_renderer.render_chart_image(
+        candles,
+        "Vertical line test",
+        {"vertical_lines": [{"index": k, "label": "as-of T"}]},
+        output_dir=tmp_path,
+    )
+
+    assert Path(result["path"]).exists()
+    assert png_dimensions(result["path"]) == (1200, 600)
+
+
+def test_vertical_lines_out_of_range_raises(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="outside candle range"):
+        chart_renderer.render_chart_image(
+            sample_ohlcv(4),
+            annotations={"vertical_lines": [{"index": 99, "label": "X"}]},
+            output_dir=tmp_path,
+        )
+
+
+def test_normalize_annotations_vertical_lines_missing_index() -> None:
+    with pytest.raises(ValueError, match="missing index"):
+        chart_renderer.normalize_annotations(
+            {"vertical_lines": [{"label": "no index", "color": "#aaa"}]}
+        )
