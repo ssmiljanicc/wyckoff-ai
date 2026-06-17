@@ -172,8 +172,11 @@ class BinanceMarketDataClient:
             raise BinanceUpstreamError("Unexpected Binance klines response")
         candles = [parse_kline(row) for row in data]
         if not candles:
+            request_context = f"{normalized_symbol} {normalized_timeframe} limit={normalized_limit}"
+            if normalized_end_time is not None:
+                request_context = f"{request_context} end_time={normalized_end_time}"
             raise BinanceUpstreamError(
-                f"Binance returned no candles for {normalized_symbol} {normalized_timeframe}"
+                f"Binance returned no candles for {request_context}"
             )
         self._set_ohlcv_cache(cache_key, candles)
         return list(candles)
@@ -297,19 +300,25 @@ def parse_kline(row: Any) -> Candle:
 def _normalize_end_time(value: int | str | datetime | None) -> int | None:
     if value is None:
         return None
+    if isinstance(value, bool):
+        raise ValueError("end_time must be a positive millisecond epoch")
     if isinstance(value, int):
-        if value <= 0:
-            raise ValueError("end_time must be a positive millisecond epoch")
-        return value
+        return _validate_end_time_ms(value)
     if isinstance(value, str):
         try:
             parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
         except ValueError as exc:
             raise ValueError(f"Invalid end_time value: {value!r}") from exc
-        return _datetime_to_epoch_ms(parsed)
+        return _validate_end_time_ms(_datetime_to_epoch_ms(parsed))
     if isinstance(value, datetime):
-        return _datetime_to_epoch_ms(value)
+        return _validate_end_time_ms(_datetime_to_epoch_ms(value))
     raise ValueError(f"Invalid end_time value: {value!r}")
+
+
+def _validate_end_time_ms(value: int) -> int:
+    if value <= 0:
+        raise ValueError("end_time must be a positive millisecond epoch")
+    return value
 
 
 def _datetime_to_epoch_ms(value: datetime) -> int:

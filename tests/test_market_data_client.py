@@ -9,6 +9,7 @@ from scripts.mcp import market_data_client
 from scripts.mcp.market_data_client import (
     BinanceMarketDataClient,
     BinanceRateLimitError,
+    BinanceUpstreamError,
     Candle,
     OHLCV_CACHE_SIZE,
     get_timeframes,
@@ -135,6 +136,20 @@ def test_get_ohlcv_accepts_iso_end_time() -> None:
     }
 
 
+def test_get_ohlcv_accepts_offset_iso_end_time() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    client.get_ohlcv("BTC", "1d", 1, end_time="2019-04-01T02:00:00+02:00")
+
+    assert fake.calls[0][1] == {
+        "symbol": "BTCUSDT",
+        "interval": "1d",
+        "limit": 1,
+        "endTime": 1_554_076_800_000,
+    }
+
+
 def test_get_ohlcv_accepts_datetime_end_time() -> None:
     fake = FakeHttpClient([response(200, [sample_kline(1)])])
     client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
@@ -145,6 +160,20 @@ def test_get_ohlcv_accepts_datetime_end_time() -> None:
         1,
         end_time=datetime(2019, 4, 1, tzinfo=timezone.utc),
     )
+
+    assert fake.calls[0][1] == {
+        "symbol": "BTCUSDT",
+        "interval": "1d",
+        "limit": 1,
+        "endTime": 1_554_076_800_000,
+    }
+
+
+def test_get_ohlcv_treats_naive_datetime_end_time_as_utc() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    client.get_ohlcv("BTC", "1d", 1, end_time=datetime(2019, 4, 1))
 
     assert fake.calls[0][1] == {
         "symbol": "BTCUSDT",
@@ -181,13 +210,53 @@ def test_end_time_cache_does_not_collide() -> None:
     assert len(fake.calls) == 2
 
 
+def test_get_ohlcv_reuses_cache_for_equivalent_end_time_representations() -> None:
+    fake = FakeHttpClient([response(200, [sample_kline(1)])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    first = client.get_ohlcv("BTC", "1d", 1, end_time=1_554_076_800_000)
+    iso_cached = client.get_ohlcv("BTC", "1d", 1, end_time="2019-04-01T02:00:00+02:00")
+    datetime_cached = client.get_ohlcv(
+        "BTC",
+        "1d",
+        1,
+        end_time=datetime(2019, 4, 1, tzinfo=timezone.utc),
+    )
+
+    assert first == iso_cached == datetime_cached
+    assert len(fake.calls) == 1
+
+
 def test_get_ohlcv_rejects_invalid_end_time() -> None:
     client = BinanceMarketDataClient(http_client=FakeHttpClient([]), rate_limit_delay=0)
 
     with pytest.raises(ValueError):
         client.get_ohlcv("BTC", "1d", 1, end_time=-1)
     with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time=True)
+    with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time="1970-01-01T00:00:00Z")
+    with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time="1969-12-31T23:59:59Z")
+    with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time=datetime(1969, 12, 31, 23, 59, 59))
+    with pytest.raises(ValueError):
         client.get_ohlcv("BTC", "1d", 1, end_time="not-a-date")
+    with pytest.raises(ValueError):
+        client.get_ohlcv("BTC", "1d", 1, end_time=1.5)  # type: ignore[arg-type]
+
+
+def test_get_ohlcv_empty_cutoff_response_includes_request_context() -> None:
+    fake = FakeHttpClient([response(200, [])])
+    client = BinanceMarketDataClient(http_client=fake, rate_limit_delay=0)
+
+    with pytest.raises(BinanceUpstreamError) as exc_info:
+        client.get_ohlcv("BTC", "1d", 1, end_time="2019-04-01")
+
+    message = str(exc_info.value)
+    assert "BTCUSDT 1d" in message
+    assert "limit=1" in message
+    assert "end_time=1554076800000" in message
 
 
 def test_ohlcv_cache_evicts_least_recently_used_entry() -> None:
