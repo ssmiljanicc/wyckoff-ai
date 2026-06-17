@@ -1,8 +1,31 @@
-"""MCP server modules for Wyckoff AI."""
+"""MCP server modules for Wyckoff AI.
 
-from scripts.mcp import portfolio_server as portfolio_server  # noqa: F401  — register portfolio MCP server
-from scripts.mcp import scanner_server as scanner_server  # noqa: F401  — register scanner MCP server
-from scripts.mcp import signal_logger_server as signal_logger_server  # noqa: F401  — register signal logger MCP server
-from scripts.mcp import spread_chart_server as spread_chart_server  # noqa: F401  — register spread chart MCP server
-from scripts.mcp import backtest_server as backtest_server  # noqa: F401  — register backtest runner MCP server
+Server modules are loaded lazily so optional MCP extras do not become required
+for unrelated store and server tests.
+"""
 
+from __future__ import annotations
+
+import importlib
+from types import ModuleType
+
+
+__all__ = [
+    "backtest_server",
+    "chart_renderer",
+    "market_data_client",
+    "market_data_server",
+    "portfolio_server",
+    "portfolio_store",
+    "scanner_server",
+    "signal_logger_server",
+    "spread_chart_server",
+]
+
+
+def __getattr__(name: str) -> ModuleType:
+    if name not in __all__:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    module = importlib.import_module(f"{__name__}.{name}")
+    globals()[name] = module
+    return module
