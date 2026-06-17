@@ -5,10 +5,16 @@ from scripts.mcp import market_data_server
 
 class FakeClient:
     def __init__(self) -> None:
-        self.calls: list[tuple[str, str, int]] = []
+        self.calls: list[tuple[str, str, int, int | str | None]] = []
 
-    def get_ohlcv(self, symbol: str, timeframe: str, limit: int) -> list[dict]:
-        self.calls.append((symbol, timeframe, limit))
+    def get_ohlcv(
+        self,
+        symbol: str,
+        timeframe: str,
+        limit: int,
+        end_time: int | str | None = None,
+    ) -> list[dict]:
+        self.calls.append((symbol, timeframe, limit, end_time))
         return [
             {
                 "open_time": 1,
@@ -40,8 +46,17 @@ def test_get_ohlcv_wrapper_uses_shared_client(monkeypatch) -> None:
 
     result = market_data_server.get_ohlcv("BTC", "1d", 200)
 
-    assert fake.calls == [("BTC", "1d", 200)]
+    assert fake.calls == [("BTC", "1d", 200, None)]
     assert result[0]["close"] == 105.0
+
+
+def test_get_ohlcv_wrapper_forwards_end_time(monkeypatch) -> None:
+    fake = FakeClient()
+    monkeypatch.setattr(market_data_server, "client", fake)
+
+    market_data_server.get_ohlcv("BTC", "1d", 200, end_time="2019-04-01")
+
+    assert fake.calls == [("BTC", "1d", 200, "2019-04-01")]
 
 
 def test_get_supported_symbols_wrapper_uses_shared_client(monkeypatch) -> None:

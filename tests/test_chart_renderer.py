@@ -154,10 +154,16 @@ def test_render_chart_wrapper_returns_metadata(tmp_path: Path, monkeypatch: pyte
 
 class FakeMarketDataClient:
     def __init__(self) -> None:
-        self.calls: list[tuple[str, str, int]] = []
+        self.calls: list[tuple[str, str, int, int | str | None]] = []
 
-    def get_ohlcv(self, symbol: str, timeframe: str, limit: int) -> list[dict]:
-        self.calls.append((symbol, timeframe, limit))
+    def get_ohlcv(
+        self,
+        symbol: str,
+        timeframe: str,
+        limit: int,
+        end_time: int | str | None = None,
+    ) -> list[dict]:
+        self.calls.append((symbol, timeframe, limit, end_time))
         return sample_ohlcv(limit)
 
 
@@ -171,9 +177,22 @@ def test_render_chart_for_symbol_uses_market_data_client(
 
     result = chart_renderer.render_chart_for_symbol("BTC", "1d", 12)
 
-    assert fake.calls == [("BTC", "1d", 12)]
+    assert fake.calls == [("BTC", "1d", 12, None)]
     assert result["title"] == "BTC 1d"
     assert Path(result["path"]).exists()
+
+
+def test_render_chart_for_symbol_forwards_end_time(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fake = FakeMarketDataClient()
+    monkeypatch.setattr(chart_renderer, "market_data_client", fake)
+    monkeypatch.setattr(chart_renderer, "RENDER_CACHE_DIR", tmp_path)
+
+    chart_renderer.render_chart_for_symbol("BTC", "1d", 12, end_time="2019-04-01")
+
+    assert fake.calls == [("BTC", "1d", 12, "2019-04-01")]
 
 
 def test_render_chart_for_symbol_reports_missing_market_data_client(

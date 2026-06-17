@@ -256,14 +256,19 @@ def render_chart(
 
 
 @mcp.tool()
-def render_chart_for_symbol(symbol: str, timeframe: str, limit: int = DEFAULT_LIMIT) -> RenderedChart:
+def render_chart_for_symbol(
+    symbol: str,
+    timeframe: str,
+    limit: int = DEFAULT_LIMIT,
+    end_time: int | str | None = None,
+) -> RenderedChart:
     """Fetch OHLCV through the market data client and render it as a PNG chart."""
     if market_data_client is None:
         raise RuntimeError(
             "render_chart_for_symbol requires issue #9 market data client; "
             "use render_chart with supplied OHLCV for local testing"
         )
-    ohlcv_data = market_data_client.get_ohlcv(symbol, timeframe, limit)
+    ohlcv_data = market_data_client.get_ohlcv(symbol, timeframe, limit, end_time=end_time)
     return render_chart(ohlcv_data, f"{symbol.upper()} {timeframe}", None)
 
 

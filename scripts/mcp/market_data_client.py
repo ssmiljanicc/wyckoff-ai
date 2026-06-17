@@ -6,6 +6,7 @@ import re
 import time
 from collections import OrderedDict
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Any, Protocol, TypedDict
 
 import httpx
@@ -70,6 +71,7 @@ class _CacheKey:
     symbol: str
     timeframe: str
     limit: int
+    end_time: int | None = None
 
 
 def normalize_symbol(symbol: str) -> str:
@@ -133,29 +135,48 @@ class BinanceMarketDataClient:
         if self._owns_http_client and hasattr(self._http_client, "close"):
             self._http_client.close()
 
-    def get_ohlcv(self, symbol: str, timeframe: str, limit: int = DEFAULT_LIMIT) -> list[Candle]:
+    def get_ohlcv(
+        self,
+        symbol: str,
+        timeframe: str,
+        limit: int = DEFAULT_LIMIT,
+        end_time: int | str | datetime | None = None,
+    ) -> list[Candle]:
         normalized_symbol = normalize_symbol(symbol)
         normalized_timeframe = normalize_timeframe(timeframe)
         normalized_limit = self._normalize_limit(limit)
-        cache_key = _CacheKey(normalized_symbol, normalized_timeframe, normalized_limit)
+        normalized_end_time = _normalize_end_time(end_time)
+        cache_key = _CacheKey(
+            normalized_symbol,
+            normalized_timeframe,
+            normalized_limit,
+            normalized_end_time,
+        )
         if cache_key in self._ohlcv_cache:
             self._ohlcv_cache.move_to_end(cache_key)
             return list(self._ohlcv_cache[cache_key])
 
+        params: dict[str, Any] = {
+            "symbol": normalized_symbol,
+            "interval": normalized_timeframe,
+            "limit": normalized_limit,
+        }
+        if normalized_end_time is not None:
+            params["endTime"] = normalized_end_time
+
         data = self._request_json(
             "/api/v3/klines",
-            {
-                "symbol": normalized_symbol,
-                "interval": normalized_timeframe,
-                "limit": normalized_limit,
-            },
+            params,
         )
         if not isinstance(data, list):
             raise BinanceUpstreamError("Unexpected Binance klines response")
         candles = [parse_kline(row) for row in data]
         if not candles:
+            request_context = f"{normalized_symbol} {normalized_timeframe} limit={normalized_limit}"
+            if normalized_end_time is not None:
+                request_context = f"{request_context} end_time={normalized_end_time}"
             raise BinanceUpstreamError(
-                f"Binance returned no candles for {normalized_symbol} {normalized_timeframe}"
+                f"Binance returned no candles for {request_context}"
             )
         self._set_ohlcv_cache(cache_key, candles)
         return list(candles)
@@ -274,6 +295,38 @@ def parse_kline(row: Any) -> Candle:
         "quote_volume": float(row[7]),
         "trades": int(row[8]),
     }
+
+
+def _normalize_end_time(value: int | str | datetime | None) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        raise ValueError("end_time must be a positive millisecond epoch")
+    if isinstance(value, int):
+        return _validate_end_time_ms(value)
+    if isinstance(value, str):
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError(f"Invalid end_time value: {value!r}") from exc
+        return _validate_end_time_ms(_datetime_to_epoch_ms(parsed))
+    if isinstance(value, datetime):
+        return _validate_end_time_ms(_datetime_to_epoch_ms(value))
+    raise ValueError(f"Invalid end_time value: {value!r}")
+
+
+def _validate_end_time_ms(value: int) -> int:
+    if value <= 0:
+        raise ValueError("end_time must be a positive millisecond epoch")
+    return value
+
+
+def _datetime_to_epoch_ms(value: datetime) -> int:
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    else:
+        value = value.astimezone(timezone.utc)
+    return int(value.timestamp() * 1000)
 
 
 def _is_leveraged_token(base_asset: str) -> bool:

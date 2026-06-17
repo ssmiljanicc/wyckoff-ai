@@ -18,9 +18,14 @@ client = BinanceMarketDataClient()
 
 
 @mcp.tool()
-def get_ohlcv(symbol: str, timeframe: str, limit: int = DEFAULT_LIMIT) -> list[Candle]:
+def get_ohlcv(
+    symbol: str,
+    timeframe: str,
+    limit: int = DEFAULT_LIMIT,
+    end_time: int | str | None = None,
+) -> list[Candle]:
     """Fetch OHLCV candles from Binance public market data."""
-    return client.get_ohlcv(symbol, timeframe, limit)
+    return client.get_ohlcv(symbol, timeframe, limit, end_time=end_time)
 
 
 @mcp.tool()
@@ -41,4 +46,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
