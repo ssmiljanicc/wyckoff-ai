@@ -175,3 +175,7 @@ Thumbs.db
 # Runtime signal log — never commit live trading data
 data/signals/
 data/journal/
+
+# Eval harness snapshots — generated, contain real market data
+data/eval/
+scripts/eval/pilot_out/

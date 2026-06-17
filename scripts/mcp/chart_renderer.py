@@ -73,9 +73,16 @@ class PhaseLabelAnnotation(TypedDict, total=False):
     color: str
 
 
+class VerticalLineAnnotation(TypedDict, total=False):
+    index: int
+    label: str
+    color: str
+
+
 class ChartAnnotations(TypedDict, total=False):
     horizontal_lines: list[HorizontalLineAnnotation]
     phase_labels: list[PhaseLabelAnnotation]
+    vertical_lines: list[VerticalLineAnnotation]
 
 
 class RenderedChart(TypedDict):
@@ -318,10 +325,32 @@ def normalize_annotations(annotations: ChartAnnotations | None) -> ChartAnnotati
             }
         )
 
+    vertical_lines = annotations.get("vertical_lines", [])
+    if vertical_lines is None:
+        vertical_lines = []
+    if not isinstance(vertical_lines, list):
+        raise ValueError("annotations.vertical_lines must be a list")
+
+    normalized_vlines: list[VerticalLineAnnotation] = []
+    for index, vline in enumerate(vertical_lines):
+        if not isinstance(vline, dict):
+            raise ValueError(f"vertical_lines[{index}] must be an object")
+        if "index" not in vline:
+            raise ValueError(f"vertical_lines[{index}] missing index")
+        normalized_vlines.append(
+            {
+                "index": _coerce_int(vline["index"], f"vertical_lines[{index}].index"),
+                "label": str(vline.get("label", "")),
+                "color": str(vline.get("color", "#888888")),
+            }
+        )
+
     if normalized_lines:
         normalized["horizontal_lines"] = normalized_lines
     if normalized_labels:
         normalized["phase_labels"] = normalized_labels
+    if normalized_vlines:
+        normalized["vertical_lines"] = normalized_vlines
     return normalized
 
 
@@ -369,6 +398,26 @@ def _apply_annotations(axes: list[Any], df: pd.DataFrame, annotations: ChartAnno
             va="top",
             bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.75, "pad": 1.5},
         )
+
+    for vline in annotations.get("vertical_lines", []):
+        vidx = vline["index"]
+        if vidx < 0 or vidx >= candle_count:
+            raise ValueError(f"vertical line index {vidx} outside candle range")
+        color = vline.get("color", "#888888")
+        label = vline.get("label", "")
+        price_axis.axvline(vidx, color=color, linewidth=1.0, linestyle="--", alpha=0.85)
+        if label:
+            price_axis.text(
+                vidx,
+                label_y,
+                label,
+                color=color,
+                fontsize=8,
+                ha="center",
+                va="top",
+                rotation=90,
+                bbox={"facecolor": "white", "edgecolor": color, "alpha": 0.7, "pad": 1.5},
+            )
 
 
 def _cache_key(
