@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 from typing import Any, Literal, NotRequired, TypedDict, cast
 
@@ -14,8 +15,29 @@ Direction = Literal["up", "down", "none"]
 Outcome = Literal["hit_tp", "hit_sl", "open"]
 
 DETERMINISTIC_DIMENSIONS = {"direction", "trigger", "invalidation"}
-JUDGE_DIMENSIONS = {"structure", "phase", "event", "narrative_quality", "calibration"}
+JUDGE_DIMENSION_NAMES = ("structure", "phase", "event", "narrative_quality", "calibration")
+JUDGE_DIMENSIONS = set(JUDGE_DIMENSION_NAMES)
 DIMENSIONS = DETERMINISTIC_DIMENSIONS | JUDGE_DIMENSIONS
+
+ANALYSIS_OUTPUT_ALLOWED_KEYS = {
+    "analysis_id",
+    "structure",
+    "phase",
+    "event",
+    "event_type",
+    "narrative",
+    "thesis",
+    "evidence",
+    "forecast",
+    "direction",
+    "trigger",
+    "invalidation",
+    "confidence",
+    "rationale",
+    "notes",
+}
+CANDLE_KEYS = {"open", "high", "low", "close"}
+PATH_LIKE_PATTERN = re.compile(r"(^|/|\\)(data/eval|case_[A-Za-z0-9_-]+|chart\.png|candles\.json)(/|\\|$)")
 
 DIMENSION_METHOD: dict[str, ScoreMethod] = {
     "structure": "judge",
@@ -182,6 +204,15 @@ def _is_low_confidence_wait(direction: Any, confidence: Any) -> bool:
     return normalized == "none" and parsed_confidence is not None and parsed_confidence <= 0.35
 
 
+def _decisive_value(answer_key: dict[str, Any]) -> bool | None:
+    if "decisive" not in answer_key:
+        return None
+    value = answer_key["decisive"]
+    if not isinstance(value, bool):
+        raise ValueError("decisive must be a boolean when present")
+    return value
+
+
 def _post_t_candles(answer_key: dict[str, Any]) -> tuple[list[dict[str, Any]], bool]:
     if "post_t_candles" in answer_key:
         candles = answer_key["post_t_candles"]
@@ -234,8 +265,8 @@ def score_deterministic(
         raise ValueError("answer_key must be a dict")
 
     case_id = str(answer_key.get("case_id", "unknown"))
-    decisive = bool(answer_key.get("decisive", False))
-    if not decisive and _is_low_confidence_wait(direction, confidence):
+    decisive = _decisive_value(answer_key)
+    if decisive is False and _is_low_confidence_wait(direction, confidence):
         dimensions = {
             "direction": _score(None, "deterministic", "Non-decisive answer key and low-confidence wait call."),
             "trigger": _score(None, "deterministic", "Wait call has no trigger requirement."),
@@ -310,6 +341,8 @@ def score_deterministic(
 
 def _sanitize_for_judge(value: Any) -> Any:
     if isinstance(value, dict):
+        if CANDLE_KEYS.issubset(set(map(str, value.keys()))):
+            return "[REDACTED_CANDLE]"
         clean: dict[str, Any] = {}
         for key, child in value.items():
             key_text = str(key)
@@ -318,7 +351,11 @@ def _sanitize_for_judge(value: Any) -> Any:
             clean[key_text] = _sanitize_for_judge(child)
         return clean
     if isinstance(value, list):
+        if value and all(isinstance(item, dict) and CANDLE_KEYS.issubset(set(map(str, item.keys()))) for item in value):
+            return "[REDACTED_CANDLES]"
         return [_sanitize_for_judge(item) for item in value]
+    if isinstance(value, str) and PATH_LIKE_PATTERN.search(value):
+        return "[REDACTED_PATH]"
     return value
 
 
@@ -330,7 +367,6 @@ def prepare_judge_input(analysis_output: dict[str, Any], answer_key: dict[str, A
         raise ValueError("answer_key must be a dict")
 
     allowed_answer_keys = {
-        "case_id",
         "ground_truth",
         "event_type",
         "realized_direction",
@@ -341,8 +377,13 @@ def prepare_judge_input(analysis_output: dict[str, Any], answer_key: dict[str, A
         for key in allowed_answer_keys
         if key in answer_key
     }
+    allowed_output = {
+        key: value
+        for key, value in analysis_output.items()
+        if str(key) in ANALYSIS_OUTPUT_ALLOWED_KEYS
+    }
     return {
-        "output": cast(dict[str, Any], _sanitize_for_judge(analysis_output)),
+        "output": cast(dict[str, Any], _sanitize_for_judge(allowed_output)),
         "answer_key": sanitized_answer,
         "prompt": JUDGE_PROMPT_TEMPLATE,
     }
@@ -350,9 +391,10 @@ def prepare_judge_input(analysis_output: dict[str, Any], answer_key: dict[str, A
 
 def _judge_dimensions(judge_verdict: dict[str, Any]) -> dict[str, DimensionScore]:
     dimensions: dict[str, DimensionScore] = {}
-    for name in sorted(JUDGE_DIMENSIONS):
-        if name not in judge_verdict:
-            continue
+    missing = [name for name in JUDGE_DIMENSION_NAMES if name not in judge_verdict]
+    if missing:
+        raise ValueError(f"judge_verdict missing required dimensions: {', '.join(missing)}")
+    for name in JUDGE_DIMENSION_NAMES:
         raw = judge_verdict[name]
         if not isinstance(raw, dict):
             raise ValueError(f"judge verdict for {name} must be an object")

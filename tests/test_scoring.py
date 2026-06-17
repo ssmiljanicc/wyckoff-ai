@@ -146,6 +146,26 @@ def test_judge_input_isolation_excludes_chart() -> None:
     assert JUDGE_PROMPT_TEMPLATE in payload["prompt"]
 
 
+def test_judge_input_isolation_scrubs_path_values_and_candle_shapes() -> None:
+    payload = prepare_judge_input(
+        {
+            "notes": {"source": "/tmp/data/eval/case_01/chart.png"},
+            "evidence": [{"open": 1.0, "high": 2.0, "low": 0.5, "close": 1.5}],
+            "data": [{"open": 1.0, "high": 2.0, "low": 0.5, "close": 1.5}],
+        },
+        _answer_key(),
+    )
+
+    payload_text = json.dumps({"output": payload["output"], "answer_key": payload["answer_key"]})
+    assert "/tmp/data/eval/case_01/chart.png" not in payload_text
+    assert "case_01" not in payload_text
+    assert "chart.png" not in payload_text
+    assert '"high"' not in payload_text
+    assert payload["output"]["notes"]["source"] == "[REDACTED_PATH]"
+    assert payload["output"]["evidence"] == "[REDACTED_CANDLES]"
+    assert "data" not in payload["output"]
+
+
 def test_wait_rule_not_penalized() -> None:
     result = score_deterministic(
         direction="wait",
@@ -162,6 +182,23 @@ def test_wait_rule_not_penalized() -> None:
     assert result["dimensions"]["invalidation"]["score"] is None
 
 
+def test_missing_decisive_wait_uses_old_key_fallback_not_wait_na() -> None:
+    result = score_deterministic(
+        direction="wait",
+        confidence=0.2,
+        answer_key={
+            "case_id": "old_case",
+            "future_visible": [{"open_time": 1, "high": 120.0, "low": 100.0}],
+        },
+    )
+
+    assert result["wait_case"] is False
+    assert result["used_fallback"] is True
+    assert result["dimensions"]["direction"]["status"] == "scored"
+    assert result["dimensions"]["trigger"]["status"] == "scored"
+    assert result["dimensions"]["invalidation"]["status"] == "scored"
+
+
 def test_aggregate_skips_na() -> None:
     deterministic = score_deterministic(
         direction="wait",
@@ -173,11 +210,29 @@ def test_aggregate_skips_na() -> None:
         {
             "structure": {"score": 1.0, "rationale": "Correct."},
             "phase": {"score": 0.0, "rationale": "Wrong."},
+            "event": {"score": 0.0, "rationale": "Wrong."},
+            "narrative_quality": {"score": 0.0, "rationale": "Weak."},
+            "calibration": {"score": 0.0, "rationale": "Wrong confidence."},
         },
     )
 
     assert record["wait_case"] is True
-    assert record["aggregate"] == pytest.approx(0.5)
+    assert record["aggregate"] == pytest.approx(0.2308)
+
+
+def test_combine_scores_rejects_incomplete_judge_verdict() -> None:
+    deterministic = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(),
+    )
+
+    with pytest.raises(ValueError, match="missing required dimensions"):
+        combine_scores(deterministic, {})
+
+    with pytest.raises(ValueError, match="missing required dimensions"):
+        combine_scores(deterministic, {"structure": {"score": 1.0, "rationale": "ok"}})
 
 
 def test_persist_score_written_outside_case_dir(tmp_path: Path) -> None:
