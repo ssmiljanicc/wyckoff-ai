@@ -135,6 +135,23 @@ def test_blind_mode_excludes_future(tmp_path: Path) -> None:
     assert len(candles_data) == n_bars
 
 
+def test_blind_mode_raises_when_history_is_short(tmp_path: Path) -> None:
+    n_bars = 60
+    client = FakeClient(make_fake_candles(20))
+
+    with pytest.raises(ValueError, match="Expected 60 candles .* blind but got 20"):
+        build_snapshot(
+            symbol="BTCUSDT",
+            timeframe="1d",
+            cutoff=1_554_076_800_000,
+            n_bars=n_bars,
+            mode="blind",
+            case_id="case_01",
+            client=client,
+            base_dir=tmp_path,
+        )
+
+
 def test_future_visible_extends_and_marks(tmp_path: Path) -> None:
     n_bars = 60
     future_bars = 20

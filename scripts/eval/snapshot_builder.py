@@ -79,8 +79,27 @@ def anonymize(candles: list[dict], *, case_id: str) -> tuple[list[dict], dict]:
         )
     volume_coef = round(VOLUME_SCALE_FACTORS[idx], 8)
 
+    coef_meta = {
+        "price_coef": price_coef,
+        "volume_coef": volume_coef,
+        "price_target": price_target,
+    }
+    return anonymize_with_meta(candles, coef_meta=coef_meta), coef_meta
+
+
+def anonymize_with_meta(
+    candles: list[dict],
+    *,
+    coef_meta: dict,
+    start_index: int = 0,
+) -> list[dict]:
+    """Apply existing anonymization coefficients to another candle slice."""
+    price_coef = float(coef_meta["price_coef"])
+    volume_coef = float(coef_meta["volume_coef"])
+
     anon: list[dict] = []
-    for i, c in enumerate(candles):
+    for offset, c in enumerate(candles):
+        i = start_index + offset
         anon.append(
             {
                 "open_time": NEUTRAL_EPOCH_MS + i * DAY_MS,
@@ -91,13 +110,7 @@ def anonymize(candles: list[dict], *, case_id: str) -> tuple[list[dict], dict]:
                 "volume": round(float(c["volume"]) * volume_coef, 4),
             }
         )
-
-    coef_meta = {
-        "price_coef": price_coef,
-        "volume_coef": volume_coef,
-        "price_target": price_target,
-    }
-    return anon, coef_meta
+    return anon
 
 
 def render_eval_chart(
@@ -147,6 +160,8 @@ def build_snapshot(
     future_bars: int = 20,
     client: Any = None,
     ground_truth: str = "",
+    answer_extra: dict[str, Any] | None = None,
+    include_post_t_candles: bool = False,
     base_dir: str | Path | None = None,
 ) -> SnapshotResult:
     """Build an anonymized eval snapshot in blind or future_visible mode.
@@ -188,6 +203,11 @@ def build_snapshot(
 
     if mode == "blind":
         candles: list[dict] = client.get_ohlcv(symbol, timeframe, n_bars, end_time=cutoff_ms)
+        if len(candles) < n_bars:
+            raise ValueError(
+                f"Expected {n_bars} candles for {case_id} blind "
+                f"but got {len(candles)} — choose a later cutoff or reduce n_bars"
+            )
         case_dir_name = case_id
         annotations: Any = None
         instruction: str | None = None
@@ -216,6 +236,30 @@ def build_snapshot(
 
     anon_candles, coef_meta = anonymize(candles, case_id=case_id)
 
+    post_t_candles: list[dict] | None = None
+    if include_post_t_candles:
+        if mode == "future_visible":
+            post_t_raw = candles[n_bars - 1 :]
+        else:
+            post_t_end = cutoff_ms + future_bars * tf_ms
+            post_t_raw = client.get_ohlcv(
+                symbol,
+                timeframe,
+                future_bars + 1,
+                end_time=post_t_end,
+            )
+        expected_post_t = future_bars + 1
+        if len(post_t_raw) < expected_post_t:
+            raise ValueError(
+                f"Expected {expected_post_t} post-T candles for {case_id} "
+                f"but got {len(post_t_raw)} — choose an older cutoff or reduce future_bars"
+            )
+        post_t_candles = anonymize_with_meta(
+            post_t_raw[-expected_post_t:],
+            coef_meta=coef_meta,
+            start_index=n_bars - 1,
+        )
+
     case_dir = base / case_dir_name
     case_dir.mkdir(parents=True, exist_ok=True)
 
@@ -240,6 +284,10 @@ def build_snapshot(
         "ground_truth": ground_truth,
         "n_bars": n_bars,
     }
+    if answer_extra:
+        answer_key.update(answer_extra)
+    if post_t_candles is not None:
+        answer_key["post_t_candles"] = post_t_candles
     answer_key_path.write_text(json.dumps(answer_key, indent=2) + "\n")
 
     manifest_path = base / "manifest.json"
