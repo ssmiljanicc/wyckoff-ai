@@ -7,7 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from scripts.mcp.analysis_journal_server import AnalysisJournalStore
+from scripts.mcp import analysis_journal_server
+from scripts.mcp.analysis_journal_server import AnalysisJournalStore, JournalCorruptionError
 
 
 def _base_kwargs(**overrides) -> dict:
@@ -197,3 +198,124 @@ def test_invalid_forecast_or_symbol_raises(tmp_path: Path) -> None:
     }
     with pytest.raises(ValueError, match="forecast"):
         store.log_analysis(**_base_kwargs(forecast=incomplete_forecast))
+
+    with pytest.raises(ValueError, match="forecast.confidence"):
+        store.log_analysis(**_base_kwargs(forecast={**_base_kwargs()["forecast"], "confidence": 1.5}))
+
+    with pytest.raises(ValueError, match="forecast.confidence"):
+        store.log_analysis(**_base_kwargs(forecast={**_base_kwargs()["forecast"], "confidence": float("nan")}))
+
+    with pytest.raises(ValueError, match="forecast.direction"):
+        store.log_analysis(**_base_kwargs(forecast={**_base_kwargs()["forecast"], "direction": {}}))
+
+    with pytest.raises(ValueError, match="narrative"):
+        store.log_analysis(**_base_kwargs(narrative=" "))
+
+
+def test_review_analysis_rejects_non_bool_hit_trigger(tmp_path: Path) -> None:
+    store = AnalysisJournalStore(tmp_path)
+    logged = store.log_analysis(**_base_kwargs(timestamp="2026-06-01T00:00:00Z"))
+
+    with pytest.raises(ValueError, match="hit_trigger"):
+        store.review_analysis(
+            analysis_id=logged["analysis_id"],
+            realized_direction="up",
+            hit_trigger="false",  # type: ignore[arg-type]
+            note="String false must not become truthy.",
+        )
+
+
+def test_corrupt_jsonl_record_raises_with_file_and_line(tmp_path: Path) -> None:
+    store = AnalysisJournalStore(tmp_path)
+    (tmp_path / "2026-06.jsonl").write_text("{not-json}\n", encoding="utf-8")
+
+    with pytest.raises(JournalCorruptionError, match=r"2026-06\.jsonl:1"):
+        store.list_analyses()
+
+
+def test_invalid_logged_at_record_raises(tmp_path: Path) -> None:
+    store = AnalysisJournalStore(tmp_path)
+    record = store.log_analysis(**_base_kwargs(timestamp="2026-06-01T00:00:00Z"))
+    record["logged_at"] = "bad timestamp"
+    (tmp_path / "2026-06.jsonl").write_text(json.dumps(record) + "\n", encoding="utf-8")
+
+    with pytest.raises(JournalCorruptionError, match="invalid logged_at"):
+        store.list_analyses()
+
+
+def test_valid_new_review_replaces_older_review(tmp_path: Path) -> None:
+    store = AnalysisJournalStore(tmp_path)
+    logged = store.log_analysis(**_base_kwargs(timestamp="2026-06-01T00:00:00Z"))
+    old = store.review_analysis(
+        analysis_id=logged["analysis_id"],
+        realized_direction="sideways",
+        hit_trigger=False,
+        note="Older review.",
+        reviewed_at="2026-08-01T00:00:00Z",
+    )
+    new = store.review_analysis(
+        analysis_id=logged["analysis_id"],
+        realized_direction="up",
+        hit_trigger=True,
+        note="Newer review.",
+        reviewed_at="2026-09-01T00:00:00Z",
+    )
+
+    assert old is not None
+    fetched = store.get_analysis(logged["analysis_id"])
+    assert fetched is not None
+    assert fetched["review"] == new
+
+
+class FakeStore:
+    def __init__(self) -> None:
+        self.calls: list[tuple[str, dict]] = []
+
+    def log_analysis(self, **kwargs):
+        self.calls.append(("log_analysis", kwargs))
+        return {"analysis_id": "fake-analysis", "review": None}
+
+    def list_analyses(self, **kwargs):
+        self.calls.append(("list_analyses", kwargs))
+        return [{"analysis_id": "fake-analysis", "review": None}]
+
+    def get_analysis(self, analysis_id: str):
+        self.calls.append(("get_analysis", {"analysis_id": analysis_id}))
+        return {"analysis_id": analysis_id, "review": None}
+
+    def review_analysis(self, **kwargs):
+        self.calls.append(("review_analysis", kwargs))
+        return {"reviewed_at": "2026-09-01T00:00:00Z"}
+
+
+def test_mcp_tool_wrappers_delegate_to_module_store(monkeypatch: pytest.MonkeyPatch) -> None:
+    fake = FakeStore()
+    monkeypatch.setattr(analysis_journal_server, "store", fake)
+
+    assert analysis_journal_server.log_analysis(
+        symbol="BTC/USDT",
+        timeframe="1d",
+        model="gpt-5",
+        effort="medium",
+        narrative="Narrative",
+        structure="accumulation",
+        phase="C",
+        forecast=_base_kwargs()["forecast"],
+        chart_path="chart.png",
+        timestamp="2026-06-01T00:00:00Z",
+    )["analysis_id"] == "fake-analysis"
+    assert analysis_journal_server.list_analyses(symbol="BTC/USDT")[0]["analysis_id"] == "fake-analysis"
+    assert analysis_journal_server.get_analysis("fake-analysis")["analysis_id"] == "fake-analysis"
+    assert analysis_journal_server.review_analysis(
+        analysis_id="fake-analysis",
+        realized_direction="up",
+        hit_trigger=True,
+        note="Reviewed.",
+    )["reviewed_at"] == "2026-09-01T00:00:00Z"
+
+    assert [call[0] for call in fake.calls] == [
+        "log_analysis",
+        "list_analyses",
+        "get_analysis",
+        "review_analysis",
+    ]

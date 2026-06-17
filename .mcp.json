@@ -9,13 +9,13 @@
     "wyckoff-chart-renderer": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "python", "-m", "scripts.mcp.chart_renderer"],
+      "args": ["run", "--extra", "mcp", "python", "-m", "scripts.mcp.chart_renderer"],
       "cwd": "."
     },
     "wyckoff-spread-chart": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "python", "-m", "scripts.mcp.spread_chart_server"],
+      "args": ["run", "--extra", "mcp", "python", "-m", "scripts.mcp.spread_chart_server"],
       "cwd": "."
     },
     "wyckoff-analysis-journal": {
