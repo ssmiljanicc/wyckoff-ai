@@ -64,9 +64,9 @@ MODEL_PRICING: dict[str, dict[str, float] | None] = {
 EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 
 # model_id -> effort levels swept. Haiku 4.5 is intentionally ABSENT: it has no
-# effort param.
-# TODO(Fable 5): claude-fable-5 is listed but pending harness availability — drop
-# it from the sweep until the harness can spawn it, or it will produce empty rows.
+# effort param. claude-fable-5 stays listed per PRD (benchmark it once the harness
+# can spawn it); until then the orchestrator simply skips it — an unavailable model
+# gets no runs, so it produces no rows rather than empty ones.
 BENCHMARK_MATRIX: dict[str, list[str]] = {
     "claude-sonnet-4-6": ["medium", "high", "xhigh", "max"],
     "claude-opus-4-8": ["medium", "high", "xhigh", "max"],
