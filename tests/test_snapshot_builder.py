@@ -366,6 +366,22 @@ def test_reveal_writes_separate_answer_key(tmp_path: Path) -> None:
     assert post_t[0]["open_time"] > 365 * DAY_MS
 
 
+def test_reveal_rejects_future_visible(tmp_path: Path) -> None:
+    client = FakeClient(make_real_time_candles(60))
+    with pytest.raises(ValueError, match="future_visible"):
+        build_snapshot(
+            symbol="BTCUSDT",
+            timeframe="1d",
+            cutoff="2019-04-01",
+            n_bars=30,
+            mode="future_visible",
+            case_id="case_01",
+            client=client,
+            reveal=True,
+            base_dir=tmp_path,
+        )
+
+
 def test_reveal_case_dir_suffix(tmp_path: Path) -> None:
     n_bars = 30
     client = FakeClient(make_real_time_candles(n_bars + 25))

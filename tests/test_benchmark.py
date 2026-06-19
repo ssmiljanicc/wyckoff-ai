@@ -100,7 +100,8 @@ def _row(
     total_tokens: int = 3000,
     cost_usd: float | None = 0.05,
 ) -> benchmark.BenchmarkRow:
-    roi, roi_basis = benchmark._compute_roi(aggregate, cost_usd, total_tokens)
+    roi_basis = benchmark._roi_basis_for_model(model)
+    roi = benchmark._compute_roi(aggregate, cost_usd, total_tokens, roi_basis)
     return {
         "run_id": f"{case_id}__{time_mode}__{anon_mode}__{model}__{effort}",
         "case_id": case_id,
@@ -141,8 +142,17 @@ def test_build_run_matrix_shape(tmp_path: Path) -> None:
     # stable + unique run_ids
     run_ids = [s["run_id"] for s in specs]
     assert len(run_ids) == len(set(run_ids))
-    n_model_effort = sum(len(e) for e in benchmark.BENCHMARK_MATRIX.values())
-    assert len(specs) == 2 * 3 * n_model_effort
+
+    # baseline = full sweep; controls = subset (scope knob)
+    n_baseline = sum(len(e) for e in benchmark.BENCHMARK_MATRIX.values())
+    n_control = len(
+        benchmark._control_pairs(
+            benchmark.BENCHMARK_MATRIX,
+            benchmark.DEFAULT_CONTROL_MODELS,
+            benchmark.DEFAULT_CONTROL_EFFORTS,
+        )
+    )
+    assert len(specs) == 2 * (n_baseline + 2 * n_control)
 
     sample = next(
         s
@@ -288,7 +298,9 @@ def test_render_report_has_both_deltas() -> None:
 
     assert "Δleakage" in md
     assert "Δlookahead" in md
-    assert "Rank by ROI" in md
+    # ROI ranks split by basis — two separate tables, never one mixed sort
+    assert "Rank by ROI (USD basis" in md
+    assert "Rank by ROI (tokens basis" in md
     # n column present in the baseline table
     assert "| n |" in md
 
@@ -338,3 +350,123 @@ def test_ingest_round_trip(tmp_path: Path) -> None:
     assert report["groups"][0]["model"] == "claude-opus-4-8"
     assert (tmp_path / "_benchmark" / "report.md").exists()
     assert (tmp_path / "_benchmark" / "report.json").exists()
+
+
+# --- review fixes -----------------------------------------------------------
+
+
+def test_control_scope_subset_keeps_baseline_full(tmp_path: Path) -> None:
+    """Baseline gets the full sweep; controls only the (model, effort) subset."""
+    specs = benchmark.build_run_matrix(
+        ["case_01"],
+        control_models=("claude-opus-4-8",),
+        control_efforts=("high",),
+        base_dir=tmp_path,
+    )
+    baseline_pairs = {
+        (s["model"], s["effort"])
+        for s in specs
+        if (s["time_mode"], s["anon_mode"]) == ("blind", "anon")
+    }
+    control_pairs = {
+        (s["model"], s["effort"])
+        for s in specs
+        if (s["time_mode"], s["anon_mode"]) != ("blind", "anon")
+    }
+    assert baseline_pairs == set(benchmark._matrix_pairs(benchmark.BENCHMARK_MATRIX))
+    assert control_pairs == {("claude-opus-4-8", "high")}
+
+
+def test_full_controls_widens_to_full_sweep(tmp_path: Path) -> None:
+    specs = benchmark.build_run_matrix(
+        ["case_01"], control_models=None, control_efforts=None, base_dir=tmp_path
+    )
+    full = set(benchmark._matrix_pairs(benchmark.BENCHMARK_MATRIX))
+    for angle in (("blind", "anon"), ("blind", "revealed"), ("future_visible", "anon")):
+        pairs = {
+            (s["model"], s["effort"])
+            for s in specs
+            if (s["time_mode"], s["anon_mode"]) == angle
+        }
+        assert pairs == full
+
+
+def test_roi_basis_from_pricing_not_from_usage(tmp_path: Path) -> None:
+    """A priced model with MISSING usage stays usd-basis (roi None), not tokens."""
+    spec = _make_spec("case_01", "blind", "anon", "claude-opus-4-8", "high", tmp_path)
+    result: benchmark.RunResult = {
+        "analysis_output": _run_result()["analysis_output"],
+        "usage": {},  # orchestrator failed to record usage
+        "judge_verdict": _judge_verdict(0.8),
+    }
+    row = benchmark.score_run(spec, result, _answer_key())
+    assert row["cost_usd"] is None
+    assert row["total_tokens"] == 0
+    assert row["roi_basis"] == "usd"  # from pricing, not from this run's usage
+    assert row["roi"] is None
+
+
+def test_roi_rank_split_by_basis() -> None:
+    rows = [
+        _row("case_01", "blind", "anon", 0.8, model="claude-opus-4-8", cost_usd=0.05),
+        _row("case_01", "blind", "anon", 0.6, model="codex", cost_usd=None),
+    ]
+    report = benchmark.aggregate_report(rows)
+    usd_models = {r["model"] for r in report["rank_by_roi_usd"]}
+    tokens_models = {r["model"] for r in report["rank_by_roi_tokens"]}
+    assert usd_models == {"claude-opus-4-8"}
+    assert tokens_models == {"codex"}
+
+
+def test_ensure_fv_snapshots_dry_run(tmp_path: Path) -> None:
+    """The lookahead control now has a generation path (was the high finding)."""
+    built = benchmark.ensure_fv_snapshots(
+        ["case_01"], dry_run=True, base_dir=tmp_path
+    )
+    assert built == ["case_01"]
+    fv_dir = tmp_path / "case_01__fv"
+    assert fv_dir.exists()
+    assert (fv_dir / "instruction.txt").exists()
+    # idempotent: second call skips the existing snapshot
+    assert benchmark.ensure_fv_snapshots(["case_01"], dry_run=True, base_dir=tmp_path) == []
+
+
+def test_ensure_snapshots_builds_all_three_angles(tmp_path: Path) -> None:
+    built = benchmark.ensure_snapshots(["case_01"], dry_run=True, base_dir=tmp_path)
+    assert built == {
+        "blind": ["case_01"],
+        "future_visible": ["case_01"],
+        "revealed": ["case_01"],
+    }
+    assert (tmp_path / "case_01").exists()
+    assert (tmp_path / "case_01__fv").exists()
+    assert (tmp_path / "case_01__revealed").exists()
+    # revealed answer key must NOT overwrite the anon one
+    assert (tmp_path / "_answers" / "case_01.answer.json").exists()
+    assert (tmp_path / "_answers" / "case_01__revealed.answer.json").exists()
+
+
+def test_ingest_reads_specs_from_manifest(tmp_path: Path) -> None:
+    """Ingest sources specs from benchmark_runs.json (single source of truth)."""
+    answers_dir = tmp_path / "_answers"
+    answers_dir.mkdir()
+    (answers_dir / "case_01.answer.json").write_text(json.dumps(_answer_key()))
+
+    benchmark.build_matrix_manifest(["case_01"], base_dir=tmp_path)
+
+    results_dir = tmp_path / "results"
+    results_dir.mkdir()
+    run_id = "case_01__blind__anon__claude-opus-4-8__high"
+    (results_dir / f"{run_id}.json").write_text(
+        json.dumps(
+            {
+                "analysis_output": _run_result()["analysis_output"],
+                "usage": {"input_tokens": 1000, "output_tokens": 2000},
+                "judge_verdict": _judge_verdict(0.8),
+            }
+        )
+    )
+
+    report = benchmark.ingest(results_dir, base_dir=tmp_path)
+    assert report["n_rows"] == 1
+    assert report["groups"][0]["model"] == "claude-opus-4-8"

@@ -222,6 +222,14 @@ def build_snapshot(
     """
     if mode not in ("blind", "future_visible"):
         raise ValueError(f"mode must be 'blind' or 'future_visible', got {mode!r}")
+    if reveal and mode == "future_visible":
+        # The (future_visible, revealed) corner is intentionally not built — three
+        # control angles suffice for both deltas (see benchmark.CONTROLS). Refuse
+        # it loudly rather than silently emit a __revealed dir for it.
+        raise ValueError(
+            "reveal=True is not supported with mode='future_visible' "
+            "(the future_visible+revealed corner is intentionally out of scope)"
+        )
 
     tf_lower = timeframe.strip().lower()
     if tf_lower not in TIMEFRAME_MS:

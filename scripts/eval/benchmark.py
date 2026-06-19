@@ -15,12 +15,17 @@ Pipeline:
 Two controls are computed as Δscore over the SAME frozen snapshots:
     Δleakage   = mean(revealed) − mean(anon)            # pretraining leakage
     Δlookahead = mean(future_visible) − mean(blind)     # lookahead honesty
-Both are measured only over case_ids common to both angles.
+Both are measured only over case_ids common to both angles. The benchmark owns
+ALL its snapshots (blind, __fv, __revealed) under a dedicated BENCHMARK_BASE_DIR,
+regenerated from the ground-truth definitions — it does NOT reuse data/eval/case_0X,
+whose case_id namespace is shared with the Phase 2 probe (different instruments).
+The baseline runs the full model×effort sweep; the controls run only a
+representative (model, effort) subset (scope knob).
 
 Run:
-    uv run --extra mcp python -m scripts.eval.benchmark               # build matrix
-    uv run --extra mcp python -m scripts.eval.benchmark --dry-run     # stub, no network
-    uv run --extra mcp python -m scripts.eval.benchmark --ensure-snapshots
+    uv run --extra mcp python -m scripts.eval.benchmark --ensure-snapshots  # build blind/fv/revealed
+    uv run --extra mcp python -m scripts.eval.benchmark                     # build matrix
+    uv run --extra mcp python -m scripts.eval.benchmark --dry-run           # stub, no network
     uv run --extra mcp python -m scripts.eval.benchmark --ingest results/
 """
 
@@ -34,7 +39,7 @@ from pathlib import Path
 from typing import Any, TypedDict
 
 from scripts.eval import scoring
-from scripts.eval.lookahead_probe import _DryRunClient
+from scripts.eval.dry_run_client import DryRunClient
 from scripts.eval.snapshot_builder import DEFAULT_BASE_DIR, build_snapshot
 
 # ---------------------------------------------------------------------------
@@ -59,7 +64,9 @@ MODEL_PRICING: dict[str, dict[str, float] | None] = {
 EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 
 # model_id -> effort levels swept. Haiku 4.5 is intentionally ABSENT: it has no
-# effort param. Fable 5 is present but pending harness availability.
+# effort param.
+# TODO(Fable 5): claude-fable-5 is listed but pending harness availability — drop
+# it from the sweep until the harness can spawn it, or it will produce empty rows.
 BENCHMARK_MATRIX: dict[str, list[str]] = {
     "claude-sonnet-4-6": ["medium", "high", "xhigh", "max"],
     "claude-opus-4-8": ["medium", "high", "xhigh", "max"],
@@ -76,9 +83,25 @@ CONTROLS: dict[str, tuple[str, str]] = {
     "leakage": ("blind", "revealed"),
     "lookahead": ("future_visible", "anon"),
 }
+BASELINE_CONTROL = "baseline"
 _CONTROL_BY_ANGLE: dict[tuple[str, str], str] = {
     angle: name for name, angle in CONTROLS.items()
 }
+
+# Scope knob (PRD: the controls answer a per-points property — "≥5 common cases",
+# NOT the whole matrix). Baseline always gets the FULL model×effort sweep; the
+# leakage/lookahead controls run only on this representative subset, so the matrix
+# stays ~baseline + small δ instead of controls × full matrix. Pass [] / None to
+# build_run_matrix to widen back to the full sweep if ever needed.
+DEFAULT_CONTROL_MODELS: tuple[str, ...] = ("claude-opus-4-8",)
+DEFAULT_CONTROL_EFFORTS: tuple[str, ...] = ("high",)
+
+# Benchmark snapshots live in a DEDICATED base dir, isolated from data/eval/ where
+# the Phase 2 probe writes case_01..03 with DIFFERENT instruments. Without this,
+# the lookahead/baseline angles could silently read stale probe __fv/blind data
+# that shares the case_id namespace. Everything the benchmark needs (blind, __fv,
+# __revealed + answer keys) is regenerated here from the ground-truth definitions.
+BENCHMARK_BASE_DIR = DEFAULT_BASE_DIR / "benchmark"
 
 BENCHMARK_RUNBOOK = (
     "Code prepares this matrix; calling the analyst and judge is a runbook step "
@@ -163,7 +186,10 @@ class BenchmarkReport(TypedDict):
     n_rows: int
     groups: list[GroupRow]
     rank_by_aggregate: list[dict[str, Any]]
-    rank_by_roi: list[dict[str, Any]]
+    # ROI ranks are split by basis — usd (skor/$) and tokens (skor/1k tok) are
+    # different units and must never be sorted into one mixed list.
+    rank_by_roi_usd: list[dict[str, Any]]
+    rank_by_roi_tokens: list[dict[str, Any]]
     delta_leakage: list[DeltaRow]
     delta_lookahead: list[DeltaRow]
 
@@ -201,16 +227,48 @@ def _read_instruction(snapshot_dir: Path) -> str | None:
 # ---------------------------------------------------------------------------
 
 
+def _matrix_pairs(matrix: dict[str, list[str]]) -> list[tuple[str, str]]:
+    return [(model, effort) for model, efforts in matrix.items() for effort in efforts]
+
+
+def _control_pairs(
+    matrix: dict[str, list[str]],
+    control_models: tuple[str, ...] | list[str] | None,
+    control_efforts: tuple[str, ...] | list[str] | None,
+) -> list[tuple[str, str]]:
+    """Matrix pairs restricted to the control scope.
+
+    Intersected with the matrix so we never emit a (model, effort) the matrix
+    doesn't define. Empty/None for either axis widens it back to the full sweep.
+    """
+    pairs: list[tuple[str, str]] = []
+    for model, efforts in matrix.items():
+        if control_models and model not in control_models:
+            continue
+        for effort in efforts:
+            if control_efforts and effort not in control_efforts:
+                continue
+            pairs.append((model, effort))
+    return pairs
+
+
 def build_run_matrix(
     case_ids: list[str],
     *,
     matrix: dict[str, list[str]] = BENCHMARK_MATRIX,
     controls: dict[str, tuple[str, str]] = CONTROLS,
-    base_dir: str | Path = DEFAULT_BASE_DIR,
+    control_models: tuple[str, ...] | list[str] | None = DEFAULT_CONTROL_MODELS,
+    control_efforts: tuple[str, ...] | list[str] | None = DEFAULT_CONTROL_EFFORTS,
+    base_dir: str | Path = BENCHMARK_BASE_DIR,
 ) -> list[RunSpec]:
     """Enumerate RunSpecs over case × control-angle × model × effort.
 
     Stable run_id = "{case_id}__{time_mode}__{anon_mode}__{model}__{effort}".
+    The baseline angle gets the FULL model×effort sweep; the leakage/lookahead
+    controls run only on the (control_models × control_efforts) subset so the
+    matrix is baseline + small δ, not controls × full matrix (PRD: controls are a
+    per-points property). Pass control_models=None/[] to widen to the full sweep.
+
     Maps each angle to its snapshot dir (case / __fv / __revealed) and answer key.
     Does NOT build snapshots: if a required dir is missing, missing_snapshot=True
     is recorded so the orchestrator regenerates it first (via --ensure-snapshots).
@@ -219,34 +277,38 @@ def build_run_matrix(
     specs: list[RunSpec] = []
     for case_id in case_ids:
         for control_name, (time_mode, anon_mode) in controls.items():
+            pairs = (
+                _matrix_pairs(matrix)
+                if control_name == BASELINE_CONTROL
+                else _control_pairs(matrix, control_models, control_efforts)
+            )
             snapshot_dir = base / _snapshot_dir_name(case_id, time_mode, anon_mode)
             answer_key_path = base / "_answers" / _answer_key_name(case_id, anon_mode)
             instruction = (
                 _read_instruction(snapshot_dir) if time_mode == "future_visible" else None
             )
             missing = not snapshot_dir.exists()
-            for model, efforts in matrix.items():
-                for effort in efforts:
-                    run_id = f"{case_id}__{time_mode}__{anon_mode}__{model}__{effort}"
-                    specs.append(
-                        {
-                            "run_id": run_id,
-                            "case_id": case_id,
-                            "time_mode": time_mode,
-                            "anon_mode": anon_mode,
-                            "control": control_name,
-                            "model": model,
-                            "effort": effort,
-                            "snapshot_dir": str(snapshot_dir),
-                            "answer_key_path": str(answer_key_path),
-                            "instruction": instruction,
-                            "missing_snapshot": missing,
-                        }
-                    )
+            for model, effort in pairs:
+                run_id = f"{case_id}__{time_mode}__{anon_mode}__{model}__{effort}"
+                specs.append(
+                    {
+                        "run_id": run_id,
+                        "case_id": case_id,
+                        "time_mode": time_mode,
+                        "anon_mode": anon_mode,
+                        "control": control_name,
+                        "model": model,
+                        "effort": effort,
+                        "snapshot_dir": str(snapshot_dir),
+                        "answer_key_path": str(answer_key_path),
+                        "instruction": instruction,
+                        "missing_snapshot": missing,
+                    }
+                )
     return specs
 
 
-def write_run_matrix(specs: list[RunSpec], *, base_dir: str | Path = DEFAULT_BASE_DIR) -> Path:
+def write_run_matrix(specs: list[RunSpec], *, base_dir: str | Path = BENCHMARK_BASE_DIR) -> Path:
     """Write the benchmark_runs.json template with empty result slots."""
     benchmark_dir = Path(base_dir) / "_benchmark"
     benchmark_dir.mkdir(parents=True, exist_ok=True)
@@ -271,10 +333,19 @@ def write_run_matrix(specs: list[RunSpec], *, base_dir: str | Path = DEFAULT_BAS
 
 
 def build_matrix_manifest(
-    case_ids: list[str], *, base_dir: str | Path = DEFAULT_BASE_DIR
+    case_ids: list[str],
+    *,
+    control_models: tuple[str, ...] | list[str] | None = DEFAULT_CONTROL_MODELS,
+    control_efforts: tuple[str, ...] | list[str] | None = DEFAULT_CONTROL_EFFORTS,
+    base_dir: str | Path = BENCHMARK_BASE_DIR,
 ) -> Path:
     """Convenience: build the matrix and write benchmark_runs.json."""
-    specs = build_run_matrix(case_ids, base_dir=base_dir)
+    specs = build_run_matrix(
+        case_ids,
+        control_models=control_models,
+        control_efforts=control_efforts,
+        base_dir=base_dir,
+    )
     return write_run_matrix(specs, base_dir=base_dir)
 
 
@@ -293,16 +364,26 @@ def compute_cost(usage: dict[str, Any], model: str) -> float | None:
     return (in_tokens * pricing["input"] + out_tokens * pricing["output"]) / 1_000_000
 
 
+def _roi_basis_for_model(model: str) -> str:
+    """ROI basis is a property of the MODEL's pricing, not of one run's usage.
+
+    A priced model is always "usd" (skor/$); an unpriced model (e.g. Codex) is
+    always "tokens" (skor/1k tok). Deriving it from a single run's usage would
+    mislabel a priced model as "tokens" whenever that run is missing usage.
+    """
+    return "usd" if MODEL_PRICING.get(model) is not None else "tokens"
+
+
 def _compute_roi(
-    aggregate: float, cost_usd: float | None, total_tokens: int
-) -> tuple[float | None, str]:
-    if cost_usd is not None:
-        if cost_usd <= 0:
-            return None, "usd"
-        return round(aggregate / cost_usd, 4), "usd"
+    aggregate: float, cost_usd: float | None, total_tokens: int, basis: str
+) -> float | None:
+    if basis == "usd":
+        if cost_usd is not None and cost_usd > 0:
+            return round(aggregate / cost_usd, 4)
+        return None
     if total_tokens > 0:
-        return round(aggregate / (total_tokens / 1000), 4), "tokens"
-    return None, "tokens"
+        return round(aggregate / (total_tokens / 1000), 4)
+    return None
 
 
 def score_run(
@@ -338,7 +419,8 @@ def score_run(
     cost_usd = compute_cost(usage, run_spec["model"]) if has_usage else None
 
     aggregate = record["aggregate"]
-    roi, roi_basis = _compute_roi(aggregate, cost_usd, total_tokens)
+    roi_basis = _roi_basis_for_model(run_spec["model"])
+    roi = _compute_roi(aggregate, cost_usd, total_tokens, roi_basis)
     dimensions = {name: dim.get("score") for name, dim in record["dimensions"].items()}
 
     return {
@@ -389,6 +471,10 @@ def _build_groups(rows: list[BenchmarkRow]) -> list[GroupRow]:
         event_types = {
             ev: round(sum(vals) / len(vals), 4) for ev, vals in event_buckets.items()
         }
+        # PARTIAL MEAN: mean_cost_usd / mean_roi average only the rows that have a
+        # value (runs with usage and a priced model). Rows missing usage are
+        # excluded, not counted as 0 — so these means describe the priced subset of
+        # the group, which can be < n. aggregate/dimensions use the full group.
         costs = [r["cost_usd"] for r in grp if r["cost_usd"] is not None]
         rois = [r["roi"] for r in grp if r["roi"] is not None]
         groups.append(
@@ -402,7 +488,7 @@ def _build_groups(rows: list[BenchmarkRow]) -> list[GroupRow]:
                 "mean_tokens": round(sum(r["total_tokens"] for r in grp) / len(grp), 2),
                 "mean_cost_usd": round(sum(costs) / len(costs), 6) if costs else None,
                 "mean_roi": round(sum(rois) / len(rois), 4) if rois else None,
-                "roi_basis": grp[0]["roi_basis"],
+                "roi_basis": _roi_basis_for_model(model),
             }
         )
     groups.sort(key=lambda g: (g["model"], g["effort"]))
@@ -462,20 +548,21 @@ def aggregate_report(rows: list[BenchmarkRow]) -> BenchmarkReport:
         {"model": g["model"], "effort": g["effort"], "n": g["n"], "value": g["aggregate"]}
         for g in sorted(groups, key=lambda g: g["aggregate"], reverse=True)
     ]
-    rank_by_roi = [
-        {
-            "model": g["model"],
-            "effort": g["effort"],
-            "n": g["n"],
-            "value": g["mean_roi"],
-            "roi_basis": g["roi_basis"],
-        }
-        for g in sorted(
-            groups,
-            key=lambda g: (g["mean_roi"] is not None, g["mean_roi"] or 0.0),
-            reverse=True,
-        )
-    ]
+
+    # ROI ranks are split by basis: usd (skor/$) and tokens (skor/1k tok) are
+    # different units and would be a nonsense cross-model ranking if merged.
+    def _roi_rank(basis: str) -> list[dict[str, Any]]:
+        return [
+            {"model": g["model"], "effort": g["effort"], "n": g["n"], "value": g["mean_roi"]}
+            for g in sorted(
+                (grp for grp in groups if grp["roi_basis"] == basis),
+                key=lambda g: (g["mean_roi"] is not None, g["mean_roi"] or 0.0),
+                reverse=True,
+            )
+        ]
+
+    rank_by_roi_usd = _roi_rank("usd")
+    rank_by_roi_tokens = _roi_rank("tokens")
 
     delta_leakage = _build_delta(
         rows, vary="anon_mode", from_val="anon", to_val="revealed", fixed=("time_mode", "blind")
@@ -492,7 +579,8 @@ def aggregate_report(rows: list[BenchmarkRow]) -> BenchmarkReport:
         "n_rows": len(rows),
         "groups": groups,
         "rank_by_aggregate": rank_by_aggregate,
-        "rank_by_roi": rank_by_roi,
+        "rank_by_roi_usd": rank_by_roi_usd,
+        "rank_by_roi_tokens": rank_by_roi_tokens,
         "delta_leakage": delta_leakage,
         "delta_lookahead": delta_lookahead,
     }
@@ -563,15 +651,28 @@ def render_report_markdown(report: BenchmarkReport) -> str:
         lines.append(f"| {i} | {r['model']} | {r['effort']} | {r['n']} | {_fmt(r['value'])} |")
     lines.append("")
 
-    lines.append("## Rank by ROI")
+    # ROI ranks are split by basis — usd and tokens are not comparable, so they
+    # never share one sorted list.
+    lines.append("## Rank by ROI (USD basis — skor/$)")
     lines.append("")
-    lines.append("| # | Model | Effort | n | ROI | ROI basis |")
-    lines.append("|---|---|---|---|---|---|")
-    for i, r in enumerate(report["rank_by_roi"], start=1):
-        lines.append(
-            f"| {i} | {r['model']} | {r['effort']} | {r['n']} | {_fmt(r['value'])} | "
-            f"{r.get('roi_basis', '')} |"
-        )
+    lines.append("| # | Model | Effort | n | ROI |")
+    lines.append("|---|---|---|---|---|")
+    for i, r in enumerate(report["rank_by_roi_usd"], start=1):
+        lines.append(f"| {i} | {r['model']} | {r['effort']} | {r['n']} | {_fmt(r['value'])} |")
+    if not report["rank_by_roi_usd"]:
+        lines.append("| — | _none_ | — | — | — |")
+    lines.append("")
+
+    lines.append("## Rank by ROI (tokens basis — skor/1k tok)")
+    lines.append("")
+    lines.append("Separate basis (unpriced models, e.g. Codex). NOT comparable to USD ROI.")
+    lines.append("")
+    lines.append("| # | Model | Effort | n | ROI |")
+    lines.append("|---|---|---|---|---|")
+    for i, r in enumerate(report["rank_by_roi_tokens"], start=1):
+        lines.append(f"| {i} | {r['model']} | {r['effort']} | {r['n']} | {_fmt(r['value'])} |")
+    if not report["rank_by_roi_tokens"]:
+        lines.append("| — | _none_ | — | — | — |")
     lines.append("")
 
     # Δleakage (pretraining leakage).
@@ -603,7 +704,7 @@ def render_report_markdown(report: BenchmarkReport) -> str:
 
 
 def write_report(
-    report: BenchmarkReport, *, base_dir: str | Path = DEFAULT_BASE_DIR
+    report: BenchmarkReport, *, base_dir: str | Path = BENCHMARK_BASE_DIR
 ) -> tuple[Path, Path]:
     benchmark_dir = Path(base_dir) / "_benchmark"
     benchmark_dir.mkdir(parents=True, exist_ok=True)
@@ -619,7 +720,43 @@ def write_report(
 # ---------------------------------------------------------------------------
 
 
+_SPEC_KEYS: tuple[str, ...] = (
+    "run_id",
+    "case_id",
+    "time_mode",
+    "anon_mode",
+    "control",
+    "model",
+    "effort",
+    "snapshot_dir",
+    "answer_key_path",
+    "instruction",
+    "missing_snapshot",
+)
+
+
+def _load_specs_from_manifest(base_dir: str | Path) -> dict[str, RunSpec] | None:
+    """Return {run_id: RunSpec} from benchmark_runs.json, or None if absent.
+
+    benchmark_runs.json is the single source of truth for specs; ingest matches
+    results/<run_id>.json against it by run_id.
+    """
+    manifest_path = Path(base_dir) / "_benchmark" / "benchmark_runs.json"
+    if not manifest_path.exists():
+        return None
+    data = json.loads(manifest_path.read_text())
+    specs: dict[str, RunSpec] = {}
+    for run in data.get("runs", []):
+        specs[run["run_id"]] = {key: run[key] for key in _SPEC_KEYS}  # type: ignore[typeddict-item]
+    return specs
+
+
 def _spec_from_run_id(run_id: str, *, base_dir: str | Path) -> RunSpec:
+    """Fallback spec reconstruction when no benchmark_runs.json exists on disk.
+
+    Prefer the manifest (see _load_specs_from_manifest); this positional parse is
+    only the no-manifest escape hatch and assumes no field contains '__'.
+    """
     parts = run_id.split("__")
     if len(parts) != 5:
         raise ValueError(
@@ -647,19 +784,36 @@ def _spec_from_run_id(run_id: str, *, base_dir: str | Path) -> RunSpec:
 
 
 def ingest(
-    results_dir: str | Path, *, base_dir: str | Path = DEFAULT_BASE_DIR
+    results_dir: str | Path, *, base_dir: str | Path = BENCHMARK_BASE_DIR
 ) -> BenchmarkReport:
-    """Load results/<run_id>.json, score each filled run, aggregate, write report."""
+    """Load results/<run_id>.json, score each filled run, aggregate, write report.
+
+    Specs come from benchmark_runs.json (single source of truth); run_id is only
+    the key that pairs a result file to its spec. Falls back to reconstructing the
+    spec from run_id only when no manifest exists on disk.
+    """
     results_path = Path(results_dir)
     if not results_path.exists():
         raise FileNotFoundError(f"results dir not found: {results_path}")
+
+    manifest_specs = _load_specs_from_manifest(base_dir)
 
     rows: list[BenchmarkRow] = []
     for result_file in sorted(results_path.glob("*.json")):
         raw = json.loads(result_file.read_text())
         if raw.get("analysis_output") is None or raw.get("judge_verdict") is None:
             continue  # unfilled slot
-        spec = _spec_from_run_id(result_file.stem, base_dir=base_dir)
+        run_id = result_file.stem
+        if manifest_specs is not None:
+            spec = manifest_specs.get(run_id)
+            if spec is None:
+                print(
+                    f"[benchmark] WARN: {run_id} has no entry in benchmark_runs.json "
+                    "— skipping (rebuild the matrix to include it)"
+                )
+                continue
+        else:
+            spec = _spec_from_run_id(run_id, base_dir=base_dir)
         answer_key = json.loads(Path(spec["answer_key_path"]).read_text())
         result: RunResult = {
             "analysis_output": raw["analysis_output"],
@@ -675,22 +829,18 @@ def ingest(
 
 
 # ---------------------------------------------------------------------------
-# Ensure revealed snapshots (regenerate missing __revealed dirs)
+# Ensure snapshots (regenerate the benchmark's own blind/fv/revealed dirs)
+#
+# The benchmark owns ALL its snapshots under BENCHMARK_BASE_DIR — it does NOT
+# rely on data/eval/case_0X built by Phase 3, because that namespace is shared
+# with the Phase 2 probe (case_01..03, DIFFERENT instruments). Regenerating from
+# the ground-truth definitions into a dedicated dir removes any contamination.
 # ---------------------------------------------------------------------------
 
 
-def ensure_revealed_snapshots(
-    case_ids: list[str] | None = None,
-    *,
-    dry_run: bool = False,
-    base_dir: str | Path = DEFAULT_BASE_DIR,
-    answers_path: Path | None = None,
-) -> list[str]:
-    """Regenerate any missing __revealed snapshots via build_snapshot(reveal=True).
-
-    blind/fv snapshots already exist from Phase 3; only the revealed control
-    (blind, revealed) is added here.
-    """
+def _load_benchmark_cases_and_answers(
+    case_ids: list[str] | None, *, dry_run: bool, answers_path: Path | None
+) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
     from scripts.eval.build_eval_set import DEFAULT_ANSWERS_PATH  # noqa: PLC0415
     from scripts.eval.ground_truth_cases import (  # noqa: PLC0415
         GROUND_TRUTH_CASES,
@@ -698,23 +848,41 @@ def ensure_revealed_snapshots(
         make_placeholder_answers,
     )
 
-    cases = [
-        c for c in GROUND_TRUTH_CASES if case_ids is None or c["case_id"] in case_ids
-    ]
+    cases = [c for c in GROUND_TRUTH_CASES if case_ids is None or c["case_id"] in case_ids]
     answers = (
         make_placeholder_answers()
         if dry_run
         else load_answer_key(answers_path or DEFAULT_ANSWERS_PATH)
     )
-    client: Any = _DryRunClient() if dry_run else None
+    return cases, answers
+
+
+def _answer_extra(answer: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "event_type": answer["event_type"],
+        "realized_direction": answer["realized_direction"],
+        "decisive": answer["decisive"],
+    }
+
+
+def ensure_blind_snapshots(
+    case_ids: list[str] | None = None,
+    *,
+    dry_run: bool = False,
+    base_dir: str | Path = BENCHMARK_BASE_DIR,
+    answers_path: Path | None = None,
+) -> list[str]:
+    """Build any missing baseline (blind, anon) snapshots into the benchmark dir."""
+    cases, answers = _load_benchmark_cases_and_answers(
+        case_ids, dry_run=dry_run, answers_path=answers_path
+    )
+    client: Any = DryRunClient() if dry_run else None
     base = Path(base_dir)
     built: list[str] = []
-
     for case in cases:
         case_id = case["case_id"]
-        if (base / f"{case_id}__revealed").exists():
+        if (base / case_id).exists():
             continue
-        answer = answers[case_id]
         build_snapshot(
             symbol=case["symbol"],
             timeframe=case["timeframe"],
@@ -723,12 +891,85 @@ def ensure_revealed_snapshots(
             mode="blind",
             case_id=case_id,
             client=client,
-            ground_truth=answer["ground_truth"],
-            answer_extra={
-                "event_type": answer["event_type"],
-                "realized_direction": answer["realized_direction"],
-                "decisive": answer["decisive"],
-            },
+            ground_truth=answers[case_id]["ground_truth"],
+            answer_extra=_answer_extra(answers[case_id]),
+            include_post_t_candles=True,
+            base_dir=base,
+        )
+        built.append(case_id)
+    return built
+
+
+def ensure_fv_snapshots(
+    case_ids: list[str] | None = None,
+    *,
+    dry_run: bool = False,
+    base_dir: str | Path = BENCHMARK_BASE_DIR,
+    answers_path: Path | None = None,
+    future_bars: int = 20,
+) -> list[str]:
+    """Build any missing (future_visible, anon) snapshots — the lookahead control.
+
+    Without this the lookahead angle has NO generation path and Δlookahead comes
+    out empty. Phase 3 build_eval_set builds only blind, so the benchmark must
+    generate __fv itself from the same ground-truth definitions.
+    """
+    cases, answers = _load_benchmark_cases_and_answers(
+        case_ids, dry_run=dry_run, answers_path=answers_path
+    )
+    client: Any = DryRunClient() if dry_run else None
+    base = Path(base_dir)
+    built: list[str] = []
+    for case in cases:
+        case_id = case["case_id"]
+        if (base / f"{case_id}__fv").exists():
+            continue
+        build_snapshot(
+            symbol=case["symbol"],
+            timeframe=case["timeframe"],
+            cutoff=case["cutoff"],
+            n_bars=case["n_bars"],
+            mode="future_visible",
+            case_id=case_id,
+            future_bars=future_bars,
+            client=client,
+            ground_truth=answers[case_id]["ground_truth"],
+            answer_extra=_answer_extra(answers[case_id]),
+            include_post_t_candles=True,
+            base_dir=base,
+        )
+        built.append(case_id)
+    return built
+
+
+def ensure_revealed_snapshots(
+    case_ids: list[str] | None = None,
+    *,
+    dry_run: bool = False,
+    base_dir: str | Path = BENCHMARK_BASE_DIR,
+    answers_path: Path | None = None,
+) -> list[str]:
+    """Build any missing __revealed snapshots — the leakage control (reveal=True)."""
+    cases, answers = _load_benchmark_cases_and_answers(
+        case_ids, dry_run=dry_run, answers_path=answers_path
+    )
+    client: Any = DryRunClient() if dry_run else None
+    base = Path(base_dir)
+    built: list[str] = []
+    for case in cases:
+        case_id = case["case_id"]
+        if (base / f"{case_id}__revealed").exists():
+            continue
+        build_snapshot(
+            symbol=case["symbol"],
+            timeframe=case["timeframe"],
+            cutoff=case["cutoff"],
+            n_bars=case["n_bars"],
+            mode="blind",
+            case_id=case_id,
+            client=client,
+            ground_truth=answers[case_id]["ground_truth"],
+            answer_extra=_answer_extra(answers[case_id]),
             include_post_t_candles=True,
             reveal=True,
             base_dir=base,
@@ -737,9 +978,40 @@ def ensure_revealed_snapshots(
     return built
 
 
+def ensure_snapshots(
+    case_ids: list[str] | None = None,
+    *,
+    dry_run: bool = False,
+    base_dir: str | Path = BENCHMARK_BASE_DIR,
+    answers_path: Path | None = None,
+) -> dict[str, list[str]]:
+    """Ensure all three angles (blind, future_visible, revealed) exist for the set.
+
+    This closes the lookahead generation gap (future_visible) AND keeps the whole
+    benchmark snapshot set in one isolated dir, immune to the probe namespace.
+    """
+    return {
+        "blind": ensure_blind_snapshots(
+            case_ids, dry_run=dry_run, base_dir=base_dir, answers_path=answers_path
+        ),
+        "future_visible": ensure_fv_snapshots(
+            case_ids, dry_run=dry_run, base_dir=base_dir, answers_path=answers_path
+        ),
+        "revealed": ensure_revealed_snapshots(
+            case_ids, dry_run=dry_run, base_dir=base_dir, answers_path=answers_path
+        ),
+    }
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
+
+def _parse_csv(value: str | None) -> tuple[str, ...] | None:
+    if value is None:
+        return None
+    return tuple(part.strip() for part in value.split(",") if part.strip())
 
 
 def main() -> None:
@@ -748,7 +1020,7 @@ def main() -> None:
     parser.add_argument(
         "--ensure-snapshots",
         action="store_true",
-        help="Regenerate missing __revealed snapshots before building the matrix",
+        help="Regenerate missing blind/future_visible/revealed snapshots first",
     )
     parser.add_argument(
         "--ingest",
@@ -758,7 +1030,24 @@ def main() -> None:
         help="Score filled results/<run_id>.json and write report.{md,json}",
     )
     parser.add_argument(
-        "--base-dir", type=Path, default=DEFAULT_BASE_DIR, help="Eval base directory"
+        "--full-controls",
+        action="store_true",
+        help="Run the controls over the FULL model×effort sweep (default: subset)",
+    )
+    parser.add_argument(
+        "--control-models",
+        type=str,
+        default=None,
+        help="Comma-separated model ids for the controls (default: opus)",
+    )
+    parser.add_argument(
+        "--control-efforts",
+        type=str,
+        default=None,
+        help="Comma-separated effort levels for the controls (default: high)",
+    )
+    parser.add_argument(
+        "--base-dir", type=Path, default=BENCHMARK_BASE_DIR, help="Benchmark base directory"
     )
     args = parser.parse_args()
 
@@ -771,12 +1060,23 @@ def main() -> None:
         return
 
     if args.ensure_snapshots:
-        built = ensure_revealed_snapshots(
-            case_ids, dry_run=args.dry_run, base_dir=args.base_dir
-        )
-        print(f"[benchmark] ensured {len(built)} revealed snapshot(s): {built}")
+        built = ensure_snapshots(case_ids, dry_run=args.dry_run, base_dir=args.base_dir)
+        for angle, ids in built.items():
+            print(f"[benchmark] ensured {len(ids)} {angle} snapshot(s): {ids}")
 
-    path = build_matrix_manifest(case_ids, base_dir=args.base_dir)
+    if args.full_controls:
+        control_models: tuple[str, ...] | None = None
+        control_efforts: tuple[str, ...] | None = None
+    else:
+        control_models = _parse_csv(args.control_models) or DEFAULT_CONTROL_MODELS
+        control_efforts = _parse_csv(args.control_efforts) or DEFAULT_CONTROL_EFFORTS
+
+    path = build_matrix_manifest(
+        case_ids,
+        control_models=control_models,
+        control_efforts=control_efforts,
+        base_dir=args.base_dir,
+    )
     print(f"[benchmark] run matrix written to: {path}")
     if args.dry_run:
         print("[benchmark] dry-run complete — no network calls made")
