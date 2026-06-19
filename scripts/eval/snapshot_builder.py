@@ -113,6 +113,31 @@ def anonymize_with_meta(
     return anon
 
 
+def passthrough_candles(candles: list[dict]) -> list[dict]:
+    """Return candles in REAL space — used by reveal mode (no anonymization).
+
+    Keeps the real ``open_time`` (no neutral-epoch remap) and real
+    open/high/low/close/volume, rounded to 4 decimals to match the
+    serialization width of the anon path. This is the identity-coefficient
+    counterpart of :func:`anonymize_with_meta`.
+    """
+    if not candles:
+        raise ValueError("candles must be non-empty")
+    out: list[dict] = []
+    for c in candles:
+        out.append(
+            {
+                "open_time": int(c["open_time"]),
+                "open": round(float(c["open"]), 4),
+                "high": round(float(c["high"]), 4),
+                "low": round(float(c["low"]), 4),
+                "close": round(float(c["close"]), 4),
+                "volume": round(float(c["volume"]), 4),
+            }
+        )
+    return out
+
+
 def render_eval_chart(
     anon_candles: list[dict],
     title: str = "ASSET-X",
@@ -162,18 +187,28 @@ def build_snapshot(
     ground_truth: str = "",
     answer_extra: dict[str, Any] | None = None,
     include_post_t_candles: bool = False,
+    reveal: bool = False,
     base_dir: str | Path | None = None,
 ) -> SnapshotResult:
-    """Build an anonymized eval snapshot in blind or future_visible mode.
+    """Build an eval snapshot in blind or future_visible mode.
 
     blind: fetches n_bars candles ending at cutoff; no future data visible.
     future_visible: fetches n_bars + future_bars candles ending at
         cutoff + future_bars*tf_ms; renders an "as-of T" vertical marker
         at candle index n_bars-1 and writes instruction.txt.
 
+    reveal (anon vs revealed A/B control): when True the snapshot is NOT
+        anonymized — real prices/volume and real open_time pass through
+        (identity coefficients), the chart uses the recognizable default style
+        with a ``<symbol> <TF>`` title, the case dir is suffixed ``__revealed``
+        and the answer key is written to ``_answers/<case_id>__revealed.answer.json``
+        so it never overwrites the anon key. post_t_candles are kept in real
+        space. Default False preserves the full anonymized behavior.
+
     Answer key (real symbol, cutoff, coef_meta, ground_truth) is written to
-    base_dir/_answers/<case_id>.answer.json — physically outside the case
-    directory so an analyst given only the case dir cannot access it.
+    base_dir/_answers/<case_id>.answer.json (or ``<case_id>__revealed.answer.json``
+    when reveal=True) — physically outside the case directory so an analyst
+    given only the case dir cannot access it.
 
     Notes:
     - candles.json is deterministic for fixed inputs; chart.png bytes are NOT
@@ -234,7 +269,13 @@ def build_snapshot(
             "data not available at T."
         )
 
-    anon_candles, coef_meta = anonymize(candles, case_id=case_id)
+    if reveal:
+        # Revealed control: real prices/dates pass through, identity coefficients.
+        anon_candles = passthrough_candles(candles)
+        coef_meta = {"price_coef": 1.0, "volume_coef": 1.0, "price_target": None}
+        case_dir_name = f"{case_id}__revealed"
+    else:
+        anon_candles, coef_meta = anonymize(candles, case_id=case_id)
 
     post_t_candles: list[dict] | None = None
     if include_post_t_candles:
@@ -254,11 +295,14 @@ def build_snapshot(
                 f"Expected {expected_post_t} post-T candles for {case_id} "
                 f"but got {len(post_t_raw)} — choose an older cutoff or reduce future_bars"
             )
-        post_t_candles = anonymize_with_meta(
-            post_t_raw[-expected_post_t:],
-            coef_meta=coef_meta,
-            start_index=n_bars - 1,
-        )
+        if reveal:
+            post_t_candles = passthrough_candles(post_t_raw[-expected_post_t:])
+        else:
+            post_t_candles = anonymize_with_meta(
+                post_t_raw[-expected_post_t:],
+                coef_meta=coef_meta,
+                start_index=n_bars - 1,
+            )
 
     case_dir = base / case_dir_name
     case_dir.mkdir(parents=True, exist_ok=True)
@@ -266,7 +310,16 @@ def build_snapshot(
     candles_path = case_dir / "candles.json"
     candles_path.write_text(json.dumps(anon_candles, indent=2) + "\n")
 
-    rendered = render_eval_chart(anon_candles, "ASSET-X", annotations, output_dir=case_dir)
+    if reveal:
+        # Recognizable default style + real symbol/TF title (the whole point of reveal).
+        rendered = render_chart_image(
+            anon_candles,
+            title=f"{symbol} {tf_lower.upper()}",
+            annotations=annotations,
+            output_dir=case_dir,
+        )
+    else:
+        rendered = render_eval_chart(anon_candles, "ASSET-X", annotations, output_dir=case_dir)
     chart_path = case_dir / "chart.png"
     Path(rendered["path"]).replace(chart_path)
 
@@ -275,7 +328,8 @@ def build_snapshot(
 
     answers_dir = base / "_answers"
     answers_dir.mkdir(parents=True, exist_ok=True)
-    answer_key_path = answers_dir / f"{case_id}.answer.json"
+    answer_key_name = f"{case_id}__revealed.answer.json" if reveal else f"{case_id}.answer.json"
+    answer_key_path = answers_dir / answer_key_name
     answer_key = {
         "case_id": case_id,
         "symbol": symbol,
@@ -295,11 +349,16 @@ def build_snapshot(
     if manifest_path.exists():
         manifest = json.loads(manifest_path.read_text())
     entries: list[dict] = manifest.get("cases", [])
-    entries = [e for e in entries if not (e["case_id"] == case_id and e["mode"] == mode)]
+    entries = [
+        e
+        for e in entries
+        if not (e["case_id"] == case_id and e["mode"] == mode and e.get("reveal", False) == reveal)
+    ]
     entries.append(
         {
             "case_id": case_id,
             "mode": mode,
+            "reveal": reveal,
             "n_bars": n_bars,
             "paths": {
                 "candles": str(candles_path),
