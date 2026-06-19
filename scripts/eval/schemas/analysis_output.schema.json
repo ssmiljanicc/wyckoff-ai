@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wyckoff eval analyst output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["direction", "trigger", "invalidation", "confidence", "structure", "phase", "event"],
+  "properties": {
+    "analysis_id": {"type": "string"},
+    "direction": {"enum": ["up", "down", "none"]},
+    "trigger": {"type": ["number", "null"]},
+    "invalidation": {"type": ["number", "null"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "structure": {"type": "string", "minLength": 1},
+    "phase": {"type": "string", "minLength": 1},
+    "event": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string"},
+    "narrative": {"type": "string"},
+    "thesis": {"type": "string"},
+    "evidence": {"type": ["array", "string"], "items": {"type": "string"}},
+    "forecast": {"type": "object"},
+    "rationale": {"type": "string"},
+    "notes": {"type": "string"}
+  }
+}

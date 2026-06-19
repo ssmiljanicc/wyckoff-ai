@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wyckoff eval judge verdict",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["structure", "phase", "event", "narrative_quality", "calibration"],
+  "properties": {
+    "structure": {"$ref": "#/$defs/dimension"},
+    "phase": {"$ref": "#/$defs/dimension"},
+    "event": {"$ref": "#/$defs/dimension"},
+    "narrative_quality": {"$ref": "#/$defs/dimension"},
+    "calibration": {"$ref": "#/$defs/dimension"}
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "rationale"],
+      "properties": {
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "rationale": {"type": "string"}
+      }
+    }
+  }
+}
