@@ -336,7 +336,16 @@ def build_snapshot(
 
     answers_dir = base / "_answers"
     answers_dir.mkdir(parents=True, exist_ok=True)
-    answer_key_name = f"{case_id}__revealed.answer.json" if reveal else f"{case_id}.answer.json"
+    # Mode/anon-specific answer key so the three angles never overwrite each other.
+    # Crucially blind and future_visible carry DIFFERENT anonymization coefficients
+    # (median is taken over n_bars vs n_bars+future_bars candles), so their
+    # post_t_candles live in different coef spaces and must be stored separately.
+    if reveal:
+        answer_key_name = f"{case_id}__revealed.answer.json"
+    elif mode == "future_visible":
+        answer_key_name = f"{case_id}__fv.answer.json"
+    else:
+        answer_key_name = f"{case_id}.answer.json"
     answer_key_path = answers_dir / answer_key_name
     answer_key = {
         "case_id": case_id,

@@ -207,11 +207,16 @@ def _snapshot_dir_name(case_id: str, time_mode: str, anon_mode: str) -> str:
     return case_id
 
 
-def _answer_key_name(case_id: str, anon_mode: str) -> str:
-    # future_visible (anon) shares the anon answer key — same anon coefficient
-    # space (post_t_candles are anonymized with the same case_id coef).
+def _answer_key_name(case_id: str, time_mode: str, anon_mode: str) -> str:
+    # Each angle has its OWN answer key — blind and future_visible do NOT share
+    # one. They carry different anonymization coefficients (median over n_bars vs
+    # n_bars+future_bars candles), so their post_t_candles are in different coef
+    # spaces; scoring an fv-coef trigger against blind-coef post_t would be wrong.
+    # Mirrors snapshot_builder's mode/anon-specific answer-key naming.
     if anon_mode == "revealed":
         return f"{case_id}__revealed.answer.json"
+    if time_mode == "future_visible":
+        return f"{case_id}__fv.answer.json"
     return f"{case_id}.answer.json"
 
 
@@ -283,7 +288,7 @@ def build_run_matrix(
                 else _control_pairs(matrix, control_models, control_efforts)
             )
             snapshot_dir = base / _snapshot_dir_name(case_id, time_mode, anon_mode)
-            answer_key_path = base / "_answers" / _answer_key_name(case_id, anon_mode)
+            answer_key_path = base / "_answers" / _answer_key_name(case_id, time_mode, anon_mode)
             instruction = (
                 _read_instruction(snapshot_dir) if time_mode == "future_visible" else None
             )
@@ -775,7 +780,7 @@ def _spec_from_run_id(run_id: str, *, base_dir: str | Path) -> RunSpec:
         "model": model,
         "effort": effort,
         "snapshot_dir": str(snapshot_dir),
-        "answer_key_path": str(base / "_answers" / _answer_key_name(case_id, anon_mode)),
+        "answer_key_path": str(base / "_answers" / _answer_key_name(case_id, time_mode, anon_mode)),
         "instruction": _read_instruction(snapshot_dir)
         if time_mode == "future_visible"
         else None,

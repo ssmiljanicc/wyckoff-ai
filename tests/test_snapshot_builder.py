@@ -266,6 +266,61 @@ def test_snapshot_result_paths_exist(tmp_path: Path) -> None:
     assert Path(result["answer_key_path"]).exists()
 
 
+def test_fv_answer_key_separate_from_blind_with_different_coef(tmp_path: Path) -> None:
+    """blind and future_visible must NOT share an answer key.
+
+    Their anonymization coefficient differs (median over n_bars vs
+    n_bars+future_bars candles), so post_t_candles live in different coef spaces.
+    """
+    n_bars = 30
+    future_bars = 20
+    candles = make_fake_candles(n_bars + future_bars + 10)
+    answer_extra = {"event_type": "spring", "realized_direction": "up", "decisive": True}
+
+    blind = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="blind",
+        case_id="case_01",
+        future_bars=future_bars,
+        answer_extra=answer_extra,
+        include_post_t_candles=True,
+        client=FakeClient(candles),
+        base_dir=tmp_path,
+    )
+    fv = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="future_visible",
+        case_id="case_01",
+        future_bars=future_bars,
+        answer_extra=answer_extra,
+        include_post_t_candles=True,
+        client=FakeClient(candles),
+        base_dir=tmp_path,
+    )
+
+    blind_path = Path(blind["answer_key_path"])
+    fv_path = Path(fv["answer_key_path"])
+    assert blind_path.name == "case_01.answer.json"
+    assert fv_path.name == "case_01__fv.answer.json"
+    assert blind_path != fv_path
+    assert blind_path.exists() and fv_path.exists()
+
+    blind_key = json.loads(blind_path.read_text())
+    fv_key = json.loads(fv_path.read_text())
+    # Different anonymization coefficient — the root cause of the bug.
+    assert blind_key["coef_meta"]["price_coef"] != fv_key["coef_meta"]["price_coef"]
+    # post_t_candles therefore differ in scale — must not be identical bytes.
+    assert blind_key["post_t_candles"] != fv_key["post_t_candles"]
+    # The blind key survived (was not overwritten by the fv build).
+    assert "post_t_candles" in blind_key
+
+
 # --- reveal mode (anon vs revealed A/B control) tests ---
 
 # 2019-04-01 UTC — a real epoch, clearly distinct from the neutral 1970 epoch.

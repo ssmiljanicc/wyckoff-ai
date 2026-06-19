@@ -178,6 +178,12 @@ def test_build_run_matrix_shape(tmp_path: Path) -> None:
     assert rev["snapshot_dir"].endswith("case_02__revealed")
     assert rev["answer_key_path"].endswith("_answers/case_02__revealed.answer.json")
 
+    # future_visible runs map to the __fv dir AND its own __fv answer key — blind
+    # and fv carry different anon coefficients, so they must not share a key.
+    fv_spec = next(s for s in specs if s["time_mode"] == "future_visible" and s["case_id"] == "case_01")
+    assert fv_spec["snapshot_dir"].endswith("case_01__fv")
+    assert fv_spec["answer_key_path"].endswith("_answers/case_01__fv.answer.json")
+
 
 # --- 2. cost ----------------------------------------------------------------
 
@@ -470,3 +476,22 @@ def test_ingest_reads_specs_from_manifest(tmp_path: Path) -> None:
     report = benchmark.ingest(results_dir, base_dir=tmp_path)
     assert report["n_rows"] == 1
     assert report["groups"][0]["model"] == "claude-opus-4-8"
+
+
+def test_lookahead_score_run_reads_fv_answer_key(tmp_path: Path) -> None:
+    """The lookahead angle scores its own fv-coef __fv key, not the blind key."""
+    benchmark.ensure_fv_snapshots(["case_01"], dry_run=True, base_dir=tmp_path)
+    fv_answer = tmp_path / "_answers" / "case_01__fv.answer.json"
+    assert fv_answer.exists()
+
+    specs = benchmark.build_run_matrix(["case_01"], base_dir=tmp_path)
+    fv_spec = next(s for s in specs if s["time_mode"] == "future_visible")
+    assert fv_spec["answer_key_path"].endswith("case_01__fv.answer.json")
+
+    answer_key = json.loads(Path(fv_spec["answer_key_path"]).read_text())
+    assert "post_t_candles" in answer_key  # fv-coef post_t lives here
+
+    # score_run reads the __fv key without error and tags the row as lookahead.
+    row = benchmark.score_run(fv_spec, _run_result(), answer_key)
+    assert row["time_mode"] == "future_visible"
+    assert row["event_type"] == answer_key["event_type"]
