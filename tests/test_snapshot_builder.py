@@ -264,3 +264,194 @@ def test_snapshot_result_paths_exist(tmp_path: Path) -> None:
     assert Path(result["candles_path"]).exists()
     assert Path(result["chart_path"]).exists()
     assert Path(result["answer_key_path"]).exists()
+
+
+def test_fv_answer_key_separate_from_blind_with_different_coef(tmp_path: Path) -> None:
+    """blind and future_visible must NOT share an answer key.
+
+    Their anonymization coefficient differs (median over n_bars vs
+    n_bars+future_bars candles), so post_t_candles live in different coef spaces.
+    """
+    n_bars = 30
+    future_bars = 20
+    candles = make_fake_candles(n_bars + future_bars + 10)
+    answer_extra = {"event_type": "spring", "realized_direction": "up", "decisive": True}
+
+    blind = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="blind",
+        case_id="case_01",
+        future_bars=future_bars,
+        answer_extra=answer_extra,
+        include_post_t_candles=True,
+        client=FakeClient(candles),
+        base_dir=tmp_path,
+    )
+    fv = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="future_visible",
+        case_id="case_01",
+        future_bars=future_bars,
+        answer_extra=answer_extra,
+        include_post_t_candles=True,
+        client=FakeClient(candles),
+        base_dir=tmp_path,
+    )
+
+    blind_path = Path(blind["answer_key_path"])
+    fv_path = Path(fv["answer_key_path"])
+    assert blind_path.name == "case_01.answer.json"
+    assert fv_path.name == "case_01__fv.answer.json"
+    assert blind_path != fv_path
+    assert blind_path.exists() and fv_path.exists()
+
+    blind_key = json.loads(blind_path.read_text())
+    fv_key = json.loads(fv_path.read_text())
+    # Different anonymization coefficient — the root cause of the bug.
+    assert blind_key["coef_meta"]["price_coef"] != fv_key["coef_meta"]["price_coef"]
+    # post_t_candles therefore differ in scale — must not be identical bytes.
+    assert blind_key["post_t_candles"] != fv_key["post_t_candles"]
+    # The blind key survived (was not overwritten by the fv build).
+    assert "post_t_candles" in blind_key
+
+
+# --- reveal mode (anon vs revealed A/B control) tests ---
+
+# 2019-04-01 UTC — a real epoch, clearly distinct from the neutral 1970 epoch.
+REAL_BASE_TIME_MS = 1_554_076_800_000
+
+
+def make_real_time_candles(count: int, base_price: float = 4500.0) -> list[dict]:
+    candles = make_fake_candles(count, base_price=base_price)
+    for i, candle in enumerate(candles):
+        candle["open_time"] = REAL_BASE_TIME_MS + i * DAY_MS
+    return candles
+
+
+def test_reveal_preserves_real_prices_and_dates(tmp_path: Path) -> None:
+    n_bars = 40
+    candles = make_real_time_candles(n_bars + 25)
+    client = FakeClient(candles)
+
+    result = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="blind",
+        case_id="case_01",
+        client=client,
+        reveal=True,
+        base_dir=tmp_path,
+    )
+
+    revealed = json.loads(Path(result["candles_path"]).read_text())
+    assert len(revealed) == n_bars
+
+    # Identity coefficients: real prices pass through unchanged (rounded to 4).
+    assert revealed[0]["close"] == round(candles[0]["close"], 4)
+    median_revealed = statistics.median(c["close"] for c in revealed)
+    median_input = statistics.median(c["close"] for c in candles[:n_bars])
+    assert median_revealed == pytest.approx(median_input)
+
+    # Real dates pass through — NOT remapped to the neutral 1970 epoch.
+    assert revealed[0]["open_time"] == REAL_BASE_TIME_MS
+    assert revealed[0]["open_time"] > 365 * DAY_MS
+    assert revealed[0]["open_time"] != NEUTRAL_EPOCH_MS
+
+
+def test_reveal_writes_separate_answer_key(tmp_path: Path) -> None:
+    n_bars = 30
+    candles = make_real_time_candles(n_bars + 25)
+    answer_extra = {"event_type": "spring", "realized_direction": "up", "decisive": True}
+
+    anon_result = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="blind",
+        case_id="case_01",
+        ground_truth="Real ground truth",
+        answer_extra=answer_extra,
+        include_post_t_candles=True,
+        client=FakeClient(candles),
+        base_dir=tmp_path,
+    )
+    anon_answer_path = Path(anon_result["answer_key_path"])
+    anon_answer_before = anon_answer_path.read_text()
+
+    rev_result = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="blind",
+        case_id="case_01",
+        ground_truth="Real ground truth",
+        answer_extra=answer_extra,
+        include_post_t_candles=True,
+        reveal=True,
+        client=FakeClient(candles),
+        base_dir=tmp_path,
+    )
+    rev_answer_path = Path(rev_result["answer_key_path"])
+
+    assert rev_answer_path.name == "case_01__revealed.answer.json"
+    assert rev_answer_path != anon_answer_path
+    assert rev_answer_path.exists()
+    # The revealed key must NOT overwrite the anon key.
+    assert anon_answer_path.read_text() == anon_answer_before
+
+    rev_answer = json.loads(rev_answer_path.read_text())
+    # Event labels are identical to the anon answer (only the price space differs).
+    assert rev_answer["event_type"] == "spring"
+    assert rev_answer["realized_direction"] == "up"
+    assert rev_answer["coef_meta"]["price_coef"] == 1.0
+
+    post_t = rev_answer["post_t_candles"]
+    assert post_t
+    # post_t_candles in real space — real dates, not the neutral epoch.
+    assert post_t[0]["open_time"] > 365 * DAY_MS
+
+
+def test_reveal_rejects_future_visible(tmp_path: Path) -> None:
+    client = FakeClient(make_real_time_candles(60))
+    with pytest.raises(ValueError, match="future_visible"):
+        build_snapshot(
+            symbol="BTCUSDT",
+            timeframe="1d",
+            cutoff="2019-04-01",
+            n_bars=30,
+            mode="future_visible",
+            case_id="case_01",
+            client=client,
+            reveal=True,
+            base_dir=tmp_path,
+        )
+
+
+def test_reveal_case_dir_suffix(tmp_path: Path) -> None:
+    n_bars = 30
+    client = FakeClient(make_real_time_candles(n_bars + 25))
+
+    result = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=n_bars,
+        mode="blind",
+        case_id="case_07",
+        client=client,
+        reveal=True,
+        base_dir=tmp_path,
+    )
+
+    assert Path(result["case_dir"]).name.endswith("__revealed")
+    assert result["case_dir"].endswith("case_07__revealed")

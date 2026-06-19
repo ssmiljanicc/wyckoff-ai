@@ -13,7 +13,7 @@ from scripts.eval.ground_truth_cases import (
     make_placeholder_answers,
     validate_event_coverage,
 )
-from scripts.eval.lookahead_probe import _DryRunClient
+from scripts.eval.dry_run_client import DryRunClient
 from scripts.eval.snapshot_builder import DEFAULT_BASE_DIR, build_snapshot
 
 DEFAULT_ANSWERS_PATH = DEFAULT_BASE_DIR / "_answers" / "ground_truth_answers.json"
@@ -30,7 +30,7 @@ def run(
         else load_answer_key(answers_path or DEFAULT_ANSWERS_PATH)
     )
     validate_event_coverage(answers=answers)
-    client: Any = _DryRunClient() if dry_run else None
+    client: Any = DryRunClient() if dry_run else None
     generated = 0
 
     for case in GROUND_TRUTH_CASES:
