@@ -220,6 +220,25 @@ def test_rejects_source_image_not_referenced_in_excerpt(tmp_path: Path) -> None:
         )
 
 
+def test_rejects_image_ref_outside_excerpt_range(tmp_path: Path) -> None:
+    # Image IS referenced in the file, but on line 3 — outside the cited 1–2
+    # excerpt. The boundary slice lines[start-1:end] must not see it.
+    _make_raw_tree(
+        tmp_path,
+        md_lines=[
+            "Expert analysis paragraph.",
+            "More commentary, no image here.",
+            "![](../images/vol/img.png)",
+        ],
+    )
+    with pytest.raises(ValueError, match="not referenced by the Markdown"):
+        _validate_one(
+            tmp_path,
+            _case(),
+            _answer(source_excerpt_location={"start_line": 1, "end_line": 2}),
+        )
+
+
 def test_rejects_excerpt_beyond_file_length(tmp_path: Path) -> None:
     _make_raw_tree(tmp_path)
     with pytest.raises(ValueError, match="exceeds file length"):
@@ -314,6 +333,28 @@ def test_load_answer_key_from_private_json(tmp_path: Path) -> None:
     answers = load_answer_key(answers_path)
     assert answers["c1"]["ground_truth"] == "Private answer text"
     assert answers["c1"]["analysis_mode"] == "forward_looking"
+
+
+def test_load_answer_key_from_bare_list(tmp_path: Path) -> None:
+    # The top-level bare-list shape (not wrapped in {"cases": ...}).
+    answers_path = tmp_path / "answers.json"
+    answers_path.write_text(
+        json.dumps(
+            [
+                {
+                    "case_id": "c1",
+                    "event_type": "spring",
+                    "realized_direction": "up",
+                    "decisive": True,
+                    "analysis_mode": "forward_looking",
+                    "ground_truth": "List-shape answer text",
+                }
+            ]
+        )
+    )
+    answers = load_answer_key(answers_path)
+    assert answers["c1"]["ground_truth"] == "List-shape answer text"
+    assert "case_id" not in answers["c1"]  # popped into the dict key
 
 
 def test_build_eval_set_dry_run_generates_all(tmp_path: Path) -> None:

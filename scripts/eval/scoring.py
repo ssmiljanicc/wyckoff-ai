@@ -13,6 +13,10 @@ ScoreMethod = Literal["deterministic", "judge"]
 ScoreStatus = Literal["scored", "na"]
 Direction = Literal["up", "down", "none"]
 Outcome = Literal["hit_tp", "hit_sl", "open"]
+# Routing key for the retrospective branch. A typo (e.g. "Retrospective") would
+# silently fall through to the forward path, but validate_event_coverage rejects
+# any analysis_mode outside ground_truth_cases.ANALYSIS_MODES before a real run.
+RETROSPECTIVE = "retrospective"
 
 DETERMINISTIC_DIMENSIONS = {"direction", "trigger", "invalidation"}
 JUDGE_DIMENSION_NAMES = ("structure", "phase", "event", "narrative_quality", "calibration")
@@ -290,7 +294,7 @@ def score_deterministic(
     # "not_applicable" here and would otherwise raise) or replaying candles.
     # This is distinct from a low-confidence wait: wait_case stays False, and
     # the judge dimensions are untouched.
-    if answer_key.get("analysis_mode") == "retrospective":
+    if answer_key.get("analysis_mode") == RETROSPECTIVE:
         dimensions = {
             "direction": _score(None, "deterministic", "Retrospective case: no forecast direction to score."),
             "trigger": _score(None, "deterministic", "Retrospective case: no forecast trigger to score."),

@@ -841,14 +841,18 @@ def ingest(
     manifest_specs = _load_specs_from_manifest(base_dir)
 
     rows: list[BenchmarkRow] = []
+    n_unfilled = 0
+    n_no_spec = 0
     for result_file in sorted(results_path.glob("*.json")):
         raw = json.loads(result_file.read_text())
         if raw.get("analysis_output") is None or raw.get("judge_verdict") is None:
+            n_unfilled += 1
             continue  # unfilled slot
         run_id = result_file.stem
         if manifest_specs is not None:
             spec = manifest_specs.get(run_id)
             if spec is None:
+                n_no_spec += 1
                 print(
                     f"[benchmark] WARN: {run_id} has no entry in benchmark_runs.json "
                     "— skipping (rebuild the matrix to include it)"
@@ -866,7 +870,11 @@ def ingest(
 
     report = aggregate_report(rows)
     md_path, json_path = write_report(report, base_dir=base_dir)
-    print(f"[benchmark] scored {len(rows)} runs → {md_path} , {json_path}")
+    skipped = n_unfilled + n_no_spec
+    summary = f"[benchmark] scored {len(rows)} runs"
+    if skipped:
+        summary += f" (skipped {skipped}: {n_unfilled} unfilled, {n_no_spec} without a spec)"
+    print(f"{summary} → {md_path} , {json_path}")
     return report
 
 
@@ -892,7 +900,9 @@ def _load_benchmark_cases_and_answers(
 
     cases = [c for c in GROUND_TRUTH_CASES if case_ids is None or c["case_id"] in case_ids]
     answers = (
-        make_placeholder_answers()
+        # Build placeholders from the FILTERED cases, not the global registry,
+        # so the dry-run scope matches the selected case_ids.
+        make_placeholder_answers(cases)
         if dry_run
         else load_answer_key(answers_path or DEFAULT_ANSWERS_PATH)
     )

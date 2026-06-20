@@ -343,6 +343,21 @@ def test_score_run_row_carries_subscores(tmp_path: Path) -> None:
     assert row["realized_outcome_score"] is not None
 
 
+def test_group_mixed_forward_retrospective_realized_outcome_partial_mean() -> None:
+    # A retrospective row carries realized_outcome_score=None; the group mean
+    # must exclude it (partial mean), NOT count it as 0.
+    forward = _row("case_01", "blind", "anon", 0.6)
+    forward["realized_outcome_score"] = 0.6
+    retro = _row("case_02", "blind", "anon", 0.9)
+    retro["realized_outcome_score"] = None  # retrospective → N/A
+    report = benchmark.aggregate_report([forward, retro])
+    group = report["groups"][0]
+    # mean over the single non-None value, not (0.6 + 0)/2.
+    assert group["mean_realized_outcome"] == pytest.approx(0.6)
+    # expert_alignment is defined for both → averaged over both.
+    assert group["mean_expert_alignment"] == pytest.approx((0.6 + 0.9) / 2)
+
+
 def test_retrospective_row_has_na_realized_outcome(tmp_path: Path) -> None:
     spec = _make_spec("case_01", "blind", "anon", "claude-opus-4-8", "high", tmp_path)
     answer = _answer_key()

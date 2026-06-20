@@ -308,6 +308,27 @@ def test_expert_alignment_covers_only_semantic_match_dimensions() -> None:
     assert high_quality["aggregate"] != low_quality["aggregate"]
 
 
+def test_retrospective_aggregate_is_judge_only_renormalized() -> None:
+    # Pins the denominator: with deterministic dims N/A, aggregate renormalizes
+    # over the 5 judge dims only (weights 0.15/0.15/0.15/0.10/0.10 = 0.65), NOT
+    # over all 8 — so a future change to the denominator would fail here.
+    # verdict = structure 1.0, phase 0.8, event 1.0, narrative 0.6, calibration 0.7
+    # weighted sum = .15+.12+.15+.06+.07 = 0.55 → 0.55/0.65 = 0.8462
+    deterministic = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(
+            analysis_mode="retrospective", realized_direction="not_applicable"
+        ),
+    )
+    record = combine_scores(deterministic, _judge_verdict())
+    assert record["aggregate"] == pytest.approx(0.8462)
+    # expert_alignment = structure/phase/event only: (.15+.12+.15)/0.45 = 0.9333
+    assert record["expert_alignment_score"] == pytest.approx(0.9333)
+    assert record["realized_outcome_score"] is None
+
+
 def test_retrospective_realized_outcome_is_none_expert_alignment_present() -> None:
     deterministic = score_deterministic(
         direction="up",

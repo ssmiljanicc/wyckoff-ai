@@ -96,8 +96,8 @@ V1 evaluacioni skup je suženo crypto-only i izveden isključivo iz ekspertski a
 
 **Privatni answer key — ugovor po slučaju:**
 
-- Eval-facing polja koja scoring stvarno čita: `event_type`, `realized_direction`, `decisive`, `analysis_mode`, `ground_truth`.
-- Provenance/reconstruction polja (`expert_author`, `source_path`, `source_url`, `source_image_path`, `source_excerpt_location`, `reconstruction_notes`, `expert_*`) postoje **samo** u master privatnom ključu. U angle-specific `*.answer.json` propagira se isključivo allowlist `{event_type, realized_direction, decisive, analysis_mode}` (`ground_truth.angle_answer_metadata`); provenance po konstrukciji ne dolazi ni do analyst-a, ni do judge-a, ni do public manifesta.
+- Eval-facing polja koja scoring stvarno čita: `event_type`, `realized_direction`, `decisive`, `analysis_mode` (kroz angle allowlist) i `ground_truth` (prosleđuje se odvojeno preko `build_snapshot(ground_truth=...)`, ne kroz allowlist).
+- Provenance/reconstruction polja (`expert_author`, `source_path`, `source_url`, `source_image_path`, `source_excerpt_location`, `reconstruction_notes`, `expert_*`) postoje **samo** u master privatnom ključu. U angle-specific `*.answer.json` propagira se isključivo allowlist `{event_type, realized_direction, decisive, analysis_mode}` (`ground_truth_cases.angle_answer_metadata`); provenance po konstrukciji ne dolazi ni do analyst-a, ni do judge-a, ni do public manifesta.
 - Nepomenuto ekspertsko polje je literal `not_stated`; validator odbija prazne stringove i nagađane sentinele.
 
 **`analysis_mode`: forward_looking vs retrospective.**

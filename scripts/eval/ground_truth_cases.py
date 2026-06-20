@@ -20,7 +20,9 @@ from datetime import datetime, timezone
 import json
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
+
+AnalysisMode = Literal["forward_looking", "retrospective"]
 
 
 REQUIRED_FIELDS = {
@@ -158,7 +160,7 @@ def make_placeholder_answers(
     for index, case in enumerate(selected):
         case_id = str(case["case_id"])
         # Branch-coverage only (see docstring): every 3rd case goes retrospective.
-        mode = "retrospective" if index % 3 == 2 else "forward_looking"
+        mode: AnalysisMode = "retrospective" if index % 3 == 2 else "forward_looking"
         realized = (
             RETROSPECTIVE_REALIZED_DIRECTION if mode == "retrospective" else "up"
         )
