@@ -10,12 +10,14 @@ Ovaj tok izvršava benchmark matricu kroz izolovane analyst i judge procese, ču
 
 ```bash
 claude --version
-claude --help | rg -- '--bare|--model|--effort|--json-schema|--no-session-persistence'
+claude --help | rg -- '--model|--effort|--json-schema|--no-session-persistence|--setting-sources|--strict-mcp-config|--disable-slash-commands|--tools'
 codex --version
 codex exec --help | rg -- '--model|--cd|--sandbox|--output-schema|--ephemeral|--ignore-user-config'
 ```
 
 Orkestrator ponavlja proveru pre izvršavanja i označava nepodržan provider/model kao `unavailable`. `claude-fable-5` nema mapiranje u v1 i zato se eksplicitno preskače.
+
+Claude Code 2.1.183 `--bare` režim ne čita OAuth/keychain prijavu, pa se ne koristi sa lokalnim `claude.ai` subscription profilom. Umesto njega adapter eksplicitno isključuje user/project/local settings (`--setting-sources ""`), nasleđene MCP servere (`--strict-mcp-config --mcp-config '{}'`) i skills/commands (`--disable-slash-commands`), uz postojeće `--tools ""` i `--no-session-persistence` granice.
 
 ## 1. Obavezni preview
 
@@ -41,6 +43,15 @@ uv run --extra mcp python -m scripts.eval.orchestrator \
 ```
 
 Pre prvog punog batch-a ručno proverite da canary fajl postavljen izvan privremenog runtime root-a nije dostupan analyst-u. Ako instalirana CLI/sandbox kombinacija ne garantuje granicu, real run mora da se prekine; ne prelazite na prompt-only izolaciju.
+
+Pre punog batch-a ručno pregledajte canary rezultat:
+
+1. `analysis_output` je JSON objekat sa svih devet obaveznih polja (`narrative`, `evidence`, `direction`, `trigger`, `invalidation`, `confidence`, `structure`, `phase`, `event`).
+2. `narrative` i `evidence` opisuju price/volume ponašanje pre nego što `structure`, `phase` i `event` dodele Wyckoff labele.
+3. Sačuvani output nema markdown fence niti tekst van JSON objekta.
+4. `usage`, analyst checkpoint, `judge_verdict` i završni report postoje i prolaze schema validaciju.
+5. Sentinel fajl van privremenog runtime root-a nije dostupan analyst-u.
+6. Privremeni `CLAUDE.md` sentinel u canary snapshot-u ne utiče na output; uklonite ga posle provere. Ako se sentinel pojavi u outputu, non-bare CLI je automatski učitao projektni kontekst i benchmark mora da se prekine.
 
 ## 3. Pun run i nastavak
 
@@ -80,7 +91,7 @@ Ako se ikad zahteva chart-vision evaluacija, to je zaseban evaluacioni ugovor (i
 Analyst dobija anonimizovane OHLCV podatke (`candles.json`) ugrađene direktno u prompt; svaki model dobija identičan ulaz. `chart.png` se namerno ne isporučuje (binarno je, bez fer cross-provider puta za prilog; `candles.json` nosi isti OHLCV koji grafikon crta za anon slučaj). Kopija case fajlova i schema-e u sistemskom temp root-u služi kao izolaciona granica i izvor schema-e za CLI; symlink i path escape se odbijaju, answer key i repo root se ne kopiraju. Judge radi u drugom praznom root-u i dobija samo payload iz `scoring.prepare_judge_input`, bez grafikona, candles, identiteta i putanja. Prompt i privatni judge payload se ne upisuju u state ili stderr dijagnostiku.
 
 **Izolacione garancije po provider-u:**
-- **Claude**: `--tools ""` gasi sve built-in alate uključujući Read — model fizički ne može da otvori fajlove van prompta. Verifikovano dizajnom CLI-ja.
+- **Claude**: `--tools ""` gasi sve built-in alate uključujući Read — model fizički ne može da otvori fajlove van prompta. `--setting-sources ""`, strogi prazni MCP config i `--disable-slash-commands` sprečavaju nasleđivanje settings/MCP/skill konteksta bez OAuth-nekompatibilnog `--bare` režima. Automatsko učitavanje `CLAUDE.md`/memory konteksta u non-bare režimu ostaje **UNVERIFIED** dok canary sentinel provera iz §2 ne prođe; ako se sentinel pojavi, prekinite benchmark.
 - **Codex**: `--sandbox read-only --cd <temp-root>` — model ima alate ali u read-only sandboxu. **UNVERIFIED**: scope sandboxa u odnosu na `--cd` putanju nije programatski verifikovan; capability preflight samo provjerava da `--sandbox` flag postoji u `--help`. Ručni canary test (§2) je obavezan pre prvog plaćenog run-a da bi se potvrdilo da Codex ne može da čita fajlove van privremenog root-a (npr. answer key iz repo stabla).
 
 ## Opt-in manual smoke

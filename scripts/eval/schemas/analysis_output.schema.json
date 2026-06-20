@@ -3,7 +3,7 @@
   "title": "Wyckoff eval analyst output",
   "type": "object",
   "additionalProperties": false,
-  "required": ["direction", "trigger", "invalidation", "confidence", "structure", "phase", "event"],
+  "required": ["narrative", "evidence", "direction", "trigger", "invalidation", "confidence", "structure", "phase", "event"],
   "properties": {
     "analysis_id": {"type": "string"},
     "direction": {"enum": ["up", "down", "none"]},
@@ -14,9 +14,9 @@
     "phase": {"type": "string", "minLength": 1},
     "event": {"type": "string", "minLength": 1},
     "event_type": {"type": "string"},
-    "narrative": {"type": "string"},
+    "narrative": {"type": "string", "minLength": 1},
     "thesis": {"type": "string"},
-    "evidence": {"type": ["array", "string"], "items": {"type": "string"}},
+    "evidence": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
     "forecast": {"type": "object"},
     "rationale": {"type": "string"},
     "notes": {"type": "string"}

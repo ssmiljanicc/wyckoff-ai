@@ -10,6 +10,13 @@ from pathlib import Path
 from typing import Any, Protocol
 
 
+CLAUDE_ISOLATION_ARGS = [
+    "--setting-sources", "", "--strict-mcp-config", "--mcp-config", "{}",
+    "--disable-slash-commands", "--tools", "", "--permission-mode", "dontAsk",
+    "--no-session-persistence",
+]
+
+
 class RuntimeErrorBase(RuntimeError):
     """Base class for bounded, operator-safe runtime failures."""
 
@@ -111,10 +118,12 @@ class ClaudeRuntimeAdapter:
     binary = "claude"
 
     def build_argv(self, request: RuntimeRequest) -> list[str]:
+        schema = request.schema_path.read_text().strip()
+        json.loads(schema)
         return [
-            self.binary, "-p", "--bare", "--model", request.model, "--effort", request.effort,
-            "--json-schema", str(request.schema_path), "--output-format", "json",
-            "--tools", "", "--permission-mode", "dontAsk", "--no-session-persistence",
+            self.binary, "-p", "--model", request.model, "--effort", request.effort,
+            "--json-schema", schema, "--output-format", "json",
+            *CLAUDE_ISOLATION_ARGS,
         ]
 
     async def preflight(self, model: str, effort: str) -> None:
@@ -126,9 +135,15 @@ class ClaudeRuntimeAdapter:
             raise RuntimeUnavailable(f"unsupported Claude model: {model}")
         await _require_capabilities(
             [self.binary, "--help"],
-            ("--bare", "--model", "--effort", "--json-schema", "--no-session-persistence", "--tools"),
+            (
+                "--model", "--effort", "--json-schema", "--no-session-persistence",
+                "--setting-sources", "--strict-mcp-config", "--mcp-config",
+                "--disable-slash-commands", "--tools",
+            ),
         )
-        await _require_auth([self.binary, "auth", "status"])
+        # `auth status` is free and rejects invalid global args, so this also
+        # verifies that the installed CLI parses the exact isolation profile.
+        await _require_auth([self.binary, *CLAUDE_ISOLATION_ARGS, "auth", "status"])
 
     async def run(self, request: RuntimeRequest) -> RuntimeResponse:
         stdout, stderr, code = await _exec(
@@ -138,9 +153,19 @@ class ClaudeRuntimeAdapter:
             raise RuntimeExecutionError("claude runtime failed", exit_code=code, stderr_tail=_stderr_tail(stderr))
         try:
             envelope = json.loads(stdout)
-            output = envelope.get("structured_output", envelope.get("result", envelope))
+            if not isinstance(envelope, dict):
+                raise ValueError("Claude output envelope is not an object")
+            output = envelope.get("structured_output")
+            if output is None:
+                output = envelope.get("result", envelope)
             if isinstance(output, str):
-                output = json.loads(output)
+                stripped = output.strip()
+                lines = stripped.splitlines()
+                if lines and lines[0].strip() in {"```", "```json"}:
+                    if len(lines) < 3 or lines[-1].strip() != "```":
+                        raise ValueError("Claude structured output has an incomplete code fence")
+                    stripped = "\n".join(lines[1:-1]).strip()
+                output = json.loads(stripped)
             if not isinstance(output, dict):
                 raise ValueError("structured output is not an object")
             return RuntimeResponse(output, _usage(envelope.get("usage")))
