@@ -627,9 +627,13 @@ def render_report_markdown(report: BenchmarkReport) -> str:
     lines.append("")
     lines.append(
         "Aggregate keeps the original combined weighting (back-compatible). "
-        "Expert alignment = agreement with the expert's existing Wyckoff reading "
-        "(judge dimensions); realized outcome = forecast success vs realized "
-        "post-T price (deterministic dimensions, N/A for retrospective cases)."
+        "Expert alignment = semantic match to the expert's Wyckoff reading "
+        "(structure/phase/event), defined identically for forward and "
+        "retrospective cases; realized outcome = forecast success vs realized "
+        "post-T price (deterministic dimensions, N/A for retrospective cases). "
+        "Note: aggregate is mode-dependent — it renormalizes over a different "
+        "denominator for retrospective cases (deterministic dimensions N/A), so "
+        "expert_alignment is the apples-to-apples cross-mode comparison."
     )
     lines.append("")
     lines.append(
@@ -673,6 +677,15 @@ def render_report_markdown(report: BenchmarkReport) -> str:
 
     # Rankings.
     lines.append("## Rank by aggregate")
+    lines.append("")
+    min_n = min((g["n"] for g in report["groups"]), default=0)
+    lines.append(
+        f"> ⚠️ Indikativno, ne statistički merodavno: najmanja grupa ima n={min_n}. "
+        "Sa malim brojem source-anchored slučajeva jedan flip ishoda preokrene "
+        "rang — čitaj kao smer, ne kao presudu. Aggregate je i mode-dependent "
+        "(vidi baseline napomenu); za cross-mode poređenje koristi expert "
+        "alignment."
+    )
     lines.append("")
     lines.append("| # | Model | Effort | n | Aggregate |")
     lines.append("|---|---|---|---|---|")

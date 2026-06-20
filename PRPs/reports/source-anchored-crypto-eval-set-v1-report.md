@@ -109,8 +109,16 @@ Nema drugih odstupanja.
 
 ---
 
+## Otklonjeni nalazi review-a (PR #80 — mk-pregled-logike-solo)
+
+- **Mod-zavisni `aggregate` u rangu (srednji uticaj):** `expert_alignment_score` sužen na semantic-match dimenzije (`structure/phase/event`) — identično definisan za oba moda, pa je to apples-to-apples cross-mode poređenje. `render_report_markdown` sada fusnotira da je `aggregate` mode-dependent i preusmerava na `expert_alignment` za poređenje.
+- **Mali n / rang kao šum (srednji uticaj):** rang sekcija u izveštaju nosi eksplicitno upozorenje „indikativno, ne statistički merodavno" sa prikazom najmanjeg `n`.
+- **`expert_alignment_score` overclaim (nizak):** ime sada tačno odgovara sadržaju — `narrative_quality`/`calibration` su izvan podskora (ostaju u `aggregate` i per-dimension tabeli). Novi test `test_expert_alignment_covers_only_semantic_match_dimensions`.
+- **Placeholder modovi (nizak):** docstring + inline komentar `make_placeholder_answers` sada eksplicitno kažu da mod alternira samo radi pokrivenosti grana i nije vezan za stvarni `analysis_mode` slučaja.
+
 ## Sledeći koraci
 
 - [ ] Deep review pre merge-a (promena dira eval contract i ground-truth semantiku — per CLAUDE.md §0.2).
 - [ ] Posle merge-a #77: pregledati dry-run, potvrditi trošak, pokrenuti jedan real canary i u tom koraku uraditi vizuelno poređenje original/clean chart po slučaju.
+- [ ] (Van koda) Definisati ciljani broj **forward** slučajeva na kojem `realized_outcome` rang postaje statistički smislen, pre širenja skupa preko v1 n=3.
 - [ ] PR ka grani #76.

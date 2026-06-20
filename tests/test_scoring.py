@@ -281,14 +281,31 @@ def test_combine_scores_exposes_two_subscores() -> None:
     )
     record = combine_scores(deterministic, _judge_verdict())
 
-    # expert_alignment = weighted mean of judge dims only.
-    judge_only = combine_scores(
-        {"case_id": "case_01", "dimensions": {}, "wait_case": False}, _judge_verdict()
-    )
-    assert record["expert_alignment_score"] == judge_only["aggregate"]
     assert record["expert_alignment_score"] is not None
     # realized_outcome = weighted mean of deterministic dims (all scored here).
     assert record["realized_outcome_score"] is not None
+
+
+def test_expert_alignment_covers_only_semantic_match_dimensions() -> None:
+    # expert_alignment must NOT move when narrative_quality / calibration change
+    # — those are reasoning-quality dims, not agreement with the expert.
+    deterministic = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(),
+    )
+    high_quality = combine_scores(
+        deterministic,
+        _judge_verdict(narrative_quality={"score": 1.0}, calibration={"score": 1.0}),
+    )
+    low_quality = combine_scores(
+        deterministic,
+        _judge_verdict(narrative_quality={"score": 0.0}, calibration={"score": 0.0}),
+    )
+    assert high_quality["expert_alignment_score"] == low_quality["expert_alignment_score"]
+    # But aggregate DOES move (it still includes those dims).
+    assert high_quality["aggregate"] != low_quality["aggregate"]
 
 
 def test_retrospective_realized_outcome_is_none_expert_alignment_present() -> None:

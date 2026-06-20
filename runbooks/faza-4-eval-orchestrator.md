@@ -107,8 +107,8 @@ V1 evaluacioni skup je suženo crypto-only i izveden isključivo iz ekspertski a
 
 **Dva odvojena podskora u izveštaju:**
 
-- `expert_alignment_score` — weighted mean judge dimenzija (slaganje sa postojećom ekspertskom Wyckoff analizom). Računa se uvek.
+- `expert_alignment_score` — weighted mean **semantic-match** judge dimenzija (`structure/phase/event`) — slaganje sa ekspertskim Wyckoff čitanjem. Definisan identično za forward i retrospective, pa je to jedino apples-to-apples cross-mode poređenje. `narrative_quality` i `calibration` su kvalitet rezonovanja, ne alignment — ostaju u `aggregate` i per-dimension tabeli, ali ne ulaze u ovaj podskor.
 - `realized_outcome_score` — weighted mean ne-`N/A` determinističkih dimenzija (uspeh prognoze prema stvarnom post-T kretanju). `N/A` za retrospective i wait slučajeve.
-- Postojeći `aggregate` i model ranking ostaju nepromenjeni radi kompatibilnosti starih izveštaja.
+- Postojeći `aggregate` i model ranking ostaju nepromenjeni radi kompatibilnosti, ali `aggregate` je **mode-dependent** (renormalizuje preko različitog imenioca kad su determinističke dimenzije `N/A`); izveštaj to fusnotira i upozorava da je rang sa malim n indikativan, ne statistički merodavan. Za cross-mode poređenje koristi `expert_alignment_score`.
 
 **Canary zavisnost od #77.** Real (plaćeni) canary za #76 pokrenuti tek kada je #77 (eval runtime fix) merge-ovan, operator potvrdi trošak i `--dry-run` output je pregledan. Codex izolacija ostaje `UNVERIFIED` dok odgovarajući canary ne prođe (vidi „Anti-leakage granica"). `--dry-run` ne dokazuje real source rekonstrukciju — vizuelno poređenje originalne slike i čistog snapshot-a po slučaju radi se na real build-u.

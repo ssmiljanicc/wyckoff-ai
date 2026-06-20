@@ -148,13 +148,16 @@ def make_placeholder_answers(
 
     Quota-free: one placeholder answer per case, carrying ``analysis_mode`` and
     an explicit placeholder marker so a real (orchestrated) run can refuse them.
-    Modes alternate so a dry-run exercises both the forward and retrospective
-    scoring paths.
+    The mode alternates purely to exercise BOTH the forward and retrospective
+    scoring branches in a dry-run — it is intentionally NOT tied to a case's real
+    analysis_mode (a dry-run never uses the real answer key), so do not read any
+    case→mode correspondence into it.
     """
     selected = GROUND_TRUTH_CASES if cases is None else cases
     answers: dict[str, dict[str, Any]] = {}
     for index, case in enumerate(selected):
         case_id = str(case["case_id"])
+        # Branch-coverage only (see docstring): every 3rd case goes retrospective.
         mode = "retrospective" if index % 3 == 2 else "forward_looking"
         realized = (
             RETROSPECTIVE_REALIZED_DIRECTION if mode == "retrospective" else "up"

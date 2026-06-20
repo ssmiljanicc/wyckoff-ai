@@ -18,6 +18,12 @@ DETERMINISTIC_DIMENSIONS = {"direction", "trigger", "invalidation"}
 JUDGE_DIMENSION_NAMES = ("structure", "phase", "event", "narrative_quality", "calibration")
 JUDGE_DIMENSIONS = set(JUDGE_DIMENSION_NAMES)
 DIMENSIONS = DETERMINISTIC_DIMENSIONS | JUDGE_DIMENSIONS
+# Semantic match to the expert's Wyckoff reading — the judge dimensions that
+# actually express "agreement with the expert", NOT reasoning quality. This is
+# what expert_alignment_score measures; narrative_quality/calibration are
+# analysis-quality dimensions that stay in `aggregate` and the per-dimension
+# table but do not inflate the alignment sub-score (issue #76 review).
+SEMANTIC_MATCH_DIMENSIONS = {"structure", "phase", "event"}
 
 ANALYSIS_OUTPUT_ALLOWED_KEYS = {
     "analysis_id",
@@ -124,11 +130,15 @@ class ScoreRecord(TypedDict):
     dimensions: dict[str, DimensionScore]
     aggregate: float
     # Two named sub-scores carved from the existing dimensions (issue #76):
-    # expert_alignment_score = weighted mean of judge dimensions (agreement with
-    # the expert's existing Wyckoff reading); realized_outcome_score = weighted
+    # expert_alignment_score = weighted mean of the semantic-match judge
+    # dimensions (structure/phase/event) — agreement with the expert's existing
+    # Wyckoff reading, and defined identically for forward and retrospective
+    # cases, so it is comparable across modes; realized_outcome_score = weighted
     # mean of the non-N/A deterministic dimensions (success of the forecast vs
     # the realized post-T price). realized_outcome_score is None (N/A) for
-    # retrospective and wait cases. ``aggregate`` is unchanged for compatibility.
+    # retrospective and wait cases. ``aggregate`` is unchanged for compatibility
+    # (but is mode-dependent — it renormalizes over a different denominator when
+    # the deterministic dimensions are N/A).
     expert_alignment_score: float | None
     realized_outcome_score: float | None
     wait_case: bool
@@ -484,7 +494,7 @@ def combine_scores(
         "analysis_id": analysis_id,
         "dimensions": dimensions,
         "aggregate": aggregate if aggregate is not None else 0.0,
-        "expert_alignment_score": _weighted_mean_over(dimensions, JUDGE_DIMENSIONS),
+        "expert_alignment_score": _weighted_mean_over(dimensions, SEMANTIC_MATCH_DIMENSIONS),
         "realized_outcome_score": _weighted_mean_over(dimensions, DETERMINISTIC_DIMENSIONS),
         "wait_case": bool(deterministic.get("wait_case", False) if wait_case is None else wait_case),
     }
