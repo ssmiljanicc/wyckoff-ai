@@ -1,9 +1,8 @@
 """Benchmark runner for the Phase 6 model × effort eval matrix.
 
 This module is the integration top of Faza 4. Following the Phase 2/4 pattern,
-**code prepares the run matrix + scores + aggregates; only *calling* the analyst
-and judge is a runbook step** (the orchestrator spawns isolated subagents per
-(model, effort)). The module NEVER calls an LLM.
+**code prepares the run matrix + scores + aggregates**. The separate orchestrator
+spawns isolated analyst and judge processes; this module never calls an LLM.
 
 Pipeline:
     build_run_matrix(case_ids) -> [RunSpec]      # + benchmark_runs.json template
@@ -104,8 +103,8 @@ DEFAULT_CONTROL_EFFORTS: tuple[str, ...] = ("high",)
 BENCHMARK_BASE_DIR = DEFAULT_BASE_DIR / "benchmark"
 
 BENCHMARK_RUNBOOK = (
-    "Code prepares this matrix; calling the analyst and judge is a runbook step "
-    "(no LLM is called from code). For each run with a filled-in snapshot: "
+    "Code prepares this matrix; scripts.eval.orchestrator owns analyst/judge execution. "
+    "For each run with a filled-in snapshot: "
     "(1) spawn an ISOLATED blind-analyst subagent (wyckoff-trader-skill, model "
     "override = model, requested effort) that reads ONLY snapshot_dir "
     "(+ instruction.txt for future_visible) and returns the eval-output schema "
