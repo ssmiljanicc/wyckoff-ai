@@ -226,10 +226,16 @@ def analyst_prompt(spec: benchmark.RunSpec, root: Path) -> str:
     instruction = spec.get("instruction") or "Analyze only the frozen as-of snapshot."
     return (
         "You are an isolated Wyckoff analyst with NO tools and NO network access. "
-        "Analyze ONLY the anonymized OHLCV data embedded below. Describe price/volume "
-        "behavior before labels; return one scenario with direction, numeric or null "
-        "trigger/invalidation, confidence 0..1, structure, phase, and event. Do not "
-        "infer identity or calendar date. " + instruction
+        "Your ENTIRE response must be a single valid JSON object — no markdown, no text, no explanation outside the JSON. "
+        "Analyze ONLY the anonymized OHLCV data embedded below. Describe observable price/volume "
+        "behavior before assigning Wyckoff labels. Return exactly one scenario as a JSON object with these fields: "
+        "narrative (a concise observation-first string), "
+        "evidence (an array of concise price/volume evidence strings), "
+        "direction (\"up\"/\"down\"/\"none\"), "
+        "trigger (number or null), invalidation (number or null), "
+        "confidence (float 0..1), structure (string), phase (string), event (string). "
+        "Derive structure, phase, and event from the preceding observations rather than using labels as evidence. "
+        "Do not infer asset identity or calendar date. " + instruction
         + f"\n\nOHLCV candles ({CANDLES_FILENAME}):\n" + candles
     )
 
