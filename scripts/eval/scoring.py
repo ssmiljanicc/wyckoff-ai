@@ -123,6 +123,14 @@ class ScoreRecord(TypedDict):
     analysis_id: str | None
     dimensions: dict[str, DimensionScore]
     aggregate: float
+    # Two named sub-scores carved from the existing dimensions (issue #76):
+    # expert_alignment_score = weighted mean of judge dimensions (agreement with
+    # the expert's existing Wyckoff reading); realized_outcome_score = weighted
+    # mean of the non-N/A deterministic dimensions (success of the forecast vs
+    # the realized post-T price). realized_outcome_score is None (N/A) for
+    # retrospective and wait cases. ``aggregate`` is unchanged for compatibility.
+    expert_alignment_score: float | None
+    realized_outcome_score: float | None
     wait_case: bool
 
 
@@ -265,6 +273,32 @@ def score_deterministic(
         raise ValueError("answer_key must be a dict")
 
     case_id = str(answer_key.get("case_id", "unknown"))
+
+    # Retrospective cases analyze an already-realized pattern; their expert text
+    # is not a forecast, so the deterministic outcome dimensions are Not
+    # Applicable. Detect this BEFORE normalizing realized_direction (which is
+    # "not_applicable" here and would otherwise raise) or replaying candles.
+    # This is distinct from a low-confidence wait: wait_case stays False, and
+    # the judge dimensions are untouched.
+    if answer_key.get("analysis_mode") == "retrospective":
+        dimensions = {
+            "direction": _score(None, "deterministic", "Retrospective case: no forecast direction to score."),
+            "trigger": _score(None, "deterministic", "Retrospective case: no forecast trigger to score."),
+            "invalidation": _score(None, "deterministic", "Retrospective case: no forecast invalidation to score."),
+        }
+        return {
+            "case_id": case_id,
+            "dimensions": dimensions,
+            "direction_correct": None,
+            "trigger_hit": None,
+            "invalidation_hit": None,
+            "invalidation_respected": None,
+            "bars_to_resolution": None,
+            "outcome": None,
+            "wait_case": False,
+            "used_fallback": False,
+        }
+
     decisive = _decisive_value(answer_key)
     if decisive is False and _is_low_confidence_wait(direction, confidence):
         dimensions = {
@@ -406,6 +440,29 @@ def _judge_dimensions(judge_verdict: dict[str, Any]) -> dict[str, DimensionScore
     return dimensions
 
 
+def _weighted_mean_over(
+    dimensions: dict[str, DimensionScore], names: set[str] | tuple[str, ...]
+) -> float | None:
+    """Weighted mean of the named dimensions, renormalized over those that are
+    actually scored. Returns None when none of them is scored (so an all-N/A
+    subset reads as N/A, never 0)."""
+    weighted_sum = 0.0
+    weight_total = 0.0
+    for name in names:
+        dimension = dimensions.get(name)
+        if dimension is None:
+            continue
+        score_value = dimension.get("score")
+        if score_value is None:
+            continue
+        weight = DIMENSION_WEIGHTS.get(name, 0.0)
+        weighted_sum += score_value * weight
+        weight_total += weight
+    if not weight_total:
+        return None
+    return round(weighted_sum / weight_total, 4)
+
+
 def combine_scores(
     deterministic: DeterministicResult | dict[str, Any],
     judge_verdict: dict[str, Any],
@@ -421,22 +478,14 @@ def combine_scores(
     dimensions: dict[str, DimensionScore] = dict(det_dimensions)
     dimensions.update(_judge_dimensions(judge_verdict))
 
-    weighted_sum = 0.0
-    weight_total = 0.0
-    for name, dimension in dimensions.items():
-        score_value = dimension.get("score")
-        if score_value is None:
-            continue
-        weight = DIMENSION_WEIGHTS.get(name, 0.0)
-        weighted_sum += score_value * weight
-        weight_total += weight
-
-    aggregate = round(weighted_sum / weight_total, 4) if weight_total else 0.0
+    aggregate = _weighted_mean_over(dimensions, set(dimensions.keys()))
     return {
         "case_id": str(deterministic.get("case_id", judge_verdict.get("case_id", "unknown"))),
         "analysis_id": analysis_id,
         "dimensions": dimensions,
-        "aggregate": aggregate,
+        "aggregate": aggregate if aggregate is not None else 0.0,
+        "expert_alignment_score": _weighted_mean_over(dimensions, JUDGE_DIMENSIONS),
+        "realized_outcome_score": _weighted_mean_over(dimensions, DETERMINISTIC_DIMENSIONS),
         "wait_case": bool(deterministic.get("wait_case", False) if wait_case is None else wait_case),
     }
 

@@ -10,6 +10,8 @@ from unittest import mock
 
 import pytest
 
+from scripts.eval.ground_truth_cases import angle_answer_metadata
+from scripts.eval.scoring import score_deterministic
 from scripts.eval.snapshot_builder import (
     DAY_MS,
     NEUTRAL_EPOCH_MS,
@@ -319,6 +321,91 @@ def test_fv_answer_key_separate_from_blind_with_different_coef(tmp_path: Path) -
     assert blind_key["post_t_candles"] != fv_key["post_t_candles"]
     # The blind key survived (was not overwritten by the fv build).
     assert "post_t_candles" in blind_key
+
+
+# --- analysis_mode propagation + provenance isolation (issue #76) ---
+
+
+def _master_answer(analysis_mode: str, realized: str) -> dict:
+    """A master private answer record carrying provenance that must NOT leak."""
+    return {
+        "case_id": "case_01",
+        "event_type": "spring",
+        "realized_direction": realized,
+        "decisive": True,
+        "analysis_mode": analysis_mode,
+        "ground_truth": "Faithful summary.",
+        "expert_author": "Alessio Rutigliano",
+        "source_path": "raw/crypto_archive/posts/wyckoff-crypto-report-vol-43.md",
+        "source_url": "https://example.com/post",
+        "source_image_path": "raw/crypto_archive/images/x/y.png",
+        "source_excerpt_location": {"start_line": 1, "end_line": 2},
+        "reconstruction_notes": "secret reconstruction notes",
+    }
+
+
+def test_analysis_mode_propagates_provenance_does_not(tmp_path: Path) -> None:
+    """analysis_mode survives _answer_extra → build_snapshot → angle key load;
+    provenance/reconstruction never reach the angle answer key."""
+    master = _master_answer("forward_looking", "up")
+    result = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=30,
+        mode="blind",
+        case_id="case_01",
+        ground_truth=master["ground_truth"],
+        answer_extra=angle_answer_metadata(master),  # the real propagation path
+        include_post_t_candles=True,
+        client=FakeClient(make_fake_candles(55)),
+        base_dir=tmp_path,
+    )
+
+    angle = json.loads(Path(result["answer_key_path"]).read_text())
+    assert angle["analysis_mode"] == "forward_looking"
+    for leaked in (
+        "source_path",
+        "source_image_path",
+        "expert_author",
+        "source_url",
+        "source_excerpt_location",
+        "reconstruction_notes",
+    ):
+        assert leaked not in angle
+    # The whole serialized angle key must not contain the secret notes.
+    assert "secret reconstruction notes" not in Path(result["answer_key_path"]).read_text()
+
+
+def test_retrospective_angle_key_scores_na_end_to_end(tmp_path: Path) -> None:
+    """A retrospective case scored from the LOADED angle key (not a direct unit
+    call) yields N/A deterministic dimensions — proving analysis_mode survived
+    the round-trip through build_snapshot."""
+    master = _master_answer("retrospective", "not_applicable")
+    result = build_snapshot(
+        symbol="BTCUSDT",
+        timeframe="1d",
+        cutoff="2019-04-01",
+        n_bars=30,
+        mode="blind",
+        case_id="case_01",
+        ground_truth=master["ground_truth"],
+        answer_extra=angle_answer_metadata(master),
+        include_post_t_candles=True,
+        client=FakeClient(make_fake_candles(55)),
+        base_dir=tmp_path,
+    )
+    angle = json.loads(Path(result["answer_key_path"]).read_text())
+
+    scored = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=angle,
+    )
+    assert scored["wait_case"] is False
+    for dim in ("direction", "trigger", "invalidation"):
+        assert scored["dimensions"][dim]["status"] == "na"
 
 
 # --- reveal mode (anon vs revealed A/B control) tests ---

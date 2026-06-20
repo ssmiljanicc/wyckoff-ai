@@ -1,8 +1,16 @@
-"""Curated Phase 3 case metadata for blind Wyckoff evals.
+"""Curated source-anchored crypto case metadata for blind Wyckoff evals.
 
 The real answer key is intentionally loaded from an ignored local JSON file,
 not committed in this module. Keeping full ground truth out of repo history
 preserves the blind-eval workflow for analysts who receive the repository.
+
+v1 (issue #76): every case is anchored to an existing expert-analyzed crypto
+chart (Wyckoff Crypto Report) — a real chart the expert already interpreted,
+its directly-attached text, and a reliably reconstructible Binance OHLCV slice
+up to cutoff T. There is no fixed event quota and no hard-coded case count:
+the validator checks PER-CASE source provenance and quality, not set-level
+event distribution. A smaller-but-valid v1 set is preferred over padding the
+count with un-anchored dates.
 """
 
 from __future__ import annotations
@@ -10,18 +18,10 @@ from __future__ import annotations
 from collections import Counter
 from datetime import datetime, timezone
 import json
+import re
 from pathlib import Path
 from typing import Any
 
-
-EVENT_QUOTA = {
-    "spring": 2,
-    "upthrust": 2,
-    "sos_sow": 2,
-    "redistribution_as_accumulation": 1,
-    "phase_b_noise": 1,
-    "failed_signal": 2,
-}
 
 REQUIRED_FIELDS = {
     "case_id",
@@ -31,91 +31,114 @@ REQUIRED_FIELDS = {
     "n_bars",
 }
 
+# Evaluation-facing answer fields — judge + deterministic scoring read these.
 ANSWER_REQUIRED_FIELDS = {
     "event_type",
     "realized_direction",
     "decisive",
     "ground_truth",
+    "analysis_mode",
 }
 
-REALIZED_DIRECTIONS = {"up", "down", "none"}
-POST_KNOWLEDGE_CUTOFF = datetime(2026, 1, 1, tzinfo=timezone.utc)
+# Provenance / reconstruction fields — the proof that ground_truth is
+# source-anchored. These live ONLY in the master private key; they are never
+# propagated into angle-specific answer keys, the judge payload, or the public
+# manifest (see angle_answer_metadata / ANGLE_ANSWER_KEYS).
+PROVENANCE_REQUIRED_FIELDS = {
+    "expert_author",
+    "source_path",
+    "source_url",
+    "source_image_path",
+    "source_excerpt_location",
+    "reconstruction_notes",
+}
+
+# Structured expert labels — kept for auditability. Each is either an explicit
+# source value or the literal "not_stated"; never a guessed sentinel. They may
+# be absent entirely (treated the same as not_stated).
+EXPERT_OPTIONAL_FIELDS = {
+    "expert_structure",
+    "expert_phase",
+    "expert_event",
+    "expert_scenario",
+    "expert_trigger",
+    "expert_invalidation",
+}
+
+ANALYSIS_MODES = {"forward_looking", "retrospective"}
+FORWARD_REALIZED_DIRECTIONS = {"up", "down", "none"}
+RETROSPECTIVE_REALIZED_DIRECTION = "not_applicable"
+NOT_STATED = "not_stated"
+
+# The ONLY fields copied from a master answer record into an angle-specific
+# answer key (and therefore the only answer fields reachable by snapshot
+# post-processing and scoring). analysis_mode MUST be here — score_deterministic
+# reads it to route retrospective cases down the N/A path; without it the
+# retrospective branch would never trigger in a real run. Provenance and
+# reconstruction fields are deliberately excluded.
+ANGLE_ANSWER_KEYS = ("event_type", "realized_direction", "decisive", "analysis_mode")
+
+# Every source/image path must resolve inside this repo-relative root. v1 is
+# crypto-only (Binance-reconstructible); Fraser/book sources are out of scope.
+RAW_CRYPTO_ROOT = Path("raw/crypto_archive")
+
+# Explicit marker so dry-run placeholder answers can never be mistaken for a
+# real source-anchored answer key in a paid/orchestrated run.
+PLACEHOLDER_MARKER = "__placeholder__"
+
+_IMAGE_REF_PATTERN = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
 
 
-# WIKI_GAP: stock/equity case zahteva non-Binance adapter; v1 ostaje crypto-only.
-# TODO: Add stock/equity diversity after a non-Binance OHLCV adapter exists.
+# Source-anchored v1 set. Each case_id maps to a private answer record (in the
+# gitignored master key) that carries the full provenance + ground truth. See
+# PRPs/reports/source-anchored-crypto-eval-set-v1-report.md for the curation
+# audit (accepted/rejected candidates).
 GROUND_TRUTH_CASES: list[dict[str, Any]] = [
     {
-        "case_id": "case_01",
-        "symbol": "ETHUSDT",
-        "timeframe": "1d",
-        "cutoff": "2020-03-13",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_02",
+        # Wyckoff Crypto Report vol 43 — Bitcoin / TetherUS · 4h · BINANCE.
+        # Forward-looking: continuation vs spring-near-15.5k scenarios, 14.3k
+        # revisit = pattern failure.
+        "case_id": "btc_vol43_2020_11",
         "symbol": "BTCUSDT",
-        "timeframe": "1d",
-        "cutoff": "2026-03-29",
-        "n_bars": 180,
+        "timeframe": "4h",
+        "cutoff": "2020-11-13",
+        "n_bars": 120,
     },
     {
-        "case_id": "case_03",
-        "symbol": "BTCUSDT",
-        "timeframe": "1d",
-        "cutoff": "2021-11-10",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_04",
-        "symbol": "ADAUSDT",
-        "timeframe": "1d",
-        "cutoff": "2024-03-13",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_05",
+        # Wyckoff Crypto Report vol 24 — ChainLink / TetherUS · 1D · BINANCE.
+        # Forward-looking: absorbed upsloping range, shallow backing-up, PnF
+        # target ~$5.50.
+        "case_id": "link_vol24_2020_06",
         "symbol": "LINKUSDT",
         "timeframe": "1d",
-        "cutoff": "2023-10-23",
-        "n_bars": 180,
+        "cutoff": "2020-06-05",
+        "n_bars": 120,
     },
     {
-        "case_id": "case_06",
+        # Wyckoff Crypto Report vol 24 — Bitcoin (Daily). Retrospective
+        # bar-by-bar "WYCKOFF STORY": absorption read; the down-bar that looks
+        # like an upthrust is actually absorption. Outcome dimensions are N/A.
+        "case_id": "btc_vol24_2020_06",
         "symbol": "BTCUSDT",
         "timeframe": "1d",
-        "cutoff": "2022-06-13",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_07",
-        "symbol": "BTCUSDT",
-        "timeframe": "1d",
-        "cutoff": "2022-08-15",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_08",
-        "symbol": "BTCUSDT",
-        "timeframe": "1d",
-        "cutoff": "2026-04-27",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_09",
-        "symbol": "BTCUSDT",
-        "timeframe": "1d",
-        "cutoff": "2026-02-06",
-        "n_bars": 180,
-    },
-    {
-        "case_id": "case_10",
-        "symbol": "ADAUSDT",
-        "timeframe": "1d",
-        "cutoff": "2026-05-10",
-        "n_bars": 180,
+        "cutoff": "2020-06-05",
+        "n_bars": 120,
     },
 ]
+
+
+def angle_answer_metadata(answer: dict[str, Any]) -> dict[str, Any]:
+    """Return only the allowlisted answer fields that may flow into an
+    angle-specific answer key (and thus into snapshot post-processing/scoring).
+
+    This is the single source of truth for cross-snapshot metadata propagation
+    (used by build_eval_set and benchmark). Provenance and reconstruction
+    fields are deliberately excluded — they stay in the master private key so
+    they never reach the analyst, the judge, or the public manifest by
+    construction, not merely via the judge allowlist. ``analysis_mode`` IS
+    included because score_deterministic reads it.
+    """
+    return {key: answer[key] for key in ANGLE_ANSWER_KEYS if key in answer}
 
 
 def make_placeholder_answers(
@@ -123,35 +146,31 @@ def make_placeholder_answers(
 ) -> dict[str, dict[str, Any]]:
     """Return synthetic answers for dry-run and tests only.
 
-    These preserve the output contract and event-quota shape without committing
-    real eval answers.
+    Quota-free: one placeholder answer per case, carrying ``analysis_mode`` and
+    an explicit placeholder marker so a real (orchestrated) run can refuse them.
+    Modes alternate so a dry-run exercises both the forward and retrospective
+    scoring paths.
     """
     selected = GROUND_TRUTH_CASES if cases is None else cases
-    event_sequence = [
-        event_type
-        for event_type, count in EVENT_QUOTA.items()
-        for _ in range(count)
-    ]
-    directions = {
-        "spring": "up",
-        "upthrust": "down",
-        "sos_sow": "up",
-        "redistribution_as_accumulation": "down",
-        "phase_b_noise": "none",
-        "failed_signal": "down",
-    }
-    return {
-        str(case["case_id"]): {
-            "event_type": event_type,
-            "realized_direction": directions[event_type],
-            "decisive": event_type != "phase_b_noise",
+    answers: dict[str, dict[str, Any]] = {}
+    for index, case in enumerate(selected):
+        case_id = str(case["case_id"])
+        mode = "retrospective" if index % 3 == 2 else "forward_looking"
+        realized = (
+            RETROSPECTIVE_REALIZED_DIRECTION if mode == "retrospective" else "up"
+        )
+        answers[case_id] = {
+            "event_type": "spring",
+            "realized_direction": realized,
+            "decisive": True,
+            "analysis_mode": mode,
+            PLACEHOLDER_MARKER: True,
             "ground_truth": (
-                f"Dry-run placeholder answer for {case['case_id']}; "
+                f"Dry-run placeholder answer for {case_id}; "
                 "not the real eval ground truth."
             ),
         }
-        for case, event_type in zip(selected, event_sequence, strict=True)
-    }
+    return answers
 
 
 def load_answer_key(path: str | Path) -> dict[str, dict[str, Any]]:
@@ -181,67 +200,238 @@ def load_answer_key(path: str | Path) -> dict[str, dict[str, Any]]:
 def validate_event_coverage(
     cases: list[dict[str, Any]] | None = None,
     answers: dict[str, dict[str, Any]] | None = None,
+    *,
+    allow_placeholders: bool = False,
+    raw_root: Path | None = None,
 ) -> None:
-    """Validate required fields, event quotas, uniqueness, and post-cutoff coverage."""
+    """Validate per-case source anchoring and answer fields.
+
+    Kept under the historical name ``validate_event_coverage`` so the parallel
+    #77 work keeps a stable entry point, but it no longer enforces an event
+    quota, a fixed case count, or a post-cutoff minimum. "Coverage" now means:
+    every case carries the required metadata and a non-empty ``event_type``,
+    and (for real answers) a verifiable source anchor — an existing crypto raw
+    Markdown, a local image it references, and a valid excerpt range. Set-level
+    event distribution is intentionally NOT enforced; quality of the source
+    anchor takes priority over quota.
+
+    An empty case set is rejected, but any count > 0 is accepted. Placeholder
+    answers are accepted only when ``allow_placeholders`` is True (dry-run); a
+    real run rejects them.
+    """
     selected = GROUND_TRUTH_CASES if cases is None else cases
-    selected_answers = make_placeholder_answers(selected) if answers is None else answers
-    expected_count = sum(EVENT_QUOTA.values())
-    if len(selected) != expected_count:
-        raise ValueError(f"Expected {expected_count} cases, got {len(selected)}")
+    if answers is None:
+        answers = make_placeholder_answers(selected)
+        allow_placeholders = True
+    if not selected:
+        raise ValueError(
+            "GROUND_TRUTH_CASES is empty — at least one source-anchored case is required"
+        )
 
     case_ids: list[str] = []
-    event_counts: Counter[str] = Counter()
-    post_cutoff_count = 0
-
     for index, case in enumerate(selected, start=1):
         missing = REQUIRED_FIELDS - case.keys()
         case_id = str(case.get("case_id", f"<case #{index}>"))
         if missing:
             raise ValueError(f"{case_id} missing required fields: {sorted(missing)}")
-
         case_ids.append(case_id)
-        answer = selected_answers.get(case_id)
-        if answer is None:
-            raise ValueError(f"{case_id} missing answer key entry")
-        missing_answer_fields = ANSWER_REQUIRED_FIELDS - answer.keys()
-        if missing_answer_fields:
-            raise ValueError(
-                f"{case_id} answer missing required fields: {sorted(missing_answer_fields)}"
-            )
 
-        event_type = str(answer["event_type"])
-        event_counts[event_type] += 1
-        if event_type not in EVENT_QUOTA:
-            raise ValueError(f"{case_id} has unknown event_type: {event_type!r}")
-
-        if answer["realized_direction"] not in REALIZED_DIRECTIONS:
-            raise ValueError(
-                f"{case_id} realized_direction must be one of {sorted(REALIZED_DIRECTIONS)}"
-            )
-        if not isinstance(answer["decisive"], bool):
-            raise ValueError(f"{case_id} decisive must be bool")
-        if not str(answer["ground_truth"]).strip():
-            raise ValueError(f"{case_id} ground_truth must be non-empty")
         if not str(case["symbol"]).strip():
             raise ValueError(f"{case_id} symbol must be non-empty")
         if not str(case["timeframe"]).strip():
             raise ValueError(f"{case_id} timeframe must be non-empty")
         if int(case["n_bars"]) <= 0:
             raise ValueError(f"{case_id} n_bars must be positive")
+        _parse_cutoff(case["cutoff"], case_id=case_id)
 
-        cutoff = _parse_cutoff(case["cutoff"], case_id=case_id)
-        if cutoff >= POST_KNOWLEDGE_CUTOFF:
-            post_cutoff_count += 1
+        answer = answers.get(case_id)
+        if answer is None:
+            raise ValueError(f"{case_id} missing answer key entry")
+        _validate_answer(
+            case_id, answer, allow_placeholders=allow_placeholders, raw_root=raw_root
+        )
 
-    duplicate_ids = sorted(case_id for case_id, count in Counter(case_ids).items() if count > 1)
+    duplicate_ids = sorted(cid for cid, count in Counter(case_ids).items() if count > 1)
     if duplicate_ids:
         raise ValueError(f"Duplicate case_id values: {duplicate_ids}")
 
-    if dict(event_counts) != EVENT_QUOTA:
-        raise ValueError(f"Event quota mismatch: expected {EVENT_QUOTA}, got {dict(event_counts)}")
 
-    if post_cutoff_count < 2:
-        raise ValueError(f"Expected at least 2 post-cutoff cases, got {post_cutoff_count}")
+def _validate_answer(
+    case_id: str,
+    answer: dict[str, Any],
+    *,
+    allow_placeholders: bool,
+    raw_root: Path | None,
+) -> None:
+    is_placeholder = bool(answer.get(PLACEHOLDER_MARKER))
+    if is_placeholder and not allow_placeholders:
+        raise ValueError(
+            f"{case_id} uses a dry-run placeholder answer; a real run requires a "
+            "source-anchored answer key (remove the placeholder marker)"
+        )
+
+    missing_answer_fields = ANSWER_REQUIRED_FIELDS - answer.keys()
+    if missing_answer_fields:
+        raise ValueError(
+            f"{case_id} answer missing required fields: {sorted(missing_answer_fields)}"
+        )
+
+    analysis_mode = answer["analysis_mode"]
+    if analysis_mode not in ANALYSIS_MODES:
+        raise ValueError(
+            f"{case_id} analysis_mode must be one of {sorted(ANALYSIS_MODES)}, "
+            f"got {analysis_mode!r}"
+        )
+
+    if not str(answer["event_type"]).strip():
+        raise ValueError(f"{case_id} event_type must be non-empty")
+
+    realized = answer["realized_direction"]
+    if analysis_mode == "retrospective":
+        if realized != RETROSPECTIVE_REALIZED_DIRECTION:
+            raise ValueError(
+                f"{case_id} retrospective realized_direction must be "
+                f"{RETROSPECTIVE_REALIZED_DIRECTION!r}, got {realized!r}"
+            )
+    elif realized not in FORWARD_REALIZED_DIRECTIONS:
+        raise ValueError(
+            f"{case_id} forward realized_direction must be one of "
+            f"{sorted(FORWARD_REALIZED_DIRECTIONS)}, got {realized!r}"
+        )
+
+    if not isinstance(answer["decisive"], bool):
+        raise ValueError(f"{case_id} decisive must be bool")
+    if not str(answer["ground_truth"]).strip():
+        raise ValueError(f"{case_id} ground_truth must be non-empty")
+
+    if is_placeholder:
+        return  # placeholders carry no provenance — already gated above
+
+    _validate_provenance(case_id, answer, raw_root=raw_root)
+
+
+def _validate_provenance(
+    case_id: str, answer: dict[str, Any], *, raw_root: Path | None
+) -> None:
+    root = raw_root if raw_root is not None else Path.cwd()
+
+    missing = PROVENANCE_REQUIRED_FIELDS - answer.keys()
+    if missing:
+        raise ValueError(
+            f"{case_id} answer missing provenance fields: {sorted(missing)}"
+        )
+
+    # Reject empty strings and guessed sentinels: a field is either an explicit
+    # value or the literal "not_stated".
+    for field in sorted(PROVENANCE_REQUIRED_FIELDS | EXPERT_OPTIONAL_FIELDS):
+        if field == "source_excerpt_location" or field not in answer:
+            continue
+        value = answer[field]
+        if isinstance(value, str) and not value.strip():
+            raise ValueError(
+                f"{case_id} {field} must be a non-empty value or {NOT_STATED!r}"
+            )
+
+    source_path = _resolve_within(
+        root, answer["source_path"], case_id=case_id, field="source_path"
+    )
+    image_path = _resolve_within(
+        root, answer["source_image_path"], case_id=case_id, field="source_image_path"
+    )
+    if not source_path.is_file():
+        raise ValueError(
+            f"{case_id} source_path does not exist: {answer['source_path']}"
+        )
+    if not image_path.is_file():
+        raise ValueError(
+            f"{case_id} source_image_path does not exist: {answer['source_image_path']}"
+        )
+
+    start, end = _validate_excerpt_range(
+        case_id, answer["source_excerpt_location"], source_path
+    )
+    _validate_image_reference(case_id, source_path, start, end, image_path)
+
+
+def _resolve_within(
+    root: Path, raw_value: Any, *, case_id: str, field: str
+) -> Path:
+    """Resolve a repo-relative raw path and assert it stays inside RAW_CRYPTO_ROOT.
+
+    ``.resolve()`` follows symlinks, so a symlink or ``..`` that escapes the
+    crypto root is rejected here, not silently followed.
+    """
+    candidate = Path(str(raw_value))
+    if candidate.is_absolute():
+        raise ValueError(
+            f"{case_id} {field} must be repo-relative, got absolute path: {raw_value}"
+        )
+    base = (root / RAW_CRYPTO_ROOT).resolve()
+    resolved = (root / candidate).resolve()
+    if not resolved.is_relative_to(base):
+        raise ValueError(
+            f"{case_id} {field} must resolve inside {RAW_CRYPTO_ROOT}: {raw_value}"
+        )
+    return resolved
+
+
+def _validate_excerpt_range(
+    case_id: str, excerpt: Any, source_path: Path
+) -> tuple[int, int]:
+    if (
+        not isinstance(excerpt, dict)
+        or "start_line" not in excerpt
+        or "end_line" not in excerpt
+    ):
+        raise ValueError(
+            f"{case_id} source_excerpt_location must have start_line and end_line"
+        )
+    start = excerpt["start_line"]
+    end = excerpt["end_line"]
+    if (
+        not isinstance(start, int)
+        or not isinstance(end, int)
+        or isinstance(start, bool)
+        or isinstance(end, bool)
+    ):
+        raise ValueError(
+            f"{case_id} source_excerpt_location start_line/end_line must be integers"
+        )
+    if start < 1 or end < start:
+        raise ValueError(
+            f"{case_id} source_excerpt_location must satisfy 1 <= start_line <= end_line"
+        )
+    line_count = len(source_path.read_text(encoding="utf-8").splitlines())
+    if end > line_count:
+        raise ValueError(
+            f"{case_id} source_excerpt_location end_line {end} exceeds file length {line_count}"
+        )
+    return start, end
+
+
+def _validate_image_reference(
+    case_id: str, source_path: Path, start: int, end: int, image_path: Path
+) -> None:
+    """Assert the excerpt directly references the source image.
+
+    The Markdown uses relative refs like ``![](../images/<vol>/<file>.png)``;
+    resolved against the post's directory it must equal ``source_image_path``,
+    and the reference must occur within the cited [start, end] line range — so
+    the answer key cannot point at an image the analyzed passage never shows.
+    """
+    lines = source_path.read_text(encoding="utf-8").splitlines()
+    posts_dir = source_path.parent
+    for line in lines[start - 1 : end]:
+        for match in _IMAGE_REF_PATTERN.finditer(line):
+            ref = match.group(1).strip()
+            if not ref or ref.startswith(("http://", "https://")):
+                continue
+            if (posts_dir / ref).resolve() == image_path:
+                return
+    raise ValueError(
+        f"{case_id} source_image_path is not referenced by the Markdown within "
+        f"lines {start}-{end} of {source_path}"
+    )
 
 
 def _answers_from_list(raw_answers: list[Any]) -> dict[str, dict[str, Any]]:

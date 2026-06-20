@@ -235,6 +235,77 @@ def test_combine_scores_rejects_incomplete_judge_verdict() -> None:
         combine_scores(deterministic, {"structure": {"score": 1.0, "rationale": "ok"}})
 
 
+def test_retrospective_outcome_dimensions_are_na() -> None:
+    result = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(
+            analysis_mode="retrospective",
+            realized_direction="not_applicable",
+        ),
+    )
+
+    # Retrospective is NOT a wait case, but the forecast dimensions are N/A.
+    assert result["wait_case"] is False
+    assert result["used_fallback"] is False
+    assert result["outcome"] is None
+    assert result["direction_correct"] is None
+    for dim in ("direction", "trigger", "invalidation"):
+        assert result["dimensions"][dim]["status"] == "na"
+        assert result["dimensions"][dim]["score"] is None
+
+
+def test_retrospective_does_not_normalize_not_applicable_direction() -> None:
+    # not_applicable would raise in _normalize_direction; the early branch must
+    # short-circuit before any normalization/replay.
+    result = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(
+            analysis_mode="retrospective",
+            realized_direction="not_applicable",
+            post_t_candles=[],
+        ),
+    )
+    assert result["bars_to_resolution"] is None
+
+
+def test_combine_scores_exposes_two_subscores() -> None:
+    deterministic = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(),
+    )
+    record = combine_scores(deterministic, _judge_verdict())
+
+    # expert_alignment = weighted mean of judge dims only.
+    judge_only = combine_scores(
+        {"case_id": "case_01", "dimensions": {}, "wait_case": False}, _judge_verdict()
+    )
+    assert record["expert_alignment_score"] == judge_only["aggregate"]
+    assert record["expert_alignment_score"] is not None
+    # realized_outcome = weighted mean of deterministic dims (all scored here).
+    assert record["realized_outcome_score"] is not None
+
+
+def test_retrospective_realized_outcome_is_none_expert_alignment_present() -> None:
+    deterministic = score_deterministic(
+        direction="up",
+        trigger_level=110.0,
+        invalidation_level=95.0,
+        answer_key=_answer_key(
+            analysis_mode="retrospective", realized_direction="not_applicable"
+        ),
+    )
+    record = combine_scores(deterministic, _judge_verdict())
+
+    assert record["realized_outcome_score"] is None  # N/A, never 0
+    assert record["expert_alignment_score"] is not None
+
+
 def test_persist_score_written_outside_case_dir(tmp_path: Path) -> None:
     case_dir = tmp_path / "case_01"
     case_dir.mkdir()

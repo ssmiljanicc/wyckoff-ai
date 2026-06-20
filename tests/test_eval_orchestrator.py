@@ -7,8 +7,71 @@ from pathlib import Path
 import pytest
 
 from scripts.eval import benchmark, orchestrator
-from scripts.eval.ground_truth_cases import GROUND_TRUTH_CASES, make_placeholder_answers
+from scripts.eval.ground_truth_cases import GROUND_TRUTH_CASES
 from scripts.eval.runtime_adapters import RuntimeExecutionError, RuntimeRequest, RuntimeResponse
+
+
+def _real_like_answer_key() -> dict:
+    """Valid source-anchored answers for every registry case, referencing the
+    committed raw crypto sources. The orchestrator validates the WHOLE registry
+    against the answer key (and provenance against the real raw/ tree, cwd =
+    repo root under pytest), so a placeholder fixture would be — correctly —
+    rejected even in a --dry-run preview, and a partial key fails too.
+    """
+    base = {
+        "expert_author": "Alessio Rutigliano",
+        "source_url": "https://www.wyckoffanalytics.com/wyckoff-crypto-report-vol-43/",
+        "expert_structure": "not_stated",
+        "expert_phase": "not_stated",
+        "expert_scenario": "not_stated",
+        "expert_trigger": "not_stated",
+        "expert_invalidation": "not_stated",
+        "reconstruction_notes": "Chart title confirms symbol/timeframe/cutoff.",
+    }
+    by_id = {
+        "btc_vol43_2020_11": {
+            **base,
+            "analysis_mode": "forward_looking",
+            "realized_direction": "up",
+            "event_type": "spring",
+            "expert_event": "spring",
+            "source_path": "raw/crypto_archive/posts/wyckoff-crypto-report-vol-43.md",
+            "source_image_path": "raw/crypto_archive/images/wyckoff-crypto-report-vol-43/01-lead-71fc2a91.png",
+            "source_excerpt_location": {"start_line": 10, "end_line": 15},
+        },
+        "link_vol24_2020_06": {
+            **base,
+            "analysis_mode": "forward_looking",
+            "realized_direction": "up",
+            "event_type": "backing_up",
+            "expert_event": "backing_up",
+            "source_path": "raw/crypto_archive/posts/wyckoff-crypto-report-vol-24.md",
+            "source_image_path": "raw/crypto_archive/images/wyckoff-crypto-report-vol-24/07-CHAINLINK-f87a5082.png",
+            "source_excerpt_location": {"start_line": 34, "end_line": 36},
+        },
+        "btc_vol24_2020_06": {
+            **base,
+            "analysis_mode": "retrospective",
+            "realized_direction": "not_applicable",
+            "event_type": "upthrust",
+            "expert_event": "upthrust",
+            "source_path": "raw/crypto_archive/posts/wyckoff-crypto-report-vol-24.md",
+            "source_image_path": "raw/crypto_archive/images/wyckoff-crypto-report-vol-24/02-BTC_DAILYY-3ae1b23c.png",
+            "source_excerpt_location": {"start_line": 12, "end_line": 20},
+        },
+    }
+    cases = []
+    for case in GROUND_TRUTH_CASES:
+        cid = case["case_id"]
+        cases.append(
+            {
+                "case_id": cid,
+                "decisive": True,
+                "ground_truth": "Faithful summary of the cited expert excerpt.",
+                **by_id[cid],
+            }
+        )
+    return {"cases": cases}
 
 
 def spec(tmp_path: Path, run_id: str = "case_01__blind__anon__claude-opus-4-8__high") -> benchmark.RunSpec:
@@ -162,10 +225,11 @@ def test_atomic_write_preserves_previous_file_when_replace_fails(monkeypatch, tm
 
 def test_dry_run_does_not_write_execution_state(tmp_path: Path) -> None:
     answers = tmp_path / "answers.json"
-    answers.write_text(json.dumps(make_placeholder_answers(GROUND_TRUTH_CASES)))
+    answers.write_text(json.dumps(_real_like_answer_key()))
     base = tmp_path / "benchmark"
     args = orchestrator.build_parser().parse_args([
-        "--answers-path", str(answers), "--base-dir", str(base), "--case", "case_01",
+        "--answers-path", str(answers), "--base-dir", str(base),
+        "--case", GROUND_TRUTH_CASES[0]["case_id"],
         "--model", "claude-opus-4-8", "--effort", "high", "--dry-run",
     ])
     fake = FakeAdapter()

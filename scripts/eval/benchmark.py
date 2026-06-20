@@ -153,6 +153,8 @@ class BenchmarkRow(TypedDict):
     anon_mode: str
     event_type: str | None
     aggregate: float
+    expert_alignment_score: float | None
+    realized_outcome_score: float | None
     dimensions: dict[str, float | None]
     total_tokens: int
     cost_usd: float | None
@@ -166,6 +168,8 @@ class GroupRow(TypedDict):
     effort: str
     n: int
     aggregate: float
+    mean_expert_alignment: float | None
+    mean_realized_outcome: float | None
     dimensions: dict[str, float | None]
     event_types: dict[str, float]
     mean_tokens: float
@@ -436,6 +440,8 @@ def score_run(
         "anon_mode": run_spec["anon_mode"],
         "event_type": answer_key.get("event_type"),
         "aggregate": aggregate,
+        "expert_alignment_score": record["expert_alignment_score"],
+        "realized_outcome_score": record["realized_outcome_score"],
         "dimensions": dimensions,
         "total_tokens": total_tokens,
         "cost_usd": cost_usd,
@@ -487,6 +493,14 @@ def _build_groups(rows: list[BenchmarkRow]) -> list[GroupRow]:
                 "effort": effort,
                 "n": len(grp),
                 "aggregate": round(sum(r["aggregate"] for r in grp) / len(grp), 4),
+                # Partial means: N/A sub-scores (retrospective/wait realized
+                # outcome) are excluded, not counted as 0 (see _mean).
+                "mean_expert_alignment": _mean(
+                    [r["expert_alignment_score"] for r in grp]
+                ),
+                "mean_realized_outcome": _mean(
+                    [r["realized_outcome_score"] for r in grp]
+                ),
                 "dimensions": dim_means,
                 "event_types": event_types,
                 "mean_tokens": round(sum(r["total_tokens"] for r in grp) / len(grp), 2),
@@ -611,11 +625,22 @@ def render_report_markdown(report: BenchmarkReport) -> str:
     # Main baseline table.
     lines.append("## Baseline (blind, anon) — model × effort")
     lines.append("")
-    lines.append("| Model | Effort | n | Aggregate | Mean tokens | Cost (USD) | ROI | ROI basis |")
-    lines.append("|---|---|---|---|---|---|---|---|")
+    lines.append(
+        "Aggregate keeps the original combined weighting (back-compatible). "
+        "Expert alignment = agreement with the expert's existing Wyckoff reading "
+        "(judge dimensions); realized outcome = forecast success vs realized "
+        "post-T price (deterministic dimensions, N/A for retrospective cases)."
+    )
+    lines.append("")
+    lines.append(
+        "| Model | Effort | n | Aggregate | Expert align | Realized outcome | "
+        "Mean tokens | Cost (USD) | ROI | ROI basis |"
+    )
+    lines.append("|---|---|---|---|---|---|---|---|---|---|")
     for g in report["groups"]:
         lines.append(
             f"| {g['model']} | {g['effort']} | {g['n']} | {_fmt(g['aggregate'])} | "
+            f"{_fmt(g['mean_expert_alignment'])} | {_fmt(g['mean_realized_outcome'])} | "
             f"{g['mean_tokens']:.0f} | {_fmt(g['mean_cost_usd'], 6)} | "
             f"{_fmt(g['mean_roi'])} | {g['roi_basis']} |"
         )
@@ -862,11 +887,12 @@ def _load_benchmark_cases_and_answers(
 
 
 def _answer_extra(answer: dict[str, Any]) -> dict[str, Any]:
-    return {
-        "event_type": answer["event_type"],
-        "realized_direction": answer["realized_direction"],
-        "decisive": answer["decisive"],
-    }
+    # Single source of truth for cross-snapshot metadata propagation: the
+    # allowlist (incl. analysis_mode, excl. all provenance) lives in
+    # ground_truth_cases.angle_answer_metadata.
+    from scripts.eval.ground_truth_cases import angle_answer_metadata  # noqa: PLC0415
+
+    return angle_answer_metadata(answer)
 
 
 def ensure_blind_snapshots(

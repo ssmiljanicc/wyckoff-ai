@@ -9,6 +9,7 @@ from typing import Any
 
 from scripts.eval.ground_truth_cases import (
     GROUND_TRUTH_CASES,
+    angle_answer_metadata,
     load_answer_key,
     make_placeholder_answers,
     validate_event_coverage,
@@ -29,7 +30,7 @@ def run(
         if dry_run
         else load_answer_key(answers_path or DEFAULT_ANSWERS_PATH)
     )
-    validate_event_coverage(answers=answers)
+    validate_event_coverage(answers=answers, allow_placeholders=dry_run)
     client: Any = DryRunClient() if dry_run else None
     generated = 0
 
@@ -46,11 +47,7 @@ def run(
                 case_id=case_id,
                 client=client,
                 ground_truth=answer["ground_truth"],
-                answer_extra={
-                    "event_type": answer["event_type"],
-                    "realized_direction": answer["realized_direction"],
-                    "decisive": answer["decisive"],
-                },
+                answer_extra=angle_answer_metadata(answer),
                 include_post_t_candles=True,
                 base_dir=base_dir,
             )
