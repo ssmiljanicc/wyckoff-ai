@@ -4,7 +4,8 @@ Ovaj tok izvršava benchmark matricu kroz izolovane analyst i judge procese, ču
 
 ## Preduslovi
 
-- Privatni answer key, na primer `data/eval/_answers/ground_truth_answers.json`; fajl ne sme biti commit-ovan.
+- **Source-anchored eval skup (issue #76).** Svaki case je vezan za postojeći ekspertski analiziran crypto grafikon (Wyckoff Crypto Report): originalna chart slika, neposredni ekspertski pasus i pouzdano rekonstruisan Binance OHLCV presek do cutoff-a T. Broj slučajeva nije fiksan i nema event kvote — validator proverava **po-case** source dokaz (postojeći raw Markdown, lokalna slika koju pasus referencira, validan excerpt opseg), ne distribuciju skupa. Detalji ugovora i kuracije: [`source-anchored eval set`](#source-anchored-eval-set-76).
+- Privatni answer key, na primer `data/eval/_answers/ground_truth_answers.json`; fajl ne sme biti commit-ovan. Sadrži provenance + `analysis_mode` + strukturirana expert polja; placeholder odgovori su dozvoljeni samo u `build_eval_set --dry-run`, a orkestrator ih odbija i u preview-u.
 - Autentifikovani lokalni Claude Code 2.1.183 i Codex CLI 0.141.0 za modele koje birate.
 - Capability preflight (provera podržanih mogućnosti CLI-ja):
 
@@ -26,7 +27,7 @@ Claude Code 2.1.183 `--bare` režim ne čita OAuth/keychain prijavu, pa se ne ko
 ```bash
 uv run --extra mcp python -m scripts.eval.orchestrator \
   --answers-path data/eval/_answers/ground_truth_answers.json \
-  --case case_01 --model claude-opus-4-8 --effort high --dry-run
+  --case btc_vol43_2020_11 --model claude-opus-4-8 --effort high --dry-run
 ```
 
 Opcije `--case`, `--model` i `--effort` mogu da se ponove ili prime CSV listu. Pregledajte `scope`, `planned` i `unavailable` pre realnog poziva.
@@ -38,7 +39,7 @@ Ovo pravi naplative pozive. Pokrenite tek posle pregleda preview-a:
 ```bash
 uv run --extra mcp python -m scripts.eval.orchestrator \
   --answers-path data/eval/_answers/ground_truth_answers.json \
-  --case case_01 --model claude-opus-4-8 --effort high \
+  --case btc_vol43_2020_11 --model claude-opus-4-8 --effort high \
   --max-concurrency 1 --min-start-interval 2
 ```
 
@@ -97,3 +98,28 @@ Analyst dobija anonimizovane OHLCV podatke (`candles.json`) ugrađene direktno u
 ## Opt-in manual smoke
 
 Posle promene Claude/Codex verzije ponovite jedan canary po provider-u. Proverite structured JSON, usage zbir, `result` checkpoint i report. Ovaj smoke nije deo podrazumevanog `pytest` paketa zbog autentifikacije, mreže i troška.
+
+## Source-anchored eval set (#76)
+
+V1 evaluacioni skup je suženo crypto-only i izveden isključivo iz ekspertski analiziranih grafikona iz `raw/crypto_archive/`. Ground truth se ne izmišlja — preuzima se iz postojećeg ekspertskog teksta vezanog za baš tu sliku i tržišni period.
+
+**Source chart služi samo kuraciji, ne ulazu.** Originalna ekspertska slika (`source_image_path`) i tekst koriste se da se utvrde `symbol/timeframe/cutoff` i da se napiše veran `ground_truth`. Analyst i dalje dobija **samo anonimizovani OHLCV tekst** (vidi „Evaluacioni ugovor" gore) rekonstruisan iz Binance-a do T — bez ekspertnih oznaka, strelica, projekcija desno od T i bez originalne slike. #75 (chart-image vs OHLCV-text modalitet) nije implementiran ovde i ostaje zaseban.
+
+**Privatni answer key — ugovor po slučaju:**
+
+- Eval-facing polja koja scoring stvarno čita: `event_type`, `realized_direction`, `decisive`, `analysis_mode` (kroz angle allowlist) i `ground_truth` (prosleđuje se odvojeno preko `build_snapshot(ground_truth=...)`, ne kroz allowlist).
+- Provenance/reconstruction polja (`expert_author`, `source_path`, `source_url`, `source_image_path`, `source_excerpt_location`, `reconstruction_notes`, `expert_*`) postoje **samo** u master privatnom ključu. U angle-specific `*.answer.json` propagira se isključivo allowlist `{event_type, realized_direction, decisive, analysis_mode}` (`ground_truth_cases.angle_answer_metadata`); provenance po konstrukciji ne dolazi ni do analyst-a, ni do judge-a, ni do public manifesta.
+- Nepomenuto ekspertsko polje je literal `not_stated`; validator odbija prazne stringove i nagađane sentinele.
+
+**`analysis_mode`: forward_looking vs retrospective.**
+
+- `forward_looking` — ekspert piše na desnom rubu grafikona (prognoza). `realized_direction ∈ {up, down, none}`; determinističke dimenzije (`direction/trigger/invalidation`) se skoruju replay-em post-T sveća.
+- `retrospective` — ekspert objašnjava već realizovan obrazac (npr. bar-by-bar „WYCKOFF STORY"). `realized_direction = not_applicable`; determinističke dimenzije su `N/A` (nikad 0). Judge alignment se i dalje računa — nema hindsight kontaminacije prediktivnog skora.
+
+**Dva odvojena podskora u izveštaju:**
+
+- `expert_alignment_score` — weighted mean **semantic-match** judge dimenzija (`structure/phase/event`) — slaganje sa ekspertskim Wyckoff čitanjem. Definisan identično za forward i retrospective, pa je to jedino apples-to-apples cross-mode poređenje. `narrative_quality` i `calibration` su kvalitet rezonovanja, ne alignment — ostaju u `aggregate` i per-dimension tabeli, ali ne ulaze u ovaj podskor.
+- `realized_outcome_score` — weighted mean ne-`N/A` determinističkih dimenzija (uspeh prognoze prema stvarnom post-T kretanju). `N/A` za retrospective i wait slučajeve.
+- Postojeći `aggregate` i model ranking ostaju nepromenjeni radi kompatibilnosti, ali `aggregate` je **mode-dependent** (renormalizuje preko različitog imenioca kad su determinističke dimenzije `N/A`); izveštaj to fusnotira i upozorava da je rang sa malim n indikativan, ne statistički merodavan. Za cross-mode poređenje koristi `expert_alignment_score`.
+
+**Canary zavisnost od #77.** Real (plaćeni) canary za #76 pokrenuti tek kada je #77 (eval runtime fix) merge-ovan, operator potvrdi trošak i `--dry-run` output je pregledan. Codex izolacija ostaje `UNVERIFIED` dok odgovarajući canary ne prođe (vidi „Anti-leakage granica"). `--dry-run` ne dokazuje real source rekonstrukciju — vizuelno poređenje originalne slike i čistog snapshot-a po slučaju radi se na real build-u.

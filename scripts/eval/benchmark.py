@@ -153,6 +153,8 @@ class BenchmarkRow(TypedDict):
     anon_mode: str
     event_type: str | None
     aggregate: float
+    expert_alignment_score: float | None
+    realized_outcome_score: float | None
     dimensions: dict[str, float | None]
     total_tokens: int
     cost_usd: float | None
@@ -166,6 +168,8 @@ class GroupRow(TypedDict):
     effort: str
     n: int
     aggregate: float
+    mean_expert_alignment: float | None
+    mean_realized_outcome: float | None
     dimensions: dict[str, float | None]
     event_types: dict[str, float]
     mean_tokens: float
@@ -436,6 +440,8 @@ def score_run(
         "anon_mode": run_spec["anon_mode"],
         "event_type": answer_key.get("event_type"),
         "aggregate": aggregate,
+        "expert_alignment_score": record["expert_alignment_score"],
+        "realized_outcome_score": record["realized_outcome_score"],
         "dimensions": dimensions,
         "total_tokens": total_tokens,
         "cost_usd": cost_usd,
@@ -487,6 +493,14 @@ def _build_groups(rows: list[BenchmarkRow]) -> list[GroupRow]:
                 "effort": effort,
                 "n": len(grp),
                 "aggregate": round(sum(r["aggregate"] for r in grp) / len(grp), 4),
+                # Partial means: N/A sub-scores (retrospective/wait realized
+                # outcome) are excluded, not counted as 0 (see _mean).
+                "mean_expert_alignment": _mean(
+                    [r["expert_alignment_score"] for r in grp]
+                ),
+                "mean_realized_outcome": _mean(
+                    [r["realized_outcome_score"] for r in grp]
+                ),
                 "dimensions": dim_means,
                 "event_types": event_types,
                 "mean_tokens": round(sum(r["total_tokens"] for r in grp) / len(grp), 2),
@@ -611,11 +625,26 @@ def render_report_markdown(report: BenchmarkReport) -> str:
     # Main baseline table.
     lines.append("## Baseline (blind, anon) — model × effort")
     lines.append("")
-    lines.append("| Model | Effort | n | Aggregate | Mean tokens | Cost (USD) | ROI | ROI basis |")
-    lines.append("|---|---|---|---|---|---|---|---|")
+    lines.append(
+        "Aggregate keeps the original combined weighting (back-compatible). "
+        "Expert alignment = semantic match to the expert's Wyckoff reading "
+        "(structure/phase/event), defined identically for forward and "
+        "retrospective cases; realized outcome = forecast success vs realized "
+        "post-T price (deterministic dimensions, N/A for retrospective cases). "
+        "Note: aggregate is mode-dependent — it renormalizes over a different "
+        "denominator for retrospective cases (deterministic dimensions N/A), so "
+        "expert_alignment is the apples-to-apples cross-mode comparison."
+    )
+    lines.append("")
+    lines.append(
+        "| Model | Effort | n | Aggregate | Expert align | Realized outcome | "
+        "Mean tokens | Cost (USD) | ROI | ROI basis |"
+    )
+    lines.append("|---|---|---|---|---|---|---|---|---|---|")
     for g in report["groups"]:
         lines.append(
             f"| {g['model']} | {g['effort']} | {g['n']} | {_fmt(g['aggregate'])} | "
+            f"{_fmt(g['mean_expert_alignment'])} | {_fmt(g['mean_realized_outcome'])} | "
             f"{g['mean_tokens']:.0f} | {_fmt(g['mean_cost_usd'], 6)} | "
             f"{_fmt(g['mean_roi'])} | {g['roi_basis']} |"
         )
@@ -648,6 +677,15 @@ def render_report_markdown(report: BenchmarkReport) -> str:
 
     # Rankings.
     lines.append("## Rank by aggregate")
+    lines.append("")
+    min_n = min((g["n"] for g in report["groups"]), default=0)
+    lines.append(
+        f"> ⚠️ Indikativno, ne statistički merodavno: najmanja grupa ima n={min_n}. "
+        "Sa malim brojem source-anchored slučajeva jedan flip ishoda preokrene "
+        "rang — čitaj kao smer, ne kao presudu. Aggregate je i mode-dependent "
+        "(vidi baseline napomenu); za cross-mode poređenje koristi expert "
+        "alignment."
+    )
     lines.append("")
     lines.append("| # | Model | Effort | n | Aggregate |")
     lines.append("|---|---|---|---|---|")
@@ -803,14 +841,18 @@ def ingest(
     manifest_specs = _load_specs_from_manifest(base_dir)
 
     rows: list[BenchmarkRow] = []
+    n_unfilled = 0
+    n_no_spec = 0
     for result_file in sorted(results_path.glob("*.json")):
         raw = json.loads(result_file.read_text())
         if raw.get("analysis_output") is None or raw.get("judge_verdict") is None:
+            n_unfilled += 1
             continue  # unfilled slot
         run_id = result_file.stem
         if manifest_specs is not None:
             spec = manifest_specs.get(run_id)
             if spec is None:
+                n_no_spec += 1
                 print(
                     f"[benchmark] WARN: {run_id} has no entry in benchmark_runs.json "
                     "— skipping (rebuild the matrix to include it)"
@@ -828,7 +870,11 @@ def ingest(
 
     report = aggregate_report(rows)
     md_path, json_path = write_report(report, base_dir=base_dir)
-    print(f"[benchmark] scored {len(rows)} runs → {md_path} , {json_path}")
+    skipped = n_unfilled + n_no_spec
+    summary = f"[benchmark] scored {len(rows)} runs"
+    if skipped:
+        summary += f" (skipped {skipped}: {n_unfilled} unfilled, {n_no_spec} without a spec)"
+    print(f"{summary} → {md_path} , {json_path}")
     return report
 
 
@@ -854,7 +900,9 @@ def _load_benchmark_cases_and_answers(
 
     cases = [c for c in GROUND_TRUTH_CASES if case_ids is None or c["case_id"] in case_ids]
     answers = (
-        make_placeholder_answers()
+        # Build placeholders from the FILTERED cases, not the global registry,
+        # so the dry-run scope matches the selected case_ids.
+        make_placeholder_answers(cases)
         if dry_run
         else load_answer_key(answers_path or DEFAULT_ANSWERS_PATH)
     )
@@ -862,11 +910,12 @@ def _load_benchmark_cases_and_answers(
 
 
 def _answer_extra(answer: dict[str, Any]) -> dict[str, Any]:
-    return {
-        "event_type": answer["event_type"],
-        "realized_direction": answer["realized_direction"],
-        "decisive": answer["decisive"],
-    }
+    # Single source of truth for cross-snapshot metadata propagation: the
+    # allowlist (incl. analysis_mode, excl. all provenance) lives in
+    # ground_truth_cases.angle_answer_metadata.
+    from scripts.eval.ground_truth_cases import angle_answer_metadata  # noqa: PLC0415
+
+    return angle_answer_metadata(answer)
 
 
 def ensure_blind_snapshots(

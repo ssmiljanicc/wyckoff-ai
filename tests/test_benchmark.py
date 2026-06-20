@@ -9,6 +9,10 @@ from typing import Any
 import pytest
 
 from scripts.eval import benchmark, scoring
+from scripts.eval.ground_truth_cases import GROUND_TRUTH_CASES
+
+# A real registry case_id, for the ensure_* paths that filter GROUND_TRUTH_CASES.
+_REAL_CASE = GROUND_TRUTH_CASES[0]["case_id"]
 
 
 # --- builders ---------------------------------------------------------------
@@ -111,6 +115,8 @@ def _row(
         "anon_mode": anon_mode,
         "event_type": event_type,
         "aggregate": aggregate,
+        "expert_alignment_score": aggregate,
+        "realized_outcome_score": aggregate,
         "dimensions": {"direction": 1.0, "structure": aggregate},
         "total_tokens": total_tokens,
         "cost_usd": cost_usd,
@@ -314,6 +320,54 @@ def test_render_report_has_both_deltas() -> None:
 # --- 9. dry-run builds the manifest without network -------------------------
 
 
+def test_groups_and_report_expose_two_subscores() -> None:
+    rows = [
+        _row("case_01", "blind", "anon", 0.5),
+        _row("case_02", "blind", "anon", 0.7),
+    ]
+    report = benchmark.aggregate_report(rows)
+    group = report["groups"][0]
+    # _row sets both subscores == aggregate, so the group means equal mean(agg).
+    assert group["mean_expert_alignment"] == pytest.approx(0.6)
+    assert group["mean_realized_outcome"] == pytest.approx(0.6)
+
+    md = benchmark.render_report_markdown(report)
+    assert "Expert align" in md
+    assert "Realized outcome" in md
+
+
+def test_score_run_row_carries_subscores(tmp_path: Path) -> None:
+    spec = _make_spec("case_01", "blind", "anon", "claude-opus-4-8", "high", tmp_path)
+    row = benchmark.score_run(spec, _run_result(), _answer_key())
+    assert row["expert_alignment_score"] is not None
+    assert row["realized_outcome_score"] is not None
+
+
+def test_group_mixed_forward_retrospective_realized_outcome_partial_mean() -> None:
+    # A retrospective row carries realized_outcome_score=None; the group mean
+    # must exclude it (partial mean), NOT count it as 0.
+    forward = _row("case_01", "blind", "anon", 0.6)
+    forward["realized_outcome_score"] = 0.6
+    retro = _row("case_02", "blind", "anon", 0.9)
+    retro["realized_outcome_score"] = None  # retrospective → N/A
+    report = benchmark.aggregate_report([forward, retro])
+    group = report["groups"][0]
+    # mean over the single non-None value, not (0.6 + 0)/2.
+    assert group["mean_realized_outcome"] == pytest.approx(0.6)
+    # expert_alignment is defined for both → averaged over both.
+    assert group["mean_expert_alignment"] == pytest.approx((0.6 + 0.9) / 2)
+
+
+def test_retrospective_row_has_na_realized_outcome(tmp_path: Path) -> None:
+    spec = _make_spec("case_01", "blind", "anon", "claude-opus-4-8", "high", tmp_path)
+    answer = _answer_key()
+    answer["analysis_mode"] = "retrospective"
+    answer["realized_direction"] = "not_applicable"
+    row = benchmark.score_run(spec, _run_result(), answer)
+    assert row["realized_outcome_score"] is None  # N/A, not 0
+    assert row["expert_alignment_score"] is not None
+
+
 def test_dry_run_builds_manifest(tmp_path: Path) -> None:
     path = benchmark.build_matrix_manifest(["case_01", "case_02"], base_dir=tmp_path)
 
@@ -427,29 +481,29 @@ def test_roi_rank_split_by_basis() -> None:
 def test_ensure_fv_snapshots_dry_run(tmp_path: Path) -> None:
     """The lookahead control now has a generation path (was the high finding)."""
     built = benchmark.ensure_fv_snapshots(
-        ["case_01"], dry_run=True, base_dir=tmp_path
+        [_REAL_CASE], dry_run=True, base_dir=tmp_path
     )
-    assert built == ["case_01"]
-    fv_dir = tmp_path / "case_01__fv"
+    assert built == [_REAL_CASE]
+    fv_dir = tmp_path / f"{_REAL_CASE}__fv"
     assert fv_dir.exists()
     assert (fv_dir / "instruction.txt").exists()
     # idempotent: second call skips the existing snapshot
-    assert benchmark.ensure_fv_snapshots(["case_01"], dry_run=True, base_dir=tmp_path) == []
+    assert benchmark.ensure_fv_snapshots([_REAL_CASE], dry_run=True, base_dir=tmp_path) == []
 
 
 def test_ensure_snapshots_builds_all_three_angles(tmp_path: Path) -> None:
-    built = benchmark.ensure_snapshots(["case_01"], dry_run=True, base_dir=tmp_path)
+    built = benchmark.ensure_snapshots([_REAL_CASE], dry_run=True, base_dir=tmp_path)
     assert built == {
-        "blind": ["case_01"],
-        "future_visible": ["case_01"],
-        "revealed": ["case_01"],
+        "blind": [_REAL_CASE],
+        "future_visible": [_REAL_CASE],
+        "revealed": [_REAL_CASE],
     }
-    assert (tmp_path / "case_01").exists()
-    assert (tmp_path / "case_01__fv").exists()
-    assert (tmp_path / "case_01__revealed").exists()
+    assert (tmp_path / _REAL_CASE).exists()
+    assert (tmp_path / f"{_REAL_CASE}__fv").exists()
+    assert (tmp_path / f"{_REAL_CASE}__revealed").exists()
     # revealed answer key must NOT overwrite the anon one
-    assert (tmp_path / "_answers" / "case_01.answer.json").exists()
-    assert (tmp_path / "_answers" / "case_01__revealed.answer.json").exists()
+    assert (tmp_path / "_answers" / f"{_REAL_CASE}.answer.json").exists()
+    assert (tmp_path / "_answers" / f"{_REAL_CASE}__revealed.answer.json").exists()
 
 
 def test_ingest_reads_specs_from_manifest(tmp_path: Path) -> None:
@@ -480,13 +534,13 @@ def test_ingest_reads_specs_from_manifest(tmp_path: Path) -> None:
 
 def test_lookahead_score_run_reads_fv_answer_key(tmp_path: Path) -> None:
     """The lookahead angle scores its own fv-coef __fv key, not the blind key."""
-    benchmark.ensure_fv_snapshots(["case_01"], dry_run=True, base_dir=tmp_path)
-    fv_answer = tmp_path / "_answers" / "case_01__fv.answer.json"
+    benchmark.ensure_fv_snapshots([_REAL_CASE], dry_run=True, base_dir=tmp_path)
+    fv_answer = tmp_path / "_answers" / f"{_REAL_CASE}__fv.answer.json"
     assert fv_answer.exists()
 
-    specs = benchmark.build_run_matrix(["case_01"], base_dir=tmp_path)
+    specs = benchmark.build_run_matrix([_REAL_CASE], base_dir=tmp_path)
     fv_spec = next(s for s in specs if s["time_mode"] == "future_visible")
-    assert fv_spec["answer_key_path"].endswith("case_01__fv.answer.json")
+    assert fv_spec["answer_key_path"].endswith(f"{_REAL_CASE}__fv.answer.json")
 
     answer_key = json.loads(Path(fv_spec["answer_key_path"]).read_text())
     assert "post_t_candles" in answer_key  # fv-coef post_t lives here
