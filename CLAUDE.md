@@ -54,7 +54,7 @@ Pre nego što se PR merge-uje u main, sledeća disciplina je obavezna:
 
 ### 0.3 GitHub issue convention
 
-- **Naslov:** engleski (radi git/search kompatibilnosti i konzistentnosti)
+- **Naslov:** srpski (i naslov i telo na srpskom; engleski se zadržava samo u kodu, putanjama i strukturisanim identifikatorima — npr. milestone imena tipa `M5: ...`, brojevi, kod — per §0.1)
 - **Body:** srpski (per §0.1)
 - **Labele:** uvek `phase:1/2/3`, `model:opus/sonnet`, plus content tipa (`skill`, `data`, `infrastructure`, `wiki`, `idea`)
 - **Milestone:** uvek prikačen (M1–M6)

@@ -24,7 +24,12 @@ def spec(tmp_path: Path, run_id: str = "case_01__blind__anon__claude-opus-4-8__h
 
 
 def analysis() -> dict:
-    return {"direction": "up", "trigger": 10.0, "invalidation": 8.0, "confidence": 0.7, "structure": "accumulation", "phase": "C", "event": "spring"}
+    return {
+        "narrative": "Price rejects support before expanding upward.",
+        "evidence": ["Downside spread narrows on the retest."],
+        "direction": "up", "trigger": 10.0, "invalidation": 8.0, "confidence": 0.7,
+        "structure": "accumulation", "phase": "C", "event": "spring",
+    }
 
 
 def verdict() -> dict:
@@ -102,6 +107,27 @@ def test_analyst_prompt_embeds_candle_data_not_filename_list(tmp_path: Path) -> 
     # The isolated analyst has no tools, so the actual OHLCV must be in the prompt.
     assert "333.33" in prompt
     assert "NO tools" in prompt
+    assert "single valid JSON object" in prompt
+    assert "no markdown" in prompt
+    assert "behavior before assigning Wyckoff labels" in prompt
+    required_fields = (
+        "narrative", "evidence", "direction", "trigger", "invalidation",
+        "confidence", "structure", "phase", "event",
+    )
+    for field in required_fields:
+        assert field in prompt
+
+
+def test_analyst_prompt_names_every_required_schema_field(tmp_path: Path) -> None:
+    current = spec(tmp_path)
+    with orchestrator.analyst_root(current) as root:
+        prompt = orchestrator.analyst_prompt(current, root)
+    schema = json.loads(orchestrator.ANALYSIS_SCHEMA.read_text())
+    assert set(schema["required"]) == {
+        "narrative", "evidence", "direction", "trigger", "invalidation",
+        "confidence", "structure", "phase", "event",
+    }
+    assert all(field in prompt for field in schema["required"])
 
 
 class FlakyAdapter:
