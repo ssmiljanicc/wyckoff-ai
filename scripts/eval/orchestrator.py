@@ -36,6 +36,7 @@ SCHEMA_DIR = Path(__file__).with_name("schemas")
 ANALYSIS_SCHEMA = SCHEMA_DIR / "analysis_output.schema.json"
 JUDGE_SCHEMA = SCHEMA_DIR / "judge_verdict.schema.json"
 JUDGE_MODEL = "claude-opus-4-8"
+CANDLES_FILENAME = "candles.json"
 STATUSES = {"pending", "running", "succeeded", "failed", "skipped"}
 EXIT_OK, EXIT_CONFIG, EXIT_PARTIAL, EXIT_INTERRUPT = 0, 2, 3, 130
 
@@ -209,14 +210,27 @@ def judge_root() -> Generator[Path, None, None]:
 
 
 def analyst_prompt(spec: benchmark.RunSpec, root: Path) -> str:
-    files = sorted(str(path.relative_to(root)) for path in root.rglob("*") if path.is_file() and path.name != ANALYSIS_SCHEMA.name)
+    # The isolated analyst runs with NO tools (Claude `--tools ""` disables EVERY
+    # built-in tool, Read included; Codex runs in a read-only sandbox and performs
+    # no read step), so it cannot open snapshot files itself. Embedding candles.json
+    # directly in the prompt is the only provider-neutral way to hand every model
+    # the SAME input — a bare filename list leaves the analyst with nothing to
+    # analyze. chart.png is deliberately NOT delivered: it is binary, has no fair
+    # cross-provider prompt-attach path, and feeding it to only one provider would
+    # break model comparability; candles.json carries the identical OHLCV the chart
+    # renders.
+    candles_path = root / CANDLES_FILENAME
+    if not candles_path.is_file():
+        raise RuntimeExecutionError(f"snapshot missing {CANDLES_FILENAME} under {root}")
+    candles = candles_path.read_text().strip()
     instruction = spec.get("instruction") or "Analyze only the frozen as-of snapshot."
     return (
-        "You are an isolated Wyckoff analyst. Read only the files in the current directory: "
-        + ", ".join(files)
-        + ". Describe price/volume behavior before labels; return one scenario with direction, numeric or null "
-          "trigger/invalidation, confidence 0..1, structure, phase, and event. Do not access network, MCP, "
-          "parent paths, or infer identity/date. " + instruction
+        "You are an isolated Wyckoff analyst with NO tools and NO network access. "
+        "Analyze ONLY the anonymized OHLCV data embedded below. Describe price/volume "
+        "behavior before labels; return one scenario with direction, numeric or null "
+        "trigger/invalidation, confidence 0..1, structure, phase, and event. Do not "
+        "infer identity or calendar date. " + instruction
+        + f"\n\nOHLCV candles ({CANDLES_FILENAME}):\n" + candles
     )
 
 
@@ -248,43 +262,56 @@ def _error_record(exc: Exception) -> dict[str, Any]:
 
 async def execute_run(
     spec: benchmark.RunSpec, store: StateStore, results_dir: Path, *, adapters: dict[str, RuntimeAdapter],
-    limiter: StartLimiter, timeout: float, max_attempts: int,
+    limiter: StartLimiter, timeout: float, max_attempts: int, stop: asyncio.Event | None = None,
 ) -> None:
+    # max_attempts is spent WITHIN this call: a non-terminal failure re-claims and
+    # retries the run in-process (re-using the analyst checkpoint when the judge is
+    # the only thing left), so a single invocation honours the configured attempt
+    # budget and only leaves `pending` behind on interrupt/crash — not as a hidden
+    # "retry on next run". claim() increments attempt and refuses to re-claim once
+    # the budget is exhausted, so the loop is bounded.
     run_id = spec["run_id"]
-    stage = store.claim(run_id, max_attempts)
-    if stage is None:
-        return
     result_path = results_dir / f"{run_id}.json"
-    try:
-        existing = json.loads(result_path.read_text()) if stage == "judge" and result_path.exists() else None
-        if existing is None:
-            with analyst_root(spec) as root:
+    while True:
+        if stop is not None and stop.is_set():
+            return
+        stage = store.claim(run_id, max_attempts)
+        if stage is None:
+            return
+        try:
+            existing = json.loads(result_path.read_text()) if stage == "judge" and result_path.exists() else None
+            if existing is None:
+                with analyst_root(spec) as root:
+                    await limiter.wait()
+                    response = await adapters[spec["model"]].run(RuntimeRequest(
+                        analyst_prompt(spec, root), root, root / ANALYSIS_SCHEMA.name,
+                        spec["model"], spec["effort"], timeout,
+                    ))
+                    validate_json(response.output, json.loads(ANALYSIS_SCHEMA.read_text()))
+                    existing = {"analysis_output": response.output, "usage": response.usage, "usage_by_stage": {"analyst": response.usage}, "judge_verdict": None}
+                    atomic_write_json(result_path, existing)
+                    store.update(run_id, stage="judge", next_stage="judge")
+            answer = json.loads(Path(spec["answer_key_path"]).read_text())
+            payload = scoring.prepare_judge_input(existing["analysis_output"], answer)
+            with judge_root() as root:
                 await limiter.wait()
-                response = await adapters[spec["model"]].run(RuntimeRequest(
-                    analyst_prompt(spec, root), root, root / ANALYSIS_SCHEMA.name,
-                    spec["model"], spec["effort"], timeout,
+                response = await adapters["__judge__"].run(RuntimeRequest(
+                    json.dumps(payload, separators=(",", ":")), root, root / JUDGE_SCHEMA.name,
+                    JUDGE_MODEL, "high", timeout,
                 ))
-                validate_json(response.output, json.loads(ANALYSIS_SCHEMA.read_text()))
-                existing = {"analysis_output": response.output, "usage": response.usage, "usage_by_stage": {"analyst": response.usage}, "judge_verdict": None}
-                atomic_write_json(result_path, existing)
-                store.update(run_id, stage="judge", next_stage="judge")
-        answer = json.loads(Path(spec["answer_key_path"]).read_text())
-        payload = scoring.prepare_judge_input(existing["analysis_output"], answer)
-        with judge_root() as root:
-            await limiter.wait()
-            response = await adapters["__judge__"].run(RuntimeRequest(
-                json.dumps(payload, separators=(",", ":")), root, root / JUDGE_SCHEMA.name,
-                JUDGE_MODEL, "high", timeout,
-            ))
-            validate_json(response.output, json.loads(JUDGE_SCHEMA.read_text()))
-        analyst_usage = existing.get("usage_by_stage", {}).get("analyst", existing.get("usage", {}))
-        existing.update(judge_verdict=response.output, usage_by_stage={"analyst": analyst_usage, "judge": response.usage}, usage=_sum_usage(analyst_usage, response.usage))
-        atomic_write_json(result_path, existing)
-        store.update(run_id, status="succeeded", stage="judge", next_stage=None, finished_at=_now(), error=None)
-    except Exception as exc:
-        record = store.read()["runs"][run_id]
-        terminal = record["attempt"] >= max_attempts
-        store.update(run_id, status="failed" if terminal else "pending", next_stage=record.get("stage", stage), finished_at=_now() if terminal else None, error=_error_record(exc))
+                validate_json(response.output, json.loads(JUDGE_SCHEMA.read_text()))
+            analyst_usage = existing.get("usage_by_stage", {}).get("analyst", existing.get("usage", {}))
+            existing.update(judge_verdict=response.output, usage_by_stage={"analyst": analyst_usage, "judge": response.usage}, usage=_sum_usage(analyst_usage, response.usage))
+            atomic_write_json(result_path, existing)
+            store.update(run_id, status="succeeded", stage="judge", next_stage=None, finished_at=_now(), error=None)
+            return
+        except Exception as exc:
+            record = store.read()["runs"][run_id]
+            terminal = record["attempt"] >= max_attempts
+            store.update(run_id, status="failed" if terminal else "pending", next_stage=record.get("stage", stage), finished_at=_now() if terminal else None, error=_error_record(exc))
+            if terminal:
+                return
+            # non-terminal: loop re-claims (attempt++) and retries this run in-process
 
 
 def _csv(values: list[str] | None) -> set[str] | None:
@@ -367,7 +394,7 @@ async def orchestrate(args: argparse.Namespace, *, injected_adapters: dict[str, 
         async with semaphore:
             if stop.is_set():
                 return
-            await execute_run(spec, store, results_dir, adapters=adapters, limiter=limiter, timeout=args.timeout, max_attempts=args.max_attempts)
+            await execute_run(spec, store, results_dir, adapters=adapters, limiter=limiter, timeout=args.timeout, max_attempts=args.max_attempts, stop=stop)
 
     await asyncio.gather(*(worker(spec) for spec in selected), return_exceptions=True)
     if stop.is_set():

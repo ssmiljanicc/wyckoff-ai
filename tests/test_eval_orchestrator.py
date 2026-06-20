@@ -8,7 +8,7 @@ import pytest
 
 from scripts.eval import benchmark, orchestrator
 from scripts.eval.ground_truth_cases import GROUND_TRUTH_CASES, make_placeholder_answers
-from scripts.eval.runtime_adapters import RuntimeRequest, RuntimeResponse
+from scripts.eval.runtime_adapters import RuntimeExecutionError, RuntimeRequest, RuntimeResponse
 
 
 def spec(tmp_path: Path, run_id: str = "case_01__blind__anon__claude-opus-4-8__high") -> benchmark.RunSpec:
@@ -92,6 +92,61 @@ def test_execute_run_checkpoints_and_isolates_judge(tmp_path: Path) -> None:
     assert "candles" not in judge_payload["answer_key"]
     assert "answer_key_path" not in judge_payload["output"]
     assert str(Path(current["snapshot_dir"])) not in fake.requests[1].prompt
+
+
+def test_analyst_prompt_embeds_candle_data_not_filename_list(tmp_path: Path) -> None:
+    current = spec(tmp_path)
+    with orchestrator.analyst_root(current) as root:
+        (root / "candles.json").write_text('[{"close": 333.33}]')
+        prompt = orchestrator.analyst_prompt(current, root)
+    # The isolated analyst has no tools, so the actual OHLCV must be in the prompt.
+    assert "333.33" in prompt
+    assert "NO tools" in prompt
+
+
+class FlakyAdapter:
+    """Fails the analyst call `analyst_failures` times, then succeeds; judge always ok."""
+
+    def __init__(self, analyst_failures: int):
+        self.analyst_failures = analyst_failures
+        self.analyst_calls = 0
+
+    async def preflight(self, model: str, effort: str) -> None:
+        return None
+
+    async def run(self, request: RuntimeRequest) -> RuntimeResponse:
+        # Analyst vs judge is told apart by the temp-root prefix, NOT the model:
+        # the analyst model can equal JUDGE_MODEL (opus is both analyst and judge).
+        is_judge = request.cwd.name.startswith("wyckoff-judge-")
+        if not is_judge:
+            self.analyst_calls += 1
+            if self.analyst_calls <= self.analyst_failures:
+                raise RuntimeExecutionError("analyst boom", exit_code=1)
+            return RuntimeResponse(analysis(), {"input_tokens": 1, "output_tokens": 2})
+        return RuntimeResponse(verdict(), {"input_tokens": 1, "output_tokens": 2})
+
+
+def _run_with_adapter(tmp_path: Path, adapter, max_attempts: int):
+    current = spec(tmp_path)
+    Path(current["answer_key_path"]).write_text(json.dumps({"ground_truth": "spring", "event_type": "spring", "realized_direction": "up", "decisive": True}))
+    results = tmp_path / "results"
+    results.mkdir()
+    store = orchestrator.StateStore(tmp_path / "state.json", results)
+    store.initialize([current])
+    asyncio.run(orchestrator.execute_run(current, store, results, adapters={current["model"]: adapter, "__judge__": adapter}, limiter=orchestrator.StartLimiter(0), timeout=1, max_attempts=max_attempts))
+    return store.read()["runs"][current["run_id"]]
+
+
+def test_execute_run_retries_in_process_until_success(tmp_path: Path) -> None:
+    record = _run_with_adapter(tmp_path, FlakyAdapter(analyst_failures=1), max_attempts=2)
+    assert record["status"] == "succeeded"
+    assert record["attempt"] == 2  # max_attempts spent within the one call
+
+
+def test_execute_run_marks_failed_after_exhausting_attempts(tmp_path: Path) -> None:
+    record = _run_with_adapter(tmp_path, FlakyAdapter(analyst_failures=99), max_attempts=2)
+    assert record["status"] == "failed"
+    assert record["attempt"] == 2
 
 
 def test_atomic_write_preserves_previous_file_when_replace_fails(monkeypatch, tmp_path: Path) -> None:

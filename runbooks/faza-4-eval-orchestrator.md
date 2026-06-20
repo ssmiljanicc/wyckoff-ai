@@ -61,11 +61,21 @@ uv run --extra mcp python -m scripts.eval.orchestrator \
 - Rezultati: `<base-dir>/_benchmark/results/<run_id>.json`
 - Izveštaji: `<base-dir>/_benchmark/report.md` i `report.json`
 
-`failed` znači da je run iscrpeo `max_attempts`; `pending` ostaje za bezbedan nastavak; `skipped` znači eksplicitno nedostupan provider/model. Exit status je `0` samo kada selektovani scope nema `failed` ili `pending`; konfiguracija/preflight koristi `2`, parcijalni batch `3`, a prekid `130`.
+`max_attempts` se troši unutar istog poziva: run koji padne se ponavlja in-process (ponavlja se samo judge faza ako je analyst checkpoint već kompletan) do uspeha ili iscrpljenja budžeta. `failed` znači da je run iscrpeo `max_attempts`; `pending` ostaje samo posle prekida ili pada (radi bezbednog nastavka kroz `--resume`); `skipped` znači eksplicitno nedostupan provider/model. Exit status je `0` samo kada selektovani scope nema `failed` ili `pending`; konfiguracija/preflight koristi `2`, parcijalni batch `3`, a prekid `130`.
+
+## Evaluacioni ugovor: ulaz analyst-a (OHLCV, ne grafikon)
+
+**Eksplicitna odluka (promena u odnosu na prvobitni plan koji je predviđao grafikon analyst-u):** analyst dobija anonimizovani **OHLCV niz** (`candles.json`) ugrađen u prompt, a **ne** `chart.png`. Razlozi:
+
+- **Preciznost nije umanjena.** `chart.png` se renderuje isključivo iz istih `candles.json` podataka (`render_eval_chart(anon_candles, ...)`), pa ne nosi nijednu informaciju koje nema u OHLCV-u. Za `future_visible`, „as-of T" marker je u `instruction.txt` (takođe inline). Pošto output schema traži **numerički** trigger/invalidation/confidence + structure/phase/event, egzaktni brojevi daju precizniji osnov za Wyckoff procenu nego očitavanje sa renderovane slike.
+- **Fer poređenje modela.** `claude -p` (headless) nema flag za lokalni prilog slike; Codex ima `-i`. Mešanje modaliteta (slika za neke, tekst za druge modele) bi pokvarilo cilj benchmark-a — rangiranje modela. Jedan zajednički modalitet (OHLCV tekst) je metodološki ispravan; provider-neutralan unos slike trenutno nije dostupan.
+- **Leakage kontrola ostaje validna.** `revealed` `candles.json` zadržava prave cene i prave timestamp-ove (passthrough), što je pravi pretraining-leakage signal. Pravi simbol je ranije bio samo u naslovu grafikona — to je labeliranje, ne leakage; njegovim izostavljanjem kontrola je čistija.
+
+Ako se ikad zahteva chart-vision evaluacija, to je zaseban evaluacioni ugovor (i zahteva provider-neutralan put za sliku), ne izmena ovog toka.
 
 ## Anti-leakage granica
 
-Analyst dobija samo kopiju case fajlova i analyst schema-u u sistemskom temp direktorijumu. Symlink i path escape se odbijaju; answer key i repo root se ne kopiraju; provider nema alate, MCP ni trajnu sesiju. Judge radi u drugom praznom root-u i dobija samo payload iz `scoring.prepare_judge_input`, bez grafikona, candles, identiteta i putanja. Prompt i privatni judge payload se ne upisuju u state ili stderr dijagnostiku.
+Analyst dobija anonimizovane OHLCV podatke (`candles.json`) ugrađene direktno u prompt — provider nema alate, MCP, mrežu ni trajnu sesiju, pa ne čita fajlove sam; svaki model dobija identičan ulaz. `chart.png` se namerno ne isporukuje (binarno je, bez fer cross-provider puta za prilog; `candles.json` nosi isti OHLCV koji grafikon crta). Kopija case fajlova i schema-e u sistemskom temp root-u služi kao izolaciona granica i izvor schema-e za CLI; symlink i path escape se odbijaju, answer key i repo root se ne kopiraju. Judge radi u drugom praznom root-u i dobija samo payload iz `scoring.prepare_judge_input`, bez grafikona, candles, identiteta i putanja. Prompt i privatni judge payload se ne upisuju u state ili stderr dijagnostiku.
 
 ## Opt-in manual smoke
 
