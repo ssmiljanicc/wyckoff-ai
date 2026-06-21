@@ -224,14 +224,17 @@ class CodexRuntimeAdapter:
     ):
         self.model_map = model_map or {"codex": "gpt-5.4"}
         self.verdict_path = verdict_path or isolation_state.DEFAULT_VERDICT_PATH
+        self._pinned_image: str | None = None
 
     def build_argv(self, request: RuntimeRequest) -> list[str]:
         model = self.model_map.get(request.model, request.model)
+        if self._pinned_image is None:
+            raise RuntimeUnavailable("Codex runtime image is not pinned; preflight must pass before execution")
         # Launch through the shared execution profile so the run is contained the
         # same way the canary proved (wrapper + sandbox feed the gate fingerprint).
         profile = isolation_state.CODEX_EXECUTION_PROFILE
         return [
-            *profile["wrapper_argv"],
+            *isolation_state.codex_wrapper_argv(image=self._pinned_image),
             self.binary, "exec", "-", "--model", model, "--cd", str(request.cwd),
             "--sandbox", str(profile["sandbox"]), "--ephemeral", "--ignore-user-config",
             "--output-schema", str(request.schema_path), "--json",
@@ -239,8 +242,8 @@ class CodexRuntimeAdapter:
         ]
 
     @staticmethod
-    def profile_argv(*inner: str) -> list[str]:
-        return [*isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"], *inner]
+    def profile_argv(*inner: str, image: str | None = None) -> list[str]:
+        return [*isolation_state.codex_wrapper_argv(image=image), *inner]
 
     async def preflight(self, model: str, effort: str) -> None:
         wrapper = isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"]
@@ -250,10 +253,10 @@ class CodexRuntimeAdapter:
             raise RuntimeUnavailable(f"unmapped Codex matrix model: {model}")
         # Authorization is gated on a programmatically recorded sentinel-canary
         # PASS for the live CLI/platform — never a hand-edited constant (issue #75).
-        cli_version = await _cli_version(self.profile_argv(self.binary, "--version"))
         execution_identity = await _execution_identity(
             [*wrapper, "--execution-identity"]
         )
+        cli_version = execution_identity.get("cli_version") if execution_identity else None
         block_reason = isolation_state.isolation_block_reason(
             provider="codex",
             cli_version=cli_version,
@@ -267,11 +270,16 @@ class CodexRuntimeAdapter:
                 "Run `uv run python -m scripts.eval.canary_codex_image --confirm` to "
                 "record a passing sentinel verdict (issue #82)."
             )
+        assert execution_identity is not None  # block_reason above rejects None
+        pinned_image = execution_identity["image_id"]
         await _require_capabilities(
-            self.profile_argv(self.binary, "exec", "--help"),
+            self.profile_argv(self.binary, "exec", "--help", image=pinned_image),
             ("--model", "--cd", "--sandbox", "--output-schema", "--ephemeral", "--ignore-user-config"),
         )
-        await _require_auth(self.profile_argv(self.binary, "login", "status"))
+        await _require_auth(self.profile_argv(self.binary, "login", "status", image=pinned_image))
+        # Set only after every preflight gate/probe passes.  All later runs keep
+        # using this content-addressed id even if the configured tag is retagged.
+        self._pinned_image = pinned_image
 
     async def run(self, request: RuntimeRequest) -> RuntimeResponse:
         stdout, stderr, code = await _exec(

@@ -124,13 +124,19 @@ def execution_identity(*, image: str = DEFAULT_IMAGE) -> dict[str, str]:
         check=True, capture_output=True, text=True,
     )
     data = json.loads(inspect.stdout)
+    image_id = str(data["Id"])
+    if not image_id.startswith("sha256:"):
+        raise ContainerProfileError(f"docker returned a non-immutable image id: {image_id!r}")
     version = subprocess.run(
-        docker_argv(["codex", "--version"], image=image),
+        # Resolve the mutable operator-facing tag exactly once.  Every probe and
+        # later caller uses this content-addressed id, so retagging cannot change
+        # the image between identity validation and execution.
+        docker_argv(["codex", "--version"], image=image_id),
         check=True, capture_output=True, text=True,
     ).stdout.strip()
     return {
         "image": image,
-        "image_id": str(data["Id"]),
+        "image_id": image_id,
         "repo_digest": str((data.get("RepoDigests") or [""])[0]),
         "container_os": str(data["Os"]),
         "container_arch": str(data["Architecture"]),

@@ -15,6 +15,8 @@ Canary, adapter, version/help/auth preflight i runtime koriste isti `CODEX_EXECU
 
 Offline testovi, Docker build, wrapped version/help/auth i fail-closed preflight prolaze. Status je `PARTIAL` isključivo zato što naplativi `canary_codex_image --confirm` i mali upareni Claude/Codex benchmark nisu autorizovani niti pokrenuti. Gate ostaje zatvoren i plan nije arhiviran.
 
+PR #85 review High nalaz je ispravljen: promenljivi tag se razrešava u immutable `sha256:` ID pre probe/canary-ja, canary izvršava i zapisuje isti ID, a adapter posle uspešnog preflight-a koristi taj ID za svaki run. Regresioni test menja tag nakon preflight-a i potvrđuje da izvršni argv ostaje vezan za prethodno provereni ID.
+
 ## Assessment vs Reality
 
 | Metric | Predicted | Actual | Reasoning |
@@ -43,8 +45,8 @@ Offline testovi, Docker build, wrapped version/help/auth i fail-closed preflight
 | --- | --- | --- |
 | Type/compile | PASS | Python import/pytest collection uspešni |
 | Lint | PASS | `git diff --check` |
-| Ciljani testovi | PASS | 61 test, container/isolation/runtime/canary/orchestrator |
-| Full tests | PASS | `uv run --extra mcp pytest -q` — 324 passed |
+| Ciljani testovi | PASS | 63 testa, uključujući tag-swap između preflight-a i run-a |
+| Full tests | PASS | `uv run --extra mcp pytest -q` — 326 passed posle review ispravke |
 | Docker build | PASS | `linux/arm64`, digest-pinovan Node base, Codex `0.141.0` |
 | Execution identity | PASS | Docker `linux/arm64`, exact image ID/digest i `codex-cli 0.141.0` dobijeni kroz launcher |
 | Capability/auth smoke | PASS | Wrapped `--version`, `exec --help`, `login status` (`Logged in using ChatGPT`) |
@@ -65,7 +67,7 @@ Offline testovi, Docker build, wrapped version/help/auth i fail-closed preflight
 | `scripts/eval/canary_common.py` | Modify | CLI version helper prima kompletan argv |
 | `tests/test_codex_container.py` | Add | Mount, hardening, escape i identity testovi |
 | `tests/test_isolation_state.py` | Modify | Identity mismatch i portable wrapper fingerprint |
-| `tests/test_runtime_adapters.py` | Modify | Wrapped argv/preflight i identity fixtures |
+| `tests/test_runtime_adapters.py` | Modify | Wrapped argv/preflight, identity fixtures, tag-swap i no-preflight regresije |
 | `runbooks/faza-4-eval-orchestrator.md` | Modify | Build/smoke/canary/gate procedura |
 | `PRPs/plans/codex-filesystem-isolation-private-benchmark.plan.md` | Add | Canonical plan kopiran u izolovani worktree |
 
@@ -92,7 +94,7 @@ Offline testovi, Docker build, wrapped version/help/auth i fail-closed preflight
 | --- | --- |
 | `tests/test_codex_container.py` | Tačno dva host bind mount-a, read-only/hardening flagovi, path translation, outside/symlink/`--add-dir`/missing-auth reject, immutable image identity |
 | `tests/test_isolation_state.py` | Image identity mismatch, missing identity, logical wrapper portability |
-| `tests/test_runtime_adapters.py` | Wrapper-prefixed runtime argv i identity-bound verdict fixtures |
+| `tests/test_runtime_adapters.py` | Wrapper-prefixed runtime argv, identity-bound verdict, tag-swap i no-preflight zabrana |
 
 ## Next Steps
 

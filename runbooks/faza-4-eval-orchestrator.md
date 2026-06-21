@@ -20,7 +20,7 @@ uv run python -m scripts.eval.codex_container codex login status
 
 Orkestrator ponavlja proveru pre izvršavanja i označava nepodržan provider/model kao `unavailable`. `claude-fable-5` nema mapiranje u v1 i zato se eksplicitno preskače.
 
-Codex image koristi digest-pinovan `node:22-bookworm-slim` i tačno `@openai/codex@0.141.0`. Launcher pokreće non-root UID 10001 sa read-only root filesystem-om i case mount-om, `--cap-drop ALL` i `no-new-privileges`; jedini dodatni host mount je `~/.codex/auth.json` kao read-only fajl u efemernom `CODEX_HOME`. Ne mount-uju se repo, `$HOME`, answer key ni Docker socket. `--dangerously-bypass-approvals-and-sandbox` je bezbedan samo u ovom spolja ograničenom container profilu; host fallback nije dozvoljen.
+Codex image koristi digest-pinovan `node:22-bookworm-slim` i tačno `@openai/codex@0.141.0`. Launcher pokreće non-root UID 10001 sa read-only root filesystem-om i case mount-om, `--cap-drop ALL` i `no-new-privileges`; jedini dodatni host mount je `~/.codex/auth.json` kao read-only fajl u efemernom `CODEX_HOME`. Ne mount-uju se repo, `$HOME`, answer key ni Docker socket. Operator-facing tag se pre canary/preflight-a jednom razrešava u content-addressed `sha256:` image ID; CLI probe, canary model poziv i svi kasniji benchmark run-ovi koriste taj ID, ne promenljivi tag. `--dangerously-bypass-approvals-and-sandbox` je bezbedan samo u ovom spolja ograničenom container profilu; host fallback nije dozvoljen.
 
 Claude Code 2.1.183 `--bare` režim ne čita OAuth/keychain prijavu, pa se ne koristi sa lokalnim `claude.ai` subscription profilom. Umesto njega adapter eksplicitno isključuje user/project/local settings (`--setting-sources ""`), nasleđene MCP servere (`--strict-mcp-config --mcp-config '{"mcpServers":{}}'`) i skills/commands (`--disable-slash-commands`), uz postojeće `--tools ""` i `--no-session-persistence` granice. Claude Code 2.1.185 odbija raniji prazan objekat `{}` jer zahteva `mcpServers` record.
 
@@ -52,7 +52,7 @@ Zatim, samo uz eksplicitno odobrenje jednog naplativog poziva:
 uv run python -m scripts.eval.canary_codex_image --confirm --model gpt-5.4 --effort low
 ```
 
-PASS zahteva sva tri dokaza: JSONL command event pokazuje pokušaj čitanja spoljnog sentinel path-a, terminalni event pokazuje non-zero/blokadu i sentinel nije ni u tool output-u ni u finalnom odgovoru. Verdict u `scripts/eval/state/codex_isolation_verdict.json` vezan je za host platformu, logički wrapper + hash launcher izvora, container image ID/digest, Linux OS/arch i wrapped CLI verziju. Rebuild image-a, izmena launchera, promena CLI-ja/platforme ili brisanje verdicta automatski vraća fail-closed stanje.
+PASS zahteva sva tri dokaza: JSONL command event pokazuje pokušaj čitanja spoljnog sentinel path-a, terminalni event pokazuje non-zero/blokadu i sentinel nije ni u tool output-u ni u finalnom odgovoru. Verdict u `scripts/eval/state/codex_isolation_verdict.json` vezan je za host platformu, logički wrapper + hash launcher izvora, container image ID/digest, Linux OS/arch i wrapped CLI verziju. Canary razrešava ID pre model poziva i zapisuje isti identitet koji je izvršio poziv; adapter posle preflight-a čuva taj ID za ceo svoj životni vek. Rebuild/retag image-a zato ne može promeniti već autorizovani runtime; novi adapter vidi mismatch i vraća fail-closed stanje.
 
 Tek posle tog PASS-a sledi mali upareni benchmark canary:
 

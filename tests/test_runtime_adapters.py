@@ -19,6 +19,17 @@ async def _async_value(value):
     return value
 
 
+@pytest.fixture(autouse=True)
+def _stub_codex_execution_identity(monkeypatch):
+    monkeypatch.setattr(runtime, "_execution_identity", lambda argv: _async_value(IDENTITY))
+
+
+def codex_adapter(**kwargs) -> runtime.CodexRuntimeAdapter:
+    adapter = runtime.CodexRuntimeAdapter(**kwargs)
+    adapter._pinned_image = IDENTITY["image_id"]
+    return adapter
+
+
 def request(tmp_path: Path, model: str = "claude-opus-4-8") -> runtime.RuntimeRequest:
     schema = tmp_path / "schema.json"
     schema.write_text('{"type":"object","required":["direction"]}\n')
@@ -42,8 +53,8 @@ def test_claude_argv_is_toolless_and_non_persistent(tmp_path: Path) -> None:
 
 
 def test_codex_argv_is_ephemeral_read_only_and_uses_config_effort(tmp_path: Path) -> None:
-    argv = runtime.CodexRuntimeAdapter().build_argv(request(tmp_path, "codex"))
-    assert argv[:len(runtime.isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"])] == runtime.isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"]
+    argv = codex_adapter().build_argv(request(tmp_path, "codex"))
+    assert argv[argv.index("--container-image") + 1] == IDENTITY["image_id"]
     inner_index = argv.index("codex")
     assert argv[inner_index:inner_index + 3] == ["codex", "exec", "-"]
     assert argv[argv.index("--sandbox") + 1] == "read-only"
@@ -138,7 +149,7 @@ def test_codex_parser_reads_jsonl_agent_message(monkeypatch, tmp_path: Path) -> 
         return ("\n".join(json.dumps(event) for event in events)).encode(), b"", 0
 
     monkeypatch.setattr(runtime, "_exec", fake_exec)
-    response = asyncio.run(runtime.CodexRuntimeAdapter().run(request(tmp_path, "codex")))
+    response = asyncio.run(codex_adapter().run(request(tmp_path, "codex")))
     assert response.output["direction"] == "up"
     assert response.usage["output_tokens"] == 5
 
@@ -187,6 +198,7 @@ def test_codex_preflight_passes_gate_on_fresh_passing_verdict(monkeypatch, tmp_p
     )
     adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
     asyncio.run(adapter.preflight("codex", "high"))  # must not raise
+    assert adapter._pinned_image == IDENTITY["image_id"]
 
 
 def test_codex_preflight_fails_closed_on_stale_verdict(monkeypatch, tmp_path: Path) -> None:
@@ -232,6 +244,38 @@ def test_codex_preflight_fails_closed_when_profile_changed(monkeypatch, tmp_path
     adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
     with pytest.raises(runtime.RuntimeUnavailable, match="execution profile"):
         asyncio.run(adapter.preflight("codex", "high"))
+
+
+def test_codex_run_keeps_preflight_image_id_after_tag_changes(monkeypatch, tmp_path: Path) -> None:
+    async def _noop(*args, **kwargs):
+        return None
+
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+    monkeypatch.setattr(runtime, "_require_capabilities", _noop)
+    monkeypatch.setattr(runtime, "_require_auth", _noop)
+    path = tmp_path / "codex_isolation_verdict.json"
+    runtime.isolation_state.record_verdict(
+        provider="codex", passed=True, canary="canary_codex_image",
+        cli_version=IDENTITY["cli_version"], execution_identity=IDENTITY,
+        detail="all checks passed", path=path,
+    )
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
+    asyncio.run(adapter.preflight("codex", "high"))
+
+    profile = dict(runtime.isolation_state.CODEX_EXECUTION_PROFILE)
+    wrapper = list(profile["wrapper_argv"])
+    wrapper[wrapper.index("--container-image") + 1] = "retagged-after-preflight:latest"
+    profile["wrapper_argv"] = wrapper
+    monkeypatch.setattr(runtime.isolation_state, "CODEX_EXECUTION_PROFILE", profile)
+
+    argv = adapter.build_argv(request(tmp_path, "codex"))
+    assert argv[argv.index("--container-image") + 1] == IDENTITY["image_id"]
+    assert "retagged-after-preflight:latest" not in argv
+
+
+def test_codex_run_without_successful_preflight_is_blocked(tmp_path: Path) -> None:
+    with pytest.raises(runtime.RuntimeUnavailable, match="preflight must pass"):
+        runtime.CodexRuntimeAdapter().build_argv(request(tmp_path, "codex"))
 
 
 def test_stderr_redacts_token_lines() -> None:

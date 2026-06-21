@@ -79,6 +79,21 @@ def codex_profile_fingerprint(profile: dict[str, object] | None = None) -> str:
     return hashlib.sha256(canonical.encode()).hexdigest()[:16]
 
 
+def codex_wrapper_argv(*, image: str | None = None) -> list[str]:
+    """Return wrapper argv, optionally pinned to an immutable Docker image id."""
+    argv = list(CODEX_EXECUTION_PROFILE["wrapper_argv"])
+    if image is None:
+        return argv
+    try:
+        index = argv.index("--container-image")
+    except ValueError as exc:
+        raise ValueError("Codex wrapper profile has no container image argument") from exc
+    if not image.startswith("sha256:"):
+        raise ValueError(f"Codex runtime image must be an immutable sha256 id, got {image!r}")
+    argv[index + 1] = image
+    return argv
+
+
 @dataclass(frozen=True)
 class IsolationVerdict:
     provider: str

@@ -101,3 +101,5 @@ def test_execution_identity_uses_inspected_image_id(monkeypatch) -> None:
     assert identity["image_id"] == "sha256:immutable"
     assert identity["cli_version"] == "codex-cli 0.141.0"
     assert calls[0][:4] == ["docker", "image", "inspect", "test-image"]
+    assert "sha256:immutable" in calls[1]
+    assert "test-image" not in calls[1]
