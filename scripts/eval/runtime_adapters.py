@@ -207,9 +207,13 @@ class CodexRuntimeAdapter:
 
     def build_argv(self, request: RuntimeRequest) -> list[str]:
         model = self.model_map.get(request.model, request.model)
+        # Launch through the shared execution profile so the run is contained the
+        # same way the canary proved (wrapper + sandbox feed the gate fingerprint).
+        profile = isolation_state.CODEX_EXECUTION_PROFILE
         return [
+            *profile["wrapper_argv"],
             self.binary, "exec", "-", "--model", model, "--cd", str(request.cwd),
-            "--sandbox", "read-only", "--ephemeral", "--ignore-user-config",
+            "--sandbox", str(profile["sandbox"]), "--ephemeral", "--ignore-user-config",
             "--output-schema", str(request.schema_path), "--json",
             "-c", f'model_reasoning_effort="{request.effort}"',
         ]
@@ -223,7 +227,10 @@ class CodexRuntimeAdapter:
         # PASS for the live CLI/platform — never a hand-edited constant (issue #75).
         cli_version = await _cli_version([self.binary, "--version"])
         block_reason = isolation_state.isolation_block_reason(
-            provider="codex", cli_version=cli_version, path=self.verdict_path
+            provider="codex",
+            cli_version=cli_version,
+            expected_canary="canary_codex_image",
+            path=self.verdict_path,
         )
         if block_reason is not None:
             raise RuntimeUnavailable(

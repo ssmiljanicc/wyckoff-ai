@@ -1,7 +1,7 @@
-# Spike #75 — chart_image isporuka i izolacija (nulta cena, bez model poziva)
+# Spike #75 — chart_image isporuka i izolacija
 
 **Datum:** 2026-06-21
-**Metod:** capability-introspekcija instaliranih CLI-jeva + čitanje koda. **Nijedan model poziv nije izvršen** (nulta cena ispoštovana).
+**Metod:** dve faze. (1) **Zero-cost introspekcija** — capability-introspekcija instaliranih CLI-jeva + čitanje koda, bez ijednog model poziva (sekcije 1–5 i prva Odluka). (2) **Operator-odobreni `--confirm` canary pozivi** — naknadno izvršeni stvarni Claude i Codex pozivi koji su empirijski potvrdili capability i oborili Codex izolaciju (sekcija „Empirijski canary status"). Početna procena je tako bez troška; konačni verdikt se oslanja na nekoliko namerno odobrenih plaćenih poziva.
 **Verzije:** `claude` 2.1.185, `codex-cli` 0.141.0 (runbook navodi 2.1.183 / 0.141.0 — Claude verzija je drift-ovala za patch).
 
 > **Kontekst.** Trenutni harness (`scripts/eval/orchestrator.py::analyst_prompt`) isporučuje **anonimizovani `candles.json` kao inline tekst** i namerno NE isporučuje `chart.png`. Glavni argument runbook-a (faza-4-eval-orchestrator.md §85): *„`claude -p` (headless) nema flag za lokalni prilog slike; Codex ima `-i`."* Spike preispituje baš tu tvrdnju protiv stvarnih CLI-jeva.

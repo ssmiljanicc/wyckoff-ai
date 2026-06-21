@@ -43,7 +43,10 @@ def build_argv(
     image_path: Path,
     schema_path: Path,
 ) -> list[str]:
+    # Prove isolation under the exact shared execution profile the adapter runs.
+    profile = isolation_state.CODEX_EXECUTION_PROFILE
     return [
+        *profile["wrapper_argv"],
         "codex",
         "exec",
         "-",
@@ -52,7 +55,7 @@ def build_argv(
         "--cd",
         str(case_root),
         "--sandbox",
-        "read-only",
+        str(profile["sandbox"]),
         "--ephemeral",
         "--ignore-user-config",
         "--skip-git-repo-check",

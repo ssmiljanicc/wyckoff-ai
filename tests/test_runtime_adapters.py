@@ -191,5 +191,30 @@ def test_codex_preflight_fails_closed_on_stale_verdict(monkeypatch, tmp_path: Pa
         asyncio.run(adapter.preflight("codex", "high"))
 
 
+def test_codex_preflight_fails_closed_when_profile_changed(monkeypatch, tmp_path: Path) -> None:
+    # A PASS proven under one execution profile must not authorize a run launched
+    # under a different (e.g. uncontained) profile with the same OS/CLI.
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+
+    async def _ok_version(argv):
+        return "codex-cli 9.9.9"
+
+    monkeypatch.setattr(runtime, "_cli_version", _ok_version)
+    path = tmp_path / "codex_isolation_verdict.json"
+    runtime.isolation_state.record_verdict(
+        provider="codex", passed=True, canary="canary_codex_image",
+        cli_version="codex-cli 9.9.9", detail="all checks passed", path=path,
+    )
+    # The active profile now differs from the one the verdict was stamped under.
+    monkeypatch.setattr(
+        runtime.isolation_state,
+        "CODEX_EXECUTION_PROFILE",
+        {"sandbox": "read-only", "wrapper_argv": ["firejail"], "containment": "container"},
+    )
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
+    with pytest.raises(runtime.RuntimeUnavailable, match="execution profile"):
+        asyncio.run(adapter.preflight("codex", "high"))
+
+
 def test_stderr_redacts_token_lines() -> None:
     assert "secret" not in runtime._stderr_tail(b"ok\ntoken=secret\n").lower()
