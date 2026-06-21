@@ -23,7 +23,7 @@ def test_claude_argv_is_toolless_and_non_persistent(tmp_path: Path) -> None:
     assert argv[argv.index("--json-schema") + 1] == '{"type":"object","required":["direction"]}'
     assert argv[argv.index("--json-schema") + 1] != str(current.schema_path)
     assert argv[argv.index("--setting-sources") + 1] == ""
-    assert argv[argv.index("--mcp-config") + 1] == "{}"
+    assert argv[argv.index("--mcp-config") + 1] == '{"mcpServers":{}}'
     assert "--strict-mcp-config" in argv
     assert "--disable-slash-commands" in argv
     assert argv[argv.index("--tools") + 1] == ""
@@ -129,6 +129,12 @@ def test_codex_parser_reads_jsonl_agent_message(monkeypatch, tmp_path: Path) -> 
     response = asyncio.run(runtime.CodexRuntimeAdapter().run(request(tmp_path, "codex")))
     assert response.output["direction"] == "up"
     assert response.usage["output_tokens"] == 5
+
+
+def test_codex_preflight_fails_closed_after_isolation_canary(monkeypatch) -> None:
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+    with pytest.raises(runtime.RuntimeUnavailable, match="isolation failed"):
+        asyncio.run(runtime.CodexRuntimeAdapter().preflight("codex", "high"))
 
 
 def test_stderr_redacts_token_lines() -> None:

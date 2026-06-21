@@ -18,7 +18,7 @@ codex exec --help | rg -- '--model|--cd|--sandbox|--output-schema|--ephemeral|--
 
 Orkestrator ponavlja proveru pre izvršavanja i označava nepodržan provider/model kao `unavailable`. `claude-fable-5` nema mapiranje u v1 i zato se eksplicitno preskače.
 
-Claude Code 2.1.183 `--bare` režim ne čita OAuth/keychain prijavu, pa se ne koristi sa lokalnim `claude.ai` subscription profilom. Umesto njega adapter eksplicitno isključuje user/project/local settings (`--setting-sources ""`), nasleđene MCP servere (`--strict-mcp-config --mcp-config '{}'`) i skills/commands (`--disable-slash-commands`), uz postojeće `--tools ""` i `--no-session-persistence` granice.
+Claude Code 2.1.183 `--bare` režim ne čita OAuth/keychain prijavu, pa se ne koristi sa lokalnim `claude.ai` subscription profilom. Umesto njega adapter eksplicitno isključuje user/project/local settings (`--setting-sources ""`), nasleđene MCP servere (`--strict-mcp-config --mcp-config '{"mcpServers":{}}'`) i skills/commands (`--disable-slash-commands`), uz postojeće `--tools ""` i `--no-session-persistence` granice. Claude Code 2.1.185 odbija raniji prazan objekat `{}` jer zahteva `mcpServers` record.
 
 ## 1. Obavezni preview
 
@@ -93,7 +93,7 @@ Analyst dobija anonimizovane OHLCV podatke (`candles.json`) ugrađene direktno u
 
 **Izolacione garancije po provider-u:**
 - **Claude**: `--tools ""` gasi sve built-in alate uključujući Read — model fizički ne može da otvori fajlove van prompta. `--setting-sources ""`, strogi prazni MCP config i `--disable-slash-commands` sprečavaju nasleđivanje settings/MCP/skill konteksta bez OAuth-nekompatibilnog `--bare` režima. Automatsko učitavanje `CLAUDE.md`/memory konteksta u non-bare režimu ostaje **UNVERIFIED** dok canary sentinel provera iz §2 ne prođe; ako se sentinel pojavi, prekinite benchmark.
-- **Codex**: `--sandbox read-only --cd <temp-root>` — model ima alate ali u read-only sandboxu. **UNVERIFIED**: scope sandboxa u odnosu na `--cd` putanju nije programatski verifikovan; capability preflight samo provjerava da `--sandbox` flag postoji u `--help`. Ručni canary test (§2) je obavezan pre prvog plaćenog run-a da bi se potvrdilo da Codex ne može da čita fajlove van privremenog root-a (npr. answer key iz repo stabla).
+- **Codex — EMPIRIJSKI PALO (2026-06-21, CLI 0.141.0 / gpt-5.4)**: `--sandbox read-only --cd <temp-root>` dozvolio je modelu da uspešno izvrši `/bin/cat` nad nepriloženim sentinel fajlom van privremenog root-a. `read-only` ograničava upis, ali `--cd` nije read-confinement granica. **Ne pokretati Codex analyst/judge nad privatnim benchmark-om** dok se ne uvede stvarna filesystem izolacija i novi sentinel canary ne prođe. Capability preflight nad `--help` nije bezbednosni dokaz.
 
 ## Opt-in manual smoke
 

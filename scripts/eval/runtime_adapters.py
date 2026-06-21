@@ -11,10 +11,15 @@ from typing import Any, Protocol
 
 
 CLAUDE_ISOLATION_ARGS = [
-    "--setting-sources", "", "--strict-mcp-config", "--mcp-config", "{}",
+    "--setting-sources", "", "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}',
     "--disable-slash-commands", "--tools", "", "--permission-mode", "dontAsk",
     "--no-session-persistence",
 ]
+
+# Issue #75 canary (2026-06-21): Codex CLI 0.141.0 / gpt-5.4 successfully
+# read a sentinel outside --cd while using --sandbox read-only.  Keep private
+# benchmark execution fail-closed until a real read-confinement boundary exists.
+CODEX_PRIVATE_BENCHMARK_ISOLATION_VERIFIED = False
 
 
 class RuntimeErrorBase(RuntimeError):
@@ -177,7 +182,7 @@ class CodexRuntimeAdapter:
     binary = "codex"
 
     def __init__(self, *, model_map: dict[str, str] | None = None):
-        self.model_map = model_map or {"codex": "gpt-5.1-codex"}
+        self.model_map = model_map or {"codex": "gpt-5.4"}
 
     def build_argv(self, request: RuntimeRequest) -> list[str]:
         model = self.model_map.get(request.model, request.model)
@@ -193,6 +198,11 @@ class CodexRuntimeAdapter:
             raise RuntimeUnavailable("codex binary is unavailable")
         if model not in self.model_map:
             raise RuntimeUnavailable(f"unmapped Codex matrix model: {model}")
+        if not CODEX_PRIVATE_BENCHMARK_ISOLATION_VERIFIED:
+            raise RuntimeUnavailable(
+                "Codex private-benchmark isolation failed the issue #75 sentinel canary; "
+                "read-only --cd does not confine filesystem reads"
+            )
         await _require_capabilities(
             [self.binary, "exec", "--help"],
             ("--model", "--cd", "--sandbox", "--output-schema", "--ephemeral", "--ignore-user-config"),
