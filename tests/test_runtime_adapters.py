@@ -23,7 +23,7 @@ def test_claude_argv_is_toolless_and_non_persistent(tmp_path: Path) -> None:
     assert argv[argv.index("--json-schema") + 1] == '{"type":"object","required":["direction"]}'
     assert argv[argv.index("--json-schema") + 1] != str(current.schema_path)
     assert argv[argv.index("--setting-sources") + 1] == ""
-    assert argv[argv.index("--mcp-config") + 1] == "{}"
+    assert argv[argv.index("--mcp-config") + 1] == '{"mcpServers":{}}'
     assert "--strict-mcp-config" in argv
     assert "--disable-slash-commands" in argv
     assert argv[argv.index("--tools") + 1] == ""
@@ -129,6 +129,91 @@ def test_codex_parser_reads_jsonl_agent_message(monkeypatch, tmp_path: Path) -> 
     response = asyncio.run(runtime.CodexRuntimeAdapter().run(request(tmp_path, "codex")))
     assert response.output["direction"] == "up"
     assert response.usage["output_tokens"] == 5
+
+
+def test_codex_preflight_fails_closed_when_no_verdict(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+    missing = tmp_path / "codex_isolation_verdict.json"
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=missing)
+    with pytest.raises(runtime.RuntimeUnavailable, match="isolation is not proven"):
+        asyncio.run(adapter.preflight("codex", "high"))
+
+
+def test_codex_preflight_fails_closed_on_failed_verdict(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+    path = tmp_path / "codex_isolation_verdict.json"
+    runtime.isolation_state.record_verdict(
+        provider="codex", passed=False, canary="canary_codex_image",
+        cli_version="codex-cli 0.141.0", detail="outside read blocked", path=path,
+    )
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
+    with pytest.raises(runtime.RuntimeUnavailable, match="FAILED isolation verdict"):
+        asyncio.run(adapter.preflight("codex", "high"))
+
+
+def test_codex_preflight_passes_gate_on_fresh_passing_verdict(monkeypatch, tmp_path: Path) -> None:
+    # A recorded PASS matching the live CLI version + platform clears the gate;
+    # downstream capability/auth checks are stubbed to isolate the gate.
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+
+    async def _ok_version(argv):
+        return "codex-cli 9.9.9"
+
+    async def _noop(*args, **kwargs):
+        return None
+
+    monkeypatch.setattr(runtime, "_cli_version", _ok_version)
+    monkeypatch.setattr(runtime, "_require_capabilities", _noop)
+    monkeypatch.setattr(runtime, "_require_auth", _noop)
+    path = tmp_path / "codex_isolation_verdict.json"
+    runtime.isolation_state.record_verdict(
+        provider="codex", passed=True, canary="canary_codex_image",
+        cli_version="codex-cli 9.9.9", detail="all checks passed", path=path,
+    )
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
+    asyncio.run(adapter.preflight("codex", "high"))  # must not raise
+
+
+def test_codex_preflight_fails_closed_on_stale_verdict(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+
+    async def _new_version(argv):
+        return "codex-cli 9.9.9"
+
+    monkeypatch.setattr(runtime, "_cli_version", _new_version)
+    path = tmp_path / "codex_isolation_verdict.json"
+    runtime.isolation_state.record_verdict(
+        provider="codex", passed=True, canary="canary_codex_image",
+        cli_version="codex-cli 0.141.0", detail="all checks passed", path=path,
+    )
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
+    with pytest.raises(runtime.RuntimeUnavailable, match="stale"):
+        asyncio.run(adapter.preflight("codex", "high"))
+
+
+def test_codex_preflight_fails_closed_when_profile_changed(monkeypatch, tmp_path: Path) -> None:
+    # A PASS proven under one execution profile must not authorize a run launched
+    # under a different (e.g. uncontained) profile with the same OS/CLI.
+    monkeypatch.setattr(runtime.shutil, "which", lambda binary: f"/usr/bin/{binary}")
+
+    async def _ok_version(argv):
+        return "codex-cli 9.9.9"
+
+    monkeypatch.setattr(runtime, "_cli_version", _ok_version)
+    path = tmp_path / "codex_isolation_verdict.json"
+    runtime.isolation_state.record_verdict(
+        provider="codex", passed=True, canary="canary_codex_image",
+        cli_version="codex-cli 9.9.9", detail="all checks passed", path=path,
+    )
+    # The active profile now differs from the one the verdict was stamped under.
+    monkeypatch.setattr(
+        runtime.isolation_state,
+        "CODEX_EXECUTION_PROFILE",
+        {"sandbox": "read-only", "wrapper_argv": ["firejail"], "containment": "container"},
+    )
+    adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
+    with pytest.raises(runtime.RuntimeUnavailable, match="execution profile"):
+        asyncio.run(adapter.preflight("codex", "high"))
 
 
 def test_stderr_redacts_token_lines() -> None:

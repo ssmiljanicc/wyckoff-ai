@@ -211,8 +211,9 @@ def judge_root() -> Generator[Path, None, None]:
 
 def analyst_prompt(spec: benchmark.RunSpec, root: Path) -> str:
     # The isolated analyst runs with NO tools (Claude `--tools ""` disables EVERY
-    # built-in tool, Read included; Codex runs in a read-only sandbox and performs
-    # no read step), so it cannot open snapshot files itself. Embedding candles.json
+    # built-in tool, Read included. Codex private-benchmark runs are fail-closed in
+    # preflight because issue #75 proved read-only --cd does not confine reads.
+    # Embedding candles.json
     # directly in the prompt is the only provider-neutral way to hand every model
     # the SAME input — a bare filename list leaves the analyst with nothing to
     # analyze. chart.png is deliberately NOT delivered: it is binary, has no fair
