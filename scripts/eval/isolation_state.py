@@ -30,8 +30,12 @@ import platform
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
+
+from scripts.eval.codex_container import CONTAINER_WORKSPACE, DEFAULT_IMAGE
 
 DEFAULT_VERDICT_PATH = Path(__file__).resolve().parent / "state" / "codex_isolation_verdict.json"
+_CONTAINER_LAUNCHER = Path(__file__).with_name("codex_container.py")
 
 # Single source of truth for the security-relevant Codex execution profile.
 # BOTH the canary (which proves isolation) and the adapter (which runs the
@@ -44,21 +48,50 @@ DEFAULT_VERDICT_PATH = Path(__file__).resolve().parent / "state" / "codex_isolat
 # could otherwise authorize an uncontained run with the same OS/CLI.
 CODEX_EXECUTION_PROFILE: dict[str, object] = {
     "sandbox": "read-only",
-    "wrapper_argv": [],   # prepended before `codex ...`; [] == no external containment
-    "containment": "none",  # human label for the active containment mechanism
+    "wrapper_argv": [
+        sys.executable,
+        str(_CONTAINER_LAUNCHER),
+        "--container-image",
+        DEFAULT_IMAGE,
+    ],
+    "containment": "docker",
+    "image": DEFAULT_IMAGE,
+    "workspace": str(CONTAINER_WORKSPACE),
+    # Logical argv + source hash keep the fingerprint stable across worktrees,
+    # while any launcher implementation change still invalidates an old PASS.
+    "wrapper_id": ["python", "scripts/eval/codex_container.py", "--container-image", DEFAULT_IMAGE],
+    "launcher_sha256": hashlib.sha256(_CONTAINER_LAUNCHER.read_bytes()).hexdigest(),
 }
 
 _REQUIRED_FIELDS = (
     "provider", "passed", "canary", "cli_version",
-    "system", "platform", "profile_fingerprint", "recorded_at",
+    "system", "platform", "profile_fingerprint", "execution_identity", "recorded_at",
 )
 
 
 def codex_profile_fingerprint(profile: dict[str, object] | None = None) -> str:
     """Stable short hash of the security-relevant execution profile."""
     active = CODEX_EXECUTION_PROFILE if profile is None else profile
-    canonical = json.dumps(active, sort_keys=True, separators=(",", ":"))
+    fingerprinted = dict(active)
+    if "wrapper_id" in fingerprinted:
+        fingerprinted["wrapper_argv"] = fingerprinted["wrapper_id"]
+    canonical = json.dumps(fingerprinted, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(canonical.encode()).hexdigest()[:16]
+
+
+def codex_wrapper_argv(*, image: str | None = None) -> list[str]:
+    """Return wrapper argv, optionally pinned to an immutable Docker image id."""
+    argv = list(CODEX_EXECUTION_PROFILE["wrapper_argv"])
+    if image is None:
+        return argv
+    try:
+        index = argv.index("--container-image")
+    except ValueError as exc:
+        raise ValueError("Codex wrapper profile has no container image argument") from exc
+    if not image.startswith("sha256:"):
+        raise ValueError(f"Codex runtime image must be an immutable sha256 id, got {image!r}")
+    argv[index + 1] = image
+    return argv
 
 
 @dataclass(frozen=True)
@@ -70,6 +103,7 @@ class IsolationVerdict:
     system: str
     platform: str
     profile_fingerprint: str
+    execution_identity: dict[str, str]
     recorded_at: str
     detail: str = ""
 
@@ -83,6 +117,7 @@ def record_verdict(
     passed: bool,
     canary: str,
     cli_version: str,
+    execution_identity: dict[str, str],
     detail: str = "",
     path: Path = DEFAULT_VERDICT_PATH,
 ) -> IsolationVerdict:
@@ -99,6 +134,7 @@ def record_verdict(
         system=platform.system(),
         platform=platform.platform(),
         profile_fingerprint=codex_profile_fingerprint(),
+        execution_identity=dict(execution_identity),
         recorded_at=datetime.now(timezone.utc).isoformat(),
         detail=detail,
     )
@@ -113,7 +149,11 @@ def load_verdict(path: Path = DEFAULT_VERDICT_PATH) -> IsolationVerdict | None:
         data = json.loads(path.read_text())
     except (FileNotFoundError, json.JSONDecodeError):
         return None
-    if not isinstance(data, dict) or any(field not in data for field in _REQUIRED_FIELDS):
+    if (
+        not isinstance(data, dict)
+        or any(field not in data for field in _REQUIRED_FIELDS)
+        or not isinstance(data.get("execution_identity"), dict)
+    ):
         return None
     return IsolationVerdict(
         provider=str(data["provider"]),
@@ -123,6 +163,7 @@ def load_verdict(path: Path = DEFAULT_VERDICT_PATH) -> IsolationVerdict | None:
         system=str(data["system"]),
         platform=str(data["platform"]),
         profile_fingerprint=str(data["profile_fingerprint"]),
+        execution_identity={str(key): str(value) for key, value in data["execution_identity"].items()},
         recorded_at=str(data["recorded_at"]),
         detail=str(data.get("detail", "")),
     )
@@ -132,6 +173,7 @@ def isolation_block_reason(
     *,
     provider: str,
     cli_version: str | None,
+    execution_identity: dict[str, str] | None,
     expected_canary: str,
     path: Path = DEFAULT_VERDICT_PATH,
 ) -> str | None:
@@ -174,6 +216,13 @@ def isolation_block_reason(
         return (
             f"recorded verdict is stale: proven on CLI {verdict.cli_version!r}, "
             f"current CLI {cli_version!r}"
+        )
+    if execution_identity is None:
+        return "current container execution identity could not be determined"
+    if verdict.execution_identity != execution_identity:
+        return (
+            "recorded container execution identity does not match the live image/runtime "
+            "(image id/digest, container platform, or wrapped CLI changed — re-run the canary)"
         )
     active_fingerprint = codex_profile_fingerprint()
     if verdict.profile_fingerprint != active_fingerprint:

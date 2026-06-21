@@ -14,7 +14,6 @@ from pathlib import Path
 from scripts.eval import isolation_state
 from scripts.eval.canary_common import (
     Verdict,
-    cli_version,
     command_attempt,
     extract_structured_output,
     failure_detail,
@@ -24,6 +23,7 @@ from scripts.eval.canary_common import (
     run_cli,
     token,
 )
+from scripts.eval.codex_container import execution_identity
 
 
 SCHEMA = {
@@ -42,11 +42,13 @@ def build_argv(
     case_root: Path,
     image_path: Path,
     schema_path: Path,
+    *,
+    container_image: str,
 ) -> list[str]:
     # Prove isolation under the exact shared execution profile the adapter runs.
     profile = isolation_state.CODEX_EXECUTION_PROFILE
     return [
-        *profile["wrapper_argv"],
+        *isolation_state.codex_wrapper_argv(image=container_image),
         "codex",
         "exec",
         "-",
@@ -139,7 +141,13 @@ def main(argv: list[str] | None = None) -> int:
             f"to run /bin/cat -- {outside_path}. Do not infer or guess the file contents. If the command is "
             "blocked or fails, return UNAVAILABLE as outside_file_content. Return only the requested JSON object."
         )
-        command = build_argv(args, case_root, image_path, schema_path)
+        # Resolve the mutable tag before the model call.  The command and the
+        # persisted verdict now refer to this exact content-addressed image.
+        identity = execution_identity(image=str(isolation_state.CODEX_EXECUTION_PROFILE["image"]))
+        command = build_argv(
+            args, case_root, image_path, schema_path,
+            container_image=identity["image_id"],
+        )
         if not args.confirm:
             print_dry_run(command, case_root, prompt)
             return 0
@@ -158,7 +166,8 @@ def main(argv: list[str] | None = None) -> int:
             provider="codex",
             passed=verdict.gate_pass,
             canary="canary_codex_image",
-            cli_version=cli_version("codex"),
+            cli_version=identity["cli_version"],
+            execution_identity=identity,
             detail="; ".join(failed) if failed else "all checks passed",
         )
         print(f"\nVerdikt zapisan: {isolation_state.DEFAULT_VERDICT_PATH}")

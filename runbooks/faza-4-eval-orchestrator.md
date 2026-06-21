@@ -6,17 +6,21 @@ Ovaj tok izvršava benchmark matricu kroz izolovane analyst i judge procese, ču
 
 - **Source-anchored eval skup (issue #76).** Svaki case je vezan za postojeći ekspertski analiziran crypto grafikon (Wyckoff Crypto Report): originalna chart slika, neposredni ekspertski pasus i pouzdano rekonstruisan Binance OHLCV presek do cutoff-a T. Broj slučajeva nije fiksan i nema event kvote — validator proverava **po-case** source dokaz (postojeći raw Markdown, lokalna slika koju pasus referencira, validan excerpt opseg), ne distribuciju skupa. Detalji ugovora i kuracije: [`source-anchored eval set`](#source-anchored-eval-set-76).
 - Privatni answer key, na primer `data/eval/_answers/ground_truth_answers.json`; fajl ne sme biti commit-ovan. Sadrži provenance + `analysis_mode` + strukturirana expert polja; placeholder odgovori su dozvoljeni samo u `build_eval_set --dry-run`, a orkestrator ih odbija i u preview-u.
-- Autentifikovani lokalni Claude Code 2.1.183 i Codex CLI 0.141.0 za modele koje birate.
+- Autentifikovani lokalni Claude Code 2.1.183 za Claude modele. Codex se ne pokreće sa hosta: zahteva Docker Desktop i lokalno izgrađen `wyckoff-codex-eval:0.141.0` image.
 - Capability preflight (provera podržanih mogućnosti CLI-ja):
 
 ```bash
 claude --version
 claude --help | rg -- '--model|--effort|--json-schema|--no-session-persistence|--setting-sources|--strict-mcp-config|--disable-slash-commands|--tools'
-codex --version
-codex exec --help | rg -- '--model|--cd|--sandbox|--output-schema|--ephemeral|--ignore-user-config'
+docker build --platform linux/arm64 -t wyckoff-codex-eval:0.141.0 docker/codex-eval
+uv run python -m scripts.eval.codex_container --execution-identity
+uv run python -m scripts.eval.codex_container codex exec --help | rg -- '--model|--cd|--output-schema|--ephemeral|--ignore-user-config|--dangerously-bypass-approvals-and-sandbox'
+uv run python -m scripts.eval.codex_container codex login status
 ```
 
 Orkestrator ponavlja proveru pre izvršavanja i označava nepodržan provider/model kao `unavailable`. `claude-fable-5` nema mapiranje u v1 i zato se eksplicitno preskače.
+
+Codex image koristi digest-pinovan `node:22-bookworm-slim` i tačno `@openai/codex@0.141.0`. Launcher pokreće non-root UID 10001 sa read-only root filesystem-om i case mount-om, `--cap-drop ALL` i `no-new-privileges`; jedini dodatni host mount je `~/.codex/auth.json` kao read-only fajl u efemernom `CODEX_HOME`. Ne mount-uju se repo, `$HOME`, answer key ni Docker socket. Operator-facing tag se pre canary/preflight-a jednom razrešava u content-addressed `sha256:` image ID; CLI probe, canary model poziv i svi kasniji benchmark run-ovi koriste taj ID, ne promenljivi tag. `--dangerously-bypass-approvals-and-sandbox` je bezbedan samo u ovom spolja ograničenom container profilu; host fallback nije dozvoljen.
 
 Claude Code 2.1.183 `--bare` režim ne čita OAuth/keychain prijavu, pa se ne koristi sa lokalnim `claude.ai` subscription profilom. Umesto njega adapter eksplicitno isključuje user/project/local settings (`--setting-sources ""`), nasleđene MCP servere (`--strict-mcp-config --mcp-config '{"mcpServers":{}}'`) i skills/commands (`--disable-slash-commands`), uz postojeće `--tools ""` i `--no-session-persistence` granice. Claude Code 2.1.185 odbija raniji prazan objekat `{}` jer zahteva `mcpServers` record.
 
@@ -35,6 +39,22 @@ Opcije `--case`, `--model` i `--effort` mogu da se ponove ili prime CSV listu. P
 ## 2. Mali real canary
 
 Ovo pravi naplative pozive. Pokrenite tek posle pregleda preview-a:
+
+Pre benchmark canary-ja Codex isolation gate mora dobiti programski PASS. Prvo pregledajte besplatni preview:
+
+```bash
+uv run python -m scripts.eval.canary_codex_image
+```
+
+Zatim, samo uz eksplicitno odobrenje jednog naplativog poziva:
+
+```bash
+uv run python -m scripts.eval.canary_codex_image --confirm --model gpt-5.4 --effort low
+```
+
+PASS zahteva sva tri dokaza: JSONL command event pokazuje pokušaj čitanja spoljnog sentinel path-a, terminalni event pokazuje non-zero/blokadu i sentinel nije ni u tool output-u ni u finalnom odgovoru. Verdict u `scripts/eval/state/codex_isolation_verdict.json` vezan je za host platformu, logički wrapper + hash launcher izvora, container image ID/digest, Linux OS/arch i wrapped CLI verziju. Canary razrešava ID pre model poziva i zapisuje isti identitet koji je izvršio poziv; adapter posle preflight-a čuva taj ID za ceo svoj životni vek. Rebuild/retag image-a zato ne može promeniti već autorizovani runtime; novi adapter vidi mismatch i vraća fail-closed stanje.
+
+Tek posle tog PASS-a sledi mali upareni benchmark canary:
 
 ```bash
 uv run --extra mcp python -m scripts.eval.orchestrator \
@@ -93,8 +113,10 @@ Analyst dobija anonimizovane OHLCV podatke (`candles.json`) ugrađene direktno u
 
 **Izolacione garancije po provider-u:**
 - **Claude — EMPIRIJSKI PROŠAO (2026-06-21, CLI 2.1.185)**: `--tools ""` gasi sve built-in alate uključujući Read — model fizički ne može da otvori fajlove van prompta. `--setting-sources ""`, strogi prazni MCP config i `--disable-slash-commands` sprečavaju nasleđivanje settings/MCP/skill konteksta bez OAuth-nekompatibilnog `--bare` režima. `scripts/eval/canary_claude_image.py --confirm` je prošao svih pet provera: model čita token iz priložene slike (image-delivery kroz stream-json radi), ali fajl van case root-a vraća `UNAVAILABLE` (sentinel ne curi) i temp `CLAUDE.md` sentinel se ne auto-učitava u non-bare režimu. Ponoviti canary posle promene Claude CLI verzije; ako se sentinel ikad pojavi, prekinite benchmark.
-- **Codex — EMPIRIJSKI PALO (2026-06-21, CLI 0.141.0 / gpt-5.4)**: `--sandbox read-only --cd <temp-root>` dozvolio je modelu da uspešno izvrši `/bin/cat` nad nepriloženim sentinel fajlom van privremenog root-a. `read-only` ograničava upis, ali `--cd` nije read-confinement granica. **Ne pokretati Codex analyst/judge nad privatnim benchmark-om** dok se ne uvede stvarna filesystem izolacija i novi sentinel canary ne prođe. Capability preflight nad `--help` nije bezbednosni dokaz.
-  - **Gate mehanizam (ne ručna konstanta):** `CodexRuntimeAdapter.preflight` dozvoljava Codex isključivo ako `scripts/eval/canary_codex_image.py --confirm` programski zapiše PASS verdikt (`scripts/eval/state/codex_isolation_verdict.json`, gitignored) vezan za *trenutnu* Codex CLI verziju i platformu. Nepostojeći, FAIL, zastareo (druga CLI verzija) ili cross-platform verdikt → fail-closed. Otključavanje zahteva stvaran prolaz canary-ja, ne izmenu vrednosti u kodu. Containment redizajn se prati u issue-u #82.
+- **Codex host sandbox — EMPIRIJSKI PALO (2026-06-21, CLI 0.141.0 / gpt-5.4):** `--sandbox read-only --cd <temp-root>` na Darwin/Seatbelt-u dozvolio je `/bin/cat` van root-a i više se ne koristi kao sigurnosna granica.
+- **Codex Docker containment — IMPLEMENTIRAN, REAL CANARY PENDING:** `CODEX_EXECUTION_PROFILE` vodi i canary i adapter kroz isti Docker launcher. Container vidi samo read-only case root i auth fajl; host outside path ne postoji u njegovom mount namespace-u. Offline testovi i besplatni Docker version/help/auth smoke nisu bezbednosni PASS — dok `canary_codex_image.py --confirm` ne zapiše stvarni PASS, adapter ostaje fail-closed.
+  - **Gate mehanizam (ne ručna konstanta):** `CodexRuntimeAdapter.preflight` dozvoljava Codex isključivo ako gitignored verdict odgovara trenutnom Codex CLI-ju, host platformi, profile fingerprint-u i live container execution identity-ju. Nepostojeći, FAIL, legacy, stale ili image mismatch verdict → fail-closed.
+  - **Dokazana platforma se upisuje tek posle realnog PASS-a:** host `platform.platform()`, Docker `linux/arm64`, exact image ID/digest i wrapped `codex-cli 0.141.0`. Do tada cross-provider rangiranje ostaje tehnički vraćeno u scope, ali operativno blokirano gate-om.
 
 ## Opt-in manual smoke
 

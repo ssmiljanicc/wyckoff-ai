@@ -38,7 +38,8 @@ def test_codex_argv_attaches_only_inside_image(tmp_path: Path):
     image = case / "canary.png"
     schema = case / "schema.json"
     args = argparse.Namespace(model="gpt-5.4", effort="low")
-    command = build_argv(args, case, image, schema)
+    command = build_argv(args, case, image, schema, container_image="sha256:proven")
+    assert command[command.index("--container-image") + 1] == "sha256:proven"
     assert command[command.index("--image") + 1] == str(image)
     assert command[command.index("--cd") + 1] == str(case)
 
