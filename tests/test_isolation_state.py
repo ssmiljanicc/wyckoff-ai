@@ -6,6 +6,14 @@ from pathlib import Path
 from scripts.eval import isolation_state
 
 CANARY = "canary_codex_image"
+IDENTITY = {
+    "image": "test-image",
+    "image_id": "sha256:test",
+    "repo_digest": "test@sha256:test",
+    "container_os": "linux",
+    "container_arch": "arm64",
+    "cli_version": "codex-cli 0.141.0",
+}
 
 
 def _record(tmp_path: Path, **overrides) -> Path:
@@ -15,6 +23,7 @@ def _record(tmp_path: Path, **overrides) -> Path:
         passed=True,
         canary=CANARY,
         cli_version="codex-cli 0.141.0",
+        execution_identity=IDENTITY,
         detail="all checks passed",
         path=path,
     )
@@ -23,9 +32,15 @@ def _record(tmp_path: Path, **overrides) -> Path:
     return path
 
 
-def _reason(path: Path, *, cli_version: str | None = "codex-cli 0.141.0") -> str | None:
+def _reason(
+    path: Path,
+    *,
+    cli_version: str | None = "codex-cli 0.141.0",
+    execution_identity: dict[str, str] | None = IDENTITY,
+) -> str | None:
     return isolation_state.isolation_block_reason(
-        provider="codex", cli_version=cli_version, expected_canary=CANARY, path=path
+        provider="codex", cli_version=cli_version, execution_identity=execution_identity,
+        expected_canary=CANARY, path=path
     )
 
 
@@ -111,3 +126,27 @@ def test_profile_fingerprint_is_stable_and_sensitive() -> None:
     assert isolation_state.codex_profile_fingerprint(base) == isolation_state.codex_profile_fingerprint(base)
     changed = {"sandbox": "read-only", "wrapper_argv": ["x"], "containment": "uid"}
     assert isolation_state.codex_profile_fingerprint(base) != isolation_state.codex_profile_fingerprint(changed)
+
+
+def test_profile_fingerprint_uses_logical_wrapper_identity() -> None:
+    base = {
+        "wrapper_argv": ["/worktree-a/.venv/bin/python", "/worktree-a/scripts/eval/codex_container.py"],
+        "wrapper_id": ["python", "scripts/eval/codex_container.py"],
+        "launcher_sha256": "same-source",
+    }
+    other_worktree = {
+        **base,
+        "wrapper_argv": ["/worktree-b/.venv/bin/python", "/worktree-b/scripts/eval/codex_container.py"],
+    }
+    assert isolation_state.codex_profile_fingerprint(base) == isolation_state.codex_profile_fingerprint(other_worktree)
+
+
+def test_execution_identity_mismatch_is_blocked(tmp_path: Path) -> None:
+    changed = {**IDENTITY, "image_id": "sha256:rebuilt"}
+    reason = _reason(_record(tmp_path), execution_identity=changed)
+    assert reason and "execution identity" in reason
+
+
+def test_unknown_execution_identity_is_blocked(tmp_path: Path) -> None:
+    reason = _reason(_record(tmp_path), execution_identity=None)
+    assert reason and "could not be determined" in reason

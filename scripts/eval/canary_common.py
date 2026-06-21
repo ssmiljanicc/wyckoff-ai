@@ -71,7 +71,7 @@ def run_cli(argv: list[str], *, cwd: Path, stdin: str, timeout: float) -> CliRes
     )
 
 
-def cli_version(binary: str) -> str:
+def cli_version(command: str | list[str]) -> str:
     """Best-effort CLI version string, e.g. ``codex-cli 0.141.0``; empty on failure.
 
     Must capture identically to ``runtime_adapters._cli_version`` so the verdict
@@ -79,7 +79,7 @@ def cli_version(binary: str) -> str:
     """
     try:
         proc = subprocess.run(
-            [binary, "--version"],
+            [command, "--version"] if isinstance(command, str) else command,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             timeout=15,

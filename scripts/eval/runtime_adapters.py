@@ -125,6 +125,26 @@ async def _cli_version(argv: list[str]) -> str | None:
     return stdout.decode(errors="replace").strip() or None
 
 
+async def _execution_identity(argv: list[str]) -> dict[str, str] | None:
+    """Return the live external-containment identity, or None on any probe failure."""
+    try:
+        process = await asyncio.create_subprocess_exec(
+            *argv, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL
+        )
+    except OSError:
+        return None
+    stdout, _ = await process.communicate()
+    if process.returncode:
+        return None
+    try:
+        value = json.loads(stdout)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(value, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in value.items()):
+        return None
+    return value
+
+
 async def _require_auth(argv: list[str]) -> None:
     process = await asyncio.create_subprocess_exec(
         *argv, stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL
@@ -218,17 +238,26 @@ class CodexRuntimeAdapter:
             "-c", f'model_reasoning_effort="{request.effort}"',
         ]
 
+    @staticmethod
+    def profile_argv(*inner: str) -> list[str]:
+        return [*isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"], *inner]
+
     async def preflight(self, model: str, effort: str) -> None:
-        if shutil.which(self.binary) is None:
-            raise RuntimeUnavailable("codex binary is unavailable")
+        wrapper = isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"]
+        if not wrapper or shutil.which(str(wrapper[0])) is None:
+            raise RuntimeUnavailable("Codex containment wrapper is unavailable")
         if model not in self.model_map:
             raise RuntimeUnavailable(f"unmapped Codex matrix model: {model}")
         # Authorization is gated on a programmatically recorded sentinel-canary
         # PASS for the live CLI/platform — never a hand-edited constant (issue #75).
-        cli_version = await _cli_version([self.binary, "--version"])
+        cli_version = await _cli_version(self.profile_argv(self.binary, "--version"))
+        execution_identity = await _execution_identity(
+            [*wrapper, "--execution-identity"]
+        )
         block_reason = isolation_state.isolation_block_reason(
             provider="codex",
             cli_version=cli_version,
+            execution_identity=execution_identity,
             expected_canary="canary_codex_image",
             path=self.verdict_path,
         )
@@ -236,13 +265,13 @@ class CodexRuntimeAdapter:
             raise RuntimeUnavailable(
                 f"Codex private-benchmark isolation is not proven: {block_reason}. "
                 "Run `uv run python -m scripts.eval.canary_codex_image --confirm` to "
-                "record a passing sentinel verdict (issue #75)."
+                "record a passing sentinel verdict (issue #82)."
             )
         await _require_capabilities(
-            [self.binary, "exec", "--help"],
+            self.profile_argv(self.binary, "exec", "--help"),
             ("--model", "--cd", "--sandbox", "--output-schema", "--ephemeral", "--ignore-user-config"),
         )
-        await _require_auth([self.binary, "login", "status"])
+        await _require_auth(self.profile_argv(self.binary, "login", "status"))
 
     async def run(self, request: RuntimeRequest) -> RuntimeResponse:
         stdout, stderr, code = await _exec(

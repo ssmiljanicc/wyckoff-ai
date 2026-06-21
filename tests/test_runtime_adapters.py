@@ -9,6 +9,16 @@ import pytest
 from scripts.eval import runtime_adapters as runtime
 
 
+IDENTITY = {
+    "image": "test-image", "image_id": "sha256:test", "repo_digest": "",
+    "container_os": "linux", "container_arch": "arm64", "cli_version": "codex-cli 9.9.9",
+}
+
+
+async def _async_value(value):
+    return value
+
+
 def request(tmp_path: Path, model: str = "claude-opus-4-8") -> runtime.RuntimeRequest:
     schema = tmp_path / "schema.json"
     schema.write_text('{"type":"object","required":["direction"]}\n')
@@ -33,7 +43,9 @@ def test_claude_argv_is_toolless_and_non_persistent(tmp_path: Path) -> None:
 
 def test_codex_argv_is_ephemeral_read_only_and_uses_config_effort(tmp_path: Path) -> None:
     argv = runtime.CodexRuntimeAdapter().build_argv(request(tmp_path, "codex"))
-    assert argv[:3] == ["codex", "exec", "-"]
+    assert argv[:len(runtime.isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"])] == runtime.isolation_state.CODEX_EXECUTION_PROFILE["wrapper_argv"]
+    inner_index = argv.index("codex")
+    assert argv[inner_index:inner_index + 3] == ["codex", "exec", "-"]
     assert argv[argv.index("--sandbox") + 1] == "read-only"
     assert "--ephemeral" in argv and "--ignore-user-config" in argv
     assert 'model_reasoning_effort="high"' in argv
@@ -144,7 +156,8 @@ def test_codex_preflight_fails_closed_on_failed_verdict(monkeypatch, tmp_path: P
     path = tmp_path / "codex_isolation_verdict.json"
     runtime.isolation_state.record_verdict(
         provider="codex", passed=False, canary="canary_codex_image",
-        cli_version="codex-cli 0.141.0", detail="outside read blocked", path=path,
+        cli_version="codex-cli 0.141.0", execution_identity=IDENTITY,
+        detail="outside read blocked", path=path,
     )
     adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
     with pytest.raises(runtime.RuntimeUnavailable, match="FAILED isolation verdict"):
@@ -163,12 +176,14 @@ def test_codex_preflight_passes_gate_on_fresh_passing_verdict(monkeypatch, tmp_p
         return None
 
     monkeypatch.setattr(runtime, "_cli_version", _ok_version)
+    monkeypatch.setattr(runtime, "_execution_identity", lambda argv: _async_value(IDENTITY))
     monkeypatch.setattr(runtime, "_require_capabilities", _noop)
     monkeypatch.setattr(runtime, "_require_auth", _noop)
     path = tmp_path / "codex_isolation_verdict.json"
     runtime.isolation_state.record_verdict(
         provider="codex", passed=True, canary="canary_codex_image",
-        cli_version="codex-cli 9.9.9", detail="all checks passed", path=path,
+        cli_version="codex-cli 9.9.9", execution_identity=IDENTITY,
+        detail="all checks passed", path=path,
     )
     adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
     asyncio.run(adapter.preflight("codex", "high"))  # must not raise
@@ -184,7 +199,8 @@ def test_codex_preflight_fails_closed_on_stale_verdict(monkeypatch, tmp_path: Pa
     path = tmp_path / "codex_isolation_verdict.json"
     runtime.isolation_state.record_verdict(
         provider="codex", passed=True, canary="canary_codex_image",
-        cli_version="codex-cli 0.141.0", detail="all checks passed", path=path,
+        cli_version="codex-cli 0.141.0", execution_identity=IDENTITY,
+        detail="all checks passed", path=path,
     )
     adapter = runtime.CodexRuntimeAdapter(verdict_path=path)
     with pytest.raises(runtime.RuntimeUnavailable, match="stale"):
@@ -200,10 +216,12 @@ def test_codex_preflight_fails_closed_when_profile_changed(monkeypatch, tmp_path
         return "codex-cli 9.9.9"
 
     monkeypatch.setattr(runtime, "_cli_version", _ok_version)
+    monkeypatch.setattr(runtime, "_execution_identity", lambda argv: _async_value(IDENTITY))
     path = tmp_path / "codex_isolation_verdict.json"
     runtime.isolation_state.record_verdict(
         provider="codex", passed=True, canary="canary_codex_image",
-        cli_version="codex-cli 9.9.9", detail="all checks passed", path=path,
+        cli_version="codex-cli 9.9.9", execution_identity=IDENTITY,
+        detail="all checks passed", path=path,
     )
     # The active profile now differs from the one the verdict was stamped under.
     monkeypatch.setattr(
