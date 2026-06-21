@@ -52,6 +52,8 @@ Pre nego što se PR merge-uje u main, sledeća disciplina je obavezna:
 
 **Anti-pattern:** merge bez review-a jer se "deluje OK po opisu". Bar jedan sanity-check (pročitaj script body, proveri test rezultat) je obavezan.
 
+**Direktno na main (bez PR-a):** Čista dokumentacija koja ne menja ponašanje sistema — eval izveštaji (`docs/eval/reports/`), review artefakti, runbook izmene bez uticaja na kod, wiki stranice — može direktno na main bez PR-a. PR je obavezan samo kad fajl menja ponašanje: kod, `SKILL.md`, `CLAUDE.md`, skripte, MCP definicije.
+
 ### 0.3 GitHub issue convention
 
 - **Naslov:** srpski (i naslov i telo na srpskom; engleski se zadržava samo u kodu, putanjama i strukturisanim identifikatorima — npr. milestone imena tipa `M5: ...`, brojevi, kod — per §0.1)
