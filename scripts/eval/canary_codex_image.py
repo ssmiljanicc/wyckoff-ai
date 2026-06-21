@@ -11,8 +11,10 @@ import json
 import tempfile
 from pathlib import Path
 
+from scripts.eval import isolation_state
 from scripts.eval.canary_common import (
     Verdict,
+    cli_version,
     command_attempt,
     extract_structured_output,
     failure_detail,
@@ -148,6 +150,15 @@ def main(argv: list[str] | None = None) -> int:
             outside_path=outside_path,
         )
         print(verdict.render())
+        failed = [c.name for c in verdict.checks if not c.passed]
+        isolation_state.record_verdict(
+            provider="codex",
+            passed=verdict.gate_pass,
+            canary="canary_codex_image",
+            cli_version=cli_version("codex"),
+            detail="; ".join(failed) if failed else "all checks passed",
+        )
+        print(f"\nVerdikt zapisan: {isolation_state.DEFAULT_VERDICT_PATH}")
         if result.returncode and result.stdout:
             print("stdout (tail):", result.stdout[-4000:])
         if result.stderr:

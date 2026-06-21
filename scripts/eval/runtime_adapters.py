@@ -9,17 +9,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
 
+from scripts.eval import isolation_state
+
 
 CLAUDE_ISOLATION_ARGS = [
     "--setting-sources", "", "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}',
     "--disable-slash-commands", "--tools", "", "--permission-mode", "dontAsk",
     "--no-session-persistence",
 ]
-
-# Issue #75 canary (2026-06-21): Codex CLI 0.141.0 / gpt-5.4 successfully
-# read a sentinel outside --cd while using --sandbox read-only.  Keep private
-# benchmark execution fail-closed until a real read-confinement boundary exists.
-CODEX_PRIVATE_BENCHMARK_ISOLATION_VERIFIED = False
 
 
 class RuntimeErrorBase(RuntimeError):
@@ -110,6 +107,24 @@ async def _require_capabilities(argv: list[str], required: tuple[str, ...]) -> N
         raise RuntimeUnavailable(f"runtime capability check failed{detail}")
 
 
+async def _cli_version(argv: list[str]) -> str | None:
+    """Best-effort CLI version string (e.g. ``codex-cli 0.141.0``); None on failure.
+
+    Captured identically to ``canary_common.cli_version`` so the recorded and the
+    live version strings compare equal.
+    """
+    try:
+        process = await asyncio.create_subprocess_exec(
+            *argv, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
+        )
+    except OSError:
+        return None
+    stdout, _ = await process.communicate()
+    if process.returncode:
+        return None
+    return stdout.decode(errors="replace").strip() or None
+
+
 async def _require_auth(argv: list[str]) -> None:
     process = await asyncio.create_subprocess_exec(
         *argv, stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL
@@ -181,8 +196,14 @@ class ClaudeRuntimeAdapter:
 class CodexRuntimeAdapter:
     binary = "codex"
 
-    def __init__(self, *, model_map: dict[str, str] | None = None):
+    def __init__(
+        self,
+        *,
+        model_map: dict[str, str] | None = None,
+        verdict_path: Path | None = None,
+    ):
         self.model_map = model_map or {"codex": "gpt-5.4"}
+        self.verdict_path = verdict_path or isolation_state.DEFAULT_VERDICT_PATH
 
     def build_argv(self, request: RuntimeRequest) -> list[str]:
         model = self.model_map.get(request.model, request.model)
@@ -198,10 +219,17 @@ class CodexRuntimeAdapter:
             raise RuntimeUnavailable("codex binary is unavailable")
         if model not in self.model_map:
             raise RuntimeUnavailable(f"unmapped Codex matrix model: {model}")
-        if not CODEX_PRIVATE_BENCHMARK_ISOLATION_VERIFIED:
+        # Authorization is gated on a programmatically recorded sentinel-canary
+        # PASS for the live CLI/platform — never a hand-edited constant (issue #75).
+        cli_version = await _cli_version([self.binary, "--version"])
+        block_reason = isolation_state.isolation_block_reason(
+            provider="codex", cli_version=cli_version, path=self.verdict_path
+        )
+        if block_reason is not None:
             raise RuntimeUnavailable(
-                "Codex private-benchmark isolation failed the issue #75 sentinel canary; "
-                "read-only --cd does not confine filesystem reads"
+                f"Codex private-benchmark isolation is not proven: {block_reason}. "
+                "Run `uv run python -m scripts.eval.canary_codex_image --confirm` to "
+                "record a passing sentinel verdict (issue #75)."
             )
         await _require_capabilities(
             [self.binary, "exec", "--help"],

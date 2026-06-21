@@ -71,6 +71,26 @@ def run_cli(argv: list[str], *, cwd: Path, stdin: str, timeout: float) -> CliRes
     )
 
 
+def cli_version(binary: str) -> str:
+    """Best-effort CLI version string, e.g. ``codex-cli 0.141.0``; empty on failure.
+
+    Must capture identically to ``runtime_adapters._cli_version`` so the verdict
+    recorded here and the live string the gate reads compare equal.
+    """
+    try:
+        proc = subprocess.run(
+            [binary, "--version"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            timeout=15,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return ""
+    if proc.returncode:
+        return ""
+    return proc.stdout.decode(errors="replace").strip()
+
+
 def jsonl_events(raw: str) -> list[dict]:
     """Parse JSONL output, retaining only JSON objects."""
     events: list[dict] = []
