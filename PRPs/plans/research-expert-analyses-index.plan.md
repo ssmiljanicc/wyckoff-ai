@@ -20,6 +20,14 @@ Utkane PLAN DEFECT popravke:
 Usputne korekcije brojeva (ne defekt, ali tačnije): crypto lokalne slike = **190**, paywalled = **10**
 (`"status":"paywalled"`), `analyst_prompt` na `orchestrator.py:212` (NO-tools komentar `:213`).
 
+## Izmene od [#93] (batch izvršavanje)
+
+Per presudi #93 (PROCEED, Pristup C): Zadatak 3 (book) i Zadatak 5 (Fraser) razbijeni u grube pod-zadatke
+(3.1–3.3 / 5.1–5.3) — resume jedinice za `prp-implement` — sa **serijama ≤20 dokumenata** i **stop-signalom
+na ≥50% konteksta** unutar svake (Batch protokol, Notes). Crypto (Zadatak 4) ostaje jedan zadatak ali
+poštuje isti ≤20/50% protokol. Serija `page_001–020` vezana za [#92] kao deljeni merni uzorak (model
+benchmark / potrošnja tokena). Sve ostalo (Zadaci 0/1/2/6/7/8, Validation, Acceptance) nepromenjeno.
+
 ## Summary
 
 Proći kroz sva tri immutable raw izvora (`raw/book/pages/`, `raw/bruce_fraser/posts/`,
@@ -211,21 +219,52 @@ Eksplicitno van obima (per issue #89 "Šta nije u obimu"):
 - **Gotchas:** zadrži identičan kebab-case; ne izmišljaj nove evente
 - **Validation:** `test $(ls research/expert-analyses/by-event/*.md | wc -l) -ge 3` i potvrdi da imena postoje u `knowledge/wiki/events/`
 
-### Zadatak 3 — Sweep + klasifikacija: BOOK (`raw/book/pages/`, 248)
+### Zadatak 3 — Sweep + klasifikacija: BOOK (`raw/book/pages/`, 248) — u serijama ≤20
 
-- **Action:** identifikuj validne parove, napiši extract fajlove, zavedi pokrivenost
-- **Files:** `research/expert-analyses/extracts/book_*.md`, `research/expert-analyses/_progress.md`
-- **Instruction:** prođi kroz `raw/book/pages/page_*.md`. Validan par (kriterijumi #89): postoji
-  grafikon/jasna referenca (proveri preko `raw/book/image_manifest.json` da li stranica ima figuru) +
-  ekspert daje **konkretnu Wyckoff interpretaciju** (ne samo definiciju ni goli schematic) +
-  identifikabilan kontekst. Za svaki par napiši extract sa **verbatim** pasusom (citat, ne parafraza),
-  `image_path` iz manifesta ako postoji, `type` (forward/retrospective/schematic), `status: candidate`.
-  Schematik-only stranice obeleži `type: schematic`. Drži se pointer+citat — **nikad** ne kopiraj celu
-  stranicu. **Posle prolaza ažuriraj `_progress.md` red `book`**: `reviewed`, `valid`, `rejected`,
-  `last_reviewed`. Cilj na kraju: `reviewed == 248`.
+**Izvršava se po Batch protokolu (vidi Notes):** mikro-serije **≤20 strana**, commit + `_progress.md`
+update posle svake serije, **stop na ≥50% konteksta**, resume preko `_progress.md last_reviewed`.
+Pod-zadaci 3.1/3.2/3.3 su **grube granice koje `prp-implement` nativno nastavlja** („first incomplete
+task"); 20-strane serije unutar njih su zaštita od context cut-a.
+
+**Zajednički kriterijumi (važe za 3.1–3.3):** validan par (kriterijumi #89) = postoji grafikon/jasna
+referenca (proveri preko `raw/book/image_manifest.json` da li stranica ima figuru) + ekspert daje
+**konkretnu Wyckoff interpretaciju** (ne samo definiciju ni goli schematic) + identifikabilan kontekst.
+Za svaki par napiši extract sa **verbatim** pasusom (citat, ne parafraza), `image_path` iz manifesta ako
+postoji, `type` (forward/retrospective/schematic), `status: candidate`. Schematik-only → `type:
+schematic`. Drži se pointer+citat — **nikad** ne kopiraj celu stranicu. OCR artefakti (`gre ater`,
+`selle rs` — INVENTORY.md): citiraj verbatim, ne „popravljaj". Posle svake serije ažuriraj `_progress.md`
+red `book`. Cilj na kraju Zadatka 3: `reviewed == 248`.
+
 - **Pattern:** `raw/book/pages/page_001.md:1` img ref; `image_manifest.json` map
-- **Gotchas:** OCR artefakti u book tekstu (`gre ater`, `selle rs` — INVENTORY.md) — citiraj verbatim ali ne "popravljaj"; ako pasus ima artefakt, zadrži ga i napomeni. Resume: nastavi od `last_reviewed`.
+
+#### Zadatak 3.1 — Book: page_001–page_080 (serije 001–020, 021–040, 041–060, 061–080)
+
+- **Action:** sweep + extract + ledger, 4 serije po 20
+- **Files:** `research/expert-analyses/extracts/book_*.md`, `research/expert-analyses/_progress.md`
+- **Instruction:** primeni zajedničke kriterijume gore po Batch protokolu. **Serija `page_001–020` =
+  deljeni merni uzorak za [#92] (model benchmark / potrošnja tokena):** ako je #92 već pokrenut, koristi
+  njegov **ručni ground truth** za ovih 20 strana (samo materijalizuj extract-e + ledger, ne presuđuj
+  ponovo); ako #92 nije pokrenut, ova serija JE njegov ulaz. Commit posle svake serije; stop na ≥50%
+  konteksta posle tekuće serije.
+- **Gotchas:** ova serija mora ostati identičan ulaz kao #92 (fair comparison) — ne menjaj redosled ni
+  opseg `page_001–020`.
 - **Validation:** `ls research/expert-analyses/extracts/book_*.md >/dev/null 2>&1; grep -A1 '| book' research/expert-analyses/_progress.md`
+
+#### Zadatak 3.2 — Book: page_081–page_160 (serije po 20)
+
+- **Action:** sweep + extract + ledger, 4 serije po 20
+- **Files:** isti kao 3.1
+- **Instruction:** nastavi od `_progress.md last_reviewed`; zajednički kriterijumi + Batch protokol;
+  commit posle svake serije.
+- **Validation:** `grep -A1 '| book' research/expert-analyses/_progress.md` (reviewed napreduje ka 160)
+
+#### Zadatak 3.3 — Book: page_161–page_248 (serije po 20, poslednja 8)
+
+- **Action:** sweep + extract + ledger
+- **Files:** isti kao 3.1
+- **Instruction:** nastavi od `_progress.md last_reviewed`; zajednički kriterijumi + Batch protokol;
+  commit posle svake serije. Po završetku `reviewed == 248`.
+- **Validation:** `grep -A1 '| book' research/expert-analyses/_progress.md` (reviewed == 248)
 
 ### Zadatak 4 — Sweep + klasifikacija: CRYPTO (`raw/crypto_archive/posts/`, 46)
 
@@ -238,25 +277,51 @@ Eksplicitno van obima (per issue #89 "Šta nije u obimu"):
   `by-event` fajl — event je nepoznat jer sadržaj nije skrejpovan), navedi slug + `status: paywalled`,
   i NE izmišljaj sadržaj. Ostalo isto kao Zadatak 3. **Ažuriraj `_progress.md` red `crypto`**
   (`reviewed`, `valid`, `rejected`, `paywalled`, `last_reviewed`); cilj `reviewed == 46`.
+  **Batch protokol (vidi Notes):** 46 postova obradi u **serijama ≤20** (3 serije ~16), commit +
+  `_progress.md` posle svake, stop na ≥50% konteksta. Crypto ostaje **jedan** zadatak (ne deli se na
+  pod-zadatke — obim je mali), ali poštuje isti context-safe protokol.
 - **Pattern:** `raw/crypto_archive/posts/*.md:1-9` header; `manifest.json` paywall status; `CLAUDE.md:§7` WIKI_GAP
 - **Gotchas:** crypto img putanja je `../images/<report>/<n>.png` relativno — konvertuj u repo-relativnu `raw/crypto_archive/images/<report>/<n>.png` u `image_path` (Validation #5 proverava da fajl postoji).
 - **Validation:** `ls research/expert-analyses/extracts/crypto_*.md >/dev/null 2>&1; grep -q 'paywalled' research/expert-analyses/_gaps.md || echo "PROVERI: nema paywalled u _gaps.md (očekivano ~10)"`
 
-### Zadatak 5 — Sweep + klasifikacija: FRASER (`raw/bruce_fraser/posts/`, 243)
+### Zadatak 5 — Sweep + klasifikacija: FRASER (`raw/bruce_fraser/posts/`, 243) — u serijama ≤20
 
-- **Action:** identifikuj validne parove; slike su remote; zavedi pokrivenost
-- **Files:** `research/expert-analyses/extracts/fraser_*.md`, `research/expert-analyses/_progress.md`
-- **Instruction:** prođi kroz `raw/bruce_fraser/posts/*.md`. **Lokalne slike NE postoje** (0 —
-  potvrđeno; img ref su remote `../images/<uuid>.jpg`). Za Fraser, `image_path` postavi na
-  `(remote: <url iz posta>)` ili ostavi prazno; mnogi Fraser postovi su video/edukacija (ne uvek
-  grafikon-analiza) → primeni kriterijum strogo: validan samo ako tekst nosi konkretnu Wyckoff
-  interpretaciju grafikona. Mnogi će otpasti — to je očekivano. **Ažuriraj `_progress.md` red
-  `fraser`** (`reviewed`, `valid`, `rejected`, `last_reviewed`); cilj `reviewed == 243`. Pošto je hit-rate
-  nizak, ledger je jedini pouzdan dokaz da je sweep zaista kompletan (broj extract-a sam po sebi ne
-  razlikuje „odbačeno" od „nepregledano").
+**Izvršava se po Batch protokolu (vidi Notes):** mikro-serije **≤20 postova**, commit + `_progress.md`
+posle svake, **stop na ≥50% konteksta**, resume preko `last_reviewed`. Pod-zadaci 5.1/5.2/5.3 su grube
+granice koje `prp-implement` nativno nastavlja; serije ≤20 unutar njih su zaštita od context cut-a.
+
+**Zajednički kriterijumi (važe za 5.1–5.3):** prođi kroz `raw/bruce_fraser/posts/*.md`. **Lokalne slike
+NE postoje** (0 — potvrđeno; img ref su remote `../images/<uuid>.jpg`) → `image_path` postavi na
+`(remote: <url iz posta>)` ili ostavi prazno. Mnogi Fraser postovi su video/edukacija (ne uvek
+grafikon-analiza) → primeni kriterijum **strogo**: validan samo ako tekst nosi konkretnu Wyckoff
+interpretaciju grafikona; mnogi će otpasti — očekivano. `asset`/`timeframe` često nedostaju → dozvoljeno
+`unknown`. Pošto je hit-rate nizak, **ledger je jedini pouzdan dokaz da je sweep kompletan** (broj
+extract-a sam ne razlikuje „odbačeno" od „nepregledano"). Posle svake serije ažuriraj `_progress.md` red
+`fraser`. Cilj na kraju Zadatka 5: `reviewed == 243`.
+
 - **Pattern:** `raw/bruce_fraser/posts/*.md:1-6` header (`URL:`/`Date:`/`Author:`)
-- **Gotchas:** veliki obim (243) i nizak hit-rate; `asset`/`timeframe` često nedostaju → dozvoljeno `unknown`. Resume isključivo preko `_progress.md` `last_reviewed`.
+
+#### Zadatak 5.1 — Fraser: posts 001–080 (serije po 20)
+
+- **Action:** sweep + extract + ledger, 4 serije po 20
+- **Files:** `research/expert-analyses/extracts/fraser_*.md`, `research/expert-analyses/_progress.md`
+- **Instruction:** zajednički kriterijumi gore po Batch protokolu; commit posle svake serije; stop na ≥50%.
 - **Validation:** `echo "fraser extracts: $(ls research/expert-analyses/extracts/fraser_*.md 2>/dev/null | wc -l)"; grep -A1 '| fraser' research/expert-analyses/_progress.md`
+
+#### Zadatak 5.2 — Fraser: posts 081–160 (serije po 20)
+
+- **Action:** sweep + extract + ledger, 4 serije po 20
+- **Files:** isti kao 5.1
+- **Instruction:** nastavi od `last_reviewed`; zajednički kriterijumi + Batch protokol; commit po seriji.
+- **Validation:** `grep -A1 '| fraser' research/expert-analyses/_progress.md` (reviewed napreduje ka 160)
+
+#### Zadatak 5.3 — Fraser: posts 161–243 (serije po 20, poslednja 3)
+
+- **Action:** sweep + extract + ledger
+- **Files:** isti kao 5.1
+- **Instruction:** nastavi od `last_reviewed`; zajednički kriterijumi + Batch protokol; commit po seriji.
+  Po završetku `reviewed == 243`.
+- **Validation:** `grep -A1 '| fraser' research/expert-analyses/_progress.md` (reviewed == 243)
 
 ### Zadatak 6 — Popuni `by-event/` i `by-structure/` pointerima
 
@@ -401,7 +466,8 @@ Direktno iz issue #89 + popravke iz pregled-plana (sve moraju proći):
 
 | Rizik | Verovatnoća | Uticaj | Mitigacija |
 |---|---|---|---|
-| **Obim (537 dok.) prekoračuje jednu sesiju** | Visoka | Srednji | Tri nezavisna sweep zadatka (3/4/5); resume preko `_progress.md` `last_reviewed` (NE preko broja extract-a — taj ne razlikuje odbačeno od nepregledanog) |
+| **Obim (537 dok.) prekoračuje jednu sesiju** | Visoka | Srednji | Dvoslojno: grube granice 3.1–3.3 / 5.1–5.3 (resume jedinice za `prp-implement`) + serije ≤20 strana sa stop-signalom na ≥50% konteksta i commit-om posle svake serije (Batch protokol, Notes); resume preko `_progress.md last_reviewed` (NE preko broja extract-a) |
+| **Model „pukne" / degradira pred context cut** | Srednja | Srednji | Serija ≤20 + stop na ≥50% (konzervativnije od ingest §5 praga 75%); manje-ali-tačnije > više-ali-degradirano; merni dokaz iz #92 (`tokens_per_doc`) potvrđuje da li je 20 bezbedno ili treba ≤15 |
 | **Nedovršen sweep izgleda kao završen** | Visoka | Visok | `_progress.md` `reviewed` mora == ukupan broj fajlova po izvoru (Validation #10 + Acceptance); ledger je izvor istine za `Ukupno pregledano` |
 | **Extract bez obaveznog polja prođe validaciju** | Srednja | Srednji | Validation #3 sidri na frontmatter ključeve (`^kljuc:`) i proverava svih 10 polja + page\|post_url |
 | **Pogrešno konvertovan `image_path`** | Srednja | Srednji | Validation #5 — svaki ne-remote `image_path` mora `test -f` |
@@ -416,6 +482,27 @@ Direktno iz issue #89 + popravke iz pregled-plana (sve moraju proći):
 - **Bez PR-a (CLAUDE.md §0.2):** output je čista nova data/dokumentacija pod `research/` koja ne menja ponašanje sistema → može direktno na main bez PR-a. Ipak, zbog obima i domenske prosudbe, preporučuje se lagani sanity-check (spot-check 5 extract-a) pre commit-a.
 - **Eksterni research:** nije potreban — interna kuracija nad immutable raw izvorima.
 - **Redosled prioriteta sweep-a** (book → crypto → Fraser) prati gustinu signala.
+- **Batch protokol (Zadaci 3.x / 4 / 5.x) — context-safe sweep:** book/crypto/Fraser se obrađuju u
+  **mikro-serijama od najviše 20 dokumenata**. Posle svake serije: **commit** + update `_progress.md`
+  (`reviewed`, `valid`, `rejected`, `last_reviewed`). **Stop signal: ako proceniš ≥50% iskorišćenog
+  konteksta, stani posle tekuće serije** — ne guraj do kraja pod-zadatka „u jednom dahu". Resume
+  isključivo preko `_progress.md last_reviewed`. Prag **50%** je konzervativniji od ingest §5 praga 75%
+  jer domenska klasifikacija + verbatim citat troše kontekst brže; **20-strana plafon je tvrda granica
+  čak i ispod 50%**. Manje-ali-tačnije > više-ali-degradirano (ingest §5 retrospektiva: misattribution
+  raste pred context cut). Dvoslojna struktura: grube granice 3.1–3.3 / 5.1–5.3 daju `prp-implement`-u
+  nativne resume jedinice („first incomplete task"), serije ≤20 unutar njih čuvaju model od gušenja.
+- **Zašto baš 20 (LLM-wiki pattern):** pun wiki ingest radi ~1 izvor/sesiji jer svaki izvor dira 10–15
+  wiki strana uz održavanje cross-ref grafa (težak posao). Naš zadatak je **lakši**: po dokumentu = 1
+  pointer+citat extract ili 1 red u ledgeru, bez održavanja grafa. Zato >1 dok/seriji ima smisla, ali
+  domenska prosudba (valid/reject/schematic) + verbatim citat i dalje traže pažnju → plafon 20 + stop na
+  50% drže nas van zone degradacije.
+- **Veza sa [#92] (model benchmark / potrošnja tokena):** #92 bira model za bulk sweep PRE Zadataka 3–5,
+  merenjem kvaliteta + `tokens_per_doc` + `cost_per_doc` nad istim ulazom. Serija `page_001–020`
+  (Zadatak 3.1) je **deljeni merni uzorak**: #92 nad njom ručno utvrđuje ground truth i meri tokene po
+  produkcionoj seriji; sweep je posle reuse-uje (već validirana, bez dvostrukog rada). **Preporuka za
+  #92:** usvojiti `page_001–020` (20 strana) kao benchmark prozor umesto fiksnih 30 — #92 već dozvoljava
+  smanjenje, a time merni uzorak == produkciona serija. #92 token-merenje je i empirijska provera da li
+  je 20-strana serija bezbedna ili treba ≤15.
 - **Status svih extract-a ostaje `candidate`** — promocija u `validated`/`eval-used` je van obima (#86).
 - **Deblokira:** #86; **hrani:** #84 (corpus brojevi), #91 (ML readiness), #90 (KB org).
 ```
