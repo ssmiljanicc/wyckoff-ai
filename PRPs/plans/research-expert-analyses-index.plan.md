@@ -181,7 +181,7 @@ Eksplicitno van obima (per issue #89 "Šta nije u obimu"):
 
 ## Step-by-Step Tasks
 
-> **Stanje izvršavanja:** Zadaci 0–2 (skela) su DONE (skela `research/expert-analyses/` postoji, commit `SKELA_HASH_PLACEHOLDER`). `prp-implement` nastavlja od **Zadatka 3** (sweep).
+> **Stanje izvršavanja:** Zadaci 0–2 (skela) su DONE (skela `research/expert-analyses/` postoji, commit `dce2f32`). `prp-implement` nastavlja od **Zadatka 3** (sweep).
 
 ### Zadatak 0 — Coverage ledger skela (`_progress.md`)
 
