@@ -13,6 +13,15 @@
 9. **Granica vlasništva (mirror skills-kb/issues-kb obrazac).** Ovaj plan (`PRPs/plans/wyckoff-onboarding-runner.plan.md`) autoriše strukturu rasporeda (koja jedinica → koji batch, kojim redom). Runner je potrošač + pisac stanja: čita ovaj fajl, bira sledeći batch i upisuje **samo polja napretka** (Status / Datum / Wiki stranice / Preostali izvori / Log) — nikad ne re-particioniše raspored. `batches.md` je jedina koordinaciona tačka strukture; validator (`scripts/validate_expert_analyses.py`) je njen **čitalac**, ne pisac.
 10. **Runner (`~/projekti/poligon/scripts/ingest_runner.py`) je izvršni pisac polja napretka** — ista mašinerija kao issues-KB/skills-KB, pozvana apsolutnom putanjom (ADR 0006, poziv ne import). Upisuje **isključivo** Status / Datum / Wiki stranice / Preostali izvori / Log za tekući batch. Gate poziv za ovaj KB koristi `--validator-script scripts/validate_expert_analyses.py`.
 
+## Disciplina citiranja (važi za SVAKI batch — B01 i sve buduće)
+
+Preneto iz `runbooks/wyckoff-wiki-ingest.md` §3.6/§3.7 (citation verification drill + misattribution check), adaptirano na extract-karticu umesto wiki-definicionu stranicu. Svaki batch prompt (uključujući buduće TODO placeholdere kad se popune) implicitno referencira ovu sekciju — ne treba je prepisivati u svaki `### Bxx` blok.
+
+- **Citation verification drill (pre pisanja verbatim citata).** Pre nego što upišeš citat u `## Verbatim pasus` extract kartice ili bilo koji inline `[book p.XXX]`/`[vol N]` pointer: (1) otvori TAČNO tu raw stranicu/post koju citiraš (Read), (2) citat mora biti **doslovno prisutan** u tom fajlu — ne iz susedne stranice, ne iz sećanja/training data. Pogrešan page/post broj sa "razrešivim" linkom je gori od praznog linka (link validira strukturno, ali cilja pogrešan sadržaj — dokumentovan Batch 2 anti-pattern u starom wiki-ingest runbook-u: `spring.md` citat atribuiran p.141 dok je stvarni izvor p.142).
+- **OCR artefakti** (`gre ater`, `selle rs` i sl., per `raw/INVENTORY.md`) citiraj verbatim — ne "popravljaj" u citatu.
+- **Misattribution check pre kraja batch-a (ili pre stop-a na ≥50% konteksta).** Vrati se na poslednja 2-3 extract-a koja si upravo napisao/napisala i ponovo proveri (Read + vizuelno poređenje) da `source`/`page`/`post_url` polje i verbatim citat zaista potiču iz TE stranice — kompresioni misattribution rizik raste eksponencijalno pred context cut (isto važi i za sliku: proveri da `image_path` pokazuje na sliku SA TE stranice, ne susedne).
+- **Nepotkrepljena tvrdnja → ne piši.** Ako par (grafikon + interpretacija) nije jasno potkrepljen tekstom te konkretne stranice, ne izmišljaj/uopštavaj iz training data — ili odbaci kandidat (`rejected` u `_progress.md`), ili ako je pojam legitiman ali izvor nedovoljan, koristi `WIKI_GAP` u `_gaps.md` (CLAUDE.md §7).
+
 ## Šema rasporeda (kanonska, parse-kompatibilna)
 
 Tabela „Raspored" je ugovor sa determinističkim core parserom (`parse_batches` iz `~/projekti/poligon/scripts/validate_kb_core.py`), koji mapira kolone po imenu zaglavlja (tolerantno na pomeranje). Obavezno prepoznatljive kolone:
@@ -78,7 +87,7 @@ Svaki blok je potpun copy/paste prompt. B01 nosi pun disciplinovan tekst (sprema
 ### B01
 
 ```text
-$B01 — expert-analyses book sweep, page_001-page_020. Pre pisanja pročitaj (redom): research/expert-analyses/EXTRACT_TEMPLATE.md, research/expert-analyses/_progress.md, research/expert-analyses/wiki/index.md, poslednjih 50 linija research/expert-analyses/wiki/log.md, CLAUDE.md §5 (provenance/citat konvencije) i §7 (WIKI_GAP).
+$B01 — expert-analyses book sweep, page_001-page_020. Pre pisanja pročitaj (redom): research/expert-analyses/EXTRACT_TEMPLATE.md, research/expert-analyses/_progress.md, research/expert-analyses/wiki/index.md, poslednjih 50 linija research/expert-analyses/wiki/log.md, CLAUDE.md §5 (provenance/citat konvencije) i §7 (WIKI_GAP), i ovog fajla sekciju "## Disciplina citiranja" (citation verification drill + misattribution check — obavezno primeniti na svaki citat, ne samo na kraju).
 
 Obradi TAČNO raw/book/pages/page_001.md do raw/book/pages/page_020.md (20 strana, ne manje ne više — ovo je deljeni merni uzorak za wyckoff#92, opseg se ne pomera).
 
@@ -94,173 +103,175 @@ Dopiši kratak unos u research/expert-analyses/wiki/log.md (mirror llm-wiki log 
 
 Batch protokol (stari plan Notes): ova serija (20 strana) je već ceo batch — nema dalje unutrašnje deljenje. AKO proceniš da si dostigao/prešao ≥50% iskorišćenog konteksta PRE nego što obradiš svih 20 strana, STANI odmah posle poslednje kompletirane stranice i ostavi `_progress.md last_reviewed` tačno na toj stranici (partial resume za sledeći poziv) — ne guraj do kraja "u jednom dahu".
 
+Pre nego što staneš (na ≥50% konteksta ILI na kraju svih 20 strana): primeni misattribution check iz "## Disciplina citiranja" — vrati se na poslednja 2-3 napisana extract-a i ponovo proveri da `source`/`page` i verbatim citat zaista potiču iz te tačne stranice.
+
 NE piši u research/expert-analyses/batches.md (status/napredak upisuje isključivo runner), pa stani.
 ```
 
 ### B02
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B03
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B04
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B05
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B06
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B07
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B08
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B09
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B10
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B11
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B12
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B13
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B14
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B15
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B16
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B17
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B18
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B19
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B20
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B21
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B22
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B23
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B24
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B25
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B26
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B27
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B28
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
 
 ### B29
 
 ```text
-"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Placeholder ne sme biti korišćen za pravi ingest."
+"TODO: puni tekst disciplinovanog prompta dolazi u SKIL prolazu (izmena-skila/pravljenje-skila nad ovim batches.md, posle wyckoff#89 disciplina rasprave). Kad se popuni, MORA mirror-ovati strukturu B01 promptа (preflight-čitanja, kriterijum validnog para, extract/by-event/by-structure upis, _progress.md/log.md ažuriranje, referenca na '## Disciplina citiranja' za citation-verification + misattribution check, batch-protokol stop-signal) za TAČAN opseg ovog reda (vidi kolonu Jedinice). Placeholder ne sme biti korišćen za pravi ingest."
 ```
