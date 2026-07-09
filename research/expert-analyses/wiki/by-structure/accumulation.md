@@ -1,10 +1,12 @@
 ---
 title: Accumulation
-description: "Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a."
+description: "Wyckoff struktura — generički price-cycle schematic (book Ch.2) prikazuje Accumulation Phase kao prvu fazu ciklusa."
 type: topic
-status: draft
+status: active
 updated: 2026-07-09
-sources: []
+sources:
+  - path: raw/book/pages/page_014.md
+    note: "price cycle schematic — Accumulation Phase labelovana na dijagramu"
 ---
 
 # Accumulation
@@ -13,5 +15,4 @@ _Wyckoff struktura: `accumulation` — taksonomija preslikava `knowledge/wiki/st
 
 ## Primeri
 
-<!-- Popunjava se u Zadatku 6 (sweep Zadaci 3–5) pointerima na extracts/*.md -->
-<!-- Format: - [[../extracts/<id>]] — <source> <page/url> — <type> — <status> -->
+- [[../extracts/book_p014_accumulation-distribution-cycle_schematic]] — raw/book/pages/page_014.md p.14 — schematic — candidate

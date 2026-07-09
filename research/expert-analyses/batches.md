@@ -50,7 +50,7 @@ Kolona „Jedinice" NIJE mašinski-parseabilna lista identiteta za crypto/fraser
 
 | Batch | Izvor | Jedinice | Posebna kapija | Status | Datum | Wiki stranice | Preostali izvori | Log |
 | --- | --- | --- | --- | --- | --- | ---: | --- | --- |
-| B01 | book | page_001-page_020 | standardna | pending |  |  | nema |  |
+| B01 | book | page_001-page_020 | standardna | complete | 2026-07-09 | 7 | nema | validator fail=0 warn=30 |
 | B02 | book | page_021-page_040 | standardna | pending |  |  | nema |  |
 | B03 | book | page_041-page_060 | standardna | pending |  |  | nema |  |
 | B04 | book | page_061-page_080 | standardna | pending |  |  | nema |  |

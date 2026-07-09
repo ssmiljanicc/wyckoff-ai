@@ -65,11 +65,11 @@ Ovaj KB namerno nosi DVA odvojena frontmatter režima nad dva različita sadrža
 
 ## Taksonomija (structures)
 
-- [Accumulation](by-structure/accumulation.md) — Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a.
-- [Distribution](by-structure/distribution.md) — Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a.
-- [Reaccumulation](by-structure/reaccumulation.md) — Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a.
-- [Redistribution](by-structure/redistribution.md) — Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a.
-- [Trading Range](by-structure/trading-range.md) — Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a.
+- [Accumulation](by-structure/accumulation.md) — Wyckoff struktura — generički price-cycle schematic (book Ch.2) prikazuje Accumulation Phase kao prvu fazu ciklusa.
+- [Distribution](by-structure/distribution.md) — Wyckoff struktura — generički price-cycle schematic (book Ch.2) prikazuje Distribution Phase u visokom delu ciklusa.
+- [Reaccumulation](by-structure/reaccumulation.md) — Wyckoff struktura — generički price-cycle schematic (book Ch.2) prikazuje Reaccumulation Phase između markup segmenata.
+- [Redistribution](by-structure/redistribution.md) — Wyckoff struktura — generički price-cycle schematic (book Ch.2) prikazuje Redistribution Phase pre mark-down segmenta.
+- [Trading Range](by-structure/trading-range.md) — Wyckoff struktura — generički Uptrend/Downtrend/Trading Range schematic (book Ch.3) prikazuje support/resistance granice range-a.
 
 ## Corpus-count (ažurira se tokom sweep-a)
 
@@ -78,9 +78,11 @@ Izvedeno iz `_progress.md` (izvor istine za pokrivenost — NE broj extract fajl
 
 | Izvor | Ukupno | Ukupno pregledano | Validni parovi | forward | retrospective | schematic | bez slike |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| book | 248 | 0 | 0 | 0 | 0 | 0 | 0 |
+| book | 248 | 20 | 2 | 0 | 0 | 2 | 0 |
 | crypto | 46 | 0 | 0 | 0 | 0 | 0 | 0 |
 | fraser | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Sweep još nije počeo (B01 je prvi pending batch) — tabela će se ažurirati posle svakog batch-a preko
-`_progress.md`.
+B01 (book page_001–page_020) završen 2026-07-09 — 2 validna para, oba `type: schematic`
+(generički price-cycle i trading-range dijagrami iz uvodnih poglavlja, bez konkretnog asseta).
+Ostatak batch rasporeda (B02–B29) i dalje pending — tabela će se ažurirati posle svakog
+sledećeg batch-a preko `_progress.md`.

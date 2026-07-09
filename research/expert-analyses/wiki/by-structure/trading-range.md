@@ -1,10 +1,12 @@
 ---
 title: Trading Range
-description: "Wyckoff struktura — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a."
+description: "Wyckoff struktura — generički Uptrend/Downtrend/Trading Range schematic (book Ch.3) prikazuje support/resistance granice range-a."
 type: topic
-status: draft
+status: active
 updated: 2026-07-09
-sources: []
+sources:
+  - path: raw/book/pages/page_017.md
+    note: "Uptrend/Downtrend/Trading Range schematic"
 ---
 
 # Trading Range
@@ -13,5 +15,4 @@ _Wyckoff struktura: `trading-range` — taksonomija preslikava `knowledge/wiki/s
 
 ## Primeri
 
-<!-- Popunjava se u Zadatku 6 (sweep Zadaci 3–5) pointerima na extracts/*.md -->
-<!-- Format: - [[../extracts/<id>]] — <source> <page/url> — <type> — <status> -->
+- [[../extracts/book_p017_trading-range_schematic]] — raw/book/pages/page_017.md p.17 — schematic — candidate
