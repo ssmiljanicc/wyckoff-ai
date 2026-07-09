@@ -1,5 +1,12 @@
 # Feature: `research/expert-analyses/` tematski index ekspertskog korpusa
 
+## Napomena (2026-07-09) — izvršenje zamenjeno
+
+Izvršenje Zadataka 3-8 (sweep preko `prp-implement`-a) ZAMENJENO je runner batches.md arhitekturom — vidi
+`PRPs/plans/wyckoff-onboarding-runner.plan.md`. Zadaci 0-2 (skela) ostaju DONE i tačni. Zadaci 3-8 OSTAJU
+ovde kao istorijski dokument discipline (Batch protokol: serije ≤20, stop na 50% konteksta — ta disciplina
+je prenesena u novi plan's B01 prompt tekst), ali se više NE IZVRŠAVAJU preko `prp-implement`-a.
+
 ## Izmene od pregled-plana
 
 Re-pakovano nakon `/pregled-plana` (izveštaj: `.claude/pregled-plana/research-expert-analyses-index.md`).
