@@ -177,11 +177,28 @@ def _extract_paths(kb_root: Path) -> list[Path]:
     return sorted(extracts_dir.glob("*.md"))
 
 
+def _read_text_safe(path: Path, rel: str) -> tuple[str | None, list]:
+    """Pročitaj fajl hvatajući `UnicodeDecodeError` kao `Finding` umesto da
+    probije `collect_findings` i sruši `main()` sirovim tracebackom (PR #96
+    review nalaz — `UnicodeDecodeError` NIJE podklasa `OSError`/`ValidationError`,
+    pa bi inače pobegla iz `main()`-ovog `except (core.ValidationError, OSError)`)."""
+    try:
+        return path.read_text(encoding="utf-8"), []
+    except UnicodeDecodeError as exc:
+        return None, [
+            core.Finding("FAIL", "F-EXTRACT-ENCODING", f"fajl nije validan UTF-8: {exc}", rel)
+        ]
+
+
 def check_extract_frontmatter(extract_paths: list[Path], kb_root: Path) -> list:
     findings: list = []
     for path in extract_paths:
         rel = str(path.relative_to(kb_root))
-        fm = core.parse_frontmatter(path.read_text(encoding="utf-8"))
+        text, decode_findings = _read_text_safe(path, rel)
+        if text is None:
+            findings += decode_findings
+            continue
+        fm = core.parse_frontmatter(text)
         for field in EXTRACT_REQUIRED_FIELDS:
             if field not in fm:
                 findings.append(
@@ -224,12 +241,53 @@ def check_extract_frontmatter(extract_paths: list[Path], kb_root: Path) -> list:
     return findings
 
 
+def check_extract_source_exists(extract_paths: list[Path], repo_root: Path, kb_root: Path) -> list:
+    """`source:` mora pokazivati na postojeći raw fajl (`EXTRACT_TEMPLATE.md:3`
+    — "putanja do raw fajla (mora postojati)"). Pre ovog nalaza (PR #96 review)
+    `check_extract_frontmatter` je proveravao SAMO prisustvo polja, ne postojanje
+    putanje — typo u `source` je prolazio deterministički gate, iako je
+    §Disciplina citiranja u `batches.md` pogrešnu atribuciju tretira kao
+    najskuplju grešku ove KB discipline. Mirror `check_extract_image_path`."""
+    findings: list = []
+    repo_resolved = repo_root.resolve()
+    for path in extract_paths:
+        rel = str(path.relative_to(kb_root))
+        text, decode_findings = _read_text_safe(path, rel)
+        if text is None:
+            findings += decode_findings
+            continue
+        fm = core.parse_frontmatter(text)
+        source = str(fm.get("source", "")).strip()
+        if not source:
+            continue  # nedostajuće polje već FAIL-uje u check_extract_frontmatter
+        candidate = Path(source)
+        if candidate.is_absolute():
+            findings.append(
+                core.Finding(
+                    "FAIL", "F-EXTRACT-SOURCE", f"apsolutna source putanja nije dozvoljena: {source}", rel
+                )
+            )
+            continue
+        resolved = (repo_resolved / candidate).resolve()
+        if not resolved.is_relative_to(repo_resolved) or not resolved.is_file():
+            findings.append(
+                core.Finding(
+                    "FAIL", "F-EXTRACT-SOURCE", f"source ne pokazuje na postojeći raw fajl: {source}", rel
+                )
+            )
+    return findings
+
+
 def check_extract_image_path(extract_paths: list[Path], repo_root: Path, kb_root: Path) -> list:
     findings: list = []
     repo_resolved = repo_root.resolve()
     for path in extract_paths:
         rel = str(path.relative_to(kb_root))
-        fm = core.parse_frontmatter(path.read_text(encoding="utf-8"))
+        text, decode_findings = _read_text_safe(path, rel)
+        if text is None:
+            findings += decode_findings
+            continue
+        fm = core.parse_frontmatter(text)
         image_path = str(fm.get("image_path", "")).strip()
         if not image_path:
             continue
@@ -264,7 +322,11 @@ def check_extract_not_full_copy(extract_paths: list[Path], kb_root: Path) -> lis
     findings: list = []
     for path in extract_paths:
         rel = str(path.relative_to(kb_root))
-        word_count = len(path.read_text(encoding="utf-8").split())
+        text, decode_findings = _read_text_safe(path, rel)
+        if text is None:
+            findings += decode_findings
+            continue
+        word_count = len(text.split())
         if word_count > EXTRACT_WORD_LIMIT:
             findings.append(
                 core.Finding(
@@ -285,7 +347,10 @@ def check_extract_parity(extract_paths: list[Path], kb_root: Path) -> list:
     for d in (by_event_dir, by_structure_dir):
         if d.is_dir():
             for f in d.glob("*.md"):
-                haystacks.append(f.read_text(encoding="utf-8"))
+                text, decode_findings = _read_text_safe(f, str(f.relative_to(kb_root)))
+                findings += decode_findings
+                if text is not None:
+                    haystacks.append(text)
     combined = "\n".join(haystacks)
     for path in extract_paths:
         rel = str(path.relative_to(kb_root))
@@ -322,7 +387,9 @@ def check_progress_ledger_sane(kb_root: Path) -> list:
                 "_progress.md",
             )
         ]
-    text = progress_path.read_text(encoding="utf-8")
+    text, decode_findings = _read_text_safe(progress_path, "_progress.md")
+    if text is None:
+        return decode_findings
     found_sources: set[str] = set()
     for lineno, line in enumerate(text.splitlines(), start=1):
         m = _PROGRESS_ROW_RE.match(line.strip())
@@ -376,7 +443,16 @@ def collect_findings(kb_root: Path, repo_root: Path, skip_git: bool) -> list:
     findings += core.check_batch_status(batches)
     # NAMERNO IZOSTAVLJENO: core.check_complete_coverage (D4 — bijekcija ne važi)
     findings += check_raw_integrity_multi(repo_root, skip_git)
-    findings += core.check_orphans(pages)
+    # NAMERNO IZOSTAVLJENO: core.check_orphans (D7, PR #96 review nalaz — mk-pregled-logike-solo).
+    # `check_orphans` pretpostavlja da sadržajne stranice primaju ulazne veze
+    # JEDNA OD DRUGE; u ovoj topologiji `by-event`/`by-structure` stranice
+    # primaju linkove ISKLJUČIVO iz `wiki/index.md` (isključen iz provere) i
+    # pokazuju NA extract kartice (koje nisu `Page`-ovi core-a) — nikad jedna
+    # od druge. Svih ~28 taksonomijskih stranica bi zato bilo TRAJNO "orphan"
+    # kroz ceo život korpusa (empirijski potvrđeno: B01 E2E warn=30, od čega
+    # ~28 ovaj šum), zasićujući WARN kanal u kome operator treba da primeti
+    # STVARNE signale (W-STALE-REINGEST, W-BATCH-SUSPECT, W-EXTRACT-*). Isti
+    # kriterijum kao D4: core provera čija premisa ne važi za ovu topologiju.
     findings += core.check_dup_title(pages)
     findings += core.check_anchors(pages)
     findings += core.check_wiki_gap(pages)
@@ -385,6 +461,7 @@ def collect_findings(kb_root: Path, repo_root: Path, skip_git: bool) -> list:
 
     # Domenske ekstenzije nad extract karticama + ledger
     findings += check_extract_frontmatter(extract_paths, kb_root)
+    findings += check_extract_source_exists(extract_paths, repo_root, kb_root)
     findings += check_extract_image_path(extract_paths, repo_root, kb_root)
     findings += check_extract_not_full_copy(extract_paths, kb_root)
     findings += check_extract_parity(extract_paths, kb_root)

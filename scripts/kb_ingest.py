@@ -10,14 +10,18 @@ argumenti se prosleđuju runneru netaknuti (`--dry-run`, `--skip-git`,
 
 **Razlika od aerodrom exemplara (issue #219 nalaz 2 — "PR-tok = wrapper oko
 poziva, ne izmena runnera")**: ovaj wrapper DODAJE grana+PR korak koji aerodrom
-NEMA. PRE subprocess poziva pravi/prelazi na granu `wiki-ingest/<kb>-<timestamp>`
-(batch-ID nije unapred poznat — runner sam bira sledeći pending/partial batch).
-POSLE uspešnog poziva (rc==0) upoređuje batches.md status SNAPSHOT pre/posle da
-utvrdi koji batch(evi) su upravo obrađeni, commit-uje promene, push-uje granu, i
-otvara PR (`gh pr create --body-file`, NIKAD inline multi-line string).
+NEMA. Redosled (batch-ID nije unapred poznat pre poziva — runner sam bira
+sledeći pending/partial batch, pa se grana pravi TEK POSLE): subprocess poziv
+runneru na TEKUĆOJ (polaznoj) grani → upoređivanje batches.md status SNAPSHOT
+pre/posle da se utvrdi koji batch(evi) su upravo obrađeni → `git checkout -b
+wiki-ingest/<kb>-<timestamp>` → commit + push te grane → `gh pr create
+--body-file` (NIKAD inline multi-line string) → **povratak na polaznu granu**
+(uhvaćenu PRE poziva runneru) u svakom ishodu, da sledeći poziv ne nasledi
+nemergovanu granu (PR #96 review, KRITIČan nalaz — ispravljeno).
 `--dry-run` pozivi (nema pisanja u KB) NAMERNO preskaču ceo grana+PR tok — samo
 subprocess poziv, bez git side-effect-a (sprečava trash grane iz test/validation
-poziva).
+poziva). Ne-dry pozivi ODBIJAJU pokretanje ako je tekuća grana već
+`wiki-ingest/*` (guard protiv lančanja na nemergovan PR).
 
 Tvrdi zahtev: pokretati iz korena wyckoff-ai repoa — runner sidri repo_root, git
 provere i rezoluciju `sources:` putanja na cwd.
@@ -32,9 +36,11 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import os
+import re
 import subprocess
 import sys
 import tempfile
+import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -44,12 +50,22 @@ KONFIG_REL = Path("config") / "kb_ingest.yaml"
 POLIGON_SCRIPTS_DIR = Path(
     os.environ.get("POLIGON_SCRIPTS_DIR", str(Path.home() / "projekti" / "poligon" / "scripts"))
 )
+# Jedan izvor istine za poligon core import — modul-nivo (ADR 0006, poziv ne
+# import za RUNNER; core je Python modul pa se ovde legitimno importuje).
+sys.path.insert(0, str(POLIGON_SCRIPTS_DIR))
+import validate_kb_core as core  # noqa: E402
 
 # Otvoreno pitanje (vidi PRPs/plans/wyckoff-onboarding-runner.plan.md §Notes):
 # #89 je najbliži postojeći otvoreni wyckoff issue za research/expert-analyses/
 # deliverable, ali NIJE doslovno "runner onboarding" issue. Lako izmenjiv posle
 # operator odluke (ovde ILI preko --issue flaga).
 DEFAULT_ISSUE_NUMBER = "89"
+
+# Grane koje ovaj wrapper sam pravi (_open_pr_for_batches) — guard protiv
+# pokretanja SA takve grane (PR #96 review nalaz, KRITIČNO): ako se prethodni
+# poziv nije vratio na polaznu granu (bug ispravljen ovde), sledeći poziv bi se
+# inače granao OD nemergovanog PR-a i lančano ga nosio u sledeći diff.
+INGEST_BRANCH_RE = re.compile(r"^wiki-ingest/")
 
 
 def ucitaj_konfig(repo_root: Path) -> dict:
@@ -101,15 +117,31 @@ def _load_profile(validator_script: Path):
     profile = getattr(module, "PROFILE", None)
     if profile is None:
         raise RuntimeError(f"{validator_script} ne izlaže PROFILE (CorpusProfile)")
+    # `sys.modules[spec.name] = module` gore garantuje da je ovo ISTI keširan
+    # `validate_kb_core` modul kao `core` (modul-nivo import) — isinstance je
+    # zato pouzdan i jeftin (PR #96 review nalaz).
+    if not isinstance(profile, core.CorpusProfile):
+        raise RuntimeError(
+            f"{validator_script}.PROFILE nije core.CorpusProfile instanca "
+            f"(dobijeno: {type(profile).__name__})"
+        )
     return profile
+
+
+def _current_branch(cwd: Path) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip()
 
 
 def _snapshot_batch_statuses(kb_root: Path, validator_script: Path) -> dict[str, str]:
     """`{batch_id: status}` snapshot iz `batches.md` — koristi core `parse_batches`
     + KB-ov sopstveni PROFILE (dinamički učitan)."""
-    sys.path.insert(0, str(POLIGON_SCRIPTS_DIR))
-    import validate_kb_core as core  # noqa: E402
-
     profile = _load_profile(validator_script)
     batches = core.parse_batches(kb_root, profile)
     return {b.id: b.status for b in batches}
@@ -120,15 +152,33 @@ def _run(cmd: list[str], cwd: Path) -> int:
     return subprocess.run(cmd, cwd=cwd, check=False).returncode
 
 
+def _checkout(cwd: Path, branch: str) -> bool:
+    return subprocess.run(["git", "checkout", branch], cwd=cwd, check=False).returncode == 0
+
+
 def _open_pr_for_batches(
-    *, cwd: Path, kb_root_rel: str, issue: str, changed: dict[str, tuple[str, str]]
-) -> None:
+    *,
+    cwd: Path,
+    kb_root_rel: str,
+    issue: str,
+    changed: dict[str, tuple[str, str]],
+    original_branch: str,
+) -> int:
     """Grana + commit + push + `gh pr create --body-file` za batch-eve koji su
     upravo promenili status (pre != posle). NIKAD inline multi-line `--body`
-    string (poznata zamka)."""
+    string (poznata zamka).
+
+    Vraća repo na `original_branch` u SVAKOM ishodu (uspeh, prazan diff,
+    obešena udaljena grana posle neuspelog `gh pr create`) — PR #96 review
+    KRITIČAN nalaz: prethodna verzija je posle uspešnog `gh pr create` ostajala
+    na novoj grani, pa se sledeći poziv granao OD nemergovanog PR-a i lančano
+    ga nosio u sledeći diff.
+
+    Vraća 0 na uspeh/no-op, 1 na grešku (repo ostaje na `branch` radi ručne
+    inspekcije SAMO ako i povratak na `original_branch` ne uspe)."""
     if not changed:
         print("kb-ingest: nijedan batch nije promenio status — preskačem grana/PR tok.")
-        return
+        return 0
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     batch_ids = sorted(changed.keys())
@@ -137,45 +187,89 @@ def _open_pr_for_batches(
 
     subprocess.run(["git", "checkout", "-b", branch], cwd=cwd, check=True)
     subprocess.run(["git", "add", kb_root_rel], cwd=cwd, check=True)
-    status = subprocess.run(
-        ["git", "diff", "--cached", "--quiet"], cwd=cwd, check=False
-    )
+    status = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=cwd, check=False)
+
+    # rc 0 = nema staged izmena, rc 1 = ima staged izmena — SVAKI drugi rc je
+    # git greška (npr. oštećen index) i NE sme se tumačiti kao "ima izmena".
+    if status.returncode not in (0, 1):
+        print(
+            f"kb-ingest GREŠKA: 'git diff --cached --quiet' vratio neočekivan rc={status.returncode} "
+            f"(git greška, ne staged-diff signal) — repo ostaje na '{branch}' radi inspekcije.",
+            file=sys.stderr,
+        )
+        return 1
+
     if status.returncode == 0:
         print("kb-ingest: nema staged izmena posle batch-a — preskačem commit/PR.")
-        subprocess.run(["git", "checkout", "-"], cwd=cwd, check=False)
-        subprocess.run(["git", "branch", "-D", branch], cwd=cwd, check=False)
-        return
+        if not _checkout(cwd, original_branch):
+            print(
+                f"kb-ingest UPOZORENJE: povratak na '{original_branch}' nije uspeo — "
+                f"repo ostaje na '{branch}'.",
+                file=sys.stderr,
+            )
+            return 1
+        if subprocess.run(["git", "branch", "-D", branch], cwd=cwd, check=False).returncode != 0:
+            print(
+                f"kb-ingest UPOZORENJE: brisanje prazne grane '{branch}' nije uspelo — obriši ručno.",
+                file=sys.stderr,
+            )
+        return 0
 
     commit_title = f"#{issue} Wiki ingest (research/expert-analyses, {scope})"
-    with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as commit_body_file:
-        commit_body_file.write(commit_title + "\n\n")
-        for bid in batch_ids:
-            before, after = changed[bid]
-            commit_body_file.write(f"- {bid}: {before} -> {after}\n")
-        commit_body_path = commit_body_file.name
-    subprocess.run(["git", "commit", "-F", commit_body_path], cwd=cwd, check=True)
-    os.unlink(commit_body_path)
+    commit_body_path = None
+    try:
+        with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as commit_body_file:
+            commit_body_file.write(commit_title + "\n\n")
+            for bid in batch_ids:
+                before, after = changed[bid]
+                commit_body_file.write(f"- {bid}: {before} -> {after}\n")
+            commit_body_path = commit_body_file.name
+        subprocess.run(["git", "commit", "-F", commit_body_path], cwd=cwd, check=True)
+    finally:
+        if commit_body_path:
+            os.unlink(commit_body_path)
 
     subprocess.run(["git", "push", "-u", "origin", branch], cwd=cwd, check=True)
 
-    with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as pr_body_file:
-        pr_body_file.write(f"## Summary\n\nRunner batch ingest: {scope} (`research/expert-analyses`).\n\n")
-        pr_body_file.write("## Batch-evi\n\n")
-        for bid in batch_ids:
-            before, after = changed[bid]
-            pr_body_file.write(f"- `{bid}`: `{before}` -> `{after}`\n")
-        pr_body_file.write("\n🤖 Otvoreno preko `scripts/kb_ingest.py`.\n")
-        pr_body_path = pr_body_file.name
-    subprocess.run(
-        [
-            "gh", "pr", "create",
-            "--title", commit_title,
-            "--body-file", pr_body_path,
-        ],
-        cwd=cwd,
-        check=True,
-    )
-    os.unlink(pr_body_path)
+    pr_body_path = None
+    try:
+        with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as pr_body_file:
+            pr_body_file.write(f"## Sažetak\n\nRunner batch ingest: {scope} (`research/expert-analyses`).\n\n")
+            pr_body_file.write("## Batch-evi\n\n")
+            for bid in batch_ids:
+                before, after = changed[bid]
+                pr_body_file.write(f"- `{bid}`: `{before}` -> `{after}`\n")
+            pr_body_file.write("\n🤖 Otvoreno preko `scripts/kb_ingest.py`.\n")
+            pr_body_path = pr_body_file.name
+        gh_result = subprocess.run(
+            ["gh", "pr", "create", "--title", commit_title, "--body-file", pr_body_path],
+            cwd=cwd,
+            check=False,
+        )
+    finally:
+        if pr_body_path:
+            os.unlink(pr_body_path)
+
+    if gh_result.returncode != 0:
+        print(
+            f"kb-ingest GREŠKA: 'gh pr create' nije uspeo (rc={gh_result.returncode}), ali grana "
+            f"'{branch}' JE push-ovana na origin sa commit-om ({scope}) — obešena udaljena grana. "
+            f"Otvori PR ručno (gh pr create --title \"{commit_title}\" --base {original_branch} "
+            f"--head {branch}) ili obriši granu (git push origin --delete {branch}) ako je greškom.",
+            file=sys.stderr,
+        )
+        _checkout(cwd, original_branch)  # best-effort povratak, ne guta gornju grešku
+        return 1
+
+    if not _checkout(cwd, original_branch):
+        print(
+            f"kb-ingest UPOZORENJE: PR otvoren, ali povratak na '{original_branch}' nije uspeo — "
+            f"repo je ostao na '{branch}'. Pre sledećeg poziva: git checkout {original_branch}.",
+            file=sys.stderr,
+        )
+        return 1
+
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -247,10 +341,20 @@ def main(argv: list[str] | None = None) -> int:
         # poziva, npr. Validation Commands u wyckoff-onboarding-runner.plan.md).
         return _run(cmd, cwd)
 
+    original_branch = _current_branch(cwd)
+    if INGEST_BRANCH_RE.match(original_branch):
+        print(
+            f"greška: tekuća grana '{original_branch}' izgleda kao granu koju je ovaj wrapper "
+            "sam napravio (nemergovan prethodni poziv) — pređi na nameravanu baznu granu pre "
+            f"ponovnog pokretanja (npr. 'git checkout wyckoff-onboarding-runner' ili 'main').",
+            file=sys.stderr,
+        )
+        return 2
+
     try:
         pre_snapshot = _snapshot_batch_statuses(kb_root, validator)
     except RuntimeError as exc:
-        print(f"greška: {exc}", file=sys.stderr)
+        print(f"greška: {exc}\n{traceback.format_exc()}", file=sys.stderr)
         return 2
 
     rc = _run(cmd, cwd)
@@ -258,7 +362,16 @@ def main(argv: list[str] | None = None) -> int:
         print(f"kb-ingest: runner rc={rc} — preskačem grana/PR tok.", file=sys.stderr)
         return rc
 
-    post_snapshot = _snapshot_batch_statuses(kb_root, validator)
+    try:
+        post_snapshot = _snapshot_batch_statuses(kb_root, validator)
+    except RuntimeError as exc:
+        print(
+            f"greška: ingest je USPEO (rc=0), ali post-snapshot za grana/PR tok nije uspeo: {exc}\n"
+            f"{traceback.format_exc()}",
+            file=sys.stderr,
+        )
+        return 2
+
     changed = {
         bid: (pre_snapshot.get(bid, "?"), post_status)
         for bid, post_status in post_snapshot.items()
@@ -266,17 +379,16 @@ def main(argv: list[str] | None = None) -> int:
     }
 
     try:
-        _open_pr_for_batches(
+        return _open_pr_for_batches(
             cwd=cwd,
             kb_root_rel=kb_unos["kb_root"],
             issue=args.issue,
             changed=changed,
+            original_branch=original_branch,
         )
     except subprocess.CalledProcessError as exc:
-        print(f"greška u grana/PR toku: {exc}", file=sys.stderr)
+        print(f"greška u grana/PR toku: {exc}\n{traceback.format_exc()}", file=sys.stderr)
         return 1
-
-    return 0
 
 
 if __name__ == "__main__":
