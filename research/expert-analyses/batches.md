@@ -40,6 +40,8 @@ Kolona „Jedinice" NIJE mašinski-parseabilna lista identiteta za crypto/fraser
 
 `CorpusProfile` u `scripts/validate_expert_analyses.py` namerno NE poziva `check_complete_coverage` (core provera koja bi zahtevala 1:1 bijekciju raw-jedinica ↔ content-stranica) — wyckoff model je N raw → 0..M filtriranih extract kartica, pokrivenost prati `_progress.md` ledger, ne ova tabela.
 
+**Gotcha (B01 real-run nalaz, 2026-07-09): NIKAD ne počinji `### Bxx` prompt sa `$reč` na početku reda.** Runner-ova `normalize_prompt_for_backend` (`ingest_runner.py:562-563`) transformiše BILO KOJI prompt koji počinje `^\$[\w-]+(\s|$)` u `/reč ...` za `claude -p` — namenjeno za prave skill-invokacije (`$llm-wiki ingest ...`, skills-kb obrazac). Ovaj KB ne poziva nijedan skill preko `$ime` sintakse (runner direktno instruira plain agenta), pa `$B01 — ...` je bio pogrešno protumačen kao `/B01` (nepostojeća slash-komanda → trenutni izlaz, 0 tokena, `pages_delta=0` → runner status `blocked`). Uvek počinji prompt plain tekstom (npr. "Expert-analyses book sweep, ...").
+
 ## Raspored
 
 | Batch | Izvor | Jedinice | Posebna kapija | Status | Datum | Wiki stranice | Preostali izvori | Log |
@@ -87,7 +89,7 @@ Svaki blok je potpun copy/paste prompt. B01 nosi pun disciplinovan tekst (sprema
 ### B01
 
 ```text
-$B01 — expert-analyses book sweep, page_001-page_020. Pre pisanja pročitaj (redom): research/expert-analyses/EXTRACT_TEMPLATE.md, research/expert-analyses/_progress.md, research/expert-analyses/wiki/index.md, poslednjih 50 linija research/expert-analyses/wiki/log.md, CLAUDE.md §5 (provenance/citat konvencije) i §7 (WIKI_GAP), i ovog fajla sekciju "## Disciplina citiranja" (citation verification drill + misattribution check — obavezno primeniti na svaki citat, ne samo na kraju).
+Expert-analyses book sweep, page_001-page_020 (batch B01). Pre pisanja pročitaj (redom): research/expert-analyses/EXTRACT_TEMPLATE.md, research/expert-analyses/_progress.md, research/expert-analyses/wiki/index.md, poslednjih 50 linija research/expert-analyses/wiki/log.md, CLAUDE.md §5 (provenance/citat konvencije) i §7 (WIKI_GAP), i ovog fajla sekciju "## Disciplina citiranja" (citation verification drill + misattribution check — obavezno primeniti na svaki citat, ne samo na kraju).
 
 Obradi TAČNO raw/book/pages/page_001.md do raw/book/pages/page_020.md (20 strana, ne manje ne više — ovo je deljeni merni uzorak za wyckoff#92, opseg se ne pomera).
 
