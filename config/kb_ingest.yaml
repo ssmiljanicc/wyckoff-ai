@@ -1,0 +1,12 @@
+# KB ingest seam (ADR 0006 — poziv, ne import; mirror aerodrom#142/#144).
+# Poligon runner se poziva apsolutnom putanjom kao subprocess; kod ostaje na izvoru.
+# Env promenljiva WYCKOFF_INGEST_RUNNER ima prednost nad runner.putanja iz ovog fajla.
+# Pri poligon#87 okidaču (remote/sandbox bez deljenog fajl-sistema): menja se transport
+# (subprocess -> mcp) i ovaj seam, interfejs kb_root/validator_script ostaje isti.
+runner:
+  putanja: /Users/ssmiljanic/projekti/poligon/scripts/ingest_runner.py
+  transport: subprocess
+kb:
+  expert-analyses:
+    kb_root: research/expert-analyses
+    validator_script: scripts/validate_expert_analyses.py
