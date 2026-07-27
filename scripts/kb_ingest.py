@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""KB ingest wrapper — jedina tačka poziva poligon runnera (ADR 0006, mirror
-aerodrom#142/#144 `~/projekti/aerodrom/scripts/kb_ingest.py`).
+"""KB ingest wrapper — jedina tačka poziva Spona `spona-ingest` runnera (ADR 0006,
+mirror aerodrom#142/#144 `~/projekti/aerodrom/scripts/kb_ingest.py`).
 
-Poziv, ne import: čita `config/kb_ingest.yaml`, razreši putanju do poligon
-`ingest_runner.py` (env `WYCKOFF_INGEST_RUNNER` ima prednost) i pokrene ga kao
-subprocess sa `--kb-root`/`--validator-script` za izabrani KB. Svi ostali
-argumenti se prosleđuju runneru netaknuti (`--dry-run`, `--skip-git`,
-`--max-batches`, ...).
+Poziv, ne import: čita `config/kb_ingest.yaml` i pokrene pinovan Spona
+`spona-ingest` console script (`uv run spona-ingest`, project dependency,
+`spona@v0.1.0`, ADR 0011 §D2 red 7) kao subprocess sa
+`--kb-root`/`--validator-script` za izabrani KB. Svi ostali argumenti se
+prosleđuju runneru netaknuti (`--dry-run`, `--skip-git`, `--max-batches`, ...).
 
 **Razlika od aerodrom exemplara (issue #219 nalaz 2 — "PR-tok = wrapper oko
 poziva, ne izmena runnera")**: ovaj wrapper DODAJE grana+PR korak koji aerodrom
@@ -46,14 +46,12 @@ from pathlib import Path
 
 import yaml
 
+# Spona validated-ingest, project dependency (pyproject.toml + uv.lock, ADR 0011 §D2 red 6).
+# Module-alias oblik — sve postojeće core.X kvalifikovane reference ostaju nepromenjene
+# (ADR 0012 §Šta ovaj ADR ne odlučuje: tačan oblik importa je izvršni detalj Faze 4).
+from spona.validated_ingest.core import validator as core
+
 KONFIG_REL = Path("config") / "kb_ingest.yaml"
-POLIGON_SCRIPTS_DIR = Path(
-    os.environ.get("POLIGON_SCRIPTS_DIR", str(Path.home() / "projekti" / "poligon" / "scripts"))
-)
-# Jedan izvor istine za poligon core import — modul-nivo (ADR 0006, poziv ne
-# import za RUNNER; core je Python modul pa se ovde legitimno importuje).
-sys.path.insert(0, str(POLIGON_SCRIPTS_DIR))
-import validate_kb_core as core  # noqa: E402
 
 # Otvoreno pitanje (vidi PRPs/plans/wyckoff-onboarding-runner.plan.md §Notes):
 # #89 je najbliži postojeći otvoreni wyckoff issue za research/expert-analyses/
@@ -74,18 +72,9 @@ def ucitaj_konfig(repo_root: Path) -> dict:
         return yaml.safe_load(fh) or {}
 
 
-def razresi_runner(konfig: dict) -> Path:
-    """Putanja do poligon runnera; env WYCKOFF_INGEST_RUNNER ima prednost nad YAML-om."""
-    iz_env = os.environ.get("WYCKOFF_INGEST_RUNNER", "").strip()
-    if iz_env:
-        return Path(iz_env)
-    iz_yaml = (konfig.get("runner") or {}).get("putanja", "")
-    return Path(iz_yaml)
-
-
 def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, list[str]]:
     parser = argparse.ArgumentParser(
-        description="Pokreni poligon ingest runner nad wyckoff-ai KB-om (poziv, ne import) + PR-tok.",
+        description="Pokreni Spona spona-ingest runner nad wyckoff-ai KB-om (poziv, ne import) + PR-tok.",
         epilog="Svi nepoznati argumenti se prosleđuju runneru netaknuti (npr. --dry-run --skip-git --max-batches 1).",
     )
     parser.add_argument("--kb", default="expert-analyses", help="ključ KB-a iz config/kb_ingest.yaml")
@@ -117,8 +106,8 @@ def _load_profile(validator_script: Path):
     profile = getattr(module, "PROFILE", None)
     if profile is None:
         raise RuntimeError(f"{validator_script} ne izlaže PROFILE (CorpusProfile)")
-    # `sys.modules[spec.name] = module` gore garantuje da je ovo ISTI keširan
-    # `validate_kb_core` modul kao `core` (modul-nivo import) — isinstance je
+    # `core.CorpusProfile` referencira ISTU klasu kao `spona.validated_ingest.api.CorpusProfile`
+    # (jer `spona.validated_ingest.core.validator` je uvozi u sopstveni namespace) — isinstance je
     # zato pouzdan i jeftin (PR #96 review nalaz).
     if not isinstance(profile, core.CorpusProfile):
         raise RuntimeError(
@@ -310,24 +299,15 @@ def main(argv: list[str] | None = None) -> int:
         print(f"greška: validator ne postoji: {validator}", file=sys.stderr)
         return 2
 
-    runner = razresi_runner(konfig)
-    if not runner.is_file():
-        print(
-            f"greška: poligon runner nije na putanji: {runner}\n"
-            "  - proveri config/kb_ingest.yaml (runner.putanja), ili\n"
-            "  - postavi env WYCKOFF_INGEST_RUNNER na putanju do ingest_runner.py",
-            file=sys.stderr,
-        )
-        return 2
-
     passthrough = list(runner_args)
     if passthrough and passthrough[0] == "--":
         passthrough = passthrough[1:]
     is_dry_run = "--dry-run" in passthrough
 
     cmd = [
-        sys.executable,
-        str(runner),
+        "uv",
+        "run",
+        "spona-ingest",
         "--kb-root",
         str(kb_root),
         "--validator-script",

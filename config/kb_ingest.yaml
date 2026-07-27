@@ -1,10 +1,10 @@
 # KB ingest seam (ADR 0006 — poziv, ne import; mirror aerodrom#142/#144).
-# Poligon runner se poziva apsolutnom putanjom kao subprocess; kod ostaje na izvoru.
-# Env promenljiva WYCKOFF_INGEST_RUNNER ima prednost nad runner.putanja iz ovog fajla.
+# Runner: Spona spona-ingest console script, project dependency (ADR 0011 §D2 red 7).
+# Nema više apsolutne putanje da se razreši — uv run spona-ingest se poziva direktno,
+# nema više env-override putanje (uklonjena iz scripts/kb_ingest.py u G2 Fazi 4).
 # Pri poligon#87 okidaču (remote/sandbox bez deljenog fajl-sistema): menja se transport
 # (subprocess -> mcp) i ovaj seam, interfejs kb_root/validator_script ostaje isti.
 runner:
-  putanja: /Users/ssmiljanic/projekti/poligon/scripts/ingest_runner.py
   transport: subprocess
 kb:
   expert-analyses:
