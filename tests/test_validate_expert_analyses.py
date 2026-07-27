@@ -207,6 +207,17 @@ def test_real_kb_root_validates_clean() -> None:
     assert fails == []
 
 
+def test_real_kb_root_validates_clean_with_git_check() -> None:
+    """Produkcioni put (skip_git=False) — zatečena svita ga NIKAD nije izvršavala (Faza 2
+    lekcija: git-check grana ostaje netestirana bez ovog testa). Sveže klonirani worktree ima
+    čist raw/, pa se očekuje isti rezultat kao skip_git=True."""
+    kb_root = ROOT / "research" / "expert-analyses"
+    findings = v.collect_findings(kb_root, ROOT, skip_git=False)
+
+    fails = [f for f in findings if f.severity == "FAIL"]
+    assert fails == []
+
+
 # --- RAW_UNIT_RE (D6) — regresija za sva tri raw podstabla ----------------------
 
 

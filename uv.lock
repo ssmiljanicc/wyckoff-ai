@@ -1745,6 +1745,11 @@ wheels = [
 ]
 
 [[package]]
+name = "spona"
+version = "0.1.0"
+source = { git = "https://github.com/ssmiljanicc/spona?rev=v0.1.0#4ad78187fd7e703a03dfbeb65be7bd297700c290" }
+
+[[package]]
 name = "sse-starlette"
 version = "3.4.4"
 source = { registry = "https://pypi.org/simple" }
@@ -1848,6 +1853,7 @@ dependencies = [
     { name = "mcp", extra = ["cli"] },
     { name = "pyyaml" },
     { name = "requests" },
+    { name = "spona" },
 ]
 
 [package.optional-dependencies]
@@ -1878,5 +1884,6 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'mcp'", specifier = ">=8.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "requests", specifier = ">=2.32" },
+    { name = "spona", git = "https://github.com/ssmiljanicc/spona?rev=v0.1.0" },
 ]
 provides-extras = ["book", "vision", "mcp"]

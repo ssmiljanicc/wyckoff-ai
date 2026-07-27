@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Deterministički validator `research/expert-analyses/` KB-a: mehanička kapija
-(FAIL) + semantički rizici (WARN), za konzumaciju poligon `ingest_runner.py`.
+(FAIL) + semantički rizici (WARN), za konzumaciju Spona `spona-ingest` runner-a.
 
-Ovaj wrapper JE core-parametrizovan (`~/projekti/poligon/scripts/validate_kb_core.py`)
+Ovaj wrapper JE core-parametrizovan (pinovan Spona paket,
+`spona.validated_ingest.core.validator`, `spona@v0.1.0`, project dependency)
 ALI, za razliku od `validate_issues_kb.py`/`validate_skills_kb.py`, NE delegira na
 `core.run_cli()`/`core.collect_findings()` monolitno. Dva strukturna razloga
 (otkrivena čitanjem core/runner koda tokom planiranja, `PRPs/plans/wyckoff-onboarding-runner.plan.md`):
@@ -42,29 +43,25 @@ raw je deljen sa ostatkom wyckoff-ai repoa, npr. eval pipeline-om). Zato
 ne postoji → git status na nepostojećoj putanji je trivijalno prazan).
 `check_raw_integrity_multi` ispod proverava sve TRI stvarne raw putanje.
 
-Modul-level `PROFILE` je runner-consumed ugovor (#218/#220 poligon konvencija):
-`ingest_runner.py --delta` mod dinamički učitava ovaj modul i čita `PROFILE`
-da razreši layout parametre (raw regex, identitet, content dir) bez uvoza koda.
+Modul-level `PROFILE` je runner-consumed ugovor (#218/#220 poligon konvencija,
+poreklo pre G2 migracije): Spona `spona-ingest --delta` mod dinamički učitava
+ovaj modul i čita `PROFILE` da razreši layout parametre (raw regex, identitet,
+content dir) bez uvoza koda.
 """
 
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-# scripts/ nije paket; poligon je DRUGI repo — apsolutna putanja, ne
-# Path(__file__).parent (isti obrazac kao ingest_runner.py:69, prilagođen
-# cross-repo pozivu). Env override za premestivost/testiranje.
-_POLIGON_SCRIPTS_DIR = Path(
-    os.environ.get("POLIGON_SCRIPTS_DIR", str(Path.home() / "projekti" / "poligon" / "scripts"))
-)
-sys.path.insert(0, str(_POLIGON_SCRIPTS_DIR))
-import validate_kb_core as core  # noqa: E402
+# Spona validated-ingest, project dependency (pyproject.toml + uv.lock, ADR 0011 §D2 red 6).
+# Module-alias oblik — sve postojeće core.X kvalifikovane reference ostaju nepromenjene
+# (ADR 0012 §Šta ovaj ADR ne odlučuje: tačan oblik importa je izvršni detalj Faze 4).
+from spona.validated_ingest.core import validator as core
 
 
 PAGE_DIRS = ("by-event", "by-structure")
@@ -437,8 +434,8 @@ def collect_findings(kb_root: Path, repo_root: Path, skip_git: bool) -> list:
     findings += core.check_sources_exist(pages, repo_root)
     findings += core.check_frontmatter(pages)
     findings += core.check_local_links(pages)
-    findings += core.check_index_complete(pages, kb_root)
-    findings += core.check_index_descriptions(pages, kb_root)
+    findings += core.check_index_complete(pages, kb_root, PROFILE)
+    findings += core.check_index_descriptions(pages, kb_root, PROFILE)
     findings += core.check_dup_identity(pages, PROFILE)
     findings += core.check_batch_status(batches)
     # NAMERNO IZOSTAVLJENO: core.check_complete_coverage (D4 — bijekcija ne važi)
