@@ -1,5 +1,7 @@
 # Raw Data Inventory
 
+> **Current Fraser image state:** This pre-rebuild snapshot is stale; consult `raw/bruce_fraser/images-manifest.json` as the canonical live inventory for restored Fraser images.
+
 **Generated:** 2026-05-24
 **Issue:** [#1](https://github.com/ssmiljanicc/wyckoff-ai/issues/1)
 **Source paths (current, pre-rebuild):** `skills/wyckoff-trader-skill/references/assets/`
