@@ -19,8 +19,10 @@ raw/wyckoff_crypto_lab/
   videos/                ← puni video, van git-a
   transcripts/            ← transkripti (čist tekst, bez vremena), van git-a
   summaries/              ← sažeci (skil wyckoff-crypto-lab-sazetak), van git-a
-  screenshots/<naziv>/    ← snimci ekrana na fiksnom intervalu, van git-a
-  annotated/              ← transkript + snimci ekrana spojeni, van git-a
+  annotated/<naziv>/      ← standardna struktura globalnog `transkripcija annotate` (ispod), van git-a
+    transcript.md
+    screenshots/
+    annotated.md
 ```
 
 `manifest.json` je lista unosa:
@@ -73,20 +75,21 @@ lokalno` — laba veza preko fajla, ne preko Python uvoza (namerna odluka, vidi
 
 ## Operacija: napravi anotirani transkript (tekst + snimci ekrana)
 
-Čist transkript (gore) ne hvata šta je autor nacrtao na grafiku dok priča. Ova komanda spaja
-transkript sa vremenskim oznakama (preko globalnog skila `transkripcija`, `--format json`) i
-snimke ekrana izvučene na fiksnom intervalu (podrazumevano na 45 sekundi), u jedan Markdown fajl
-gde je posle svakog dela teksta ugrađena slika onoga što se u tom trenutku videlo na ekranu:
+Čist transkript (gore) ne hvata šta je autor nacrtao na grafiku dok priča. Za ovo se **ne piše
+kod ovde** — poziva se globalna `annotate` komanda iz `transkripcija` alata (skil `transkripcija`),
+koja radi mehanički deo (transkripcija + ffmpeg snimci ekrana + spajanje po vremenu) za bilo koji
+pozivaoca. Ovaj skil samo zna KOJU putanju da joj da za `wyckoff-ai`:
 
 ```bash
-python3 scripts/napravi_anotirani_transkript.py raw/wyckoff_crypto_lab/videos/"<naziv-fajla>.mp4"
+uv run --project ~/projekti/transkripcija transkripcija annotate \
+  raw/wyckoff_crypto_lab/videos/"<naziv-fajla>.mp4" \
+  --izlaz raw/wyckoff_crypto_lab/annotated/"<naziv-fajla>"
 ```
 
-Rezultat ide u `raw/wyckoff_crypto_lab/annotated/<naziv-fajla>.md`, snimci u
-`raw/wyckoff_crypto_lab/screenshots/<naziv-fajla>/`. Interval je podesiv (`--interval 30`) —
-fiksni interval je namerno prost izbor (ne "pametna" detekcija promene na ekranu), pošto tekst uz
-sliku i dalje daje kontekst i kad slika ne pogodi tačan trenutak crtanja. Uzastopni delovi teksta
-koji padaju pod isti snimak se grupišu, da se ista slika ne ponavlja iznova.
+Rezultat: `raw/wyckoff_crypto_lab/annotated/<naziv-fajla>/{transcript.md, screenshots/, annotated.md}`
+— ista struktura koju `annotate` pravi u svakom projektu koji je pozove (vidi skil `transkripcija`
+za detalje/interval podešavanje). Uzastopni delovi teksta pod istim snimkom se grupišu, da se ista
+slika ne ponavlja iznova.
 
 **Kad koristiti ovo umesto obične transkripcije:** kad korisnik pita nešto vizuelno ("gde je
 nacrtao liniju", "kako je izgledao grafik kad je pomenuo spring") ili eksplicitno traži anotirani
