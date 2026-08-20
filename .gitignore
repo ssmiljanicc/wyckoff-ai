@@ -164,6 +164,13 @@ venv/
 raw/book/*.pdf
 raw/book/*.PDF
 
+# Paid Discord community content — never committed, local-only (subscription content, not ours to redistribute)
+raw/wyckoff_crypto_lab/videos/
+raw/wyckoff_crypto_lab/transcripts/
+raw/wyckoff_crypto_lab/summaries/
+raw/wyckoff_crypto_lab/screenshots/
+raw/wyckoff_crypto_lab/annotated/
+
 # OS
 .DS_Store
 Thumbs.db
