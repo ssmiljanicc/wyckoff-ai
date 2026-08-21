@@ -18,6 +18,7 @@ raw/wyckoff_crypto_lab/
   manifest.json          ← praćen u git-u (samo metapodaci: datum, naslov, link, status)
   videos/                ← puni video, van git-a
   transcripts/            ← transkripti (čist tekst, bez vremena), van git-a
+  descriptions/           ← opis videa sa YouTube-a (linkovi koje autor pominje), van git-a
   summaries/              ← sažeci (skil wyckoff-crypto-lab-sazetak), van git-a
   annotated/<naziv>/      ← standardna struktura globalnog `transkripcija annotate` (ispod), van git-a
     transcript.md
@@ -33,6 +34,7 @@ raw/wyckoff_crypto_lab/
   "youtube_url": "https://youtu.be/...",
   "video_file": "videos/20260819 - ....mp4",
   "transcript_file": "transcripts/20260819 - ....md",
+  "description_file": "descriptions/20260819 - ....txt",  // ili null ako YouTube nema opis
   "status": "downloaded"   // ili "transcribed"
 }
 ```
@@ -44,9 +46,10 @@ Kad korisnik pošalje novi YouTube link (npr. nedeljni Discord post):
 cd ~/projekti/wyckoff-ai
 python3 scripts/dodaj_wyckoff_lab_epizodu.py "<youtube-link>"
 ```
-Ovo skine pun video (yt-dlp, android klijent zbog 403 greške) u `videos/` i doda unos u
-`manifest.json` sa `status: "downloaded"`. Ne transkribuje automatski — sledeći korak je posebna
-komanda (ispod), da korisnik može da odluči kada.
+Ovo skine pun video preko globalnog `transkripcija skini --opis` (vidi skil `transkripcija`) u
+`videos/`, sačuva opis videa u `descriptions/` ako postoji, i doda unos u `manifest.json` sa
+`status: "downloaded"`. Ne transkribuje automatski — sledeći korak je posebna komanda (ispod), da
+korisnik može da odluči kada.
 
 ## Operacija: transkribuj
 

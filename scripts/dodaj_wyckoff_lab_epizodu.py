@@ -2,6 +2,8 @@
 """Dodaj novu epizodu u raw/wyckoff_crypto_lab/: skini pun video sa YouTube-a i upiši je u manifest.json.
 
 Posle ovoga, `scripts/transkribuj_wyckoff_lab.py` je pokupi automatski (status "downloaded").
+Skidanje ide preko globalnog `transkripcija skini` (deljena logika sa frontend-saveti, ne
+duplira se yt-dlp poziv ovde).
 """
 
 from __future__ import annotations
@@ -17,31 +19,35 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 LAB_ROOT = REPO_ROOT / "raw/wyckoff_crypto_lab"
 MANIFEST_PATH = LAB_ROOT / "manifest.json"
 VIDEOS_DIR = LAB_ROOT / "videos"
+DESCRIPTIONS_DIR = LAB_ROOT / "descriptions"
+TRANSKRIPCIJA_REPO = Path.home() / "projekti/transkripcija"
 
 
 def skini_video(url: str) -> Path:
-    if shutil.which("yt-dlp") is None:
-        raise RuntimeError("yt-dlp nije instaliran. Instaliraj: brew install yt-dlp")
-
     VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
-    sablon = VIDEOS_DIR / "%(upload_date)s - %(title)s.%(ext)s"
-
-    subprocess.run(
+    rezultat = subprocess.run(
         [
-            "yt-dlp",
-            "-f", "bv*+ba/b",
-            "--extractor-args", "youtube:player_client=android",
-            "--no-overwrites",
-            "-o", str(sablon),
-            url,
+            "uv", "run", "--project", str(TRANSKRIPCIJA_REPO),
+            "transkripcija", "skini", url,
+            "--izlaz", str(VIDEOS_DIR),
+            "--opis",
         ],
-        check=True,
+        check=True, capture_output=True, text=True,
     )
+    linije = [red for red in rezultat.stdout.strip().splitlines() if red.strip()]
+    if not linije:
+        raise RuntimeError(f"`transkripcija skini` nije vratio putanju za: {url}")
+    return Path(linije[-1])
 
-    kandidati = sorted(VIDEOS_DIR.glob("*.mp4"), key=lambda p: p.stat().st_mtime)
-    if not kandidati:
-        raise RuntimeError(f"Video nije skinut za: {url}")
-    return kandidati[-1]
+
+def sacuvaj_opis(video_path: Path) -> str | None:
+    opis_fajl = video_path.with_suffix(".description")
+    if not opis_fajl.exists():
+        return None
+    DESCRIPTIONS_DIR.mkdir(parents=True, exist_ok=True)
+    cilj = DESCRIPTIONS_DIR / f"{video_path.stem}.txt"
+    shutil.move(str(opis_fajl), cilj)
+    return f"descriptions/{cilj.name}"
 
 
 def main() -> int:
@@ -62,12 +68,15 @@ def main() -> int:
         print("Već postoji u manifestu, preskačem upis.")
         return 0
 
+    description_file = sacuvaj_opis(video_path)
+
     manifest.append({
         "date": date_iso,
         "title": title,
         "youtube_url": args.url,
         "video_file": f"videos/{name}",
         "transcript_file": f"transcripts/{name[:-4]}.md",
+        "description_file": description_file,
         "status": "downloaded",
     })
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
