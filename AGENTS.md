@@ -4,6 +4,12 @@ Ovaj fajl sadrži pravila za sve AI agente (Codex, Claude Code, Gemini, Cursor, 
 
 **Kompletan sadržaj projektnih pravila i wiki schema-e:** [CLAUDE.md](./CLAUDE.md)
 
+## Steering dokumenti
+
+Jedini kanonski živi steering dokumenti su `.claude/steering/product.md`,
+`.claude/steering/tech.md` i `.claude/steering/structure.md`. Pročitati ih pre rada koji menja
+projektni pravac, odnos dva wikija, expert ingest, Docling odluku, izbor modela ili eval dizajn.
+
 ## Kritična pravila — sažetak
 
 Pre nego što radiš bilo šta u ovom repo-u, pročitaj:

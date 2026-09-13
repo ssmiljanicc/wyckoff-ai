@@ -5,6 +5,7 @@ asset: unknown
 timeframe: unknown
 wyckoff_event: none
 structure: accumulation
+related_structures: distribution,reaccumulation,redistribution
 phase: unknown
 image_path: raw/book/images/page_014_fig_1.png
 type: schematic

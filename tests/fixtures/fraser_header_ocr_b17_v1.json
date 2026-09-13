@@ -1,0 +1,1199 @@
+{
+  "schema": "fraser-header-ocr/v1",
+  "generator": {
+    "engine": "Apple Vision VNRecognizeTextRequest accurate",
+    "minimum_confidence": 0.85,
+    "parser_version": 10,
+    "recognition_language": "en-US",
+    "runs_per_image": 2,
+    "toolchain": {
+      "machine": "arm64",
+      "macos": "26.6.2",
+      "swift": "Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)",
+      "system": "Darwin"
+    },
+    "uses_language_correction": false
+  },
+  "images": [
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.030555555555555558,
+              "text": "AAPL",
+              "w": 0.058333333333333334,
+              "x": 0.033333332916666666,
+              "y": 0.9166666665277777
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.030555555555555558,
+              "text": "AAPL",
+              "w": 0.058333333333333334,
+              "x": 0.033333332916666666,
+              "y": 0.9166666665277777
+            }
+          ]
+        ],
+        "runs": [
+          "AAPL",
+          "AAPL"
+        ],
+        "value": "AAPL"
+      },
+      "image_path": "raw/bruce_fraser/images/14320745812221615332131.jpg",
+      "sha256": "429a251433a82b15a704554c66220a79c664444d8c1627f368e75ee51b4b7638",
+      "timeframe": {
+        "decision_eligible": false,
+        "evidence": [
+          [],
+          []
+        ],
+        "runs": [
+          "unknown",
+          "unknown"
+        ],
+        "value": "unknown"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "FISV Fiserv, Inc. Nasdag GS",
+              "w": 0.1622222222222222,
+              "x": 0.01777778048148139,
+              "y": 0.9700374533083646
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "FISV Fiserv, Inc. Nasdag GS",
+              "w": 0.1622222222222222,
+              "x": 0.01777778048148139,
+              "y": 0.9700374533083646
+            }
+          ]
+        ],
+        "runs": [
+          "FISV",
+          "FISV"
+        ],
+        "value": "FISV"
+      },
+      "image_path": "raw/bruce_fraser/images/1432686852895916959173.png",
+      "sha256": "d4f7300e8e4811761f0eaa29a103cdbd7333ebe84b20a93ee821c86d8d970ba4",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "90 FISV (Daily) 20.36 (22 May)",
+              "w": 0.18888888888888888,
+              "x": 0.020000001888888855,
+              "y": 0.9213483147565543
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "90 FISV (Daily) 20.36 (22 May)",
+              "w": 0.18888888888888888,
+              "x": 0.020000001888888855,
+              "y": 0.9213483147565543
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "ESRX Express Scripts, Inc. Nasdag GS",
+              "w": 0.21999999999999997,
+              "x": 0.01777778144444432,
+              "y": 0.9700374533083646
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "ESRX Express Scripts, Inc. Nasdag GS",
+              "w": 0.21999999999999997,
+              "x": 0.01777778144444432,
+              "y": 0.9700374533083646
+            }
+          ]
+        ],
+        "runs": [
+          "ESRX",
+          "ESRX"
+        ],
+        "value": "ESRX"
+      },
+      "image_path": "raw/bruce_fraser/images/1432686867397868513327.png",
+      "sha256": "dd8a7d5b95a2ae3f929fe1b2453e4536d981c920a8d5c1fdedc9f7d333c531b9",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 ESRX (Daily) 29.76 (22 May)",
+              "w": 0.19555555555555557,
+              "x": 0.01777778103703693,
+              "y": 0.9213483147315855
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 ESRX (Daily) 29.76 (22 May)",
+              "w": 0.19555555555555557,
+              "x": 0.01777778103703693,
+              "y": 0.9213483147315855
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "VIAB Viacom Inc - Class B Nasdag GS",
+              "w": 0.21555555555555558,
+              "x": 0.017777781370370258,
+              "y": 0.9700374533083646
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "VIAB Viacom Inc - Class B Nasdag GS",
+              "w": 0.21555555555555558,
+              "x": 0.017777781370370258,
+              "y": 0.9700374533083646
+            }
+          ]
+        ],
+        "runs": [
+          "VIAB",
+          "VIAB"
+        ],
+        "value": "VIAB"
+      },
+      "image_path": "raw/bruce_fraser/images/14326868785531869541943.png",
+      "sha256": "714ca12e0652f47185e757d32a19ebefb1dfdd07cb768d78db7dd85e4dddff10",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 VIAB (Daily) 19.71 (22 May)|",
+              "w": 0.19111111111111112,
+              "x": 0.02000000238888884,
+              "y": 0.9213483147003745
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 VIAB (Daily) 19.71 (22 May)|",
+              "w": 0.19111111111111112,
+              "x": 0.02000000238888884,
+              "y": 0.9213483147003745
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "V Visa Inc. NYSE",
+              "w": 0.0977777777777778,
+              "x": 0.017777778755555532,
+              "y": 0.9700374533333334
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "V Visa Inc. NYSE",
+              "w": 0.0977777777777778,
+              "x": 0.017777778755555532,
+              "y": 0.9700374533333334
+            }
+          ]
+        ],
+        "runs": [
+          "V",
+          "V"
+        ],
+        "value": "V"
+      },
+      "image_path": "raw/bruce_fraser/images/14326868953111472110113.png",
+      "sha256": "eb853a57571bebed9c8bc7fa6dc33813beff896f9c7bb54ae2c34594605fde6f",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40V (Daily) 15.72 (22 May)",
+              "w": 0.1688888888888889,
+              "x": 0.02000000211111105,
+              "y": 0.9213483147003745
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40V (Daily) 15.72 (22 May)",
+              "w": 0.1688888888888889,
+              "x": 0.02000000211111105,
+              "y": 0.9213483147003745
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "AMZN Amazon.com, Inc. Nasdag GS",
+              "w": 0.20444444444444448,
+              "x": 0.017777779822222187,
+              "y": 0.9700374533333334
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "AMZN Amazon.com, Inc. Nasdag GS",
+              "w": 0.20444444444444448,
+              "x": 0.017777779822222187,
+              "y": 0.9700374533333334
+            }
+          ]
+        ],
+        "runs": [
+          "AMZN",
+          "AMZN"
+        ],
+        "value": "AMZN"
+      },
+      "image_path": "raw/bruce_fraser/images/14326869071271044033839.png",
+      "sha256": "faa546050f9c7d0f223af58e1c54da21d388d0e6902bb6e9cf02b27de45de6e5",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 AMZN (Daily) 75.64 (22 May)",
+              "w": 0.19777777777777777,
+              "x": 0.01777778107407395,
+              "y": 0.9213483147315855
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 AMZN (Daily) 75.64 (22 May)",
+              "w": 0.19777777777777777,
+              "x": 0.01777778107407395,
+              "y": 0.9213483147315855
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "SLB Schlumberger Ltd. NYSE",
+              "w": 0.1688888888888889,
+              "x": 0.017777779888888828,
+              "y": 0.9700374533707865
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "SLB Schlumberger Ltd. NYSE",
+              "w": 0.1688888888888889,
+              "x": 0.017777779888888828,
+              "y": 0.9700374533707865
+            }
+          ]
+        ],
+        "runs": [
+          "SLB",
+          "SLB"
+        ],
+        "value": "SLB"
+      },
+      "image_path": "raw/bruce_fraser/images/14332827381361921633116.png",
+      "sha256": "46b14e96dc5e2b0f81c2cf2684de50e85047b717492268f81c30b9ee59929a49",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 SLB (Daily) 47.05 (22 May)",
+              "w": 0.18444444444444447,
+              "x": 0.01777777547222227,
+              "y": 0.9213483144194756
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 SLB (Daily) 47.05 (22 May)",
+              "w": 0.18444444444444447,
+              "x": 0.01777777547222227,
+              "y": 0.9213483144194756
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "DOW Dow Chemical Co. NYSE",
+              "w": 0.17555555555555558,
+              "x": 0.017777779972222178,
+              "y": 0.9700374533707865
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "DOW Dow Chemical Co. NYSE",
+              "w": 0.17555555555555558,
+              "x": 0.017777779972222178,
+              "y": 0.9700374533707865
+            }
+          ]
+        ],
+        "runs": [
+          "DOW",
+          "DOW"
+        ],
+        "value": "DOW"
+      },
+      "image_path": "raw/bruce_fraser/images/14332833268921091362512.png",
+      "sha256": "f57366136452485f5fb51cb0effcfc381d5b7c3798c342ab4e5d1d947f556799",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "40 DOW (Daily) 19.74 (10 Apr)",
+              "w": 0.18666666666666665,
+              "x": 0.02000000186666663,
+              "y": 0.9213483147565543
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "40 DOW (Daily) 19.74 (10 Apr)",
+              "w": 0.18666666666666665,
+              "x": 0.02000000186666663,
+              "y": 0.9213483147565543
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "UPS United Parcel Service, Inc. NYSE",
+              "w": 0.21333333333333335,
+              "x": 0.015555552000000116,
+              "y": 0.9700374530586766
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "UPS United Parcel Service, Inc. NYSE",
+              "w": 0.21333333333333335,
+              "x": 0.015555552000000116,
+              "y": 0.9700374530586766
+            }
+          ]
+        ],
+        "runs": [
+          "UPS",
+          "UPS"
+        ],
+        "value": "UPS"
+      },
+      "image_path": "raw/bruce_fraser/images/1433284936955494306808.png",
+      "sha256": "d1bcf0e83ffa055cbfba70af4cf04782cd3bd0e783ec4d90f83ac9880beddfac",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 UPS (Weekly) 48.35 (30 Aug)",
+              "w": 0.20444444444444446,
+              "x": 0.01777778118518507,
+              "y": 0.9213483147315855
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "40 UPS (Weekly) 48.35 (30 Aug)",
+              "w": 0.20444444444444446,
+              "x": 0.01777778118518507,
+              "y": 0.9213483147315855
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "$INDU Dow Jones Industrial Average INDX",
+              "w": 0.2422222222222222,
+              "x": 0.017777780805555494,
+              "y": 0.9700374533707865
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "$INDU Dow Jones Industrial Average INDX",
+              "w": 0.2422222222222222,
+              "x": 0.017777780805555494,
+              "y": 0.9700374533707865
+            }
+          ]
+        ],
+        "runs": [
+          "DJIA",
+          "DJIA"
+        ],
+        "value": "DJIA"
+      },
+      "image_path": "raw/bruce_fraser/images/1434227844229754672103.png",
+      "sha256": "28e8e0d0d23119bf45f34be0893ed30ed942fa4fcb4cd31a691ca3137576c4e3",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "A0 $INDU (Weekly) 1140.09 (25 Mar)",
+              "w": 0.2311111111111111,
+              "x": 0.017777773925926048,
+              "y": 0.9213483144818977
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "A0 $INDU (Weekly) 1140.09 (25 Mar)",
+              "w": 0.2311111111111111,
+              "x": 0.017777773925926048,
+              "y": 0.9213483144818977
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "CMG Chipotle Mexican Grill Inc. NYSE",
+              "w": 0.21111111111111114,
+              "x": 0.017777780416666597,
+              "y": 0.9700374533707865
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "CMG Chipotle Mexican Grill Inc. NYSE",
+              "w": 0.21111111111111114,
+              "x": 0.017777780416666597,
+              "y": 0.9700374533707865
+            }
+          ]
+        ],
+        "runs": [
+          "CMG",
+          "CMG"
+        ],
+        "value": "CMG"
+      },
+      "image_path": "raw/bruce_fraser/images/14342293874161176365540.png",
+      "sha256": "c28eba02f56f01d2a611e3b2cd06e133605e708207153d53c642ab6365d96344",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "40 CMG (Daily) 79.01 (16 Apr)",
+              "w": 0.18666666666666668,
+              "x": 0.017777774666666774,
+              "y": 0.9213483144818977
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "40 CMG (Daily) 79.01 (16 Apr)",
+              "w": 0.18666666666666668,
+              "x": 0.017777774666666774,
+              "y": 0.9213483144818977
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "KBH KB Home NYSE",
+              "w": 0.11999999999999998,
+              "x": 0.017777778977777752,
+              "y": 0.9700374533333334
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "KBH KB Home NYSE",
+              "w": 0.11999999999999998,
+              "x": 0.017777778977777752,
+              "y": 0.9700374533333334
+            }
+          ]
+        ],
+        "runs": [
+          "KBH",
+          "KBH"
+        ],
+        "value": "KBH"
+      },
+      "image_path": "raw/bruce_fraser/images/143500243259851525957.png",
+      "sha256": "732f5d9559fbc1221b4c0ce3499f1922e869de62cc92ab161f23ef7abc3f98ac",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "40 KBH (Weekly) 13.41 (31 Jul)",
+              "w": 0.19333333333333333,
+              "x": 0.02000000193333329,
+              "y": 0.9213483147565543
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "40 KBH (Weekly) 13.41 (31 Jul)",
+              "w": 0.19333333333333333,
+              "x": 0.02000000193333329,
+              "y": 0.9213483147565543
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "CENX Century Aluminum Co. Nasdag G$",
+              "w": 0.22666666666666668,
+              "x": 0.017777780611111054,
+              "y": 0.9700374533707865
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "CENX Century Aluminum Co. Nasdag G$",
+              "w": 0.22666666666666668,
+              "x": 0.017777780611111054,
+              "y": 0.9700374533707865
+            }
+          ]
+        ],
+        "runs": [
+          "CENX",
+          "CENX"
+        ],
+        "value": "CENX"
+      },
+      "image_path": "raw/bruce_fraser/images/1436477575284387740185.png",
+      "sha256": "9bc78cb0a0442b595c1d426e2fc0d539e5b77b75c3ff0614ecbe6ad7fe162319",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "A0 CENX (Weekly) 9.86",
+              "w": 0.14,
+              "x": 0.0199999983055556,
+              "y": 0.9213483148876405
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "A0 CENX (Weekly) 9.86",
+              "w": 0.14,
+              "x": 0.0199999983055556,
+              "y": 0.9213483148876405
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.023648648648648685,
+              "text": "GLW Corning, Inc. NYSE",
+              "w": 0.12929292158647018,
+              "x": 0.016161620284205987,
+              "y": 0.9695945942004505
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.023648648648648685,
+              "text": "GLW Corning, Inc. NYSE",
+              "w": 0.12929292158647018,
+              "x": 0.016161620284205987,
+              "y": 0.9695945942004505
+            }
+          ]
+        ],
+        "runs": [
+          "GLW",
+          "GLW"
+        ],
+        "value": "GLW"
+      },
+      "image_path": "raw/bruce_fraser/images/1437104982965749267360.png",
+      "sha256": "51824d06da611f99c50faf1c9c444dab24456887a75f87dee2a5d230f493cdd7",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.020270270270270285,
+              "text": "40 GLW (Weekly) 19.15 (13 Jul)",
+              "w": 0.18181818181818185,
+              "x": 0.01616161313131324,
+              "y": 0.9290540539414415
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.020270270270270285,
+              "text": "40 GLW (Weekly) 19.15 (13 Jul)",
+              "w": 0.18181818181818185,
+              "x": 0.01616161313131324,
+              "y": 0.9290540539414415
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.020270270270270285,
+              "text": "DIS Walt Disney Co. NYSE",
+              "w": 0.13737373737373737,
+              "x": 0.016161617878787834,
+              "y": 0.9729729731418919
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.020270270270270285,
+              "text": "DIS Walt Disney Co. NYSE",
+              "w": 0.13737373737373737,
+              "x": 0.016161617878787834,
+              "y": 0.9729729731418919
+            }
+          ]
+        ],
+        "runs": [
+          "DIS",
+          "DIS"
+        ],
+        "value": "DIS"
+      },
+      "image_path": "raw/bruce_fraser/images/14389630456271116338338.png",
+      "sha256": "cc1228e06a14f4967c9ed73e33354d1a810e36760c91520b91304382e77ce79b",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.023648648648648685,
+              "text": "90 DIS (Weekly) 108.55 (6 Aug)",
+              "w": 0.18181818181818182,
+              "x": 0.018181820454545392,
+              "y": 0.9256756758023649
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.023648648648648685,
+              "text": "90 DIS (Weekly) 108.55 (6 Aug)",
+              "w": 0.18181818181818182,
+              "x": 0.018181820454545392,
+              "y": 0.9256756758023649
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "AKAM Akamai Technologies, Inc. Nasdag GS",
+              "w": 0.2511111111111111,
+              "x": 0.017777780916666566,
+              "y": 0.9700374532771535
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "AKAM Akamai Technologies, Inc. Nasdag GS",
+              "w": 0.2511111111111111,
+              "x": 0.017777780916666566,
+              "y": 0.9700374532771535
+            }
+          ]
+        ],
+        "runs": [
+          "AKAM",
+          "AKAM"
+        ],
+        "value": "AKAM"
+      },
+      "image_path": "raw/bruce_fraser/images/1441314934537418192387.png",
+      "sha256": "ea40d357411c4260081fe61432ba43395bd37e00be349c9a2b4104b434b7e77c",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "A0 AKAM (Daily) 32.22 (31 Aug)",
+              "w": 0.19333333333333333,
+              "x": 0.02000000193333329,
+              "y": 0.9213483147565543
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "A0 AKAM (Daily) 32.22 (31 Aug)",
+              "w": 0.19333333333333333,
+              "x": 0.02000000193333329,
+              "y": 0.9213483147565543
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "ISRG Intuitive Surgical, Inc. Nasdag GS",
+              "w": 0.22,
+              "x": 0.015555559222222098,
+              "y": 0.9700374533083646
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "ISRG Intuitive Surgical, Inc. Nasdag GS",
+              "w": 0.22,
+              "x": 0.015555559222222098,
+              "y": 0.9700374533083646
+            }
+          ]
+        ],
+        "runs": [
+          "ISRG",
+          "ISRG"
+        ],
+        "value": "ISRG"
+      },
+      "image_path": "raw/bruce_fraser/images/14413150039551001324999.png",
+      "sha256": "ac033005524cad49e248e6b26c83ad3cad7d0ce5ff32a3d65b1abf7a7f35aad2",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "90 ISRG (Daily) 118.26 (21 Nov)",
+              "w": 0.19777777777777777,
+              "x": 0.02000000197777775,
+              "y": 0.9213483147565543
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359494,
+              "text": "90 ISRG (Daily) 118.26 (21 Nov)",
+              "w": 0.19777777777777777,
+              "x": 0.02000000197777775,
+              "y": 0.9213483147565543
+            }
+          ]
+        ],
+        "runs": [
+          "daily",
+          "daily"
+        ],
+        "value": "daily"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "ARMH ARM Holdings, Plc Nasdag GS",
+              "w": 0.20888888888888887,
+              "x": 0.017777780388888827,
+              "y": 0.9700374533707865
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.022471910112359605,
+              "text": "ARMH ARM Holdings, Plc Nasdag GS",
+              "w": 0.20888888888888887,
+              "x": 0.017777780388888827,
+              "y": 0.9700374533707865
+            }
+          ]
+        ],
+        "runs": [
+          "ARMH",
+          "ARMH"
+        ],
+        "value": "ARMH"
+      },
+      "image_path": "raw/bruce_fraser/images/1446232682289599151823.png",
+      "sha256": "72c42964271e7f4f8c6936862d14df62c05bf22f26bcdcb5a80d2607096d6c3a",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.02621722846441943,
+              "text": "90 ARMH (Weekly) 2.62 (15 Nov)",
+              "w": 0.20222222222222222,
+              "x": 0.020000000259259233,
+              "y": 0.9176029958177279
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.02621722846441943,
+              "text": "90 ARMH (Weekly) 2.62 (15 Nov)",
+              "w": 0.20222222222222222,
+              "x": 0.020000000259259233,
+              "y": 0.9176029958177279
+            }
+          ]
+        ],
+        "runs": [
+          "weekly",
+          "weekly"
+        ],
+        "value": "weekly"
+      }
+    },
+    {
+      "asset": {
+        "decision_eligible": false,
+        "evidence": [
+          [],
+          []
+        ],
+        "runs": [
+          "unknown",
+          "unknown"
+        ],
+        "value": "unknown"
+      },
+      "image_path": "raw/bruce_fraser/images/1454044162229867495322.jpg",
+      "sha256": "1ac4648cbd58fdedbf934515ab45866ea696bfb9f2b5059ec99266fa60655d55",
+      "timeframe": {
+        "decision_eligible": true,
+        "evidence": [
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.019444444444444486,
+              "text": "Ad BIIB (Monthly) 259.87",
+              "w": 0.11041666666666666,
+              "x": 0.04791666716145831,
+              "y": 0.8749999997569444
+            }
+          ],
+          [
+            {
+              "confidence": 1.0,
+              "h": 0.019444444444444486,
+              "text": "Ad BIIB (Monthly) 259.87",
+              "w": 0.11041666666666666,
+              "x": 0.04791666716145831,
+              "y": 0.8749999997569444
+            }
+          ]
+        ],
+        "runs": [
+          "monthly",
+          "monthly"
+        ],
+        "value": "monthly"
+      }
+    }
+  ]
+}

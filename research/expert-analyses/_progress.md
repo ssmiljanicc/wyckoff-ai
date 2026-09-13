@@ -8,9 +8,9 @@ Resume se vrši isključivo preko `last_reviewed` kolone — ne preko broja extr
 
 | source  | total_files | reviewed | valid | rejected | paywalled | last_reviewed |
 |---------|-------------|----------|-------|----------|-----------|---------------|
-| book    | 248         | 20       | 2     | 18       | 0         | raw/book/pages/page_020.md |
-| crypto  | 46          | 0        | 0     | 0        | 0         | —             |
-| fraser  | 243         | 0        | 0     | 0        | 0         | —             |
+| book    | 248         | 248      | 77    | 172      | 0         | raw/book/pages/page_248.md |
+| crypto  | 46          | 46       | 81    | 1        | 10        | raw/crypto_archive/posts/wyckoff-crypto-report-59.md |
+| fraser  | 243         | 243      | 530   | 31       | 0         | raw/bruce_fraser/posts/has-the-bull-run-its-course.md |
 
 ## Napomene
 
