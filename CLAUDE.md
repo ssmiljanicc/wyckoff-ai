@@ -9,6 +9,13 @@ Generic wiki mechanics (init, ingest, query, lint, image ingest) live in the uni
 
 **When in doubt:** read the runbook for *how to operate*, read this file for *what counts as right for Wyckoff*.
 
+## Project steering
+
+Jedini kanonski živi steering dokumenti su `.claude/steering/product.md`,
+`.claude/steering/tech.md` i `.claude/steering/structure.md`. Oni objašnjavaju svrhu projekta,
+razliku između glavnog i ekspertskog wikija, redosled ingest/Docling/eval rada i mapu izvora istine.
+Pročitati ih pre rada koji menja wiki arhitekturu, expert ingest, izbor modela ili eval pravac.
+
 ---
 
 ## 0. Project communication and process rules
