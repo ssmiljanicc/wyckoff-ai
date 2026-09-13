@@ -16,3 +16,63 @@ Format zapisa:
 ---
 
 <!-- Sweep Zadaci 4, 3.x, 5.x će dodavati zapise ovde tokom izvršavanja -->
+
+## WIKI_GAP — wyckoff-crypto-report-vol-26
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-vol-26.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-vol-50
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-vol-50.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-vol-52
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-vol-52.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-53
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-53.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-54
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-54.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-55
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-55.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-vol-56
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-vol-56.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-57
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-57.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-58
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-58.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.
+
+## WIKI_GAP — wyckoff-crypto-report-59
+
+- **Izvor:** `raw/crypto_archive/posts/wyckoff-crypto-report-59.md`
+- **Status:** paywalled (iz `manifest.json`)
+- **Napomena:** Sadržaj nije dostupan — event i asset su nepoznati. Ne izmišljaj sadržaj.

@@ -1,10 +1,68 @@
 ---
 title: Selling Climax
-description: "Wyckoff event — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a."
+description: "Wyckoff event — book i crypto primeri dopunjeni su Fraser B17–B29 konkretnim chart–interpretation primerima."
 type: topic
-status: draft
-updated: 2026-07-09
-sources: []
+status: active
+updated: 2026-09-13
+sources:
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-01-reddit-or-not-short-sellers-ge-315.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-05-power-charting-tv-inflation-na-133.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-07-power-charting-tv-crypto-curre-284.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2022-04-wyckoff-principles-within-prin-656.md
+  - path: raw/book/pages/page_106.md
+  - path: raw/book/pages/page_108.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-23.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-05-richard-d-wyckoffs-real-rules-of-the-game.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-05-the-stopping-of-a-downtrend.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-10-the-unfriendly-trend.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution--a-case-study.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution-the-evil-twin.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-01-counting-monster-point--figure-charts.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-01-secrets-of-point-and-figure-distribution.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-01-unlocking-the-mysteries-of-point-and-figure-charts.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-02-crude-oil-update.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-02-wyckoff-time.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-04-trading-the-reaccumulation.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-05-wyckoff-group-think.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-06-how-now-charles-dow.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-07-beach-reads.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-07-getting-on-the-gas.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-07-gold-fever.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-07-point-and-figure-pie-in-the-sky.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-09-action--test.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-01-going-for-the-gold.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-02-sectors-groups-stocks.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-03-financial-sector-update.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-05-segmenting-pnf-counts.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-06-another-stupid-chart-trick.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-09-compq-up-close.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-09-working-up-wday.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-11-crude-oil-runs-with-the-bulls.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-10-headwinds.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-11-using-pnf-charts-for-intraday-trading.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-12-international-intrigue.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-12-the-nasdaq-composite-stumbles-into-2019.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-01-aapl-campaign-completed.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-01-will-pnf-light-the-way-in-2019.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-02-golden-ticket.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-03-residential-constructive.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-04-wynn-win.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-04-yields-flatten.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-07-silver-standard.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-08-stock-market-time-315.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2020-02-lithium-is-charged-up-604.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2020-03-where-were-you-in-62-231.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2020-05-work-area-ahead-901.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2022-08-a-wyckoff-cause-is-forming-wha-60.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2023-02-is-the-sp-500-in-late-stage-ac-67.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2023-11-bonds-got-clipped-now-what-323.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2024-04-trifecta-of-trouble-402.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2024-06-end-of-quarter-nasdaq-100-pile-956.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2024-06-wyckoff-at-work-in-the-intrada-2.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2024-08-who-let-the-dog-out-970.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2024-12-swing-trading-with-point-figur-511.md
 ---
 
 # Selling Climax
@@ -15,3 +73,86 @@ _Wyckoff event: `selling-climax` — taksonomija preslikava `knowledge/wiki/even
 
 <!-- Popunjava se u Zadatku 6 (sweep Zadaci 3–5) pointerima na extracts/*.md -->
 <!-- Format: - [[../extracts/<id>]] — <source> <page/url> — <type> — <status> -->
+- [[../extracts/book_p106_selling-climax_accumulation-schematic]] — raw/book/pages/page_106.md p.106 — schematic — candidate
+- [[../extracts/book_p108_accumulation_selling-exhaustion-schematic]] — raw/book/pages/page_108.md p.108 — schematic — candidate
+- [[../extracts/crypto_v23_05_spring_trx]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-23.md — forward — candidate
+- [[../extracts/fraser_p003_img02_preliminary-support_aapl]] — raw/bruce_fraser/posts/articles-wyckoff-2015-05-richard-d-wyckoffs-real-rules-of-the-game.md — retrospective — candidate
+- [[../extracts/fraser_p004_img02_preliminary-support_fisv]] — raw/bruce_fraser/posts/articles-wyckoff-2015-05-the-stopping-of-a-downtrend.md — retrospective — candidate
+- [[../extracts/fraser_p004_img03_automatic-rally_esrx]] — raw/bruce_fraser/posts/articles-wyckoff-2015-05-the-stopping-of-a-downtrend.md — retrospective — candidate
+- [[../extracts/fraser_p004_img04_selling-climax_viab]] — raw/bruce_fraser/posts/articles-wyckoff-2015-05-the-stopping-of-a-downtrend.md — retrospective — candidate
+- [[../extracts/fraser_p004_img05_preliminary-support_v]] — raw/bruce_fraser/posts/articles-wyckoff-2015-05-the-stopping-of-a-downtrend.md — retrospective — candidate
+- [[../extracts/fraser_p004_img06_preliminary-support_amzn]] — raw/bruce_fraser/posts/articles-wyckoff-2015-05-the-stopping-of-a-downtrend.md — retrospective — candidate
+- [[../extracts/fraser_p022_img02_selling-climax_gmcr]] — raw/bruce_fraser/posts/articles-wyckoff-2015-10-the-unfriendly-trend.md — forward — candidate
+- [[../extracts/fraser_p025_img05_last-point-of-supply_csco-r3]] — raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution--a-case-study.md — retrospective — candidate
+- [[../extracts/fraser_p025_img06_last-point-of-supply_csco-r4]] — raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution--a-case-study.md — retrospective — candidate
+- [[../extracts/fraser_p026_img02_sign-of-weakness_armh]] — raw/bruce_fraser/posts/articles-wyckoff-2015-11-redistribution-the-evil-twin.md — retrospective — candidate
+- [[../extracts/fraser_p031_img04_last-point-of-support_biib-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-01-counting-monster-point--figure-charts.md — retrospective — candidate
+- [[../extracts/fraser_p034_img02_last-point-of-supply_djia-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-01-secrets-of-point-and-figure-distribution.md — forward — candidate
+- [[../extracts/fraser_p035_img02_last-point-of-support_djia]] — raw/bruce_fraser/posts/articles-wyckoff-2016-01-unlocking-the-mysteries-of-point-and-figure-charts.md — retrospective — candidate
+- [[../extracts/fraser_p035_img03_last-point-of-support_djia-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-01-unlocking-the-mysteries-of-point-and-figure-charts.md — retrospective — candidate
+- [[../extracts/fraser_p036_img02_selling-climax_wtic]] — raw/bruce_fraser/posts/articles-wyckoff-2016-02-crude-oil-update.md — forward — candidate
+- [[../extracts/fraser_p039_img02_selling-climax_djia-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-02-wyckoff-time.md — forward — candidate
+- [[../extracts/fraser_p039_img03_secondary-test_djia]] — raw/bruce_fraser/posts/articles-wyckoff-2016-02-wyckoff-time.md — forward — candidate
+- [[../extracts/fraser_p041_img02_last-point-of-support_cmg]] — raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md — retrospective — candidate
+- [[../extracts/fraser_p045_img02_last-point-of-support_dltr]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-trading-the-reaccumulation.md — retrospective — candidate
+- [[../extracts/fraser_p045_img04_spring_ba]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-trading-the-reaccumulation.md — retrospective — candidate
+- [[../extracts/fraser_p047_img02_spring_lvs-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p047_img03_distribution_lvs-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p047_img05_spring_ahs]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p047_img06_spring_corn]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p051_img03_spring_djuscx]] — raw/bruce_fraser/posts/articles-wyckoff-2016-05-wyckoff-group-think.md — forward — candidate
+- [[../extracts/fraser_p054_img02_selling-climax_dow-transports-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-06-how-now-charles-dow.md — forward — candidate
+- [[../extracts/fraser_p054_img04_selling-climax_dow-transports-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-06-how-now-charles-dow.md — retrospective — candidate
+- [[../extracts/fraser_p057_img07_selling-climax_jjc-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-beach-reads.md — forward — candidate
+- [[../extracts/fraser_p058_img02_spring_natgas-monthly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-getting-on-the-gas.md — forward — candidate
+- [[../extracts/fraser_p058_img03_spring_natgas-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-getting-on-the-gas.md — forward — candidate
+- [[../extracts/fraser_p059_img02_sign-of-strength_gld]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-gold-fever.md — forward — candidate
+- [[../extracts/fraser_p059_img03_last-point-of-support_gld-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-gold-fever.md — forward — candidate
+- [[../extracts/fraser_p060_img02_back-up-to-the-edge-of-the-creek_djia-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-point-and-figure-pie-in-the-sky.md — forward — candidate
+- [[../extracts/fraser_p065_img02_selling-climax_accumulation-schematic]] — raw/bruce_fraser/posts/articles-wyckoff-2016-09-action--test.md — schematic — candidate
+- [[../extracts/fraser_p081_img02_sign-of-strength_gld]] — raw/bruce_fraser/posts/articles-wyckoff-2017-01-going-for-the-gold.md — forward — candidate
+- [[../extracts/fraser_p081_img03_sign-of-strength_gdx]] — raw/bruce_fraser/posts/articles-wyckoff-2017-01-going-for-the-gold.md — forward — candidate
+- [[../extracts/fraser_p086_img02_jump-across-the-creek_hxl]] — raw/bruce_fraser/posts/articles-wyckoff-2017-02-sectors-groups-stocks.md — forward — candidate
+- [[../extracts/fraser_p090_img02_accumulation_xlf]] — raw/bruce_fraser/posts/articles-wyckoff-2017-03-financial-sector-update.md — retrospective — candidate
+- [[../extracts/fraser_p098_img02_last-point-of-support_alb]] — raw/bruce_fraser/posts/articles-wyckoff-2017-05-segmenting-pnf-counts.md — retrospective — candidate
+- [[../extracts/fraser_p100_img03_last-point-of-supply_mu]] — raw/bruce_fraser/posts/articles-wyckoff-2017-06-another-stupid-chart-trick.md — retrospective — candidate
+- [[../extracts/fraser_p112_img02_spring_compq]] — raw/bruce_fraser/posts/articles-wyckoff-2017-09-compq-up-close.md — forward — candidate
+- [[../extracts/fraser_p115_img02_last-point-of-support_wday]] — raw/bruce_fraser/posts/articles-wyckoff-2017-09-working-up-wday.md — forward — candidate
+- [[../extracts/fraser_p120_img02_selling-climax_wtic]] — raw/bruce_fraser/posts/articles-wyckoff-2017-11-crude-oil-runs-with-the-bulls.md — retrospective — candidate
+- [[../extracts/fraser_p162_img04_selling-climax_indu-15m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2018-10-headwinds.md — forward — candidate
+- [[../extracts/fraser_p167_img02_spring_indu-5m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2018-11-using-pnf-charts-for-intraday-trading.md — forward — candidate
+- [[../extracts/fraser_p168_img02_selling-climax_efa]] — raw/bruce_fraser/posts/articles-wyckoff-2018-12-international-intrigue.md — forward — candidate
+- [[../extracts/fraser_p168_img03_selling-climax_efa-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2018-12-international-intrigue.md — forward — candidate
+- [[../extracts/fraser_p168_img04_selling-climax_eem]] — raw/bruce_fraser/posts/articles-wyckoff-2018-12-international-intrigue.md — forward — candidate
+- [[../extracts/fraser_p168_img05_selling-climax_eem-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2018-12-international-intrigue.md — retrospective — candidate
+- [[../extracts/fraser_p169_img04_selling-climax_compq]] — raw/bruce_fraser/posts/articles-wyckoff-2018-12-the-nasdaq-composite-stumbles-into-2019.md — forward — candidate
+- [[../extracts/fraser_p171_img03_selling-climax_aapl-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-01-aapl-campaign-completed.md — retrospective — candidate
+- [[../extracts/fraser_p172_img04_sign-of-strength_indu-5m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-01-will-pnf-light-the-way-in-2019.md — forward — candidate
+- [[../extracts/fraser_p173_img03_selling-climax_gold-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-02-golden-ticket.md — forward — candidate
+- [[../extracts/fraser_p176_img02_selling-climax_xhb]] — raw/bruce_fraser/posts/articles-wyckoff-2019-03-residential-constructive.md — forward — candidate
+- [[../extracts/fraser_p180_img03_spring_wynn-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2019-04-wynn-win.md — forward — candidate
+- [[../extracts/fraser_p181_img04_last-point-of-support_ief-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2019-04-yields-flatten.md — forward — candidate
+- [[../extracts/fraser_p187_img02_secondary-test_slv-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-07-silver-standard.md — forward — candidate
+- [[../extracts/fraser_p187_img03_selling-climax_sil-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-07-silver-standard.md — forward — candidate
+- [[../extracts/fraser_p188_img02_last-point-of-supply_indu-30m]] — raw/bruce_fraser/posts/articles-wyckoff-2019-08-stock-market-time-315.md — forward — candidate
+- [[../extracts/fraser_p188_img03_sign-of-weakness_spx-5m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-08-stock-market-time-315.md — forward — candidate
+- [[../extracts/fraser_p188_img04_last-point-of-supply_spx-60m]] — raw/bruce_fraser/posts/articles-wyckoff-2019-08-stock-market-time-315.md — forward — candidate
+- [[../extracts/fraser_p197_img03_selling-climax_lit-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2020-02-lithium-is-charged-up-604.md — forward — candidate
+- [[../extracts/fraser_p198_img02_upthrust-after-distribution_indu-1962-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2020-03-where-were-you-in-62-231.md — retrospective — candidate
+- [[../extracts/fraser_p198_img03_upthrust-after-distribution_indu-2020-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2020-03-where-were-you-in-62-231.md — forward — candidate
+- [[../extracts/fraser_p200_img04_sign-of-strength_work-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2020-05-work-area-ahead-901.md — forward — candidate
+- [[../extracts/fraser_p210_img04_selling-climax_gme-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2021-01-reddit-or-not-short-sellers-ge-315.md — retrospective — candidate
+- [[../extracts/fraser_p212_img02_spring_corn-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2021-05-power-charting-tv-inflation-na-133.md — forward — candidate
+- [[../extracts/fraser_p214_img02_selling-climax_ndx-indu-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2021-07-power-charting-tv-crypto-curre-284.md — forward — candidate
+- [[../extracts/fraser_p219_img03_selling-climax_spx-2h]] — raw/bruce_fraser/posts/articles-wyckoff-2022-04-wyckoff-principles-within-prin-656.md — forward — candidate
+- [[../extracts/fraser_p221_img02_selling-climax_spx-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2022-08-a-wyckoff-cause-is-forming-wha-60.md — forward — candidate
+- [[../extracts/fraser_p221_img03_redistribution_compq-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2022-08-a-wyckoff-cause-is-forming-wha-60.md — forward — candidate
+- [[../extracts/fraser_p226_img02_spring_spx-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2023-02-is-the-sp-500-in-late-stage-ac-67.md — forward — candidate
+- [[../extracts/fraser_p230_img02_last-point-of-supply_ief-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2023-11-bonds-got-clipped-now-what-323.md — forward — candidate
+- [[../extracts/fraser_p230_img03_selling-climax_ief-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2023-11-bonds-got-clipped-now-what-323.md — forward — candidate
+- [[../extracts/fraser_p234_img03_selling-climax_spx-pnf-legacy]] — raw/bruce_fraser/posts/articles-wyckoff-2024-04-trifecta-of-trouble-402.md — retrospective — candidate
+- [[../extracts/fraser_p235_img03_accumulation_ndx-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2024-06-end-of-quarter-nasdaq-100-pile-956.md — forward — candidate
+- [[../extracts/fraser_p236_img02_last-point-of-supply_spx-60m]] — raw/bruce_fraser/posts/articles-wyckoff-2024-06-wyckoff-at-work-in-the-intrada-2.md — forward — candidate
+- [[../extracts/fraser_p238_img02_spring_dog-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2024-08-who-let-the-dog-out-970.md — forward — candidate
+- [[../extracts/fraser_p241_img02_selling-climax_schw-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2024-12-swing-trading-with-point-figur-511.md — retrospective — candidate
+- [[../extracts/fraser_p241_img03_selling-climax_schw-daily-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2024-12-swing-trading-with-point-figur-511.md — retrospective — candidate

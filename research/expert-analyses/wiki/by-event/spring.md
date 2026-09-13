@@ -1,10 +1,92 @@
 ---
 title: Spring
-description: "Wyckoff event — pointeri na expert-analyses extract kartice dodaju se tokom sweep-a."
+description: "Wyckoff event — book i crypto primeri dopunjeni su Fraser B17–B28 konkretnim chart–interpretation primerima."
 type: topic
-status: draft
-updated: 2026-07-09
-sources: []
+status: active
+updated: 2026-09-13
+sources:
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2020-08-towering-tsla-761.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-01-aerojet-soars-21.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2021-05-power-charting-tv-inflation-na-133.md
+  - path: raw/book/pages/page_137.md
+  - path: raw/book/pages/page_145.md
+  - path: raw/book/pages/page_146.md
+  - path: raw/book/pages/page_147.md
+  - path: raw/book/pages/page_148.md
+  - path: raw/book/pages/page_184.md
+  - path: raw/book/pages/page_196.md
+  - path: raw/book/pages/page_199.md
+  - path: raw/book/pages/page_217.md
+  - path: raw/book/pages/page_218.md
+  - path: raw/book/pages/page_235.md
+  - path: raw/book/pages/page_241.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-14.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-16.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-17.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-18.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-19.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-20.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-21.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-22.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-23.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-24.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-25.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-27-flash-update.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-30.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-31.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-33.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-36.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-37.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-43.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-46.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-47.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-48.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-49.md
+  - path: raw/crypto_archive/posts/wyckoff-crypto-report-vol-51.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-accumulation-phase-absorbing-stock-like-a-sponge.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-francis-bacon-reveals-the-nature-of-trends.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-07-reaccumulation-roundup.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-08-when-termites-get-into-your-trends.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2015-12-crude-oil-how-low-can-it-go.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-02-point-and-figure-pauses-that-refresh.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-04-how-to-determine-the-best-trade-entry-points.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-04-stalking-the-trade.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-04-trading-the-reaccumulation.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-05-wyckoff-group-think.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-07-getting-on-the-gas.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-a-gaggle-of-groups.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-09-an-aapl-for-your-thoughts.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-09-tracking-big-footprints.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2016-12-the-inner-game-of-wyckoff.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-02-sectors-groups-stocks.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-04-the-big-aapl.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-05-pedaling-wyckoff.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-06-wfm-is-swallowed-whole.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-09-compq-up-close.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-10-chemistry-experiment.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-10-nasdaq-composite-trick-or-treat.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2017-11-tesla-recharging.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-01-reaccumulation-review.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-01-schlumberger-rising.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-03-interest-rates-how-high.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-04-sp-500-zooming-in.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-07-is-your-money-safe-in-banks.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-08-residential-deconstruction.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-11-natural-gas-lights-up.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2018-11-using-pnf-charts-for-intraday-trading.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-02-material-development.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-04-wynn-win.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-05-where-theres-smoke.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2019-07-on-the-razors-edge.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2020-05-work-area-ahead-901.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2023-02-is-the-sp-500-in-late-stage-ac-67.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2023-04-crude-oil-reaches-an-interesti-761.md
+  - path: raw/bruce_fraser/posts/articles-wyckoff-2024-08-who-let-the-dog-out-970.md
 ---
 
 # Spring
@@ -15,3 +97,111 @@ _Wyckoff event: `spring` — taksonomija preslikava `knowledge/wiki/events/sprin
 
 <!-- Popunjava se u Zadatku 6 (sweep Zadaci 3–5) pointerima na extracts/*.md -->
 <!-- Format: - [[../extracts/<id>]] — <source> <page/url> — <type> — <status> -->
+- [[../extracts/book_p137_spring_appearance-variants-schematic]] — raw/book/pages/page_137.md pp.137–138 — schematic — candidate
+- [[../extracts/book_p145_spring_terminal-shakeout-schematic]] — raw/book/pages/page_145.md p.145 — schematic — candidate
+- [[../extracts/book_p146_spring_moderate-penetration-schematic]] — raw/book/pages/page_146.md p.146 — schematic — candidate
+- [[../extracts/book_p147_spring_supply-exhaustion-schematic]] — raw/book/pages/page_147.md p.147 — schematic — candidate
+- [[../extracts/book_p148_reaccumulation_ordinary-shakeout-schematic]] — raw/book/pages/page_148.md p.148 — schematic — candidate
+- [[../extracts/book_p184_spring_phase-c-shake-schematic]] — raw/book/pages/page_184.md p.184 — schematic — candidate
+- [[../extracts/book_p196_spring_liquidity-zone-schematic]] — raw/book/pages/page_196.md p.196 — schematic — candidate
+- [[../extracts/book_p199_spring_shake-entry-schematic]] — raw/book/pages/page_199.md pp.199–200 — schematic — candidate
+- [[../extracts/book_p217_spring_direct-entry-stop-schematic]] — raw/book/pages/page_217.md p.217 — schematic — candidate
+- [[../extracts/book_p218_spring_test-stop-schematic]] — raw/book/pages/page_218.md p.218 — schematic — candidate
+- [[../extracts/book_p235_st-as-msow_btcusdt-8h]] — raw/book/pages/page_235.md pp.235–236 — retrospective — candidate
+- [[../extracts/book_p241_spring_6a-15m]] — raw/book/pages/page_241.md pp.241–242 — retrospective — candidate
+- [[../extracts/crypto_v14_02_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-14.md — forward — candidate
+- [[../extracts/crypto_v14_03_upthrust_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-14.md — forward — candidate
+- [[../extracts/crypto_v14_05_spring_eth]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-14.md — forward — candidate
+- [[../extracts/crypto_v16_04_failed-signal_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-16.md — retrospective — candidate
+- [[../extracts/crypto_v17_07_spring_linkbtc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-17.md — forward — candidate
+- [[../extracts/crypto_v18_02_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-18.md — forward — candidate
+- [[../extracts/crypto_v19_04_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-19.md — forward — candidate
+- [[../extracts/crypto_v19_08_spring_link]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-19.md — forward — candidate
+- [[../extracts/crypto_v20_01_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-20.md — forward — candidate
+- [[../extracts/crypto_v21_06_spring_btc-2017]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-21.md — retrospective — candidate
+- [[../extracts/crypto_v22_02_automatic-reaction_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-22.md — forward — candidate
+- [[../extracts/crypto_v22_03_upthrust_link]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-22.md — forward — candidate
+- [[../extracts/crypto_v23_03_spring_link]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-23.md — forward — candidate
+- [[../extracts/crypto_v23_05_spring_trx]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-23.md — forward — candidate
+- [[../extracts/crypto_v23_07_st-as-msos_trx]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-23.md — forward — candidate
+- [[../extracts/crypto_v24_09_spring_xtz]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-24.md — forward — candidate
+- [[../extracts/crypto_v25_03_spring_low-cap-index]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-25.md — forward — candidate
+- [[../extracts/crypto_v25_09_spring_link]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-25.md — forward — candidate
+- [[../extracts/crypto_v27f_02_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-27-flash-update.md — forward — candidate
+- [[../extracts/crypto_v27f_04_spring_small-cap-index]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-27-flash-update.md — forward — candidate
+- [[../extracts/crypto_v30_06_spring_band]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-30.md — forward — candidate
+- [[../extracts/crypto_v31_01_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-31.md — forward — candidate
+- [[../extracts/crypto_v31_03_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-31.md — forward — candidate
+- [[../extracts/crypto_v31_06_spring_atom]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-31.md — forward — candidate
+- [[../extracts/crypto_v33_01_spring_nasdaq-crypto-market-cap]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-33.md — forward — candidate
+- [[../extracts/crypto_v36_01_spring_crypto-indexes]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-36.md — forward — candidate
+- [[../extracts/crypto_v37_02_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-37.md — forward — candidate
+- [[../extracts/crypto_v43_01_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-43.md — forward — candidate
+- [[../extracts/crypto_v46_01_spring_defi-btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-46.md — forward — candidate
+- [[../extracts/crypto_v47_02_spring_btc]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-47.md — forward — candidate
+- [[../extracts/crypto_v48_01_spring_cash-cocoa]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-48.md — retrospective — candidate
+- [[../extracts/crypto_v49_02_spring_dxy]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-49.md — forward — candidate
+- [[../extracts/crypto_v51_01_spring_btc-altcoin]] — raw/crypto_archive/posts/wyckoff-crypto-report-vol-51.md — forward — candidate
+- [[../extracts/fraser_p005_img05_spring_ups]] — raw/bruce_fraser/posts/articles-wyckoff-2015-06-accumulation-phase-absorbing-stock-like-a-sponge.md — retrospective — candidate
+- [[../extracts/fraser_p006_img02_spring_cmg]] — raw/bruce_fraser/posts/articles-wyckoff-2015-06-francis-bacon-reveals-the-nature-of-trends.md — retrospective — candidate
+- [[../extracts/fraser_p006_img03_spring_djia]] — raw/bruce_fraser/posts/articles-wyckoff-2015-06-francis-bacon-reveals-the-nature-of-trends.md — retrospective — candidate
+- [[../extracts/fraser_p008_img05_spring_jo]] — raw/bruce_fraser/posts/articles-wyckoff-2015-06-jumping-the-creek.md — forward — candidate
+- [[../extracts/fraser_p011_img02_spring_amzn]] — raw/bruce_fraser/posts/articles-wyckoff-2015-07-reaccumulation-roundup.md — retrospective — candidate
+- [[../extracts/fraser_p011_img06_spring_bofi]] — raw/bruce_fraser/posts/articles-wyckoff-2015-07-reaccumulation-roundup.md — retrospective — candidate
+- [[../extracts/fraser_p016_img02_spring_wdc]] — raw/bruce_fraser/posts/articles-wyckoff-2015-08-when-termites-get-into-your-trends.md — retrospective — candidate
+- [[../extracts/fraser_p016_img05_spring_azo]] — raw/bruce_fraser/posts/articles-wyckoff-2015-08-when-termites-get-into-your-trends.md — forward — candidate
+- [[../extracts/fraser_p028_img02_spring_wtic-2008]] — raw/bruce_fraser/posts/articles-wyckoff-2015-12-crude-oil-how-low-can-it-go.md — retrospective — candidate
+- [[../extracts/fraser_p037_img08_spring_fdx-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2016-02-point-and-figure-pauses-that-refresh.md — retrospective — candidate
+- [[../extracts/fraser_p041_img03_spring_aapl]] — raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md — retrospective — candidate
+- [[../extracts/fraser_p041_img04_spring_gdx]] — raw/bruce_fraser/posts/articles-wyckoff-2016-03-judging-power-waves.md — forward — candidate
+- [[../extracts/fraser_p043_img02_spring_accumulation-schematic]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-how-to-determine-the-best-trade-entry-points.md — schematic — candidate
+- [[../extracts/fraser_p043_img03_spring_gdx]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-how-to-determine-the-best-trade-entry-points.md — forward — candidate
+- [[../extracts/fraser_p044_img02_spring_stld]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-stalking-the-trade.md — forward — candidate
+- [[../extracts/fraser_p045_img04_spring_ba]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-trading-the-reaccumulation.md — retrospective — candidate
+- [[../extracts/fraser_p047_img02_spring_lvs-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p047_img04_spring_lvs-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p047_img05_spring_ahs]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p047_img06_spring_corn]] — raw/bruce_fraser/posts/articles-wyckoff-2016-04-wyckoff-skill-building.md — forward — candidate
+- [[../extracts/fraser_p050_img02_spring_aapl]] — raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md — retrospective — candidate
+- [[../extracts/fraser_p050_img03_spring_schw]] — raw/bruce_fraser/posts/articles-wyckoff-2016-05-springing-into-action.md — retrospective — candidate
+- [[../extracts/fraser_p051_img03_spring_djuscx]] — raw/bruce_fraser/posts/articles-wyckoff-2016-05-wyckoff-group-think.md — forward — candidate
+- [[../extracts/fraser_p058_img02_spring_natgas-monthly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-getting-on-the-gas.md — forward — candidate
+- [[../extracts/fraser_p058_img03_spring_natgas-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2016-07-getting-on-the-gas.md — forward — candidate
+- [[../extracts/fraser_p062_img02_spring_spx]] — raw/bruce_fraser/posts/articles-wyckoff-2016-08-a-gaggle-of-groups.md — forward — candidate
+- [[../extracts/fraser_p062_img03_spring_xlb]] — raw/bruce_fraser/posts/articles-wyckoff-2016-08-a-gaggle-of-groups.md — forward — candidate
+- [[../extracts/fraser_p062_img09_spring_xlv]] — raw/bruce_fraser/posts/articles-wyckoff-2016-08-a-gaggle-of-groups.md — forward — candidate
+- [[../extracts/fraser_p063_img03_spring_twtr]] — raw/bruce_fraser/posts/articles-wyckoff-2016-08-phase-analysis-two-case-studies.md — forward — candidate
+- [[../extracts/fraser_p066_img02_spring_aapl]] — raw/bruce_fraser/posts/articles-wyckoff-2016-09-an-aapl-for-your-thoughts.md — forward — candidate
+- [[../extracts/fraser_p067_img02_spring_cmg]] — raw/bruce_fraser/posts/articles-wyckoff-2016-09-tracking-big-footprints.md — forward — candidate
+- [[../extracts/fraser_p077_img02_spring_spx]] — raw/bruce_fraser/posts/articles-wyckoff-2016-12-the-inner-game-of-wyckoff.md — retrospective — candidate
+- [[../extracts/fraser_p086_img03_spring_dow]] — raw/bruce_fraser/posts/articles-wyckoff-2017-02-sectors-groups-stocks.md — forward — candidate
+- [[../extracts/fraser_p094_img02_last-point-of-support_aapl]] — raw/bruce_fraser/posts/articles-wyckoff-2017-04-the-big-aapl.md — retrospective — candidate
+- [[../extracts/fraser_p097_img02_spring_xle]] — raw/bruce_fraser/posts/articles-wyckoff-2017-05-pedaling-wyckoff.md — forward — candidate
+- [[../extracts/fraser_p103_img02_spring_wfm]] — raw/bruce_fraser/posts/articles-wyckoff-2017-06-wfm-is-swallowed-whole.md — retrospective — candidate
+- [[../extracts/fraser_p112_img02_spring_compq]] — raw/bruce_fraser/posts/articles-wyckoff-2017-09-compq-up-close.md — forward — candidate
+- [[../extracts/fraser_p116_img02_spring_djuscc]] — raw/bruce_fraser/posts/articles-wyckoff-2017-10-chemistry-experiment.md — forward — candidate
+- [[../extracts/fraser_p119_img03_spring_compq]] — raw/bruce_fraser/posts/articles-wyckoff-2017-10-nasdaq-composite-trick-or-treat.md — forward — candidate
+- [[../extracts/fraser_p122_img04_spring_tsla-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2017-11-tesla-recharging.md — forward — candidate
+- [[../extracts/fraser_p127_img03_spring_indu-2h]] — raw/bruce_fraser/posts/articles-wyckoff-2018-01-reaccumulation-review.md — retrospective — candidate
+- [[../extracts/fraser_p127_img06_spring_indu-30m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2018-01-reaccumulation-review.md — retrospective — candidate
+- [[../extracts/fraser_p128_img02_spring_slb]] — raw/bruce_fraser/posts/articles-wyckoff-2018-01-schlumberger-rising.md — forward — candidate
+- [[../extracts/fraser_p137_img02_spring_tyx]] — raw/bruce_fraser/posts/articles-wyckoff-2018-03-interest-rates-how-high.md — forward — candidate
+- [[../extracts/fraser_p141_img03_spring_spx-30m]] — raw/bruce_fraser/posts/articles-wyckoff-2018-04-sp-500-zooming-in.md — forward — candidate
+- [[../extracts/fraser_p152_img02_spring_jpm]] — raw/bruce_fraser/posts/articles-wyckoff-2018-07-is-your-money-safe-in-banks.md — forward — candidate
+- [[../extracts/fraser_p158_img03_spring_xhb-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2018-08-residential-deconstruction.md — forward — candidate
+- [[../extracts/fraser_p165_img02_spring_ung-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2018-11-natural-gas-lights-up.md — forward — candidate
+- [[../extracts/fraser_p167_img02_spring_indu-5m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2018-11-using-pnf-charts-for-intraday-trading.md — forward — candidate
+- [[../extracts/fraser_p174_img02_jump-across-the-creek_djusmg]] — raw/bruce_fraser/posts/articles-wyckoff-2019-02-material-development.md — forward — candidate
+- [[../extracts/fraser_p174_img03_sign-of-strength_rio]] — raw/bruce_fraser/posts/articles-wyckoff-2019-02-material-development.md — forward — candidate
+- [[../extracts/fraser_p180_img03_spring_wynn-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2019-04-wynn-win.md — forward — candidate
+- [[../extracts/fraser_p184_img02_upthrust_indu-60m-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-05-where-theres-smoke.md — forward — candidate
+- [[../extracts/fraser_p184_img03_spring_indu-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2019-05-where-theres-smoke.md — forward — candidate
+- [[../extracts/fraser_p186_img04_back-up-to-the-edge-of-the-creek_spx-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2019-07-on-the-razors-edge.md — forward — candidate
+- [[../extracts/fraser_p200_img05_sign-of-strength_smar-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2020-05-work-area-ahead-901.md — forward — candidate
+- [[../extracts/fraser_p204_img02_spring_tsla-daily-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2020-08-towering-tsla-761.md — forward — candidate
+- [[../extracts/fraser_p208_img02_spring_ajrd-daily-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2021-01-aerojet-soars-21.md — retrospective — candidate
+- [[../extracts/fraser_p212_img02_spring_corn-weekly]] — raw/bruce_fraser/posts/articles-wyckoff-2021-05-power-charting-tv-inflation-na-133.md — forward — candidate
+- [[../extracts/fraser_p226_img02_spring_spx-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2023-02-is-the-sp-500-in-late-stage-ac-67.md — forward — candidate
+- [[../extracts/fraser_p226_img03_sign-of-strength_spx-pnf]] — raw/bruce_fraser/posts/articles-wyckoff-2023-02-is-the-sp-500-in-late-stage-ac-67.md — forward — candidate
+- [[../extracts/fraser_p227_img02_spring_wtic-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2023-04-crude-oil-reaches-an-interesti-761.md — forward — candidate
+- [[../extracts/fraser_p238_img02_spring_dog-daily]] — raw/bruce_fraser/posts/articles-wyckoff-2024-08-who-let-the-dog-out-970.md — forward — candidate
