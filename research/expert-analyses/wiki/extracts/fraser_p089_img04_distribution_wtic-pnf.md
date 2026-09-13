@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data $WTIC P&F chart counts the newly resolved Distribution from Upthrust to BCLX toward a 43 objective.
-

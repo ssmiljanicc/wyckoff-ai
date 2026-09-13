@@ -22,4 +22,3 @@ Weekly Bitcoin chart prikazuje rally ka $7485 supply zoni na sumnjivom volumenu.
 ## Napomene
 
 Nema dodatnih napomena.
-

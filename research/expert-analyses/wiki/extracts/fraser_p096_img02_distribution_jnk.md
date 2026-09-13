@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly JNK chart marks the 2013–14 divergence as Distribution and compares it with a new divergence plus a broken 2016 stride.
-

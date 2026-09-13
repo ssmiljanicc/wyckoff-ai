@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly XLK chart identifies the 2016 Reaccumulation as the source of the current trend-channel advance.
-

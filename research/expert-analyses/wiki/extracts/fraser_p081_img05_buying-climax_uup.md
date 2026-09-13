@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly UUP chart uses the 2015 BCLX and AR as the boundaries of a large trading range, with the latest rally failing back under Resistance.
-

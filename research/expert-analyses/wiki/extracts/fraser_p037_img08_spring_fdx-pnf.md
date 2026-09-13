@@ -23,4 +23,3 @@ FDX Point-and-Figure chart prenosi SPR, LPS i SOS lokatore iz Reaccumulation ran
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

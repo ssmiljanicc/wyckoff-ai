@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Thirty-minute SPX P&F chart nests four smaller counts inside the larger active trading range and frames the evidence needed if it resolves as Distribution.
-

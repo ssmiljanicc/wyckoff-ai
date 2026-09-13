@@ -22,4 +22,3 @@ Daily Bitcoin chart pokazuje ponovljenu supply–absorption–feather–accelera
 ## Napomene
 
 Nema dodatnih napomena.
-

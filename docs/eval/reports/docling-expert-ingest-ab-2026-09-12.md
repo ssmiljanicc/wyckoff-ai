@@ -1,7 +1,7 @@
 # Docling naspram PyMuPDF/DOM za expert ingest
 
-**Datum:** 2026-09-12  
-**GitHub:** [#100 — ispitati Docling kao strukturni pretprocesor za expert ingest](https://github.com/ssmiljanicc/wyckoff-ai/issues/100)  
+**Datum:** 2026-09-12
+**GitHub:** [#100 — ispitati Docling kao strukturni pretprocesor za expert ingest](https://github.com/ssmiljanicc/wyckoff-ai/issues/100)
 **Presuda:** `DISPROVEN` — odbaciti Docling za trenutni expert-ingest pipeline.
 
 ## Pitanje

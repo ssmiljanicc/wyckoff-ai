@@ -24,4 +24,3 @@ PII Point-and-Figure chart daje 81-point count druge Reaccumulation i target 156
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

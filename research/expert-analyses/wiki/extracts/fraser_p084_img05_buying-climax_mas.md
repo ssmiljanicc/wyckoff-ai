@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly MAS chart uses the overbought BCLX and AR as the expected bounds of a new range while Distribution remains unconfirmed.
-

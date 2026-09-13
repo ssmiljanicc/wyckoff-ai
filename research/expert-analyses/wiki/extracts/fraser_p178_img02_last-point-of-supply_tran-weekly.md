@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly TRAN chart follows the Distribution sequence from BCLX and AR through the final UT, weakness and repeated LPSY rallies.
-

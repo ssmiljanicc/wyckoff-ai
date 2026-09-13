@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Long-horizon SMH P&F chart retrospectively connects the ten-year Accumulation cause to the fulfilled 2018 campaign objective.
-

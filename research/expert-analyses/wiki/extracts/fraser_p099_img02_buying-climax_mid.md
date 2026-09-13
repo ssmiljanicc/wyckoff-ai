@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly $MID chart reads the post-election BCLX/Throwover as the stopping point that begins a range-bound market.
-

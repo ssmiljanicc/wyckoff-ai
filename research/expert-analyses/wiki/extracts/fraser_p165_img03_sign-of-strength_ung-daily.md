@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily UNG phase-analysis chart explicitly places the completed Accumulation into Phase E and identifies the LPS-to-PS count area beneath the major strength move.
-

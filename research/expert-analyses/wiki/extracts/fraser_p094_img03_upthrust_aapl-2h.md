@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 2-hour AAPL chart uses BCLX/AR boundaries and a failed overbought Upthrust to assess an emerging trading range.
-

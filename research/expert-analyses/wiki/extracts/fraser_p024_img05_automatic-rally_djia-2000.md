@@ -22,4 +22,3 @@ Weekly DJIA 2000–04 chart prikazuje širok downtrend channel i climactic dodir
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

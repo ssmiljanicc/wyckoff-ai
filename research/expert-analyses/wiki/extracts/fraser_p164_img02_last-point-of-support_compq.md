@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily COMPQ chart retrospectively reads the first-half 2018 Reaccumulation from Buying Climax through a tightening Hinge to the LPS campaign entry.
-

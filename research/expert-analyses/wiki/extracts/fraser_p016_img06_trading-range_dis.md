@@ -22,4 +22,3 @@ Weekly DIS chart do avgusta 2015 prikazuje throwover i povratak u trend channel.
 ## Napomene
 
 Nema dodatnih klasifikacija van primary event/structure para.
-

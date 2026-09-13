@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 Weekly RIO chart treats the breakout after the Spring and Test as a Sign of Strength whose quality should be judged by the ensuing pause.
-

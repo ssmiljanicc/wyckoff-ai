@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily INDU chart interprets contracting volatility as Reaccumulation and the Minor SOS-to-LPS sequence as an actionable Phase C setup awaiting demand confirmation.
-

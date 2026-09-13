@@ -23,4 +23,3 @@ status: candidate
 ## Kontekst
 
 Daily-data ARNC P&F chart measures the Accumulation after its SOS breakout into explicitly identified Phase E and anticipates a Backup.
-

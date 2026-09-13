@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Monthly GOLD chart follows the expected LPS at long-term support into the rally across the large Accumulation range.
-

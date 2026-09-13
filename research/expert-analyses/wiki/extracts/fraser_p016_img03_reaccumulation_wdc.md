@@ -22,4 +22,3 @@ Monthly WDC 1991–2015 chart stavlja prethodni trogodišnji reaccumulation u ko
 ## Napomene
 
 Nema dodatnih klasifikacija van primary event/structure para.
-

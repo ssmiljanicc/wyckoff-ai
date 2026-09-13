@@ -22,4 +22,3 @@ Daily GMCR 2011–12 chart prikazuje downtrend channel i završni gap ispod Over
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

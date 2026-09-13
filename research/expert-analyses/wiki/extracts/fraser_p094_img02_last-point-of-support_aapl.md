@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly AAPL chart updates the year-long Reaccumulation from Spring/SOS through the later LPS2 reaction.
-

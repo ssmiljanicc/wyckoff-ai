@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly RCL chart links a weakening RCL-to-crude ratio and lost leadership to the Distributional top and current decline.
-

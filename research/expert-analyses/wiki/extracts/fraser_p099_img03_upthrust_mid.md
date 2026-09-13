@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily $MID chart treats higher volatility after the Upthrust as evidence of Distribution at BCLX Resistance.
-

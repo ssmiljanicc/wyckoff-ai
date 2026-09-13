@@ -22,4 +22,3 @@ WTIC Point-and-Figure chart broji 2008–09 bazu označenu na pratećem chartu. 
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

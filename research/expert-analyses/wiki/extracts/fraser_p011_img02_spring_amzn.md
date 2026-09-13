@@ -15,9 +15,9 @@ status: candidate
 ## Verbatim pasus
 
 > In the above AMZN example, at the BCLX there is sufficient evidence of exhaustion. This is confirmed by the long grinding decline into the Automatic Reaction (AR). At this point there are two major scenarios: Distribution has begun, or an area of Reaccumulation. In either case it will take months to a year or more to develop. The BCLX and the AR become initial Resistance and Support for containing the trading range. The AMZN Reaccumulation takes 15 months to develop. Note how AMZN spends most of the time in the bottom half of the range. Traders become very bearish when prices keep returning to Support and cannot lift to Resistance (the C.O. is very aware of the tendencies of the average trader / investor).
-> 
+>
 > Price has a big character change when the Spring is Tested and a huge vertical Jump follows. The BUEC at about $375 also demonstrates a change of behavior as the price has a very shallow back up or pause prior to Jumping out of the entire Reaccumulation trading range. The second BUEC also gives up ground begrudgingly and will not even return to the prior Resistance area. This is a bullish development.
-> 
+>
 > When volume bulges up as price revisits the Support area we can tentatively conclude this is Demand by the C.O. But it also indicates that there is ample Supply to be Absorbed and the price is likely to return to these Support levels until the C.O. finds it difficult to buy stock (indicated by diminishing volume on the decline to the support area).
 
 ## Kontekst

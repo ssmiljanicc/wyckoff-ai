@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 IEF P&F chart measures the completed Accumulation cause after bond prices have already left the range.
-

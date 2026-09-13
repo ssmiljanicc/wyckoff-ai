@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly WDAY chart follows the campaign out of Reaccumulation into the current accelerating price-and-relative-strength Buying Climax.
-

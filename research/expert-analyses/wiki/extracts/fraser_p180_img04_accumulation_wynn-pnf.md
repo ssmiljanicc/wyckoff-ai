@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data WYNN P&F chart measures the completed Accumulation cause back toward prior highs and frames future Reaccumulation as the next entry context.
-

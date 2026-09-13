@@ -23,4 +23,3 @@ Daily DJIA August–October chart prikazuje jasno označenu Accumulation sekvenc
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

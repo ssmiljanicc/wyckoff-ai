@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Five-minute INDU P&F chart reads the channel break as a Sign of Strength followed by a Back Up and measures two rally causes from the Selling Climax.
-

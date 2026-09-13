@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data XLE P&F chart measures its completed Distribution into the 71–66 objective zone while the downtrend remains active.
-

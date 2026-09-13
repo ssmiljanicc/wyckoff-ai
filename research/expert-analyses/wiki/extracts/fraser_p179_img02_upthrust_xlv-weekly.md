@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly XLV chart reads the BCLX throwover, Upthrust and weakening relative strength as supply inside the continuing trading range.
-

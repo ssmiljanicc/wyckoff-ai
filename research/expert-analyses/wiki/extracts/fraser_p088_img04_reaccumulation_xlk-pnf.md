@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data XLK P&F chart compares two Reaccumulation counts and tests whether another pause is needed before the larger objective.
-

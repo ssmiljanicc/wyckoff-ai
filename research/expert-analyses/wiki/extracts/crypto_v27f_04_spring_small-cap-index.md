@@ -27,4 +27,3 @@ Intraday Small Cap Index Point-and-Figure chart prati high-volume shakeout na po
 ## Napomene
 
 Nema dodatnih napomena.
-

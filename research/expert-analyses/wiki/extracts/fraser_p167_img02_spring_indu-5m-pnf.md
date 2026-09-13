@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Five-minute INDU P&F chart carries a complete concrete Accumulation reading from SC/AR and tests through the Spring, MSOS and Back Up.
-

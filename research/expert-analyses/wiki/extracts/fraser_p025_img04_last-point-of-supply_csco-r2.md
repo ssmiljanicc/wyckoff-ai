@@ -24,4 +24,3 @@ Daily CSCO 2000–01 chart prikazuje drugu Redistribution zonu sa lower highs/lo
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

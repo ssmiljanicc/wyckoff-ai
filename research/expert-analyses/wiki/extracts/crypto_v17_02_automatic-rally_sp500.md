@@ -24,4 +24,3 @@ Daily S&P/Bitcoin comparison prati climactic action i veliki Automatic Rally ka 
 ## Napomene
 
 Nema dodatnih napomena.
-

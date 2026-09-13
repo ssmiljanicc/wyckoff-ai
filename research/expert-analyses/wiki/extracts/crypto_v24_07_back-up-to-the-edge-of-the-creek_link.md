@@ -22,4 +22,3 @@ Daily LINK/USD chart prikazuje upsloping range sa apsorbovanom ponudom. Autor ak
 ## Napomene
 
 Nema dodatnih napomena.
-

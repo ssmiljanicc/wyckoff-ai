@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 EEM P&F chart retrospectively verifies the fulfilled Distribution count at the accelerating Selling Climax and reversal.
-

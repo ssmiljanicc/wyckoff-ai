@@ -23,4 +23,3 @@ Daily AKAM 2010–11 chart mapira Distribution faze A–E preko BCLX, AR, ST, UT
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

@@ -22,4 +22,3 @@ CSCO Point-and-Figure chart prenosi tri prethodno identifikovane Redistribution 
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

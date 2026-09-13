@@ -28,4 +28,3 @@ Daily Bitcoin chart u $8K–$10K konsolidaciji definiše $9300 kao confirmation 
 ## Napomene
 
 Nema dodatnih napomena.
-

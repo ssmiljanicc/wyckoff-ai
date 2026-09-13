@@ -23,4 +23,3 @@ BIIB Point-and-Figure chart broji manju bazu od LPS-a do Preliminary Support-a. 
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

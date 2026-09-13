@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Fifteen-minute INDU P&F chart shows the small Distribution count fulfilled at a Selling Climax and the new cause forming at its target.
-

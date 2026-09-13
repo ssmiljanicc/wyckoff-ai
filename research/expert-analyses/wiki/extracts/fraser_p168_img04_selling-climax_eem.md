@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily EEM chart reads the Selling Climax and Secondary Test throw-under alongside weakening UUP momentum and EEM's higher lows.
-

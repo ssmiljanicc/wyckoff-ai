@@ -24,4 +24,3 @@ Bitcoin Point-and-Figure chart poredi raniji confirming reaccumulation count sa 
 ## Napomene
 
 Nema dodatnih napomena.
-

@@ -23,4 +23,3 @@ PII Point-and-Figure chart prenosi LPS, AR i ST sa prvog bar chart-a. Fraser sta
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 Weekly MU chart locates the LPSY after SOW as the Distribution count start and follows the Markdown to a $9 SCLX.
-

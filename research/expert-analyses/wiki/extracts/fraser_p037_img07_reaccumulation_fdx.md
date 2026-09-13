@@ -22,4 +22,3 @@ Weekly FDX 2012–14 chart označava veliki zeleni Reaccumulation range i manju 
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly AMZN chart identifies the accelerated throwover and relative-strength surge as evidence of a Buying Climax while noting that the trend has not yet reversed.
-

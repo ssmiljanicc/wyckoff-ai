@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily SPX chart identifies the sharp high-volume break from the Secondary Test as a break of the Ice and evaluates whether price can recover the broken support.
-

@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily COMPQ update interprets the year-end climactic leg of the completed Distribution decline as setting up a possible oversold bounce.
-

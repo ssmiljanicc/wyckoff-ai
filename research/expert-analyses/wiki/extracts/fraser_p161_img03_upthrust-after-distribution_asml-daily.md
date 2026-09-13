@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily ASML chart follows the January Buying Climax through the July UTAD and LPSY into an apparently completed Distribution.
-

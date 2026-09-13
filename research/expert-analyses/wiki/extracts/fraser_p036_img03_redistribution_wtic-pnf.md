@@ -22,4 +22,3 @@ WTIC Point-and-Figure chart meri prethodni SSR i tadašnji developing Cause. Fra
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

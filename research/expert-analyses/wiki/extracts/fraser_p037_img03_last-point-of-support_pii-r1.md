@@ -23,4 +23,3 @@ Weekly PII chart uvećava prvu Reaccumulation pauzu. Fraser BCLX/AR početak, hi
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

@@ -22,4 +22,3 @@ Weekly FXI 2005–09 chart prikazuje ubrzanje i exhaustion završnog advance-a u
 ## Napomene
 
 Nema dodatnih klasifikacija van primary event/structure para.
-

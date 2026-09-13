@@ -22,4 +22,3 @@ Weekly AAPL 2006–09 chart ilustruje pad, sideways range i novi uptrend. Fraser
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

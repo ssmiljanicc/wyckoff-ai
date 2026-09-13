@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data GOLD P&F chart measures the Accumulation cause formed after the August Selling Climax into the current swing target zone.
-

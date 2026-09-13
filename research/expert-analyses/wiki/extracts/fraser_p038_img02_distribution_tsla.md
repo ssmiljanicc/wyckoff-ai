@@ -22,4 +22,3 @@ Weekly TSLA 2013–16 chart prikazuje tri circled segmenta dugog Distribution ra
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

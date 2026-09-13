@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily WYNN chart follows the Selling Climax and UT into the Spring/Test that completed Accumulation and launched the new uptrend.
-

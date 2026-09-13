@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Sixty-minute COMPQ chart isolates the completed eight-day Reaccumulation, LPS-with-Test pivot and subsequent Jump toward resistance.
-

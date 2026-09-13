@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly $DJUSCC chart interprets the Secondary Test and Shakeout test within a multi-year Reaccumulation through relative-strength confirmation.
-

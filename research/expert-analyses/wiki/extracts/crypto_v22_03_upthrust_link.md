@@ -23,4 +23,3 @@ Daily LINK/Nasdaq comparison tumači upsloping ChainLink range. Upthrust na poin
 ## Napomene
 
 Nema dodatnih napomena.
-

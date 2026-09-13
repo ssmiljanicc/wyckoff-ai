@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Composite SPX chart aligns a five-minute P&F view with a 15-minute vertical chart and shows how minor counts repeatedly flag the active trading-range extremes.
-

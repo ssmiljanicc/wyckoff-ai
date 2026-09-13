@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily GDX chart frames the break from its downtrend channel as possible LPS/Backing-Up behavior before Markup.
-

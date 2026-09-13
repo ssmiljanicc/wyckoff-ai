@@ -22,4 +22,3 @@ Bitcoin comparison chart prati ishod ranije označenog tactical level-a. Bar [6]
 ## Napomene
 
 Nema dodatnih napomena.
-

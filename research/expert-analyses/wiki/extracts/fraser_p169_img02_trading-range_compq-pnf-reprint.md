@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Reprinted daily-data COMPQ P&F study locates the later trading range inside the first downside count zone.
-

@@ -22,4 +22,3 @@ Daily XTZ/USD chart označava spring na point [1] i aktuelni retest na point [2]
 ## Napomene
 
 Nema dodatnih napomena.
-

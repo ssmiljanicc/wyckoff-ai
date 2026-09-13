@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly $DJUSAS chart links an Upthrust and subsequent decline to an earlier upside non-confirmation in relative strength.
-

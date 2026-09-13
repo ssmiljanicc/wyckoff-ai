@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly DJUSMG chart reads the post-Spring strength through the long-term moving average as a Jump Across the Creek in the multi-year Reaccumulation.
-

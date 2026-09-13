@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 XLV P&F chart contrasts a fulfilled long-term Accumulation count with a still-forming possible Reaccumulation.
-

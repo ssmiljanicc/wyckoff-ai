@@ -25,4 +25,3 @@ DJIA Point-and-Figure chart broji Accumulation od LPS do SCLX kolone. Fraser dob
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

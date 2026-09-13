@@ -23,4 +23,3 @@ DJIA Point-and-Figure chart prikazuje ostvareni downside objective i novi develo
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

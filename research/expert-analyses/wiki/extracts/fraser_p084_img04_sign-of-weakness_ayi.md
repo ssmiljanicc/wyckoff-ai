@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly AYI chart identifies a second SOW after completed Distribution, with relative strength already decisively down.
-

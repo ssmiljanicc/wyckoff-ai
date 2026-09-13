@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly $DJUSBT chart uses persistent relative weakness to confirm the prior Distribution and frame the current bounded trading range.
-

@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly XHB chart follows the climactic throwover and Buying Climax into a Change of Character, persistent relative weakness and a break below the demand trendline.
-

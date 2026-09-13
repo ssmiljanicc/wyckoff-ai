@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data ASML P&F chart relates the fulfilled accumulation cause and terminal climax to the large Distribution now nearing completion.
-

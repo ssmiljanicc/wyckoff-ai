@@ -24,4 +24,3 @@ Weekly BIIB 2008–11 chart uvećava Accumulation unutar većeg SSR-a. Fraser ek
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

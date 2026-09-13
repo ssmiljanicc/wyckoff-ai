@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 XLF P&F chart shows a smaller Reaccumulation count confirming the larger Accumulation objective as price reaches prior resistance.
-

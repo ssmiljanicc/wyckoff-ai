@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly JBHT chart uses deteriorating relative strength and four resistance forms to confirm the September LPSY after the earlier Upthrust.
-

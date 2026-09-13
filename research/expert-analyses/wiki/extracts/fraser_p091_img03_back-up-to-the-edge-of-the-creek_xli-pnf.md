@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 XLI P&F chart identifies a forceful Jump and BUEC above Accumulation Resistance before Markup.
-

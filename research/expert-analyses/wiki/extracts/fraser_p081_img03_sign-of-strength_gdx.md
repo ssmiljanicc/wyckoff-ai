@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 Weekly GDX chart reads the high-volume Shakeout/SCLX, diminishing-volume tests and later major SOS as a more constructive Accumulation than GLD.
-

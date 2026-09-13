@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly COP chart interprets the low-volume test and descent to the LPS as Absorption before leadership and markup emerge.
-

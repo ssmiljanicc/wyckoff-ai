@@ -20,4 +20,3 @@ status: candidate
 ## Kontekst
 
 Combined daily $WTIC/XLE chart reads completed Distribution in both markets, with energy equities leading crude oil lower.
-

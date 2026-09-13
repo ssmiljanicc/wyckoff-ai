@@ -22,4 +22,3 @@ Intraday LINK Point-and-Figure chart povezuje SSR count sa targetom originalne a
 ## Napomene
 
 Nema dodatnih napomena.
-

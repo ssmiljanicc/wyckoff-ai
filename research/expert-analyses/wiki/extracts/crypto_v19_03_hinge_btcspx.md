@@ -22,4 +22,3 @@ Daily BTC/SPX relative-strength chart prikazuje bazu posle 2019 downtrend-a. Aut
 ## Napomene
 
 Nema dodatnih napomena.
-

@@ -20,4 +20,3 @@ status: candidate
 ## Kontekst
 
 Daily-data XLV P&F chart links the earlier Accumulation and confirming Reaccumulation targets to the current UT–SOW–LPSY Distribution count.
-

@@ -23,4 +23,3 @@ status: candidate
 ## Kontekst
 
 Daily-data WDAY P&F chart shows the smaller 2018 Reaccumulation confirming both larger campaign counts while the first segment is fulfilled.
-

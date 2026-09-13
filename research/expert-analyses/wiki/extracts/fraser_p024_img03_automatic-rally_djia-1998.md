@@ -22,4 +22,3 @@ Daily DJIA 1998 chart prikazuje klimaktični pad ispod Oversold Line-a i kasniji
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

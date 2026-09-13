@@ -33,4 +33,3 @@ Višegodišnji Bitcoin Wyckoff Story chart mapira long-term accumulation. Aktuel
 ## Napomene
 
 Nema dodatnih napomena.
-

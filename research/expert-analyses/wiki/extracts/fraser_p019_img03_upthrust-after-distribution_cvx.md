@@ -24,4 +24,3 @@ Weekly CVX 2007–09 chart prikazuje devetonedeljni UTAD, SOW i Stepping Stone R
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

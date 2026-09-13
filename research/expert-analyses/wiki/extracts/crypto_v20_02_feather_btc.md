@@ -29,4 +29,3 @@ Daily Bitcoin bar-by-bar chart označava bullish feather na point [6]. Autor ga 
 ## Napomene
 
 Nema dodatnih napomena.
-

@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly WTIC chart traces the 2016 reversal into a long Reaccumulation and identifies the SOS break used to count that structure.
-

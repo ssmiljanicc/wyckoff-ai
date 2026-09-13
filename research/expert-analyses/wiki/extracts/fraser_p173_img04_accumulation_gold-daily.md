@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily GOLD chart follows the cause built after the August throw-under and treats a move through long-term resistance as the remaining Accumulation confirmation.
-

@@ -22,4 +22,3 @@ Intraday Bitcoin Point-and-Figure chart prikazuje lokalni Upthrust na point [2].
 ## Napomene
 
 Nema dodatnih napomena.
-

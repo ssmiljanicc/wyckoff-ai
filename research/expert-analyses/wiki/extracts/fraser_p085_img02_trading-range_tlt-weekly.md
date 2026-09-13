@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly TLT chart locates a new trading range at the first downside P&F objective while its direction remains unresolved.
-

@@ -22,4 +22,3 @@ Weekly MS 2006–09 chart prikazuje Redistribution unutar opadajućeg kanala. Fr
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

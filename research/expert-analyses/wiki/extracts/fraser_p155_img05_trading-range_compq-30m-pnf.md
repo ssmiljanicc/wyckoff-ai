@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Thirty-minute COMPQ P&F chart follows a completed Distribution count with the new range-bound bullish count that preceded the latest markup.
-

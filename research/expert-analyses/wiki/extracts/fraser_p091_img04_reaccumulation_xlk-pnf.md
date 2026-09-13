@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 XLK P&F chart segments the prior base count and frames a possible Reaccumulation pause before the larger objective.
-

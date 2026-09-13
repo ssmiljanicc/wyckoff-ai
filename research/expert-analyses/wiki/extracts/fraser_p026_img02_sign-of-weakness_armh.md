@@ -27,4 +27,3 @@ Daily ARMH 2000–01 chart prikazuje stopping action koja prelazi u Redistributi
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

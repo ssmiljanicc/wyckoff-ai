@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 XLV P&F chart segments the 2015–17 Reaccumulation and nests the newer 2018 Reaccumulation count near the same target zone.
-

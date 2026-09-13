@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly UNG chart places the current rally and improving relative strength after the labeled Spring inside a larger three-year Accumulation.
-

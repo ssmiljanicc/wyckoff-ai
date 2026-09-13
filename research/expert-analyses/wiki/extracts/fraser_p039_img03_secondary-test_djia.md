@@ -23,4 +23,3 @@ Daily DJIA 2015–16 chart prikazuje SCLX/AR granice i ST povratak. Fraser brz f
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

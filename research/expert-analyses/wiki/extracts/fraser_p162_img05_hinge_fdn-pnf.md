@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data FDN P&F update measures the downside break from the Hinge while keeping the larger bearish sequence conditional.
-

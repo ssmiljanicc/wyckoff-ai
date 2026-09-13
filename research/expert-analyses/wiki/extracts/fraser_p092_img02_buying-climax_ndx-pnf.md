@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 Daily-data $NDX P&F chart aligns Accumulation and Reaccumulation objectives with an overbought Buying Climax surge.
-

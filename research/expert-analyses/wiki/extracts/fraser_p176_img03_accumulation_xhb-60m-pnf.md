@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Sixty-minute XHB P&F chart divides the Accumulation into two count segments and gives the first objective.
-

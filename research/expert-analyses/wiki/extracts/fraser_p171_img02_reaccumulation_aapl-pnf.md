@@ -20,4 +20,3 @@ status: candidate
 ## Kontekst
 
 Daily-data AAPL P&F campaign chart retrospectively connects the major and confirming Reaccumulation counts to the completed advance.
-

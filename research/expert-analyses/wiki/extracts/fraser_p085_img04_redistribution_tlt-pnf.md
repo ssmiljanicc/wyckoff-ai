@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 TLT P&F chart compares the major Distribution objective with a matching Redistribution count and a smaller countertrend Accumulation count.
-

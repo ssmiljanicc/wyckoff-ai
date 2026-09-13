@@ -22,4 +22,3 @@ Weekly DJIA chart do 2015 označava četiri velika reaccumulation range-a u bull
 ## Napomene
 
 Nema dodatnih klasifikacija van primary event/structure para.
-

@@ -22,4 +22,3 @@ Weekly BAC 2006–09 chart prikazuje dva različita oblika Redistribution-a. Fra
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

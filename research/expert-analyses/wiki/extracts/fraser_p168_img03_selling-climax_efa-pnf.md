@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 EFA P&F chart pairs the nearly fulfilled downside segment with the Selling Climax and Automatic Rally, while keeping the developing Accumulation conditional.
-

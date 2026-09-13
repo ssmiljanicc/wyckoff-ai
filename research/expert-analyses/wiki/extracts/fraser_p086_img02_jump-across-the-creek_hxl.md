@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly HXL chart follows Reaccumulation from SCLX/AR boundaries through two Jumps and a BUEC, confirmed by improving relative strength.
-

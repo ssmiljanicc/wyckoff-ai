@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily $SML chart follows an overbought BCLX through an oversold reaction and UTAD while Distribution awaits a support break.
-

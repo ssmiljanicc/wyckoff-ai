@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data $WTIC P&F chart extends the completed Distribution count after the original 43 objective was hit.
-

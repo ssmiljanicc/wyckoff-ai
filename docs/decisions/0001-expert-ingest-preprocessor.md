@@ -1,7 +1,7 @@
 # ADR 0001: Zadržati PyMuPDF/DOM za expert ingest
 
-**Status:** accepted  
-**Datum:** 2026-09-12  
+**Status:** accepted
+**Datum:** 2026-09-12
 **Odluka:** Ne uvoditi Docling kao pretprocesor za `research/expert-analyses/`.
 
 ## Kontekst

@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly DOW chart reads a higher relative-strength low at the Spring and a sustained Jump above Resistance as leadership emerging from Reaccumulation.
-

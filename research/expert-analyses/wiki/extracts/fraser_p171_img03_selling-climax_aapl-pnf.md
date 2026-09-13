@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily-data AAPL P&F chart retrospectively follows the Buying Climax into a completed Distribution count and Selling Climax near the lower objective.
-

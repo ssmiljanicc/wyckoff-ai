@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data COMPQ P&F chart contrasts the fulfilled accumulation target with two active Distribution counts and conditional lower objectives.
-

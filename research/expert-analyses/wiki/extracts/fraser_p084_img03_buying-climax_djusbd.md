@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly $DJUSBD chart treats the BCLX and AR as the boundaries of an unresolved Distribution-or-Reaccumulation trading range.
-

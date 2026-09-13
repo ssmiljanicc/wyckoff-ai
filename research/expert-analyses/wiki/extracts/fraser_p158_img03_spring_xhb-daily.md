@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily XHB chart identifies a Spring action at support but leaves the larger structure explicitly unresolved between unfinished Accumulation and Redistribution.
-

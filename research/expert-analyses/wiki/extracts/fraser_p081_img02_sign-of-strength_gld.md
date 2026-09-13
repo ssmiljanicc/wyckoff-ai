@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly GLD chart tracks an unfinished Accumulation from stopping action through a minor SOS and its deep reaction.
-

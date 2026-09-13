@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily-data SPX P&F chart contrasts the exhausted 2015–16 cause with weakness after the October Upthrust; Fraser leaves the new-Spring question unresolved.
-

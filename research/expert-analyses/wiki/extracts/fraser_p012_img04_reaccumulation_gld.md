@@ -22,4 +22,3 @@ Monthly GLD chart izdvaja reaccumulation faze unutar dugog gold uptrend-a. Frase
 ## Napomene
 
 Nema dodatnih klasifikacija van primary event/structure para.
-

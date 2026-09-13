@@ -22,4 +22,3 @@ Weekly ARMH 1999–2002 chart prikazuje dve Stepping Stone Redistribution zone p
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

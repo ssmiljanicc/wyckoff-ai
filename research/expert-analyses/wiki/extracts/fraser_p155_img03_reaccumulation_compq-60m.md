@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Sixty-minute COMPQ overview identifies the newest Reaccumulation after the preceding Distribution count was fulfilled.
-

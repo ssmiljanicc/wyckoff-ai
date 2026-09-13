@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily XHB chart places the high-volume Selling Climax at the start of a now apparently complete Accumulation with improving relative strength.
-

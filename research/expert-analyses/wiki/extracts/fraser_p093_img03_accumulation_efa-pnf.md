@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 EFA P&F chart measures conservative and aggressive Accumulation counts from the vertical-chart LPS/SOW landmarks.
-

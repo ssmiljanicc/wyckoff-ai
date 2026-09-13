@@ -23,4 +23,3 @@ Daily CSCO 2001 chart prikazuje kratku treću Redistribution. Fraser minor SCLX,
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

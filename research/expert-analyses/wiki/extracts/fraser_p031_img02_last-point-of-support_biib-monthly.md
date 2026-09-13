@@ -24,4 +24,3 @@ Monthly BIIB chart prikazuje jedanaestogodišnji SSR sa ugnežđenom Accumulatio
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

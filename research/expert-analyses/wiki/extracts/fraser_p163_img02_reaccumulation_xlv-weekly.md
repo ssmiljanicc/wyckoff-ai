@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly XLV chart locates the 2018 Reaccumulation after a channel failure and its return to sector leadership.
-

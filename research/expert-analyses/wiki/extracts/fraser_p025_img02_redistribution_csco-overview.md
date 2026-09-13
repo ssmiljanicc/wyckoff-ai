@@ -22,4 +22,3 @@ Weekly CSCO 1999–2002 overview chart označava četiri stepenaste zone u bear 
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

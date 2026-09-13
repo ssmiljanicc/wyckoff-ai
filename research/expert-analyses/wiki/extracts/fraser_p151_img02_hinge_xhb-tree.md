@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly XHB and TREE comparison identifies simultaneous Reaccumulations and the XHB Hinge resolution as confirming evidence for the subsequent uptrends.
-

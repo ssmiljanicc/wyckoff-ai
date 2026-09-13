@@ -23,4 +23,3 @@ Labeled TRX accumulation chart eksplicitno razlikuje Phase B ST as mSOS od final
 ## Napomene
 
 Nema dodatnih napomena.
-

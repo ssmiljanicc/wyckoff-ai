@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily XLE chart identifies a deep Spring #2 and immediate snapback after the 66 P&F target was reached.
-

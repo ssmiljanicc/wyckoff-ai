@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily JNK chart defines a new trading range with BCLX/AR boundaries and an Upthrust that quickly falls back to Resistance.
-

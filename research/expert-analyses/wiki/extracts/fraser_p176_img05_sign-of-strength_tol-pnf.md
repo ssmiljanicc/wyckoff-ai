@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily-data TOL P&F chart labels the jump out of the downtrend as a Sign of Strength and treats the current Back Up as unfinished.
-

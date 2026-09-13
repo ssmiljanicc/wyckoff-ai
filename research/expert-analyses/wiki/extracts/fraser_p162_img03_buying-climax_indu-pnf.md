@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data INDU P&F chart shows the first Reaccumulation segment fulfilled where two count-based and channel forms of resistance produced a minor Buying Climax.
-

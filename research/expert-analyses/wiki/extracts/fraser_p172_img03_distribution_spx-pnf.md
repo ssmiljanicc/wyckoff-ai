@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily-data SPX P&F chart measures the Distribution range from the September UT through the December Hinge to the climactic objective.
-

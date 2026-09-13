@@ -28,4 +28,3 @@ GBTC 3% scaling Point-and-Figure chart sadrži green reaccumulation count i oran
 ## Napomene
 
 Nema dodatnih napomena.
-

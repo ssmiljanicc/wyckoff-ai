@@ -20,4 +20,3 @@ status: candidate
 ## Kontekst
 
 Daily TLT chart tentatively labels the heavy-volume reversal as LPSY within a possible Redistribution after the first downside objective.
-

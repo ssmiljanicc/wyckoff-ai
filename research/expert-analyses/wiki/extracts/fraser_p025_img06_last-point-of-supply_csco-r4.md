@@ -26,4 +26,3 @@ Daily CSCO 2001 chart prikazuje završnu climactic seriju i četvrtu Redistribut
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

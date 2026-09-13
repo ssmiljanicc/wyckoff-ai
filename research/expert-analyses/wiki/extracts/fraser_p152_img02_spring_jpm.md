@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily JPM chart treats the modest-volume Spring and immediate reversal as Phase C evidence of absorbed supply, while requiring an SOS through overhead resistance.
-

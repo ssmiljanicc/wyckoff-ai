@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily ALB chart isolates the LPS1-to-ST segment as the defensible Accumulation count after demand emerges.
-

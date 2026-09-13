@@ -22,4 +22,3 @@ Retrospektivni 1987 S&P analog prikazuje brz oporavak posle crash-a. Autor zatim
 ## Napomene
 
 Nema dodatnih napomena.
-

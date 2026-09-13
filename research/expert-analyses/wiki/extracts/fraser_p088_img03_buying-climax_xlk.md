@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 Daily XLK chart follows a completed Reaccumulation through LPS/SOS tests into fresh PSY–BCLX–AR stopping action.
-

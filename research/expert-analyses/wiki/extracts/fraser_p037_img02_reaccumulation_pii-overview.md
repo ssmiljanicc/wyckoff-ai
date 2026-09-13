@@ -22,4 +22,3 @@ Weekly PII overview chart označava dve duge pauze u uptrendu. Fraser higher low
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

@@ -22,4 +22,3 @@ Daily LINK/BTC spread chart sadrži dve downsloping reaccumulation strukture. Au
 ## Napomene
 
 Nema dodatnih napomena.
-

@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Monthly SPX chart interprets the channel throwover as a Buying Climax and evaluates the current return to the overbought line.
-

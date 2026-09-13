@@ -28,4 +28,3 @@ status: candidate
 ## Napomene
 
 Nema dodatnih napomena.
-

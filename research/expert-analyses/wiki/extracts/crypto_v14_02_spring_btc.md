@@ -26,4 +26,3 @@ Daily Bitcoin chart daje dva forward scenarija oko Ice retest-a. Bullish grana z
 ## Napomene
 
 Nema dodatnih napomena.
-

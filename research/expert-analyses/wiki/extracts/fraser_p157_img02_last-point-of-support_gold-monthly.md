@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Monthly GOLD chart locates the 2016 LPS within the five-year range and evaluates the August return to long-term Selling Climax support.
-

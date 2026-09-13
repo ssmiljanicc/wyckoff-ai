@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily COMPQ chart treats the June thrust and current test as a Major SOS at the upper edge of the multi-year range, leaving bullish and bearish continuations open.
-

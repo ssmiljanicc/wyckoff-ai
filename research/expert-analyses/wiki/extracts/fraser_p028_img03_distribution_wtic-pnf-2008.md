@@ -22,4 +22,3 @@ WTIC Point-and-Figure chart meri kratko formiranu Distribution na Hypodermic vrh
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

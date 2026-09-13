@@ -22,4 +22,3 @@ Weekly AMZN 1999–2004 chart prikazuje volatilne stepenice naniže. Fraser žut
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

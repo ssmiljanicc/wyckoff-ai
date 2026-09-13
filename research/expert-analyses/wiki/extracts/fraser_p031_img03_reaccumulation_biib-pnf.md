@@ -22,4 +22,3 @@ Modified BIIB Point-and-Figure chart kompresuje decenijski SSR u 25 count kolona
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

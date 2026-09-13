@@ -23,4 +23,3 @@ Daily NFLX 2010–11 chart prikazuje Distribution na rising scale i dva LPSY-a p
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

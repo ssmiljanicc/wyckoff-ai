@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Daily SMH and NDX comparison chart ties SMH's earlier change of character and institutional selling to its relative weakness ahead of NDX.
-

@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Updated daily-data COMPQ P&F chart shows the subsequent Redistribution confirming the earlier Distribution objective.
-

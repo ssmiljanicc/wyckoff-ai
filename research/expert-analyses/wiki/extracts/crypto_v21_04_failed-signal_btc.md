@@ -23,4 +23,3 @@ Intraday Bitcoin trading diary retrospektivno proverava neaktivirani downside se
 ## Napomene
 
 Nema dodatnih napomena.
-

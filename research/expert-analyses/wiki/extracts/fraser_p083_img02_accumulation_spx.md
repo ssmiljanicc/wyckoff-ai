@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily $SPX chart identifies one Accumulation and two Reaccumulations as the stair-step Causes behind the 2016 advance.
-

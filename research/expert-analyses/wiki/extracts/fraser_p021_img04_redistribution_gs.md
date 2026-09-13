@@ -22,4 +22,3 @@ Weekly GS 2007–09 chart prikazuje mirnu višemesečnu pauzu pre naglog pada. F
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

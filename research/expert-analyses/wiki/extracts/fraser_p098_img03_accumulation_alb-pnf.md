@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 ALB P&F chart separates a confirmed Accumulation segment from a flagged segment whose status remained uncertain.
-

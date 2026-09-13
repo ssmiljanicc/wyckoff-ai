@@ -21,4 +21,3 @@ status: candidate
 ## Kontekst
 
 Weekly BHP chart shows higher Reaccumulation lows after the AR and easy movement through resistance from the final LPS.
-

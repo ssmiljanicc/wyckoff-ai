@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily-data ALB P&F chart shows the Reaccumulation confirmation count validating the full earlier Accumulation count.
-

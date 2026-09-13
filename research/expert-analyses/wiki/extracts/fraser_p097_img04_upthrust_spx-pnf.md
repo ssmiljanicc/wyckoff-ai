@@ -20,4 +20,3 @@ status: candidate
 ## Kontekst
 
 30-minute $SPX P&F chart reads a late Upthrust inside a forming Reaccumulation whose count confirms the base objective.
-

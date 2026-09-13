@@ -23,4 +23,3 @@ Weekly PCLN 2006–08 chart prikazuje Distribution tokom rising pattern-a, sa PS
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

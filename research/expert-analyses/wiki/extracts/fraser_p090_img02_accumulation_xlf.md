@@ -22,4 +22,3 @@ status: candidate
 ## Kontekst
 
 Weekly XLF chart follows the 2008–09 SCLX/AR/Shakeout into a multi-year Accumulation and a later Reaccumulation count.
-

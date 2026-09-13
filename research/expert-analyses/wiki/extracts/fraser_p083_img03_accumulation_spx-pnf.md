@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily-data $SPX P&F chart measures the 2016 Accumulation and shows two Reaccumulation counts confirming its objective.
-

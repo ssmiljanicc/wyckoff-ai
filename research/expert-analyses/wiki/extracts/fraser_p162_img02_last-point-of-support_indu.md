@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Daily INDU update starts from the explicitly completed Phase C LPS and follows the rally into Buying Climax resistance and a channel throwover.
-

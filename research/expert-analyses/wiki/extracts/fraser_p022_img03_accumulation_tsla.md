@@ -22,4 +22,3 @@ Daily TSLA 2014–15 chart prikazuje iscrpljivanje sedmomesečnog pada i range u
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

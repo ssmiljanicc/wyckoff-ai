@@ -22,4 +22,3 @@ Daily Bitcoin range počinje posle high-volume supply tail-a. Autor zatim čita 
 ## Napomene
 
 Nema dodatnih napomena.
-

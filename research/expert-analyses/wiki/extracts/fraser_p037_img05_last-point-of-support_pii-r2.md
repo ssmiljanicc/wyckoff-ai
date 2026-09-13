@@ -23,4 +23,3 @@ Weekly PII chart prikazuje drugu desetomesečnu Reaccumulation. Fraser PSY/BCLX/
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

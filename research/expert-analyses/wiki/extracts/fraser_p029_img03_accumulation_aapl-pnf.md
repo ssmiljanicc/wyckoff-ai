@@ -22,4 +22,3 @@ AAPL Point-and-Figure chart prikazuje horizontalni count iste Accumulation baze.
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

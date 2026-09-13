@@ -26,4 +26,3 @@ Daily XLE/$SPX comparative chart prati sve slabije rallies i rastući selling da
 ## Napomene
 
 Related klasifikacije su ograničene na događaje ili strukture koje Fraser eksplicitno vezuje za isti chart.
-

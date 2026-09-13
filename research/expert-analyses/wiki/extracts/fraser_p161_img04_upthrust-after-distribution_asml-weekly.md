@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Weekly ASML chart uses two relative-strength series to confirm aggressive selling after the completed UTAD.
-

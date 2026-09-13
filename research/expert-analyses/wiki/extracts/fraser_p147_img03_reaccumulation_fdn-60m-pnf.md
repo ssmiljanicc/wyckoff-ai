@@ -18,4 +18,3 @@ status: candidate
 ## Kontekst
 
 Sixty-minute FDN P&F chart counts the late-first-quarter Reaccumulation whose two objectives materialized by quarter end.
-

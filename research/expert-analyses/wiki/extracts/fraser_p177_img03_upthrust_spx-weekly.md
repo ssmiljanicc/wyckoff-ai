@@ -19,4 +19,3 @@ status: candidate
 ## Kontekst
 
 Weekly SPX chart retrospectively tracks BCLX, AR and ST into the failed Upthrust that ended the multi-year trend and left a wide trading range.
-
