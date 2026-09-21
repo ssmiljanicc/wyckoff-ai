@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import json
 import re
 import subprocess
@@ -769,6 +770,24 @@ def _fixture_image_map(evidence: dict) -> dict[str, str]:
     }
 
 
+def _ocr_observation(text: str, *, x: float = 0.02, y: float = 0.95) -> dict:
+    return {
+        "text": text,
+        "confidence": 1.0,
+        "x": x,
+        "y": y,
+        "w": 0.4,
+        "h": 0.03,
+    }
+
+
+def _supported_asset_text(observed: str) -> str:
+    normalized = v._normalize_asset(observed)
+    if normalized == "DJIA":
+        return "$INDU Dow Jones Industrial Average INDX"
+    return f"${normalized} Test Instrument NYSE"
+
+
 def test_b17_historical_ocr_evidence_catches_eight_image_defects(
     tmp_path: Path,
 ) -> None:
@@ -868,7 +887,7 @@ def test_ocr_evidence_matches_aliases_and_explicit_composite_members(
     record["asset"]["value"] = observed
     record["asset"]["runs"] = [observed, observed]
     for run_evidence in record["asset"]["evidence"]:
-        run_evidence[0]["text"] = observed
+        run_evidence[:] = [_ocr_observation(_supported_asset_text(observed))]
     evidence["images"] = [record]
     kb_root = tmp_path / "research" / "expert-analyses"
     path = _fraser_ocr_extract(
@@ -905,14 +924,22 @@ def test_ocr_evidence_compares_stable_panel_members_for_multi_asset_declaration(
     record = next(
         record for record in evidence["images"] if record["asset"]["value"] == "DJIA"
     )
+    coherent_evidence = [
+        [
+            _ocr_observation("$TRAN Transport INDX"),
+            _ocr_observation("A0 $INDU 1", y=0.40),
+        ]
+        for _ in range(2)
+    ]
     record["asset"].update(
         {
             "value": "TRAN",
             "runs": ["TRAN", "TRAN"],
+            "evidence": coherent_evidence,
             "members": ["DJIA", "TRAN"],
             "members_decision_eligible": True,
             "member_runs": [["DJIA", "TRAN"], ["DJIA", "TRAN"]],
-            "member_evidence": record["asset"]["evidence"],
+            "member_evidence": coherent_evidence,
         }
     )
     evidence["images"] = [record]
@@ -1017,6 +1044,73 @@ def test_ocr_evidence_unstable_or_incomplete_field_never_hard_fails(
         record["image_path"],
         asset="JPM",
         timeframe="monthly",
+    )
+
+    findings = v.check_extract_ocr_evidence([path], ROOT, kb_root, evidence)
+
+    assert not any(finding.severity == "FAIL" for finding in findings)
+
+
+def test_ocr_evidence_forged_scalar_without_supporting_text_abstains(
+    tmp_path: Path,
+) -> None:
+    evidence = json.loads(OCR_FIXTURE.read_text(encoding="utf-8"))
+    record = evidence["images"][0]
+    record["asset"].update(
+        {
+            "value": "AAPL",
+            "runs": ["AAPL", "AAPL"],
+            "decision_eligible": True,
+            "evidence": [
+                [_ocr_observation("PS", y=0.82)],
+                [_ocr_observation("PS", y=0.82)],
+            ],
+        }
+    )
+    evidence["images"] = [record]
+    kb_root = tmp_path / "research" / "expert-analyses"
+    path = _fraser_ocr_extract(
+        kb_root,
+        "forged_scalar.md",
+        record["image_path"],
+        asset="MSFT",
+        timeframe="unknown",
+    )
+
+    findings = v.check_extract_ocr_evidence([path], ROOT, kb_root, evidence)
+
+    assert not any(finding.severity == "FAIL" for finding in findings)
+
+
+def test_ocr_evidence_forged_members_without_member_text_abstains(
+    tmp_path: Path,
+) -> None:
+    evidence = json.loads(OCR_FIXTURE.read_text(encoding="utf-8"))
+    record = evidence["images"][0]
+    scalar_evidence = [
+        [_ocr_observation("$TRAN Transport INDX")],
+        [_ocr_observation("$TRAN Transport INDX")],
+    ]
+    record["asset"].update(
+        {
+            "value": "TRAN",
+            "runs": ["TRAN", "TRAN"],
+            "decision_eligible": True,
+            "evidence": scalar_evidence,
+            "members": ["DJIA", "TRAN"],
+            "member_runs": [["DJIA", "TRAN"], ["DJIA", "TRAN"]],
+            "members_decision_eligible": True,
+            "member_evidence": scalar_evidence,
+        }
+    )
+    evidence["images"] = [record]
+    kb_root = tmp_path / "research" / "expert-analyses"
+    path = _fraser_ocr_extract(
+        kb_root,
+        "forged_members.md",
+        record["image_path"],
+        asset="TRAN and XLE",
+        timeframe="unknown",
     )
 
     findings = v.check_extract_ocr_evidence([path], ROOT, kb_root, evidence)
@@ -1531,6 +1625,15 @@ def test_profile_is_corpus_profile_instance() -> None:
     assert v.PROFILE.page_dirs == ("by-event", "by-structure")
 
 
+def test_spona_pin_exposes_independent_gate_agent_capability() -> None:
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    lock = (ROOT / "uv.lock").read_text(encoding="utf-8")
+
+    assert 'rev = "afa63eb"' in pyproject
+    assert "afa63eb4fa82cf67da4a94b041d09c3a1d92a6c7" in lock
+    assert "gate_agent" in inspect.signature(runner.run_full_mode).parameters
+
+
 def _batch(batch_id: str, status: str) -> v.Batch:
     return v.Batch(batch_id, (), status, None, "", "")
 
@@ -1544,6 +1647,102 @@ def _progress(kb_root: Path, *, book_reviewed: int, book_last: str) -> None:
         "| crypto | 46 | 0 | 0 | 0 | 0 | — |\n"
         "| fraser | 243 | 0 | 0 | 0 | 0 | — |\n",
     )
+
+
+def _derived_ledger_fixture(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> tuple[Path, list[Path], dict[str, list[str]]]:
+    kb_root = tmp_path / "research" / "expert-analyses"
+    inventories = {
+        "book": [
+            "raw/book/pages/page_001.md",
+            "raw/book/pages/page_002.md",
+        ],
+        "crypto": [
+            "raw/crypto_archive/posts/vol-1.md",
+            "raw/crypto_archive/posts/vol-2.md",
+        ],
+        "fraser": ["raw/bruce_fraser/posts/article.md"],
+    }
+    monkeypatch.setattr(
+        v, "_ordered_source_paths", lambda _root, source: inventories[source]
+    )
+    monkeypatch.setattr(
+        v,
+        "_paywalled_source_paths",
+        lambda _root, source: {inventories["crypto"][1]} if source == "crypto" else set(),
+    )
+    _write(
+        kb_root / "_progress.md",
+        "| source | total_files | reviewed | valid | rejected | paywalled | last_reviewed |\n"
+        "| --- | ---: | ---: | ---: | ---: | ---: | --- |\n"
+        "| book | 2 | 2 | 2 | 1 | 0 | raw/book/pages/page_002.md |\n"
+        "| crypto | 2 | 2 | 0 | 1 | 1 | raw/crypto_archive/posts/vol-2.md |\n"
+        "| fraser | 1 | 1 | 0 | 1 | 0 | raw/bruce_fraser/posts/article.md |\n",
+    )
+    extracts = []
+    for name in ("one.md", "two.md"):
+        path = kb_root / "wiki" / "extracts" / name
+        _write(path, "---\nsource: raw/book/pages/page_001.md\n---\n")
+        extracts.append(path)
+    return kb_root, extracts, inventories
+
+
+def test_progress_ledger_counts_multiple_extracts_but_one_represented_document(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    kb_root, extracts, _inventories = _derived_ledger_fixture(tmp_path, monkeypatch)
+
+    assert v.check_progress_ledger_sane(kb_root, tmp_path, extracts) == []
+
+
+@pytest.mark.parametrize(
+    ("old", "new", "field"),
+    [
+        ("| book | 2 | 2 | 2 | 1 | 0 |", "| book | 999 | 2 | 2 | 1 | 0 |", "total"),
+        ("| book | 2 | 2 | 2 | 1 | 0 |", "| book | 2 | 2 | 1 | 1 | 0 |", "valid"),
+        ("| book | 2 | 2 | 2 | 1 | 0 |", "| book | 2 | 2 | 2 | 0 | 0 |", "rejected"),
+        ("| crypto | 2 | 2 | 0 | 1 | 1 |", "| crypto | 2 | 2 | 0 | 1 | 0 |", "paywalled"),
+    ],
+)
+def test_progress_ledger_rejects_forged_derived_counter(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    old: str,
+    new: str,
+    field: str,
+) -> None:
+    kb_root, extracts, _inventories = _derived_ledger_fixture(tmp_path, monkeypatch)
+    progress = kb_root / "_progress.md"
+    progress.write_text(
+        progress.read_text(encoding="utf-8").replace(old, new), encoding="utf-8"
+    )
+
+    findings = v.check_progress_ledger_sane(kb_root, tmp_path, extracts)
+
+    assert any(f.code == "F-PROGRESS-LEDGER" and field in f.message for f in findings)
+
+
+def test_progress_ledger_rejects_extract_beyond_reviewed_prefix(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    kb_root, extracts, inventories = _derived_ledger_fixture(tmp_path, monkeypatch)
+    progress = kb_root / "_progress.md"
+    progress.write_text(
+        progress.read_text(encoding="utf-8").replace(
+            "| book | 2 | 2 | 2 | 1 | 0 | raw/book/pages/page_002.md |",
+            "| book | 2 | 1 | 3 | 0 | 0 | raw/book/pages/page_001.md |",
+        ),
+        encoding="utf-8",
+    )
+    outside = kb_root / "wiki" / "extracts" / "outside.md"
+    _write(outside, f"---\nsource: {inventories['book'][1]}\n---\n")
+
+    findings = v.check_progress_ledger_sane(
+        kb_root, tmp_path, [*extracts, outside]
+    )
+
+    assert any("van reviewed prefiksa" in finding.message for finding in findings)
 
 
 def test_completed_batch_requires_ledger_at_canonical_boundary(tmp_path: Path) -> None:
@@ -1882,6 +2081,191 @@ def test_git_control_snapshot_allows_content_edits_but_detects_git_mutations(
     assert switched.symbolic_head != committed.symbolic_head
 
 
+def _init_test_repo(repo: Path, files: dict[str, str]) -> None:
+    repo.mkdir()
+    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+    for relative, content in files.items():
+        _write(repo / relative, content)
+    subprocess.run(["git", "add", "--", *files], cwd=repo, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "-m",
+            "initial",
+        ],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+
+
+@pytest.mark.parametrize("mutation", ["tracked", "untracked"])
+def test_expert_ingest_write_set_rejects_outside_agent_mutation(
+    tmp_path: Path, mutation: str
+) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    repo = tmp_path / "repo"
+    _init_test_repo(repo, {"outside.md": "initial\n"})
+    before = kb_ingest._worktree_content_snapshot(repo)
+    if mutation == "tracked":
+        _write(repo / "outside.md", "agent changed tracked content\n")
+    else:
+        _write(repo / "new-outside.md", "agent created untracked content\n")
+
+    with pytest.raises(RuntimeError, match="van dozvoljenog write-seta"):
+        kb_ingest._verify_expert_ingest_write_set(before, repo)
+
+
+def test_expert_ingest_write_set_preserves_identical_preexisting_dirty_content(
+    tmp_path: Path,
+) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    repo = tmp_path / "repo"
+    allowed = "research/expert-analyses/batches.md"
+    _init_test_repo(repo, {allowed: "initial\n", "outside.md": "initial\n"})
+    _write(repo / "outside.md", "operator dirty content\n")
+    before = kb_ingest._worktree_content_snapshot(repo)
+    _write(repo / allowed, "runner update\n")
+
+    changed = kb_ingest._verify_expert_ingest_write_set(before, repo)
+
+    assert changed == {allowed}
+    assert (repo / "outside.md").read_text(encoding="utf-8") == "operator dirty content\n"
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "research/expert-analyses/EXTRACT_TEMPLATE.md",
+        "research/expert-analyses/wiki/extracts/.gitkeep",
+        "research/expert-analyses/wiki/extracts/attachment.bin",
+        "research/expert-analyses/wiki/by-event/attachment.json",
+    ],
+)
+def test_expert_ingest_write_set_excludes_non_content_paths(path: str) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    assert not kb_ingest._is_expert_ingest_writable(path)
+
+
+def test_exact_staging_excludes_unrelated_dirty_file(tmp_path: Path) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    repo = tmp_path / "repo"
+    allowed = "research/expert-analyses/wiki/log.md"
+    _init_test_repo(repo, {allowed: "initial\n", "outside.md": "initial\n"})
+    _write(repo / allowed, "runner update\n")
+    _write(repo / "outside.md", "operator dirty content\n")
+
+    kb_ingest._stage_exact_paths(repo, {allowed})
+
+    staged = subprocess.run(
+        ["git", "diff", "--cached", "--name-only"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    unstaged = subprocess.run(
+        ["git", "diff", "--name-only"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    assert staged == [allowed]
+    assert unstaged == ["outside.md"]
+
+
+def test_exact_commit_excludes_and_preserves_preexisting_staged_file(
+    tmp_path: Path,
+) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    repo = tmp_path / "repo"
+    allowed = "research/expert-analyses/wiki/log.md"
+    outside = "outside.md"
+    _init_test_repo(repo, {allowed: "initial\n", outside: "initial\n"})
+    _write(repo / outside, "operator staged content\n")
+    subprocess.run(["git", "add", "--", outside], cwd=repo, check=True)
+    _write(repo / allowed, "runner update\n")
+    kb_ingest._stage_exact_paths(repo, {allowed})
+    message = tmp_path / "message.txt"
+    _write(message, "test commit\n")
+
+    kb_ingest._commit_exact_paths(repo, str(message), {allowed})
+
+    committed = subprocess.run(
+        ["git", "show", "--format=", "--name-only", "HEAD"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    staged = subprocess.run(
+        ["git", "diff", "--cached", "--name-only"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    assert committed == [allowed]
+    assert staged == [outside]
+    assert (repo / outside).read_text(encoding="utf-8") == "operator staged content\n"
+
+
+def test_wrapper_blocks_dirty_allowlist_overlap_before_agent_call(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    state = kb_ingest.GitControlState(b"head", b"oid", b"refs", b"index")
+    monkeypatch.chdir(ROOT)
+    monkeypatch.setattr(kb_ingest, "_current_branch", lambda _cwd: "main")
+    monkeypatch.setattr(kb_ingest, "_git_control_state", lambda _cwd: state)
+    monkeypatch.setattr(kb_ingest, "_worktree_content_snapshot", lambda _cwd: {})
+    monkeypatch.setattr(
+        kb_ingest,
+        "_preexisting_dirty_paths",
+        lambda _cwd: {"research/expert-analyses/wiki/log.md"},
+    )
+    monkeypatch.setattr(
+        kb_ingest,
+        "_run",
+        lambda *_args: pytest.fail("agent ne sme biti pozvan posle dirty overlap-a"),
+    )
+
+    rc = kb_ingest.main(
+        [
+            "--kb",
+            "expert-analyses",
+            "--no-pr",
+            "--",
+            "--max-batches",
+            "1",
+            "--backend",
+            "codex",
+            "--model",
+            "gpt-5.6-sol",
+        ]
+    )
+
+    assert rc == 2
+
+
 def test_wrapper_fails_before_post_processing_when_agent_changes_git_control_state(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1898,6 +2282,8 @@ def test_wrapper_fails_before_post_processing_when_agent_changes_git_control_sta
     monkeypatch.chdir(ROOT)
     monkeypatch.setattr(kb_ingest, "_current_branch", lambda _cwd: "main")
     monkeypatch.setattr(kb_ingest, "_git_control_state", lambda _cwd: next(states))
+    monkeypatch.setattr(kb_ingest, "_worktree_content_snapshot", lambda _cwd: {})
+    monkeypatch.setattr(kb_ingest, "_preexisting_dirty_paths", lambda _cwd: set())
     monkeypatch.setattr(
         kb_ingest,
         "_snapshot_batch_statuses",

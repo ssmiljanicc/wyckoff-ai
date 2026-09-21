@@ -22,4 +22,4 @@ mcp = ["matplotlib>=3.9", "mplfinance>=0.12", "pandas>=2.2", "pytest>=8.0"]
 package = false
 
 [tool.uv.sources]
-spona = { git = "https://github.com/ssmiljanicc/spona", rev = "v0.1.0" }
+spona = { git = "https://github.com/ssmiljanicc/spona.git", rev = "afa63eb" }
