@@ -4,7 +4,7 @@ mirror aerodrom#142/#144 `~/projekti/aerodrom/scripts/kb_ingest.py`).
 
 Poziv, ne import: čita `config/kb_ingest.yaml` i pokrene pinovan Spona
 `spona-ingest` console script (`uv run spona-ingest`, project dependency,
-Spona PR #51 — read-only semantic gate isolation, corrective commit `afa63eb`,
+Spona PR #51 — read-only semantic gate isolation, corrective commit `9f3857d`,
 ADR 0011 §D2 red 7) kao subprocess sa
 `--kb-root`/`--validator-script` za izabrani KB. Svi ostali argumenti se
 prosleđuju runneru netaknuti (`--dry-run`, `--skip-git`, `--max-batches`, ...).
@@ -207,6 +207,11 @@ EXPERT_INGEST_WRITABLE_PREFIXES = (
     "research/expert-analyses/wiki/by-event/",
     "research/expert-analyses/wiki/by-structure/",
 )
+EXPERT_INGEST_RAW_PREFIXES = (
+    "raw/book",
+    "raw/crypto_archive",
+    "raw/bruce_fraser",
+)
 
 
 def _git_control_state(cwd: Path) -> GitControlState:
@@ -246,13 +251,29 @@ def _nul_git_paths(cwd: Path, args: list[str]) -> list[str]:
 
 
 def _worktree_content_snapshot(cwd: Path) -> dict[str, WorktreeContentState]:
-    """Snapshot tracked and ordinary untracked files, excluding ignored files."""
+    """Snapshot versioned content plus all raw expert-ingest source files."""
 
-    paths = _nul_git_paths(
-        cwd, ["ls-files", "--cached", "--others", "--exclude-standard", "-z"]
+    paths = set(
+        _nul_git_paths(
+            cwd, ["ls-files", "--cached", "--others", "--exclude-standard", "-z"]
+        )
+    )
+    paths.update(
+        _nul_git_paths(
+            cwd,
+            [
+                "ls-files",
+                "--others",
+                "--ignored",
+                "--exclude-standard",
+                "-z",
+                "--",
+                *EXPERT_INGEST_RAW_PREFIXES,
+            ],
+        )
     )
     snapshot: dict[str, WorktreeContentState] = {}
-    for relative in paths:
+    for relative in sorted(paths):
         path = cwd / relative
         try:
             stat_result = path.lstat()

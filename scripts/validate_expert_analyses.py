@@ -4,7 +4,7 @@
 
 Ovaj wrapper JE core-parametrizovan (pinovan Spona paket,
 `spona.validated_ingest.core.validator`, Spona PR #51 — read-only semantic gate
-isolation, corrective commit `afa63eb`,
+isolation, corrective commit `9f3857d`,
 project dependency)
 ALI, za razliku od `validate_issues_kb.py`/`validate_skills_kb.py`, NE delegira na
 `core.run_cli()`/`core.collect_findings()` monolitno. Dva strukturna razloga
@@ -1655,8 +1655,21 @@ def check_progress_ledger_sane(
                 )
             )
 
-        paywalled = len(_paywalled_source_paths(repo_root, source) & reviewed_prefix)
-        represented_reviewed = len(represented[source] & reviewed_prefix)
+        paywalled_sources = _paywalled_source_paths(repo_root, source) & reviewed_prefix
+        represented_sources = represented[source] & reviewed_prefix
+        overlap = sorted(paywalled_sources & represented_sources)
+        if overlap:
+            findings.append(
+                core.Finding(
+                    "FAIL",
+                    "F-PROGRESS-LEDGER",
+                    f"{source}: isti izvor ne sme biti i paywalled i predstavljen "
+                    "validnim extractom: " + ", ".join(overlap),
+                    f"_progress.md:{lineno}",
+                )
+            )
+        paywalled = len(paywalled_sources)
+        represented_reviewed = len(represented_sources)
         rejected = reviewed - represented_reviewed - paywalled
         expected = {
             "total": len(inventory),

@@ -1745,6 +1745,28 @@ def test_progress_ledger_rejects_extract_beyond_reviewed_prefix(
     assert any("van reviewed prefiksa" in finding.message for finding in findings)
 
 
+def test_progress_ledger_rejects_paywalled_source_with_valid_extract(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    kb_root, extracts, inventories = _derived_ledger_fixture(tmp_path, monkeypatch)
+    progress = kb_root / "_progress.md"
+    progress.write_text(
+        progress.read_text(encoding="utf-8").replace(
+            "| crypto | 2 | 2 | 0 | 1 | 1 |",
+            "| crypto | 2 | 2 | 1 | 0 | 1 |",
+        ),
+        encoding="utf-8",
+    )
+    overlap = kb_root / "wiki" / "extracts" / "paywalled.md"
+    _write(overlap, f"---\nsource: {inventories['crypto'][1]}\n---\n")
+
+    findings = v.check_progress_ledger_sane(
+        kb_root, tmp_path, [*extracts, overlap]
+    )
+
+    assert any("i paywalled i predstavljen" in finding.message for finding in findings)
+
+
 def test_completed_batch_requires_ledger_at_canonical_boundary(tmp_path: Path) -> None:
     kb_root = tmp_path / "research" / "expert-analyses"
     _progress(kb_root, book_reviewed=20, book_last="raw/book/pages/page_020.md")
@@ -2120,6 +2142,28 @@ def test_expert_ingest_write_set_rejects_outside_agent_mutation(
         _write(repo / "new-outside.md", "agent created untracked content\n")
 
     with pytest.raises(RuntimeError, match="van dozvoljenog write-seta"):
+        kb_ingest._verify_expert_ingest_write_set(before, repo)
+
+
+@pytest.mark.parametrize("mutation", ["overwrite", "delete"])
+def test_expert_ingest_write_set_rejects_ignored_raw_source_mutation(
+    tmp_path: Path, mutation: str
+) -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import kb_ingest
+
+    repo = tmp_path / "repo"
+    _init_test_repo(repo, {".gitignore": "raw/book/*.pdf\n"})
+    source = repo / "raw" / "book" / "source.pdf"
+    source.parent.mkdir(parents=True)
+    source.write_bytes(b"original commercial source")
+    before = kb_ingest._worktree_content_snapshot(repo)
+    if mutation == "overwrite":
+        source.write_bytes(b"agent changed source")
+    else:
+        source.unlink()
+
+    with pytest.raises(RuntimeError, match="raw/book/source.pdf"):
         kb_ingest._verify_expert_ingest_write_set(before, repo)
 
 
