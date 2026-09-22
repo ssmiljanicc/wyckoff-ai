@@ -14,7 +14,7 @@
 7. Na kraju proveri poslednje 2-3 `sources:` reference i lake lokalne linkove.
 8. Dozvoljeni statusi su `pending | partial | complete | blocked`.
 9. **Granica vlasništva (mirror skills-kb/issues-kb obrazac).** Ovaj plan (`PRPs/plans/wyckoff-onboarding-runner.plan.md`) autoriše strukturu rasporeda (koja jedinica → koji batch, kojim redom). Runner je potrošač + pisac stanja: čita ovaj fajl, bira sledeći batch i upisuje **samo polja napretka** (Status / Datum / Wiki stranice / Preostali izvori / Log) — nikad ne re-particioniše raspored. `batches.md` je jedina koordinaciona tačka strukture; validator (`scripts/validate_expert_analyses.py`) je njen **čitalac**, ne pisac.
-10. **Runner (pinovan Spona `spona-ingest`, project dependency `spona@v0.1.0`) je izvršni pisac polja napretka** — ista mašinerija kao issues-KB/skills-KB, koju project wrapper poziva kao subprocess (ADR 0011 §D2 red 7, poziv ne import). Upisuje **isključivo** Status / Datum / Wiki stranice / Preostali izvori / Log za tekući batch. Gate poziv za ovaj KB koristi `--validator-script scripts/validate_expert_analyses.py`.
+10. **Runner (pinovan na corrective commit `9f3857d` iz Spona PR-a #51 — read-only semantic gate isolation) je izvršni pisac polja napretka** — ista mašinerija kao issues-KB/skills-KB, koju project wrapper poziva kao subprocess (ADR 0011 §D2 red 7, poziv ne import). Upisuje **isključivo** Status / Datum / Wiki stranice / Preostali izvori / Log za tekući batch. Gate poziv za ovaj KB koristi `--validator-script scripts/validate_expert_analyses.py`, a Spona periodični semantic gate pokreće kroz nezavisni read-only invoker.
 11. **Pokretanje ide kroz project wrapper `scripts/kb_ingest.py`, ne direktno kroz `spona-ingest`.**
     Spona validira pre statusnog upisa; wrapper zato radi obaveznu drugu validaciju posle `complete`
     upisa i vraća neproveren prelaz na `blocked`. Za lokalni orkestrirani rad koristi
@@ -22,8 +22,11 @@
     `scripts/codex_ingest_safe.py`: zaključani `gpt-5.6-sol` sa reasoning `medium`, Codex
     `workspace-write` sandbox, efemernu sesiju, ignorisanje korisničke konfiguracije, isključene
     browser/apps/plugins/web search mogućnosti i eksplicitno isključen direktan mrežni pristup.
-    Caller model/reasoning override se odbija. Posle agent poziva wrapper poredi symbolic HEAD, HEAD OID, sve lokalne refs i
-    stage/index unose sa pre-run snapshotom; bilo koja promena zaustavlja run pre PR toka.
+    Caller model/reasoning override se odbija. Posle agent poziva wrapper poredi symbolic HEAD, HEAD OID, sve lokalne refs,
+    stage/index unose i sadržaj tracked/neignored-untracked fajlova sa pre-run snapshotom. Promena van
+    uskog expert-ingest write-seta zaustavlja run pre validacije/PR toka, a PR staging dobija samo
+    putanje koje je taj run dokazano promenio. Prethodno dirty stanje unutar write-seta blokira run;
+    unrelated dirty sadržaj je dozvoljen samo ako ostane bajt-identičan i unstaged.
     Ovo dokazuje lokalni no-git ishod, ali nije rollback za spoljašnji side effect: ako bi buduća
     Codex/Spona verzija prekršila containment, udaljeni push/PR nije moguće poništiti samo lokalnim
     snapshotom. Zato svaki B02–B29 prompt dodatno zabranjuje sve `git`/`gh` komande, a promena
@@ -46,7 +49,7 @@ Preneto iz `runbooks/wyckoff-wiki-ingest.md` §3.6/§3.7 (citation verification 
 
 ## Šema rasporeda (kanonska, parse-kompatibilna)
 
-Tabela „Raspored" je ugovor sa determinističkim core parserom (`parse_batches` iz pinovanog Spona paketa, `spona.validated_ingest.core.validator`, `v0.1.0`), koji mapira kolone po imenu zaglavlja (tolerantno na pomeranje). Obavezno prepoznatljive kolone:
+Tabela „Raspored" je ugovor sa determinističkim core parserom (`parse_batches` iz pinovanog Spona paketa, `spona.validated_ingest.core.validator`, corrective commit `9f3857d` iz PR-a #51 — read-only semantic gate isolation), koji mapira kolone po imenu zaglavlja (tolerantno na pomeranje). Obavezno prepoznatljive kolone:
 
 | Uloga (validator ključ) | Zaglavlje počinje / sadrži | Sadržaj |
 | --- | --- | --- |
@@ -64,7 +67,7 @@ Kolona „Jedinice" NIJE mašinski-parseabilna lista identiteta za crypto/fraser
 
 `CorpusProfile` u `scripts/validate_expert_analyses.py` namerno NE poziva `check_complete_coverage` (core provera koja bi zahtevala 1:1 bijekciju raw-jedinica ↔ content-stranica) — wyckoff model je N raw → 0..M filtriranih extract kartica, pokrivenost prati `_progress.md` ledger, ne ova tabela.
 
-**Ograničenje `--delta` moda za ovaj KB (PR #96 review):** `compute_delta_sources` (Spona `core.runner`, `spona@v0.1.0`) pretpostavlja da `raw/` živi POD `kb_root` — za ovaj KB `raw/` je na repo-root nivou (D2), pa je grana „nov raw fajl bez wiki stranice" u delta detekciji strukturno no-op (nikad ne nađe kandidate). `build_delta_prompt` takođe gradi generički `$llm-wiki ingest` prompt koji ne poznaje extract-karticu disciplinu ovog KB-a. `--delta` nad ovim KB-om NE koristiti bez prilagođenja — `PROFILE` ugovor je zadovoljen formom (runner ga učitava bez greške), ali funkcionalno pokriva samo `W-STALE-REINGEST` granu, ne i raw-backlog granu.
+**Ograničenje `--delta` moda za ovaj KB (PR #96 review):** `compute_delta_sources` (pinovani Spona `core.runner`) pretpostavlja da `raw/` živi POD `kb_root` — za ovaj KB `raw/` je na repo-root nivou (D2), pa je grana „nov raw fajl bez wiki stranice" u delta detekciji strukturno no-op (nikad ne nađe kandidate). `build_delta_prompt` takođe gradi generički `$llm-wiki ingest` prompt koji ne poznaje extract-karticu disciplinu ovog KB-a. `--delta` nad ovim KB-om NE koristiti bez prilagođenja — `PROFILE` ugovor je zadovoljen formom (runner ga učitava bez greške), ali funkcionalno pokriva samo `W-STALE-REINGEST` granu, ne i raw-backlog granu.
 
 **Gotcha (B01 real-run nalaz, 2026-07-09): NIKAD ne počinji `### Bxx` prompt sa `$reč` na početku reda.** Runner-ova `normalize_prompt_for_backend` (`ingest_runner.py:562-563`) transformiše BILO KOJI prompt koji počinje `^\$[\w-]+(\s|$)` u `/reč ...` za `claude -p` — namenjeno za prave skill-invokacije (`$llm-wiki ingest ...`, skills-kb obrazac). Ovaj KB ne poziva nijedan skill preko `$ime` sintakse (runner direktno instruira plain agenta), pa `$B01 — ...` je bio pogrešno protumačen kao `/B01` (nepostojeća slash-komanda → trenutni izlaz, 0 tokena, `pages_delta=0` → runner status `blocked`). Uvek počinji prompt plain tekstom (npr. "Expert-analyses book sweep, ...").
 

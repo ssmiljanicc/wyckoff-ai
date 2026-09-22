@@ -3,7 +3,9 @@
 (FAIL) + semantički rizici (WARN), za konzumaciju Spona `spona-ingest` runner-a.
 
 Ovaj wrapper JE core-parametrizovan (pinovan Spona paket,
-`spona.validated_ingest.core.validator`, `spona@v0.1.0`, project dependency)
+`spona.validated_ingest.core.validator`, Spona PR #51 — read-only semantic gate
+isolation, corrective commit `9f3857d`,
+project dependency)
 ALI, za razliku od `validate_issues_kb.py`/`validate_skills_kb.py`, NE delegira na
 `core.run_cli()`/`core.collect_findings()` monolitno. Dva strukturna razloga
 (otkrivena čitanjem core/runner koda tokom planiranja, `PRPs/plans/wyckoff-onboarding-runner.plan.md`):
@@ -14,9 +16,9 @@ ALI, za razliku od `validate_issues_kb.py`/`validate_skills_kb.py`, NE delegira 
    N raw dokumenata (book/crypto/Fraser) → 0..M FILTRIRANIH extract kartica —
    većina Fraser postova se odbacuje. Poziv `check_complete_coverage` bi lažno
    FAIL-ovao svaki batch koji sadrži bar jedan odbačen dokument (očekivano,
-   ne izuzetak). Pokrivenost umesto toga prati `_progress.md` ledger
-   (`check_progress_ledger_sane` ispod) — strukturna sanost, ne potpuna
-   pokrivenost (ta ostaje ručna/LLM procena, van dosega determinističkog gate-a).
+   ne izuzetak). Pokrivenost umesto toga prati `_progress.md` ledger, a
+   `check_progress_ledger_sane` izvodi njegove brojače iz kanonskih inventara,
+   extract kartica i paywall statusa za već pregledani prefiks.
 2. **Domenski frontmatter sukob (D3).** `wiki/extracts/*.md` nose NAMERNO
    domenski frontmatter šablon (`research/expert-analyses/EXTRACT_TEMPLATE.md`)
    sa poljima `type: forward|retrospective|schematic` i
@@ -63,6 +65,11 @@ from pathlib import Path
 # Module-alias oblik — sve postojeće core.X kvalifikovane reference ostaju nepromenjene
 # (ADR 0012 §Šta ovaj ADR ne odlučuje: tačan oblik importa je izvršni detalj Faze 4).
 from spona.validated_ingest.core import validator as core
+
+try:
+    from scripts import fraser_header_ocr
+except ModuleNotFoundError:  # direct `python scripts/validate_expert_analyses.py`
+    import fraser_header_ocr
 
 
 PAGE_DIRS = ("by-event", "by-structure")
@@ -1170,17 +1177,24 @@ def _eligible_ocr_value(record: dict, field: str) -> str | None:
         or len(evidence) != OCR_EVIDENCE_RUNS
     ):
         return None
-    def eligible_observation(item: object) -> bool:
-        if not isinstance(item, dict) or not str(item.get("text", "")).strip():
-            return False
+    normalize = _normalize_asset if field == "asset" else _normalize_timeframe
+    expected = normalize(observed)
+    if not expected:
+        return None
+    for run_value, run_evidence in zip(runs, evidence, strict=True):
+        if not isinstance(run_evidence, list):
+            return None
         try:
-            return float(item.get("confidence", 0.0)) >= OCR_EVIDENCE_MIN_CONFIDENCE
-        except (TypeError, ValueError):
-            return False
-
-    for run_evidence in evidence:
-        if not isinstance(run_evidence, list) or not any(
-            eligible_observation(item) for item in run_evidence
+            parsed = fraser_header_ocr.parse_header(run_evidence)
+        except (AttributeError, KeyError, TypeError, ValueError):
+            return None
+        parsed_field = parsed.get(field)
+        supported = (
+            parsed_field.get("value") if isinstance(parsed_field, dict) else None
+        )
+        if (
+            normalize(str(run_value)) != expected
+            or normalize(str(supported)) != expected
         ):
             return None
     return observed
@@ -1206,20 +1220,26 @@ def _eligible_ocr_asset_members(record: dict) -> set[str] | None:
         or len(evidence) != OCR_EVIDENCE_RUNS
     ):
         return None
-    for run_evidence in evidence:
-        if not isinstance(run_evidence, list) or not run_evidence:
+    expected_members = {_normalize_asset(member) for member in members}
+    for run_members, run_evidence in zip(runs, evidence, strict=True):
+        if not isinstance(run_evidence, list):
             return None
         try:
-            if not all(
-                isinstance(item, dict)
-                and str(item.get("text", "")).strip()
-                and float(item.get("confidence", 0.0)) >= OCR_EVIDENCE_MIN_CONFIDENCE
-                for item in run_evidence
-            ):
-                return None
-        except (TypeError, ValueError):
+            parsed = fraser_header_ocr.parse_header(run_evidence)
+        except (AttributeError, KeyError, TypeError, ValueError):
             return None
-    return {_normalize_asset(member) for member in members}
+        parsed_members = {
+            _normalize_asset(member)
+            for member in parsed.get("asset", {}).get("members", [])
+        }
+        stored_members = {
+            _normalize_asset(member)
+            for member in run_members
+            if isinstance(member, str)
+        }
+        if stored_members != expected_members or parsed_members != expected_members:
+            return None
+    return expected_members
 
 
 def _file_sha256(path: Path) -> str:
@@ -1548,13 +1568,10 @@ def check_extract_parity(extract_paths: list[Path], kb_root: Path) -> list:
 # --- Domenska ekstenzija: _progress.md ledger strukturna sanost ---------------
 
 
-def check_progress_ledger_sane(kb_root: Path) -> list:
-    """Strukturna sanost `_progress.md` ledgera (izvor istine za pokrivenost,
-    NE broj extract fajlova). NE proverava potpunu pokrivenost (reviewed ==
-    total_files) — ta ostaje ručna/LLM procena (stari plan Validation #10),
-    van dosega determinističkog gate-a. Ovde se proverava samo da red postoji
-    za sva tri izvora i da su brojevi konzistentni (reviewed <= total_files,
-    non-negativni)."""
+def check_progress_ledger_sane(
+    kb_root: Path, repo_root: Path, extract_paths: list[Path]
+) -> list:
+    """Derive every ledger counter from canonical inventories and extracts."""
     findings: list = []
     progress_path = kb_root / "_progress.md"
     if not progress_path.is_file():
@@ -1569,25 +1586,40 @@ def check_progress_ledger_sane(kb_root: Path) -> list:
     text, decode_findings = _read_text_safe(progress_path, "_progress.md")
     if text is None:
         return decode_findings
-    found_sources: set[str] = set()
+    rows: dict[str, tuple[int, dict[str, int | str]]] = {}
     for lineno, line in enumerate(text.splitlines(), start=1):
         m = _PROGRESS_ROW_RE.match(line.strip())
         if not m:
             continue
-        source, total_str, reviewed_str = m.group(1), m.group(2), m.group(3)
-        found_sources.add(source)
-        total_files, reviewed = int(total_str), int(reviewed_str)
-        if reviewed > total_files:
-            findings.append(
-                core.Finding(
-                    "FAIL",
-                    "F-PROGRESS-LEDGER",
-                    f"{source}: reviewed ({reviewed}) > total_files ({total_files})",
-                    f"_progress.md:{lineno}",
-                )
-            )
+        rows[m.group(1)] = (
+            lineno,
+            {
+                "total": int(m.group(2)),
+                "reviewed": int(m.group(3)),
+                "valid": int(m.group(4)),
+                "rejected": int(m.group(5)),
+                "paywalled": int(m.group(6)),
+                "last_reviewed": m.group(7).strip(),
+            },
+        )
+
+    extract_counts = {"book": 0, "crypto": 0, "fraser": 0}
+    represented = {"book": set(), "crypto": set(), "fraser": set()}
+    for path in extract_paths:
+        text_value, _decode_findings = _read_text_safe(
+            path, str(path.relative_to(kb_root))
+        )
+        if text_value is None:
+            continue
+        source_path = str(core.parse_frontmatter(text_value).get("source", "")).strip()
+        source_kind = _source_kind(source_path)
+        if source_kind is None:
+            continue
+        extract_counts[source_kind] += 1
+        represented[source_kind].add(Path(source_path).as_posix())
+
     for source in ("book", "crypto", "fraser"):
-        if source not in found_sources:
+        if source not in rows:
             findings.append(
                 core.Finding(
                     "FAIL",
@@ -1596,6 +1628,77 @@ def check_progress_ledger_sane(kb_root: Path) -> list:
                     "_progress.md",
                 )
             )
+            continue
+
+        lineno, row = rows[source]
+        inventory = _ordered_source_paths(repo_root, source)
+        reviewed = int(row["reviewed"])
+        if reviewed > len(inventory):
+            findings.append(
+                core.Finding(
+                    "FAIL",
+                    "F-PROGRESS-LEDGER",
+                    f"{source}: reviewed ({reviewed}) > canonical total ({len(inventory)})",
+                    f"_progress.md:{lineno}",
+                )
+            )
+        reviewed_prefix = set(inventory[:reviewed])
+        outside_prefix = sorted(represented[source] - reviewed_prefix)
+        if outside_prefix:
+            findings.append(
+                core.Finding(
+                    "FAIL",
+                    "F-PROGRESS-LEDGER",
+                    f"{source}: extract source je van reviewed prefiksa: "
+                    + ", ".join(outside_prefix),
+                    f"_progress.md:{lineno}",
+                )
+            )
+
+        paywalled_sources = _paywalled_source_paths(repo_root, source) & reviewed_prefix
+        represented_sources = represented[source] & reviewed_prefix
+        overlap = sorted(paywalled_sources & represented_sources)
+        if overlap:
+            findings.append(
+                core.Finding(
+                    "FAIL",
+                    "F-PROGRESS-LEDGER",
+                    f"{source}: isti izvor ne sme biti i paywalled i predstavljen "
+                    "validnim extractom: " + ", ".join(overlap),
+                    f"_progress.md:{lineno}",
+                )
+            )
+        paywalled = len(paywalled_sources)
+        represented_reviewed = len(represented_sources)
+        rejected = reviewed - represented_reviewed - paywalled
+        expected = {
+            "total": len(inventory),
+            "valid": extract_counts[source],
+            "paywalled": paywalled,
+            "rejected": rejected,
+        }
+        if rejected < 0:
+            findings.append(
+                core.Finding(
+                    "FAIL",
+                    "F-PROGRESS-LEDGER",
+                    f"{source}: izvedeni rejected je negativan ({rejected}); "
+                    "represented/paywalled skupovi se preklapaju ili prelaze reviewed",
+                    f"_progress.md:{lineno}",
+                )
+            )
+        for field, expected_value in expected.items():
+            actual = int(row[field])
+            if actual != expected_value:
+                findings.append(
+                    core.Finding(
+                        "FAIL",
+                        "F-PROGRESS-LEDGER",
+                        f"{source}: {field} mora biti izvedeno {expected_value}, "
+                        f"dobijeno {actual}",
+                        f"_progress.md:{lineno}",
+                    )
+                )
     return findings
 
 
@@ -1631,6 +1734,19 @@ def _ordered_source_paths(repo_root: Path, source: str) -> list[str]:
             (repo_root / "raw/bruce_fraser/posts").glob("*.md"), key=lambda p: p.name
         )
     ]
+
+
+def _paywalled_source_paths(repo_root: Path, source: str) -> set[str]:
+    if source != "crypto":
+        return set()
+    manifest = json.loads(
+        (repo_root / "raw/crypto_archive/manifest.json").read_text(encoding="utf-8")
+    )
+    return {
+        f"raw/crypto_archive/posts/{item['slug']}.md"
+        for item in manifest
+        if item.get("status") == "paywalled"
+    }
 
 
 def expected_batch_boundary(repo_root: Path, batch_id: str) -> tuple[str, int, str]:
@@ -1766,7 +1882,7 @@ def collect_findings(
     )
     findings += check_extract_not_full_copy(extract_paths, kb_root)
     findings += check_extract_parity(extract_paths, kb_root)
-    findings += check_progress_ledger_sane(kb_root)
+    findings += check_progress_ledger_sane(kb_root, repo_root, extract_paths)
     findings += check_batch_scope_completion(kb_root, repo_root, batches)
 
     return findings

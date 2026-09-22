@@ -1747,7 +1747,7 @@ wheels = [
 [[package]]
 name = "spona"
 version = "0.1.0"
-source = { git = "https://github.com/ssmiljanicc/spona?rev=v0.1.0#4ad78187fd7e703a03dfbeb65be7bd297700c290" }
+source = { git = "https://github.com/ssmiljanicc/spona.git?rev=9f3857d#9f3857df449a4b6ce3b5d0db771643dcfb88c0fb" }
 
 [[package]]
 name = "sse-starlette"
@@ -1884,6 +1884,6 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'mcp'", specifier = ">=8.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "requests", specifier = ">=2.32" },
-    { name = "spona", git = "https://github.com/ssmiljanicc/spona?rev=v0.1.0" },
+    { name = "spona", git = "https://github.com/ssmiljanicc/spona.git?rev=9f3857d" },
 ]
 provides-extras = ["book", "vision", "mcp"]

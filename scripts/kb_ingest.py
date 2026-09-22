@@ -4,7 +4,8 @@ mirror aerodrom#142/#144 `~/projekti/aerodrom/scripts/kb_ingest.py`).
 
 Poziv, ne import: čita `config/kb_ingest.yaml` i pokrene pinovan Spona
 `spona-ingest` console script (`uv run spona-ingest`, project dependency,
-`spona@v0.1.0`, ADR 0011 §D2 red 7) kao subprocess sa
+Spona PR #51 — read-only semantic gate isolation, corrective commit `9f3857d`,
+ADR 0011 §D2 red 7) kao subprocess sa
 `--kb-root`/`--validator-script` za izabrani KB. Svi ostali argumenti se
 prosleđuju runneru netaknuti (`--dry-run`, `--skip-git`, `--max-batches`, ...).
 
@@ -53,6 +54,7 @@ Pokretanje (iz korena wyckoff-ai repoa):
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -185,6 +187,33 @@ class GitControlState:
     index_entries: bytes
 
 
+@dataclass(frozen=True)
+class WorktreeContentState:
+    kind: str
+    mode: int
+    content: bytes
+
+
+EXPERT_INGEST_EXACT_WRITABLE = {
+    "research/expert-analyses/batches.md",
+    "research/expert-analyses/_progress.md",
+    "research/expert-analyses/_gaps.md",
+    "research/expert-analyses/run-log.md",
+    "research/expert-analyses/wiki/index.md",
+    "research/expert-analyses/wiki/log.md",
+}
+EXPERT_INGEST_WRITABLE_PREFIXES = (
+    "research/expert-analyses/wiki/extracts/",
+    "research/expert-analyses/wiki/by-event/",
+    "research/expert-analyses/wiki/by-structure/",
+)
+EXPERT_INGEST_RAW_PREFIXES = (
+    "raw/book",
+    "raw/crypto_archive",
+    "raw/bruce_fraser",
+)
+
+
 def _git_control_state(cwd: Path) -> GitControlState:
     """Snapshot lokalnog git control-plane-a; working-tree sadržaj je izuzet."""
 
@@ -211,6 +240,137 @@ def _git_control_state(cwd: Path) -> GitControlState:
             ["for-each-ref", "--format=%(refname)%00%(objectname)%00%(symref)"]
         ),
         index_entries=checked_output(["ls-files", "--stage", "-z"]),
+    )
+
+
+def _nul_git_paths(cwd: Path, args: list[str]) -> list[str]:
+    output = subprocess.run(
+        ["git", *args], cwd=cwd, capture_output=True, check=True
+    ).stdout
+    return [os.fsdecode(path) for path in output.split(b"\0") if path]
+
+
+def _worktree_content_snapshot(cwd: Path) -> dict[str, WorktreeContentState]:
+    """Snapshot versioned content plus all raw expert-ingest source files."""
+
+    paths = set(
+        _nul_git_paths(
+            cwd, ["ls-files", "--cached", "--others", "--exclude-standard", "-z"]
+        )
+    )
+    paths.update(
+        _nul_git_paths(
+            cwd,
+            [
+                "ls-files",
+                "--others",
+                "--ignored",
+                "--exclude-standard",
+                "-z",
+                "--",
+                *EXPERT_INGEST_RAW_PREFIXES,
+            ],
+        )
+    )
+    snapshot: dict[str, WorktreeContentState] = {}
+    for relative in sorted(paths):
+        path = cwd / relative
+        try:
+            stat_result = path.lstat()
+        except FileNotFoundError:
+            snapshot[relative] = WorktreeContentState("missing", 0, b"")
+            continue
+        mode = stat_result.st_mode & 0o7777
+        if path.is_symlink():
+            state = WorktreeContentState(
+                "symlink", mode, os.fsencode(os.readlink(path))
+            )
+        elif path.is_file():
+            with path.open("rb") as handle:
+                digest = hashlib.file_digest(handle, "sha256").digest()
+            state = WorktreeContentState("file", mode, digest)
+        elif path.is_dir():
+            state = WorktreeContentState("directory", mode, b"")
+        else:
+            state = WorktreeContentState("other", mode, b"")
+        snapshot[relative] = state
+    return snapshot
+
+
+def _changed_content_paths(
+    before: dict[str, WorktreeContentState],
+    after: dict[str, WorktreeContentState],
+) -> set[str]:
+    return {
+        path
+        for path in before.keys() | after.keys()
+        if before.get(path) != after.get(path)
+    }
+
+
+def _preexisting_dirty_paths(cwd: Path) -> set[str]:
+    """Return tracked changes against HEAD plus ordinary untracked files."""
+
+    tracked = _nul_git_paths(
+        cwd, ["diff", "--name-only", "--no-renames", "-z", "HEAD", "--"]
+    )
+    untracked = _nul_git_paths(
+        cwd, ["ls-files", "--others", "--exclude-standard", "-z"]
+    )
+    return set(tracked) | set(untracked)
+
+
+def _is_expert_ingest_writable(path: str) -> bool:
+    return path in EXPERT_INGEST_EXACT_WRITABLE or (
+        path.endswith(".md") and path.startswith(EXPERT_INGEST_WRITABLE_PREFIXES)
+    )
+
+
+def _verify_expert_ingest_write_set(
+    before: dict[str, WorktreeContentState], cwd: Path
+) -> set[str]:
+    changed = _changed_content_paths(before, _worktree_content_snapshot(cwd))
+    forbidden = sorted(
+        path for path in changed if not _is_expert_ingest_writable(path)
+    )
+    if forbidden:
+        raise RuntimeError(
+            "expert ingest je promenio putanje van dozvoljenog write-seta: "
+            + ", ".join(forbidden)
+        )
+    return changed
+
+
+def _stage_exact_paths(cwd: Path, changed_paths: set[str]) -> None:
+    if changed_paths:
+        subprocess.run(
+            ["git", "add", "--", *sorted(changed_paths)], cwd=cwd, check=True
+        )
+
+
+def _staged_diff_status(cwd: Path, changed_paths: set[str]) -> int:
+    if not changed_paths:
+        return 0
+    return subprocess.run(
+        ["git", "diff", "--cached", "--quiet", "--", *sorted(changed_paths)],
+        cwd=cwd,
+        check=False,
+    ).returncode
+
+
+def _commit_exact_paths(cwd: Path, message_path: str, changed_paths: set[str]) -> None:
+    subprocess.run(
+        [
+            "git",
+            "commit",
+            "--only",
+            "-F",
+            message_path,
+            "--",
+            *sorted(changed_paths),
+        ],
+        cwd=cwd,
+        check=True,
     )
 
 
@@ -1133,7 +1293,7 @@ def _run_required_gate_retry(
 def _open_pr_for_batches(
     *,
     cwd: Path,
-    kb_root_rel: str,
+    changed_paths: set[str],
     issue: str,
     changed: dict[str, tuple[str, str]],
     original_branch: str,
@@ -1160,22 +1320,21 @@ def _open_pr_for_batches(
     scope = ", ".join(batch_ids)
 
     subprocess.run(["git", "checkout", "-b", branch], cwd=cwd, check=True)
-    subprocess.run(["git", "add", kb_root_rel], cwd=cwd, check=True)
-    status = subprocess.run(
-        ["git", "diff", "--cached", "--quiet"], cwd=cwd, check=False
-    )
+    _stage_exact_paths(cwd, changed_paths)
+    staged_status = _staged_diff_status(cwd, changed_paths)
 
     # rc 0 = nema staged izmena, rc 1 = ima staged izmena — SVAKI drugi rc je
     # git greška (npr. oštećen index) i NE sme se tumačiti kao "ima izmena".
-    if status.returncode not in (0, 1):
+    if staged_status not in (0, 1):
         print(
-            f"kb-ingest GREŠKA: 'git diff --cached --quiet' vratio neočekivan rc={status.returncode} "
+            "kb-ingest GREŠKA: 'git diff --cached --quiet -- <run paths>' "
+            f"vratio neočekivan rc={staged_status} "
             f"(git greška, ne staged-diff signal) — repo ostaje na '{branch}' radi inspekcije.",
             file=sys.stderr,
         )
         return 1
 
-    if status.returncode == 0:
+    if staged_status == 0:
         print("kb-ingest: nema staged izmena posle batch-a — preskačem commit/PR.")
         if not _checkout(cwd, original_branch):
             print(
@@ -1207,7 +1366,7 @@ def _open_pr_for_batches(
                 before, after = changed[bid]
                 commit_body_file.write(f"- {bid}: {before} -> {after}\n")
             commit_body_path = commit_body_file.name
-        subprocess.run(["git", "commit", "-F", commit_body_path], cwd=cwd, check=True)
+        _commit_exact_paths(cwd, commit_body_path, changed_paths)
     finally:
         if commit_body_path:
             os.unlink(commit_body_path)
@@ -1426,8 +1585,24 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         git_control_before = _git_control_state(cwd)
+        worktree_before = _worktree_content_snapshot(cwd)
+        dirty_overlap = sorted(
+            path
+            for path in _preexisting_dirty_paths(cwd)
+            if _is_expert_ingest_writable(path)
+        )
+        if dirty_overlap:
+            print(
+                "greška: pre-run dirty stanje preklapa expert-ingest write-set: "
+                + ", ".join(dirty_overlap),
+                file=sys.stderr,
+            )
+            return 2
     except (OSError, subprocess.CalledProcessError, RuntimeError) as exc:
-        print(f"greška: ne mogu snimiti pre-run git stanje: {exc}", file=sys.stderr)
+        print(
+            f"greška: ne mogu snimiti pre-run git/worktree stanje: {exc}",
+            file=sys.stderr,
+        )
         return 2
 
     try:
@@ -1460,6 +1635,15 @@ def main(argv: list[str] | None = None) -> int:
         print(
             "kb-ingest: agent je promenio lokalni git branch/HEAD/refs/index; "
             "run je fail-closed zaustavljen pre PR toka. Pregledaj i ručno vrati git stanje.",
+            file=sys.stderr,
+        )
+        return 1
+    try:
+        _verify_expert_ingest_write_set(worktree_before, cwd)
+    except (OSError, subprocess.CalledProcessError, RuntimeError) as exc:
+        print(
+            f"kb-ingest: write-set provera nije prošla: {exc}; "
+            "run je fail-closed zaustavljen pre validacije/PR toka.",
             file=sys.stderr,
         )
         return 1
@@ -1543,6 +1727,15 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
+    try:
+        final_changed_paths = _verify_expert_ingest_write_set(worktree_before, cwd)
+    except (OSError, subprocess.CalledProcessError, RuntimeError) as exc:
+        print(
+            f"kb-ingest: finalna write-set provera nije prošla: {exc}; bez PR toka.",
+            file=sys.stderr,
+        )
+        return 1
+
     if args.no_pr:
         print(
             "kb-ingest: --no-pr — validirane izmene ostaju lokalno, bez git/GitHub operacija."
@@ -1552,7 +1745,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         return _open_pr_for_batches(
             cwd=cwd,
-            kb_root_rel=kb_unos["kb_root"],
+            changed_paths=final_changed_paths,
             issue=args.issue,
             changed=changed,
             original_branch=original_branch,
