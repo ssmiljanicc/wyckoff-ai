@@ -1629,8 +1629,8 @@ def test_spona_pin_exposes_independent_gate_agent_capability() -> None:
     pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     lock = (ROOT / "uv.lock").read_text(encoding="utf-8")
 
-    assert 'rev = "afa63eb"' in pyproject
-    assert "afa63eb4fa82cf67da4a94b041d09c3a1d92a6c7" in lock
+    assert 'rev = "9f3857d"' in pyproject
+    assert "9f3857df449a4b6ce3b5d0db771643dcfb88c0fb" in lock
     assert "gate_agent" in inspect.signature(runner.run_full_mode).parameters
 
 
