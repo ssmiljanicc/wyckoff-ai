@@ -14,7 +14,7 @@
 7. Na kraju proveri poslednje 2-3 `sources:` reference i lake lokalne linkove.
 8. Dozvoljeni statusi su `pending | partial | complete | blocked`.
 9. **Granica vlasništva (mirror skills-kb/issues-kb obrazac).** Ovaj plan (`PRPs/plans/wyckoff-onboarding-runner.plan.md`) autoriše strukturu rasporeda (koja jedinica → koji batch, kojim redom). Runner je potrošač + pisac stanja: čita ovaj fajl, bira sledeći batch i upisuje **samo polja napretka** (Status / Datum / Wiki stranice / Preostali izvori / Log) — nikad ne re-particioniše raspored. `batches.md` je jedina koordinaciona tačka strukture; validator (`scripts/validate_expert_analyses.py`) je njen **čitalac**, ne pisac.
-10. **Runner (pinovan na corrective commit `afa63eb` iz Spona PR-a #51 — read-only semantic gate isolation) je izvršni pisac polja napretka** — ista mašinerija kao issues-KB/skills-KB, koju project wrapper poziva kao subprocess (ADR 0011 §D2 red 7, poziv ne import). Upisuje **isključivo** Status / Datum / Wiki stranice / Preostali izvori / Log za tekući batch. Gate poziv za ovaj KB koristi `--validator-script scripts/validate_expert_analyses.py`, a Spona periodični semantic gate pokreće kroz nezavisni read-only invoker.
+10. **Runner (pinovan na corrective commit `9f3857d` iz Spona PR-a #51 — read-only semantic gate isolation) je izvršni pisac polja napretka** — ista mašinerija kao issues-KB/skills-KB, koju project wrapper poziva kao subprocess (ADR 0011 §D2 red 7, poziv ne import). Upisuje **isključivo** Status / Datum / Wiki stranice / Preostali izvori / Log za tekući batch. Gate poziv za ovaj KB koristi `--validator-script scripts/validate_expert_analyses.py`, a Spona periodični semantic gate pokreće kroz nezavisni read-only invoker.
 11. **Pokretanje ide kroz project wrapper `scripts/kb_ingest.py`, ne direktno kroz `spona-ingest`.**
     Spona validira pre statusnog upisa; wrapper zato radi obaveznu drugu validaciju posle `complete`
     upisa i vraća neproveren prelaz na `blocked`. Za lokalni orkestrirani rad koristi
@@ -49,7 +49,7 @@ Preneto iz `runbooks/wyckoff-wiki-ingest.md` §3.6/§3.7 (citation verification 
 
 ## Šema rasporeda (kanonska, parse-kompatibilna)
 
-Tabela „Raspored" je ugovor sa determinističkim core parserom (`parse_batches` iz pinovanog Spona paketa, `spona.validated_ingest.core.validator`, corrective commit `afa63eb` iz PR-a #51 — read-only semantic gate isolation), koji mapira kolone po imenu zaglavlja (tolerantno na pomeranje). Obavezno prepoznatljive kolone:
+Tabela „Raspored" je ugovor sa determinističkim core parserom (`parse_batches` iz pinovanog Spona paketa, `spona.validated_ingest.core.validator`, corrective commit `9f3857d` iz PR-a #51 — read-only semantic gate isolation), koji mapira kolone po imenu zaglavlja (tolerantno na pomeranje). Obavezno prepoznatljive kolone:
 
 | Uloga (validator ključ) | Zaglavlje počinje / sadrži | Sadržaj |
 | --- | --- | --- |
