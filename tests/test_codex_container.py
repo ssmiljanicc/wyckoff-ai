@@ -21,8 +21,13 @@ def _case(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     return root, schema, image, auth
 
 
-def test_docker_argv_has_only_read_only_case_and_auth_mounts(tmp_path: Path) -> None:
+def test_docker_argv_has_only_read_only_ca_case_and_auth_mounts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     root, schema, image, auth = _case(tmp_path)
+    ca_bundle = tmp_path / "ca-bundle.pem"
+    ca_bundle.write_text("test-ca")
+    monkeypatch.setenv("WYCKOFF_CODEX_CA_BUNDLE", str(ca_bundle))
     argv = container.docker_argv(
         [
             "codex", "exec", "-", "--cd", str(root), "--sandbox", "read-only",
@@ -32,6 +37,7 @@ def test_docker_argv_has_only_read_only_case_and_auth_mounts(tmp_path: Path) -> 
     )
     mounts = [argv[index + 1] for index, value in enumerate(argv) if value == "--mount"]
     assert mounts == [
+        f"type=bind,src={ca_bundle.resolve()},dst=/codex-host-ca-bundle.pem,readonly",
         f"type=bind,src={root.resolve()},dst=/workspace,readonly",
         f"type=bind,src={auth.resolve()},dst=/home/codex/.codex/auth.json,readonly",
     ]
