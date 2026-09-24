@@ -16,9 +16,10 @@ import sys
 from typing import Sequence
 
 
-DEFAULT_IMAGE = "wyckoff-codex-eval:0.141.0"
+DEFAULT_IMAGE = "wyckoff-codex-eval:0.155.1"
 CONTAINER_WORKSPACE = Path("/workspace")
 CONTAINER_AUTH = "/home/codex/.codex/auth.json"
+CONTAINER_CA_BUNDLE = "/codex-host-ca-bundle.pem"
 CODEX_UID = 10001
 
 
@@ -29,6 +30,10 @@ class ContainerProfileError(ValueError):
 def auth_path() -> Path:
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
     return Path(os.environ.get("WYCKOFF_CODEX_AUTH_PATH", codex_home / "auth.json")).expanduser()
+
+
+def ca_bundle_path() -> Path:
+    return Path(os.environ.get("WYCKOFF_CODEX_CA_BUNDLE", "/etc/ssl/cert.pem")).expanduser()
 
 
 def _existing_real_file(path: Path, *, label: str) -> Path:
@@ -104,6 +109,12 @@ def docker_argv(
         "--tmpfs", f"/home/codex/.codex:rw,noexec,nosuid,nodev,mode=0700,uid={CODEX_UID},gid={CODEX_UID}",
         "--tmpfs", "/tmp:rw,noexec,nosuid,nodev",
     ]
+    selected_ca = _existing_real_file(ca_bundle_path(), label="host CA bundle")
+    command.extend([
+        "--mount", f"type=bind,src={selected_ca},dst={CONTAINER_CA_BUNDLE},readonly",
+        "--env", f"SSL_CERT_FILE={CONTAINER_CA_BUNDLE}",
+        "--env", f"NODE_EXTRA_CA_CERTS={CONTAINER_CA_BUNDLE}",
+    ])
     if case_root is not None:
         command.extend(["--mount", f"type=bind,src={case_root},dst={CONTAINER_WORKSPACE},readonly"])
     selected_auth = auth or auth_path()
